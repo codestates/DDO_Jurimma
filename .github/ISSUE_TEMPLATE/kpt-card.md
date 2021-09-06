@@ -1,7 +1,7 @@
 ---
 name: KPT Card
 about: Suggest an idea for this project
-title: "[KPT] n주차 n요일 회고"
+title: "[\U0001F64F KPT] n주차 n요일 회고"
 labels: KPT
 assignees: ''
 

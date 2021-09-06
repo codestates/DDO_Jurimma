@@ -1,7 +1,7 @@
 ---
 name: Issue Task Card
 about: Suggest an idea for this project
-title: 예시) [Front-End] 로그인 모달창 만들기
+title: "예시) [\U0001F4CC Front-End] 로그인 모달창 만들기"
 labels: Bare Minimum, E:3h, Front-End
 assignees: ''
 

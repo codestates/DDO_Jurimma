@@ -1,7 +1,7 @@
 ---
 name: Error Handling Card
 about: Suggest an idea for this project
-title: "[Front-End Error] #1 / 간략한 에러 이름 / 20XX-XX-XX"
+title: "[\U0001F527 Front-End Error] #1 / 간략한 에러 이름 / 20XX-XX-XX"
 labels: Error, Front-End
 assignees: ''
 
