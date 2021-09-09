@@ -1,7 +1,7 @@
 ---
-name: "\U0001F64F KPT Card"
+name: "\U0001F31F KPT Card"
 about: Suggest an idea for this project
-title: "[\U0001F64F KPT] n주차 n요일 회고"
+title: "[\U0001F31F KPT] n주차 n요일 회고"
 labels: KPT
 assignees: ''
 
