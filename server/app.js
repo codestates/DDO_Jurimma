@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 const logger = require('morgan');
-const port = 4000;
+const port = process.env.SERVER_PORT || 4000;
 const cors = require('cors');
 const { sequelize } = require('./models');
 
