@@ -1,3 +1,5 @@
 .env
 .build
+client/node_module
+server/node_module
 package-lock.json
