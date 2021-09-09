@@ -7,7 +7,7 @@ module.exports = {
     database: 'db_jurimma',
     host: process.env.DATABASE_HOST || 'localhost',
     dialect: 'mysql',
-    port: process.env.DATABASE_PORT,
+    port: process.env.DATABASE_PORT || 3306,
   },
   test: {
     username: process.env.DATABASE_USERNAME || 'root',
@@ -15,7 +15,7 @@ module.exports = {
     database: 'db_jurimma',
     host: process.env.DATABASE_HOST || 'localhost',
     dialect: 'mysql',
-    port: process.env.DATABASE_PORT,
+    port: process.env.DATABASE_PORT || 3306,
   },
   production: {
     username: process.env.DATABASE_USERNAME || 'root',
@@ -23,6 +23,6 @@ module.exports = {
     database: 'db_jurimma',
     host: process.env.DATABASE_HOST || 'localhost',
     dialect: 'mysql',
-    port: process.env.DATABASE_PORT,
+    port: process.env.DATABASE_PORT || 3306,
   },
 };
