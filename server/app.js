@@ -11,7 +11,12 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(logger('dev'));
 
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
