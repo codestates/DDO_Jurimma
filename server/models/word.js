@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   class word extends Model {
     static associate(models) {}
   }
-  wordCount.init(
+  word.init(
     {
       wordName: DataTypes.STRING,
       count: {
@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'wordCount',
+      modelName: 'word',
     }
   );
   return word;
