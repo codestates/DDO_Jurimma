@@ -1,10 +1,10 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class wordCount extends Model {
+  class word extends Model {
     static associate(models) {}
   }
-  wordCount.init(
+  word.init(
     {
       wordName: DataTypes.STRING,
       count: {
@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'wordCount',
+      modelName: 'word',
     }
   );
-  return words;
+  return word;
 };
