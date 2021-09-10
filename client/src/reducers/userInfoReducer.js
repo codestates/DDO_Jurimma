@@ -7,6 +7,8 @@ import {
   SET_MODAL_LOGINORSIGNUP,
   SET_LOGIN_STATE,
   SET_LOGOUT_STATE,
+  SET_MODAL_CHART,
+  SET_MODAL_NEWCONTENT,
 } from '../actions/index';
 
 const defaultUserInfo = {
@@ -17,12 +19,13 @@ const defaultUserInfo = {
     userPic: null,
     exp: 0,
   }, // 기본 유저 정보
-  isLogin: false, //로그인 상태
+  isLogin: true, //로그인 상태
   isShowLoginOrSignupModal: false, // 로그인or회원가입 모달 상태
   isShowQuizModal: false, // 퀴즈 모달 상태
   isShowSignoutModal: false, // 회원탈퇴 모달 상태
   isShowLogoutModal: false, // 로그아웃 모달 상태
   isShowChartModal: false, // 차트 모달 상태
+  isShowNewContentModal: false, // 새로운 글 쓰기 모달상태
 };
 
 const userInfoReducer = (state = defaultUserInfo, action) => {
@@ -38,6 +41,18 @@ const userInfoReducer = (state = defaultUserInfo, action) => {
         ...state,
         isShowLoginOrSignupModal: action.isOpen,
       }; // 퀴즈 모달 상태 변경하기
+
+    case SET_MODAL_CHART:
+      return {
+        ...state,
+        isShowChartModal: action.isOpen,
+      }; // 실시간 차트 모달 상태 변경하기
+
+    case SET_MODAL_NEWCONTENT:
+      return {
+        ...state,
+        isShowNewContentModal: action.isOpen,
+      }; // 새로 글쓰기 모달 상태 변경하기
 
     case SET_LOGIN_STATE: // 로그인 reducer
       return {
