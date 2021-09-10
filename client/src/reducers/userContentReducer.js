@@ -1,28 +1,35 @@
 // 유저가 쓴 글 관리 reducer
 // 기본값: 유저가 작성한 글
+// 기능 : 유저가 쓴 글 받아오기, 유저가 쓴 글 삭제, 유저가 쓴 글 수정
 
-export const DELETE_CONTENT = 'DELETE_CONTENT';
+import {
+  SET_USER_CONTENT,
+  DELETE_CONTENT,
+  EDIT_CONTENT,
+} from '../actions/index';
 
 const defaultUserContentInfo = {
-  data: [
-    {
-      id: -1,
-      wordName: '',
-      wordMean: '',
-      thumbsup: 0,
-      createdAt: null,
-      updatedAt: null,
-    },
-  ],
+  data: [],
 };
 
 const userContentReducer = (state = defaultUserContentInfo, action) => {
   switch (action.type) {
-    case DELETE_CONTENT: // 내가 쓴 글 제거하는 reducer, payload로 contentId 들어옴
+    case SET_USER_CONTENT: // 유저가 쓴 글 다 받아오기
+      return { ...action.payload };
+
+    case DELETE_CONTENT: // 유저가 쓴 글 제거하는 reducer, payload로 contentId 들어옴
       let saveContents = state.data.filter(
         (ele) => ele.id !== action.payload.contentId
       );
       return Object.assign({}, { data: [...saveContents] });
+
+    case EDIT_CONTENT:
+      let editData = state.data.filter(
+        (ele) => ele.id === action.payload.contentId
+      );
+      editData.wordMean = action.payload.wordMean;
+      return Object.assign({}, { data: [...state.data] });
+
     default:
       // 기본 reducer
       return state;
