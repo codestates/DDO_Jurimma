@@ -69,6 +69,6 @@ user.hasMany(user_contents);
 user_contents.belongsTo(content, {
   foreignKey: 'content_Id',
 });
-contents.hasMany(user_contents);
+content.hasMany(user_contents);
 
 module.exports = db;
