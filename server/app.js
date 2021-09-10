@@ -1,14 +1,20 @@
 const express = require('express');
-const app = express();
-require('dotenv').config();
-const logger = require('morgan');
-const port = process.env.SERVER_PORT || 4000;
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+require('dotenv').config();
+
+const app = express();
+const port = process.env.SERVER_PORT || 4000;
 const { sequelize } = require('./models');
+
+const userRouter = require('./routes/user');
+const myContentsRouter = require('./routes/my-contents');
+const contentRouter = require('./routes/content');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
+app.use(cookieParser());
 app.use(logger('dev'));
 
 app.use(
@@ -17,6 +23,10 @@ app.use(
     credentials: true,
   })
 );
+
+app.use('/user', userRouter);
+app.use('/my-contents', myContentsRouter);
+app.use('/content', contentRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
