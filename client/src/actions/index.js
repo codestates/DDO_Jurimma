@@ -12,6 +12,20 @@ export const SET_USER_CONTENT = 'SET_USER_CONTENT'; // 유저가 쓴 글 받아�
 export const DELETE_CONTENT = 'DELETE_CONTENT'; // 유저가 쓴 글 삭제
 export const EDIT_CONTENT = 'EDIT_CONTENT'; // 유저가 쓴 글 수정
 
+export const setLoginOrSignupModal = (isOpen) => {
+  return {
+    type: SET_MODAL_LOGINORSIGNUP,
+    isOpen,
+  };
+};
+
+export const setQuizModal = (isOpen) => {
+  return {
+    type: SET_MODAL_QUIZ,
+    isOpen,
+  };
+};
+
 export const setLogin = (userData, isLogin) => {
   return {
     type: SET_LOGIN_STATE,

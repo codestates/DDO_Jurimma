@@ -2,7 +2,12 @@
 // 기본값: 개인 정보 (username, email, userPic, exp), 로그인 상태, 모달 상태(로그인, 로그아웃, …)
 // 기능 : 로그인하기, 유저 이름/비밀번호/사진 변경, 모달 켜기/끄기, 로그아웃하기, 회원 탈퇴하기
 
-import { SET_LOGIN_STATE, SET_LOGOUT_STATE } from '../actions/index';
+import {
+  SET_MODAL_QUIZ,
+  SET_MODAL_LOGINORSIGNUP,
+  SET_LOGIN_STATE,
+  SET_LOGOUT_STATE,
+} from '../actions/index';
 
 const defaultUserInfo = {
   userInfo: {
@@ -22,12 +27,25 @@ const defaultUserInfo = {
 
 const userInfoReducer = (state = defaultUserInfo, action) => {
   switch (action.type) {
+    case SET_MODAL_QUIZ:
+      return {
+        ...state,
+        isShowQuizModal: action.isOpen,
+      }; // 퀴즈 모달 상태 변경하기
+
+    case SET_MODAL_LOGINORSIGNUP:
+      return {
+        ...state,
+        isShowLoginOrSignupModal: action.isOpen,
+      }; // 퀴즈 모달 상태 변경하기
+
     case SET_LOGIN_STATE: // 로그인 reducer
       return {
         ...state,
         userInfo: action.userData,
         isLogin: action.isLogin,
       };
+
     case SET_LOGOUT_STATE: // 로그아웃 reducer
       return {
         ...defaultUserInfo,
