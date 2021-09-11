@@ -37,7 +37,7 @@ module.exports = {
         });
         await findContent.increment('thumbsup');
         await user_contents.create({
-          user_Id: accessTokenCheck.id,
+          user_Id: refreshTokenCheck.id,
           content_Id: contentId,
         });
         res.status(201).json({
