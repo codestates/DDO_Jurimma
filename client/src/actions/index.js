@@ -7,7 +7,8 @@ export const SET_MODAL_QUIZ = 'SET_MODAL_QUIZ'; // 퀴즈 모달 상태
 export const SET_MODAL_SIGNOUT = 'SET_MODAL_SIGNOUT'; // 회원탈퇴 모달 상태
 export const SET_MODAL_LOGOUT = 'SET_MODAL_LOGOUT'; // 로그아웃 모달 상태
 export const SET_MODAL_CHART = 'SET_MODAL_CHART'; // 차트 모달 상태
-export const SET_MODAL_NEWCONTENT = 'SET_MODAL_NEWCONTENT';
+export const SET_MODAL_NEWCONTENT = 'SET_MODAL_NEWCONTENT'; // 글 생성 모달 상태
+export const SET_MODAL_EDITCONTENT = 'SET_MODAL_EDITCONTENT'; // 글 수정 모달 상태
 
 export const SET_USER_CONTENT = 'SET_USER_CONTENT'; // 유저가 쓴 글 받아오기
 export const DELETE_CONTENT = 'DELETE_CONTENT'; // 유저가 쓴 글 삭제
@@ -36,7 +37,21 @@ export const setChartModal = (isOpen) => {
 
 export const setNewContentModal = (isOpen) => {
   return {
-    type: SET_MODAL_NEWCONTENT,
+    type: SET_MODAL_EDITCONTENT,
+    isOpen,
+  };
+};
+
+export const setEditContentModal = (isOpen) => {
+  return {
+    type: SET_MODAL_EDITCONTENT,
+    isOpen,
+  };
+};
+
+export const setLogoutModal = (isOpen) => {
+  return {
+    type: SET_MODAL_LOGOUT,
     isOpen,
   };
 };
@@ -46,6 +61,12 @@ export const setLogin = (userData, isLogin) => {
     type: SET_LOGIN_STATE,
     userData,
     isLogin,
+  };
+};
+
+export const setLogout = () => {
+  return {
+    type: SET_LOGOUT_STATE,
   };
 };
 

@@ -36,6 +36,7 @@ button {
   vertical-align: baseline;
   font-family: 'Nanum Gothic', 'Noto Sans', sans-serif;
   box-sizing: border-box;
+  color: #000;
 }
 
 .App {

@@ -10,6 +10,8 @@ import MypageEdit from './pages/EditMyPage';
 import SearchMore from './pages/SearchMore';
 import ChartModal from './modals/ChartModal';
 import Quiz from './modals/Quiz';
+import EditContent from './modals/EditContent';
+import Logout from './modals/Logout';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -25,6 +27,8 @@ function App() {
     isShowQuizModal,
     isShowChartModal,
     isShowNewContentModal,
+    isShowEditContentModal,
+    isShowLogoutModal,
   } = state;
 
   // const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
@@ -35,7 +39,8 @@ function App() {
         {isShowLoginOrSignupModal ? <LoginOrSignUp /> : null}
         {isShowChartModal ? <ChartModal /> : null}
         {isShowNewContentModal ? <NewContent /> : null}
-
+        {isShowEditContentModal ? <EditContent /> : null}
+        {isShowLogoutModal ? <Logout /> : null}
         <header>
           <Switch>
             <Nav />

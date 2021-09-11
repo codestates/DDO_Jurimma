@@ -3,7 +3,11 @@ import styled from 'styled-components';
 
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setLoginOrSignupModal, setQuizModal } from '../actions/index';
+import {
+  setLoginOrSignupModal,
+  setQuizModal,
+  setLogoutModal,
+} from '../actions/index';
 
 const NavBar = styled.nav`
   width: 100%;
@@ -25,6 +29,10 @@ function Nav() {
     dispatch(setLoginOrSignupModal(isOpen));
   }; // 로그인 모달 여는 함수
 
+  const openLogoutModal = (isOpen) => {
+    dispatch(setLogoutModal(isOpen));
+  }; // 로그아웃 모달 여는 함수
+
   return (
     <NavBar>
       <div>
@@ -35,9 +43,10 @@ function Nav() {
       </div>
       <div onClick={() => openQuizModal(true)}>Quiz</div>
       {state.isLogin ? (
-        <>
+        <div>
           <Link to='/mypage'>mypage</Link>
-        </>
+          <div onClick={() => openLogoutModal(true)}>Logout</div>
+        </div>
       ) : (
         <div onClick={() => openLoginOrSignupModal(true)}>Login</div>
       )}
