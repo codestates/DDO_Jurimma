@@ -20,7 +20,7 @@ module.exports = {
       userPic: {
         type: Sequelize.STRING,
       },
-      exp: {
+      experience: {
         type: Sequelize.INTEGER,
       },
       createdAt: {
