@@ -26,7 +26,7 @@ module.exports = {
         where: { userId: accessTokenCheck.id },
       });
       const returnData = allMyContents.map(async (el) => {
-        el.wordName = await word.findOne({
+        el.dataValues.wordName = await word.findOne({
           where: { id: el.wordId },
         }).wordName;
         return el;
@@ -53,7 +53,7 @@ module.exports = {
           where: { userId: refreshTokenCheck.id },
         });
         const returnData = allMyContents.map(async (el) => {
-          el.wordName = await word.findOne({
+          el.dataValues.wordName = await word.findOne({
             where: { id: el.wordId },
           }).wordName;
           return el;
