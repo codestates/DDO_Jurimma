@@ -1,5 +1,12 @@
+const { word } = require('../../models');
+
 module.exports = {
-  get: (req, res) => {
-    res.send('This is content/chart');
+  get: async (req, res) => {
+    const allWords = await word.findAll();
+    const returnData = allWords.sort((a, b) => b.count - a.count).slice(0, 10);
+    // console.log('returnData : ', returnData);
+    res.status(200).json({
+      data: returnData,
+    });
   },
 };
