@@ -14,6 +14,14 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'NEXON Lv2 Gothic';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 html,
 div,
 span,
@@ -44,14 +52,24 @@ button {
   margin: 0;
   border: 0;
   vertical-align: baseline;
-  font-family: 'Nanum Gothic', 'Noto Sans', sans-serif;
+  font-family: 'NEXON Lv2 Gothic Bold', 'Nanum Gothic', 'Noto Sans', sans-serif;
   box-sizing: border-box;
   color: #000;
 }
 
+body {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  scroll-behavior: smooth;
+}
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+  scroll-behavior: smooth;
+}
+
 .App {
   background-image: linear-gradient(#5f1f86, #230638, #000000);
-  font-family: 'NEXON Lv2 Gothic Bold';
+  /* font-family: 'NEXON Lv2 Gothic Bold'; */
 }
 .mainContent {
   min-height: 467px;
