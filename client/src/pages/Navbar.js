@@ -68,10 +68,18 @@ const NavBar = styled.nav`
 
 function Nav() {
   const state = useSelector((state) => state.userInfoReducer);
+  const nowDate = new Date().toLocaleDateString(); // 접속한 날짜를 "2021. 9. 12."와 같은 형식으로 확인
   const dispatch = useDispatch();
 
   const openQuizModal = (isOpen) => {
-    dispatch(setQuizModal(isOpen));
+    if (nowDate !== state.lastQuiz && state.isLogin) {
+      // 로그인 되어있고 최근 퀴즈를 푼 날짜가 오늘 날짜와 다를때만 실행
+      dispatch(setQuizModal(isOpen));
+    } else if (state.isLogin === false) {
+      alert('로그인이 필요합니다.');
+    } else {
+      alert('이미 퀴즈를 진행하였습니다.');
+    }
   }; // 퀴즈 모달 여는 함수
 
   const openLoginOrSignupModal = (isOpen) => {
