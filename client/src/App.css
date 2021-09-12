@@ -12,6 +12,8 @@ span,
 applet,
 object,
 iframe,
+article,
+section,
 h1,
 h2,
 h3,
@@ -39,10 +41,11 @@ button {
   color: #000;
 }
 
-.App {
+/* .App {
   width: max(375px, 100vw);
   height: max(667px, 100vh);
-}
+} -> html태그와 크기가 안맞는 경우 생김*/
+
 .mainContent {
   min-height: 467px;
   border: 1px solid red;
