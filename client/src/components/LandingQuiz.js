@@ -153,7 +153,7 @@ function LandingQuiz() {
     <LandingQuizBox>
       {showScore ? ( // 점수 화면 보임 여부가 true라면
         <LandingQuizScore>
-          <img src={you_quiz} />
+          <img src={you_quiz} alt='You Quiz?' />
           <div>
             <p>총 {score}개를 맞추셨습니다!</p>
             <p>오늘의 퀴즈는 로그인 후 이용 가능합니다.</p>
@@ -165,7 +165,7 @@ function LandingQuiz() {
         <>
           <LandingQuizQuestion>
             {score === -1 ? (
-              <img src={you_quiz} />
+              <img src={you_quiz} alt='You Quiz?' />
             ) : (
               <LandingQuizCount>
                 <span>Question {currentQuestion}</span>/{questions.length - 1}

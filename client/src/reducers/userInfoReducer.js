@@ -11,6 +11,7 @@ import {
   SET_MODAL_NEWCONTENT,
   SET_MODAL_EDITCONTENT,
   SET_MODAL_LOGOUT,
+  SET_QUIZ_STATE,
 } from '../actions/index';
 
 const defaultUserInfo = {
@@ -21,7 +22,7 @@ const defaultUserInfo = {
     userPic: null,
     exp: 0,
   }, // 기본 유저 정보
-  isLogin: false, //로그인 상태
+  isLogin: true, //로그인 상태
   isShowLoginOrSignupModal: false, // 로그인or회원가입 모달 상태
   isShowQuizModal: false, // 퀴즈 모달 상태
   isShowSignoutModal: false, // 회원탈퇴 모달 상태
@@ -29,6 +30,7 @@ const defaultUserInfo = {
   isShowChartModal: false, // 차트 모달 상태
   isShowNewContentModal: false, // 새로운 글 쓰기 모달상태
   isShowEditContentModal: false, // 글 수정 모달 상태
+  lastQuiz: null, // 퀴즈 모달에 접속한 날짜
 };
 
 const userInfoReducer = (state = defaultUserInfo, action) => {
@@ -68,6 +70,7 @@ const userInfoReducer = (state = defaultUserInfo, action) => {
         ...state,
         isShowLogoutModal: action.isOpen,
       };
+
     case SET_LOGIN_STATE: // 로그인 reducer
       return {
         ...state,
@@ -79,6 +82,12 @@ const userInfoReducer = (state = defaultUserInfo, action) => {
       return {
         ...defaultUserInfo,
       };
+
+    case SET_QUIZ_STATE:
+      return {
+        ...state,
+        lastQuiz: action.quizDate,
+      }; // 퀴즈 모달 상태 변경하기
 
     default:
       // 기본 reducer
