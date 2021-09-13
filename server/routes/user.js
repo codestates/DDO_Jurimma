@@ -7,6 +7,7 @@ router.post('/login', userController.login.post);
 router.post('/kakao', userController.kakao.post);
 router.post('/google', userController.google.post);
 router.post('/signup', userController.signup.post);
+router.get('/signup', userController.signup.get);
 router.post('/check-email', userController.checkEmail.post);
 router.post('/logout', userController.logout.post);
 router.delete('/signout', userController.signout.delete);
