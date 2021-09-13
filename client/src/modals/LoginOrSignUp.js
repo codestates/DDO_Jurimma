@@ -4,6 +4,12 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setLoginOrSignupModal } from '../actions/index';
 import checkModule from '../checkModule';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { faComment } from '@fortawesome/free-solid-svg-icons';
+import swal from 'sweetalert';
+library.add(fab, faComment);
 
 const LoginOrSignupBackdrop = styled.div`
   position: fixed;
@@ -16,67 +22,124 @@ const LoginOrSignupBackdrop = styled.div`
   place-items: center;
   z-index: 10;
 `;
+
 const LoginOrSignupModal = styled.article`
   width: max(340px, 50vw);
   max-width: 500px;
-  height: max(420px, 50vh);
-  height: 80vh;
+  height: max(600px, 50vh);
   background-color: #fff;
   position: relative;
   display: flex;
   flex-direction: column;
+  border-radius: 15px;
   > .closeBtn {
+    z-index: 10;
     font-size: 3rem;
-    color: #fff;
     position: absolute;
-    right: -50px;
-    top: -50px;
-    cursor: pointer;
+    right: -40px;
+    top: -40px;
+    color: #fff;
   }
 `;
 const OauthLogin = styled.div`
-  border: 1px solid red;
+  height: max(120px, 5vh);
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  height: 10vh;
+  > p {
+    text-align: center;
+    height: max(2vh, 40px);
+    line-height: max(2vh, 40px);
+  }
+  > .OauthLoginBtn {
+    display: flex;
+    width: 100%;
+    height: max(3vh, 50px);
+    > button {
+      width: 45%;
+      display: block;
+      box-sizing: border-box;
+      border-radius: max(70px, 5vh);
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    > button:nth-child(2) {
+      margin-right: 0;
+    }
+  }
 `;
 const KakaoLogin = styled.button`
-  display: block;
-  height: 5vh;
-  border: 1px solid red;
+  background-color: #fee500;
 `;
 const GoogleLogin = styled.button`
-  border: 1px solid red;
-  height: 5vh;
-  display: block;
+  flex: 1 1 auto;
 `;
+
 const TabWrap = styled.div`
-  height: 70vh;
+  height: max(480px, 45vh);
   display: flex;
   flex-direction: column;
-  border: 1px solid red;
+  overflow: hidden;
 `;
+
 const TabMenu = styled.ul`
-  border: 1px solid red;
-  height: 5vh;
+  height: max(50px, 5vh);
   display: flex;
   > li {
-    flex: 1 1 auto;
+    width: 50%;
     text-align: center;
     cursor: pointer;
+    line-height: max(50px, 5vh);
   }
   > .focused {
-    background: purple;
+    background-color: #440a67;
+    color: #fff;
   }
 `;
 const TabContent = styled.div`
-  border: 1px solid red;
-  height: 65vh;
-  > input {
-    display: block;
+  height: max(480px, 40vh);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #440a67;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  > .tabContentWrap {
     width: 100%;
-    height: 30px;
-    border: 1px solid black;
+    height: max(300px, 30vh);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    > form {
+      display: flex;
+      flex-direction: column;
+      > input {
+        display: block;
+        width: 90%;
+        height: max(50px, 5vh);
+        border-bottom: 2px solid #fff;
+        margin: 0 auto;
+        outline: 0;
+        background-color: transparent;
+        color: #ffffff;
+      }
+    }
+    > button {
+      display: block;
+      margin: 0 auto;
+      width: 80%;
+      height: 50px;
+      cursor: pointer;
+      border-radius: 40px;
+      border: 2px solid #fff;
+      color: #fff;
+      background-color: transparent;
+      transition: all 0.3s;
+    }
+    > button:hover {
+      background-color: #fff;
+      color: #440a67;
+    }
   }
 `;
 
@@ -130,6 +193,11 @@ function LoginOrSignUp() {
         alert('유효하지 않은 비밀번호 입니다.');
       } else {
         // axios 요청 전송
+        swal({
+          title: '로그인이 완료되었습니다!',
+          text: '만반잘부(만나서 반갑고 잘 부탁해)!',
+          icon: 'success',
+        });
         closeLoginOrSignupModal(false); // 모달 끄기
       }
     } catch (error) {
@@ -186,8 +254,18 @@ function LoginOrSignUp() {
           &times;
         </div>
         <OauthLogin>
-          <KakaoLogin>카카오 로그인</KakaoLogin>
-          <GoogleLogin>구글 로그인</GoogleLogin>
+          <p>카카오와 구글 계정으로 로그인해보세요!</p>
+          <div className='OauthLoginBtn'>
+            <KakaoLogin>
+              <FontAwesomeIcon icon={faComment} />
+              카카오 로그인
+            </KakaoLogin>
+
+            <GoogleLogin>
+              <FontAwesomeIcon icon={['fab', 'google']} />
+              구글 로그인
+            </GoogleLogin>
+          </div>
         </OauthLogin>
 
         <TabWrap>
@@ -208,59 +286,67 @@ function LoginOrSignUp() {
           <TabContent>
             {currentTab === 0 ? (
               <>
-                <input
-                  className='email'
-                  type='text'
-                  placeholder='이메일'
-                  onChange={handleInputValue('loginEmail')}
-                  onKeyPress={handleKeyPressLogin}
-                  value={loginInfo.loginEmail}
-                />
-                <input
-                  className='password'
-                  type='password'
-                  placeholder='비밀번호'
-                  value={loginInfo.loginPassword}
-                  onKeyPress={handleKeyPressLogin}
-                  onChange={handleInputValue('loginPassword')}
-                />
-                <button onClick={handleLogin}>로그인 하기</button>
+                <div className='tabContentWrap'>
+                  <form>
+                    <input
+                      className='email'
+                      type='text'
+                      placeholder='이메일'
+                      onChange={handleInputValue('loginEmail')}
+                      onKeyPress={handleKeyPressLogin}
+                      value={loginInfo.loginEmail}
+                    />
+                    <input
+                      className='password'
+                      type='password'
+                      placeholder='비밀번호'
+                      value={loginInfo.loginPassword}
+                      onKeyPress={handleKeyPressLogin}
+                      onChange={handleInputValue('loginPassword')}
+                    />
+                  </form>
+                  <button onClick={handleLogin}>로그인 하기</button>
+                </div>
               </>
             ) : (
               <>
-                <input
-                  id='user'
-                  type='text'
-                  placeholder='사용자 이름 (한글과 영문만 가능)'
-                  value={signupInfo.signupUsername}
-                  onChange={handleSignupInputValue('signupUsername')}
-                  onKeyPress={handleKeyPressSignup}
-                />
-                <input
-                  className='email'
-                  type='text'
-                  placeholder='이메일'
-                  value={signupInfo.signupEmail}
-                  onChange={handleSignupInputValue('signupEmail')}
-                  onKeyPress={handleKeyPressSignup}
-                />
-                <input
-                  className='password'
-                  type='password'
-                  placeholder='비밀번호 (최소 8자이상, 대문자, 특수문자 포함)'
-                  value={signupInfo.signupPassword}
-                  onChange={handleSignupInputValue('signupPassword')}
-                  onKeyPress={handleKeyPressSignup}
-                />
-                <input
-                  className='password'
-                  type='password'
-                  placeholder='비밀번호 확인'
-                  value={signupInfo.signupRePassword}
-                  onChange={handleSignupInputValue('signupRePassword')}
-                  onKeyPress={handleKeyPressSignup}
-                />
-                <button onClick={handleSignup}>가입하기</button>
+                <div className='tabContentWrap'>
+                  <form>
+                    <input
+                      id='user'
+                      type='text'
+                      placeholder='사용자 이름 (한글과 영문만 가능)'
+                      value={signupInfo.signupUsername}
+                      onChange={handleSignupInputValue('signupUsername')}
+                      onKeyPress={handleKeyPressSignup}
+                    />
+                    <input
+                      className='email'
+                      type='text'
+                      placeholder='이메일'
+                      value={signupInfo.signupEmail}
+                      onChange={handleSignupInputValue('signupEmail')}
+                      onKeyPress={handleKeyPressSignup}
+                    />
+                    <input
+                      className='password'
+                      type='password'
+                      placeholder='비밀번호 (최소 8자이상, 대문자, 특수문자 포함)'
+                      value={signupInfo.signupPassword}
+                      onChange={handleSignupInputValue('signupPassword')}
+                      onKeyPress={handleKeyPressSignup}
+                    />
+                    <input
+                      className='password'
+                      type='password'
+                      placeholder='비밀번호 확인'
+                      value={signupInfo.signupRePassword}
+                      onChange={handleSignupInputValue('signupRePassword')}
+                      onKeyPress={handleKeyPressSignup}
+                    />
+                  </form>
+                  <button onClick={handleSignup}>가입하기</button>
+                </div>
               </>
             )}
           </TabContent>
