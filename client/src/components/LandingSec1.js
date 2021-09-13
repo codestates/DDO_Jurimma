@@ -1,7 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import '../App.css';
 import TypingEffect from 'react-typing-effect';
-import downScroll1 from '../images/scrollDown1.svg';
 import downScroll2 from '../images/scrollDown2.svg';
 
 const SectionWrap = styled.div`
