@@ -7,7 +7,7 @@ const { refreshAuthorized } = require('../tokenFunction/refreshToken');
 
 module.exports = {
   get: async (req, res) => {
-    const accIsValid = await isAuthorized(req);
+    const accIsValid = isAuthorized(req);
     if (!accIsValid) {
       // accessToken 만료 / refreshToken 만료
       if (!refreshAuthorized(req)) {
@@ -15,9 +15,9 @@ module.exports = {
       }
       // accessToken 만료 / refreshToken 유효
       else {
-        const userData = await refreshAuthorized(req);
+        const userData = refreshAuthorized(req);
         delete userData.exp;
-        const accessToken = await generateAccessToken(userData);
+        const accessToken = generateAccessToken(userData);
         const myData = await content.findAll({
           where: { userId: userData.id },
         });
@@ -38,10 +38,10 @@ module.exports = {
           });
         } else {
           const wordName = await word.findOne({
-            where: { id: myData.wordId },
+            where: { id: myData[0].dataValues.wordId },
           });
           const returnData = myData.map((data) =>
-            Object.assign(data.dataValues, wordName)
+            Object.assign(data.dataValues, wordName.dataValues)
           );
           res.status(201).json({
             accessToken: accessToken,
@@ -68,12 +68,15 @@ module.exports = {
       if (myData.length === 0) {
         res.status(200).json({ data: myData, userInfo: userInfo });
       } else {
-        const wordName = await word.findOne({ where: { id: myData.wordId } });
-        console.log(wordName);
+        console.log('myData : ', myData);
+        const wordName = await word.findOne({
+          where: { id: myData[0].dataValues.wordId },
+        });
+        console.log('wordName : ', wordName.dataValues);
         const returnData = myData.map((data) =>
-          Object.assign(data.dataValues, wordName)
+          Object.assign(data.dataValues, wordName.dataValues)
         );
-        console.log(returnData);
+        console.log('returnData : ', returnData);
         res.status(200).json({ data: returnData, userInfo: userInfo });
       }
     }
