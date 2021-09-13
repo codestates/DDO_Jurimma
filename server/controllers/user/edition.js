@@ -30,6 +30,7 @@ module.exports = {
           userInfo.userPic = userPic;
           await userInfo.save();
           delete userInfo.dataValues.password;
+          delete userInfo.dataValues.isLogin;
           res.status(201).json({ accessToken, userInfo });
         }
       }
@@ -52,6 +53,7 @@ module.exports = {
         userInfo.userPic = userPic;
         await userInfo.save();
         delete userInfo.dataValues.password;
+        delete userInfo.dataValues.isLogin;
         res.status(200).json({ userInfo });
       }
     }
