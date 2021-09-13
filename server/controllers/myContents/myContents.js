@@ -17,7 +17,7 @@ module.exports = {
         // accessToken 만료 / refreshToken 유효
         else {
           const userData = await refreshAuthorized(req);
-          delete userData.password;
+          delete userData.exp;
           const accessToken = await generateAccessToken(userData);
           const myData = await content.findAll({
             where: { userId: userData.id },
@@ -27,7 +27,7 @@ module.exports = {
             email: userData.email,
             username: userData.username,
             userPic: userData.userPic,
-            exp: userData.exp,
+            experience: userData.experience,
           };
           const wordName = await word.findOne({ where: { id: myData.wordId } });
           const returnData = myData.map((data) =>
@@ -49,7 +49,7 @@ module.exports = {
           email: accIsValid.email,
           username: accIsValid.username,
           userPic: accIsValid.userPic,
-          exp: accIsValid.exp,
+          experience: accIsValid.experience,
         };
         const wordName = await word.findOne({ where: { id: myData.wordId } });
         console.log(wordName);

@@ -13,7 +13,7 @@ module.exports = {
     if (accessTokenCheck) {
       // accessToken이 만료되지 않았을 경우,
       // => 바로 요청에 대한 응답 제공
-      const { exp, userId, wordName, wordMean } = req.body;
+      const { experience, userId, wordName, wordMean } = req.body;
       const [newOrFind, created] = await word.findOrCreate({
         where: { wordName: wordName },
         defaults: { count: 0 },
@@ -27,7 +27,7 @@ module.exports = {
       const userInfo = await user.findOne({
         where: { id: userId },
       });
-      userInfo.exp = exp;
+      userInfo.experience = experience;
       await userInfo.save();
       res.status(200).json({ message: 'ok' });
     } else {
@@ -38,7 +38,7 @@ module.exports = {
         delete refreshTokenCheck.exp;
         const accessToken = generateAccessToken(refreshTokenCheck);
 
-        const { exp, userId, wordName, wordMean } = req.body;
+        const { experience, userId, wordName, wordMean } = req.body;
         const [newOrFind, created] = await word.findOrCreate({
           where: { wordName: wordName },
           defaults: { count: 0 },
@@ -52,7 +52,7 @@ module.exports = {
         const userInfo = await user.findOne({
           where: { id: userId },
         });
-        userInfo.exp = exp;
+        userInfo.experience = experience;
         await userInfo.save();
         res.status(201).json({
           accessToken: accessToken,
