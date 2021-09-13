@@ -25,13 +25,17 @@ module.exports = {
       const allMyContents = await content.findAll({
         where: { userId: accessTokenCheck.id },
       });
-      const returnData = allMyContents.map(async (el) => {
-        el.dataValues.wordName = await word.findOne({
+      // console.log('allMyContents 1 : ', allMyContents);
+      for (let el of allMyContents) {
+        // console.log('el.wordId : ', el.wordId);
+        const matchingWord = await word.findOne({
           where: { id: el.wordId },
-        }).wordName;
-        return el;
-      });
-      res.status(200).json({ data: returnData });
+        });
+        // console.log('matchingWord : ', matchingWord.dataValues.wordName);
+        el.dataValues.wordName = matchingWord.dataValues.wordName;
+      }
+      // console.log('allMyContents 2 : ', allMyContents);
+      res.status(200).json({ data: allMyContents });
     } else {
       // accessToken이 만료되어서 refreshToken을 판별하고,
       // refreshToken은 만료되지 않았을 경우,
@@ -52,15 +56,19 @@ module.exports = {
         const allMyContents = await content.findAll({
           where: { userId: refreshTokenCheck.id },
         });
-        const returnData = allMyContents.map(async (el) => {
-          el.dataValues.wordName = await word.findOne({
+        // console.log('allMyContents 1 : ', allMyContents);
+        for (let el of allMyContents) {
+          // console.log('el.wordId : ', el.wordId);
+          const matchingWord = await word.findOne({
             where: { id: el.wordId },
-          }).wordName;
-          return el;
-        });
+          });
+          // console.log('matchingWord : ', matchingWord.dataValues.wordName);
+          el.dataValues.wordName = matchingWord.dataValues.wordName;
+        }
+        // console.log('allMyContents 2 : ', allMyContents);
         res.status(201).json({
           accessToken: accessToken,
-          data: returnData,
+          data: allMyContents,
         });
       } else {
         // accessToken이 만료되어서 refreshToken을 판별하고,
