@@ -23,7 +23,7 @@ module.exports = {
         });
         // 유저가 입력한 oldPassword가 db에 저장된 password와 다른 경우
         if (!userInfo || decryptPwd(userInfo.password) !== oldPassword) {
-          res.status(404).json({ message: 'Wrong Password' });
+          res.status(400).json({ message: 'Wrong Password' });
         } else {
           userInfo.username = username;
           userInfo.password = encryptPwd(newPassword);
