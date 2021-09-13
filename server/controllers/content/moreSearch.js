@@ -26,9 +26,13 @@ module.exports = {
           el.dataValues.wordName = wordName;
           return el;
         });
-
+        // console.log('sorted returnData : ', returnData);
         const onlyContentId = coContents.map((el) => el.id);
-        const allUserContents = await user_contents.findAll();
+        // console.log('onlyContentId : ', onlyContentId);
+        const allUserContents = await user_contents.findAll({
+          attributes: ['id', 'user_Id', 'content_Id', 'createdAt', 'updatedAt'],
+        });
+        // console.log('allUserContents : ', allUserContents);
         const thumbsupData = {};
         for (let i = 0; i < allUserContents.length; i++) {
           if (onlyContentId.includes(allUserContents[i].content_Id)) {
@@ -72,9 +76,19 @@ module.exports = {
             el.dataValues.wordName = wordName;
             return el;
           });
-
+          // console.log('sorted returnData : ', returnData);
           const onlyContentId = coContents.map((el) => el.id);
-          const allUserContents = await user_contents.findAll();
+          // console.log('onlyContentId : ', onlyContentId);
+          const allUserContents = await user_contents.findAll({
+            attributes: [
+              'id',
+              'user_Id',
+              'content_Id',
+              'createdAt',
+              'updatedAt',
+            ],
+          });
+          // console.log('allUserContents : ', allUserContents);
           const thumbsupData = {};
           for (let i = 0; i < allUserContents.length; i++) {
             if (onlyContentId.includes(allUserContents[i].content_Id)) {
