@@ -14,6 +14,9 @@ module.exports = {
       // accessToken이 만료되지 않았을 경우,
       // => 바로 요청에 대한 응답 제공
       const { contentId } = req.body;
+      const deletedContent = await content.findOne({
+        where: { id: contentId },
+      });
       await content.destroy({
         where: { id: contentId },
         force: true,
@@ -22,6 +25,17 @@ module.exports = {
         where: { content_Id: contentId },
         force: true,
       });
+      // console.log('deletedContent : ', deletedContent.wordId);
+      const findSameWordId = await content.findAll({
+        where: { wordId: deletedContent.wordId },
+      });
+      // console.log('findSameWordId : ', findSameWordId);
+      if (findSameWordId.length === 0) {
+        await word.destroy({
+          where: { id: deletedContent.wordId },
+          force: true,
+        });
+      }
       const allMyContents = await content.findAll({
         where: { userId: accessTokenCheck.id },
       });
@@ -45,6 +59,9 @@ module.exports = {
         const accessToken = generateAccessToken(refreshTokenCheck);
 
         const { contentId } = req.body;
+        const deletedContent = await content.findOne({
+          where: { id: contentId },
+        });
         await content.destroy({
           where: { id: contentId },
           force: true,
@@ -53,6 +70,17 @@ module.exports = {
           where: { content_Id: contentId },
           force: true,
         });
+        // console.log('deletedContent : ', deletedContent.wordId);
+        const findSameWordId = await content.findAll({
+          where: { wordId: deletedContent.wordId },
+        });
+        // console.log('findSameWordId : ', findSameWordId);
+        if (findSameWordId.length === 0) {
+          await word.destroy({
+            where: { id: deletedContent.wordId },
+            force: true,
+          });
+        }
         const allMyContents = await content.findAll({
           where: { userId: refreshTokenCheck.id },
         });
