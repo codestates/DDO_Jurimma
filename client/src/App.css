@@ -63,6 +63,7 @@ body {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 body::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera*/
