@@ -37,15 +37,15 @@ module.exports = {
             userInfo: userInfo,
           });
         } else {
-          const wordName = await word.findOne({
-            where: { id: myData[0].dataValues.wordId },
-          });
-          const returnData = myData.map((data) =>
-            Object.assign(data.dataValues, wordName.dataValues)
-          );
+          for (let el of myData) {
+            const wordName = await word.findOne({
+              where: { id: el.wordId },
+            });
+            el.dataValues.wordName = wordName.dataValues.wordName;
+          }
           res.status(201).json({
             accessToken: accessToken,
-            data: returnData,
+            data: myData,
             userInfo: userInfo,
           });
         }
@@ -55,7 +55,7 @@ module.exports = {
       const myData = await content.findAll({
         where: { userId: accIsValid.id },
       });
-      console.log(myData);
+      // console.log(myData);
       const userInfo = {
         userId: accIsValid.id,
         email: accIsValid.email,
@@ -68,16 +68,13 @@ module.exports = {
       if (myData.length === 0) {
         res.status(200).json({ data: myData, userInfo: userInfo });
       } else {
-        console.log('myData : ', myData);
-        const wordName = await word.findOne({
-          where: { id: myData[0].dataValues.wordId },
-        });
-        console.log('wordName : ', wordName.dataValues);
-        const returnData = myData.map((data) =>
-          Object.assign(data.dataValues, wordName.dataValues)
-        );
-        console.log('returnData : ', returnData);
-        res.status(200).json({ data: returnData, userInfo: userInfo });
+        for (let el of myData) {
+          const wordName = await word.findOne({
+            where: { id: el.wordId },
+          });
+          el.dataValues.wordName = wordName.dataValues.wordName;
+        }
+        res.status(200).json({ data: myData, userInfo: userInfo });
       }
     }
   },
