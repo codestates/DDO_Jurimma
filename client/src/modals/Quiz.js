@@ -341,15 +341,14 @@ function Quiz() {
   }; // 접속한 날짜, 경험치 업데이트하는 함수
   const closeQuizModal = (isOpen) => {
     dispatch(setQuizModal(isOpen)); // 퀴즈 모달 닫기
-    updateLastQuizAndExp(); // 최근에 퀴즈 푼 날짜와 경험치 값로 상태 업데이트한 값 서버에 전달
   }; // 퀴즈 모달 닫는 함수
 
   const handleQuizAnswerClick = (isCorrect) => {
-    if (isCorrect) {
+    if (isCorrect === true) {
       setQuizScore(quizScore + 1); // 맞다면 점수에 ++1
     }
     const nextQuizQuestion = quizCurrentQuestion + 1; // currentQuestion에 다음문제가 있나?
-    if (nextQuizQuestion < questions[questionNum].length) {
+    if (nextQuizQuestion <= questions[questionNum].length - 1) {
       // 다음문제가 있다면
       setQuizCurrentQuestion(nextQuizQuestion); // currentQuestion 정식으로 업데이트
     } else {
@@ -366,7 +365,7 @@ function Quiz() {
         </div>
 
         {showQuizScore ? (
-          <QuizScore>
+          <QuizScore onLoad={updateLastQuizAndExp}>
             <img src={you_quiz} alt='You Quiz?' />
             <div>
               <p>총 {quizScore}개를 맞추셨습니다!</p>
@@ -377,7 +376,7 @@ function Quiz() {
         ) : (
           <>
             <QuizQuestion>
-              {quizScore === -1 ? (
+              {quizCurrentQuestion === 0 ? (
                 <img src={you_quiz} alt='You Quiz?' />
               ) : (
                 <QuizCount>
