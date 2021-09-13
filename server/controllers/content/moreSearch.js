@@ -1,4 +1,4 @@
-const { content, word, user_contents } = require('../../models');
+const { user, content, word, user_contents } = require('../../models');
 const {
   generateAccessToken,
   isAuthorized,
@@ -37,9 +37,10 @@ module.exports = {
         for (let i = 0; i < allUserContents.length; i++) {
           if (onlyContentId.includes(allUserContents[i].content_Id)) {
             if (!(allUserContents[i].content_Id in thumbsupData)) {
-              thumbsupData[allUserContents[i].content_Id] = [
-                allUserContents[i].user_Id,
-              ];
+              const userData = await user.findOne({
+                where: { id: allUserContents[i].user_Id },
+              });
+              thumbsupData[allUserContents[i].content_Id] = [userData.username];
             } else {
               thumbsupData[allUserContents[i].content_Id].push(
                 allUserContents[i].user_Id
@@ -93,8 +94,11 @@ module.exports = {
           for (let i = 0; i < allUserContents.length; i++) {
             if (onlyContentId.includes(allUserContents[i].content_Id)) {
               if (!(allUserContents[i].content_Id in thumbsupData)) {
+                const userData = await user.findOne({
+                  where: { id: allUserContents[i].user_Id },
+                });
                 thumbsupData[allUserContents[i].content_Id] = [
-                  allUserContents[i].user_Id,
+                  userData.username,
                 ];
               } else {
                 thumbsupData[allUserContents[i].content_Id].push(
