@@ -29,6 +29,7 @@ const IntroMessageBox = styled.div`
     font-size: max(9vw, 50px);
     text-align: center;
     color: #fff;
+    font-family: 'NEXON Lv2 Gothic Bold';
   }
   > #introWrap {
     display: flex;
@@ -46,7 +47,6 @@ const IntroMessageBox = styled.div`
     > #intro p {
       color: #230638;
       line-height: max(3vw, 30px);
-      font-family: monospace;
       height: max(3vw, 30px);
       overflow: hidden;
       border-right: 0.15em solid orange;
@@ -77,9 +77,14 @@ function LandingSec1() {
       <IntroMessageBox>
         <h1>JURIMMA</h1>
         <div id='introWrap'>
-          <div id='intro'>
+          <TypingEffect
+            id='typingEffect'
+            text='세상의 모든 줄임말을 담다.'
+            speed={150}
+          />
+          {/* <div id='intro'>
             <p>세상의 모든 줄임말을 담다.</p>
-          </div>
+          </div> */}
         </div>
       </IntroMessageBox>
     </SectionWrap>
