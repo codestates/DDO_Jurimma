@@ -86,7 +86,7 @@ const NavBar2 = styled.nav`
   position: fixed;
   background-color: #fff;
   transition: 0.3s;
-  z-index: 9999;
+  z-index: 5;
   animation: ${fadeIn} 0.8s;
   > #logo {
     flex: 1 1 auto;
