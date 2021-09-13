@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 0,
       },
       quizDate: DataTypes.STRING,
+      isLogin: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       sequelize,

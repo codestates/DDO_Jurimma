@@ -26,6 +26,9 @@ module.exports = {
       quizDate: {
         type: Sequelize.STRING,
       },
+      isLogin: {
+        type: Sequelize.BOOLEAN,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
