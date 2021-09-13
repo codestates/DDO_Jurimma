@@ -7,6 +7,7 @@ module.exports = {
       const coWordName = await word.findOne({
         where: { wordName: wordName },
       });
+      await coWordName.increment('count');
       // console.log('확인 : ', coWordName.wordName);
       const coContents = await content.findAll({
         where: { wordId: coWordName.id },

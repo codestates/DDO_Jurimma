@@ -22,7 +22,7 @@ module.exports = {
           where: { wordId: coWordName.id },
         });
         coContents.sort((a, b) => b.thumbsup - a.thumbsup);
-        const returnData = sortedContents.map((el) => {
+        const returnData = coContents.map((el) => {
           el.dataValues.wordName = wordName;
           return el;
         });
@@ -68,7 +68,7 @@ module.exports = {
             where: { wordId: coWordName.id },
           });
           coContents.sort((a, b) => b.thumbsup - a.thumbsup);
-          const returnData = sortedContents.map((el) => {
+          const returnData = coContents.map((el) => {
             el.dataValues.wordName = wordName;
             return el;
           });
