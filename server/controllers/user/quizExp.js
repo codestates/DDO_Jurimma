@@ -7,7 +7,7 @@ const { refreshAuthorized } = require('../tokenFunction/refreshToken');
 
 module.exports = {
   patch: async (req, res) => {
-    const { experience } = req.body;
+    const { experience, quizDate } = req.body;
     const accessVerify = isAuthorized(req);
     // accessToken 만료
     if (!accessVerify) {
@@ -24,6 +24,7 @@ module.exports = {
           where: { id: refreshVerify.id },
         });
         userInfo.experience = experience;
+        userInfo.quizDate = quizDate;
         await userInfo.save();
         res.status(201).json({ accessToken, message: 'ok' });
       }
@@ -32,6 +33,7 @@ module.exports = {
     else {
       const userInfo = await user.findOne({ where: { id: accessVerify.id } });
       userInfo.experience = experience;
+      userInfo.quizDate = quizDate;
       await userInfo.save();
       res.status(200).json({ message: 'ok' });
     }
