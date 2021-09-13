@@ -1,4 +1,4 @@
-const { content, word, user_contents } = require('../../models');
+const { user, content, word, user_contents } = require('../../models');
 const {
   generateAccessToken,
   isAuthorized,
@@ -26,16 +26,21 @@ module.exports = {
           el.dataValues.wordName = wordName;
           return el;
         });
-
+        // console.log('sorted returnData : ', returnData);
         const onlyContentId = coContents.map((el) => el.id);
-        const allUserContents = await user_contents.findAll();
+        // console.log('onlyContentId : ', onlyContentId);
+        const allUserContents = await user_contents.findAll({
+          attributes: ['id', 'user_Id', 'content_Id', 'createdAt', 'updatedAt'],
+        });
+        // console.log('allUserContents : ', allUserContents);
         const thumbsupData = {};
         for (let i = 0; i < allUserContents.length; i++) {
           if (onlyContentId.includes(allUserContents[i].content_Id)) {
             if (!(allUserContents[i].content_Id in thumbsupData)) {
-              thumbsupData[allUserContents[i].content_Id] = [
-                allUserContents[i].user_Id,
-              ];
+              const userData = await user.findOne({
+                where: { id: allUserContents[i].user_Id },
+              });
+              thumbsupData[allUserContents[i].content_Id] = [userData.username];
             } else {
               thumbsupData[allUserContents[i].content_Id].push(
                 allUserContents[i].user_Id
@@ -72,15 +77,28 @@ module.exports = {
             el.dataValues.wordName = wordName;
             return el;
           });
-
+          // console.log('sorted returnData : ', returnData);
           const onlyContentId = coContents.map((el) => el.id);
-          const allUserContents = await user_contents.findAll();
+          // console.log('onlyContentId : ', onlyContentId);
+          const allUserContents = await user_contents.findAll({
+            attributes: [
+              'id',
+              'user_Id',
+              'content_Id',
+              'createdAt',
+              'updatedAt',
+            ],
+          });
+          // console.log('allUserContents : ', allUserContents);
           const thumbsupData = {};
           for (let i = 0; i < allUserContents.length; i++) {
             if (onlyContentId.includes(allUserContents[i].content_Id)) {
               if (!(allUserContents[i].content_Id in thumbsupData)) {
+                const userData = await user.findOne({
+                  where: { id: allUserContents[i].user_Id },
+                });
                 thumbsupData[allUserContents[i].content_Id] = [
-                  allUserContents[i].user_Id,
+                  userData.username,
                 ];
               } else {
                 thumbsupData[allUserContents[i].content_Id].push(

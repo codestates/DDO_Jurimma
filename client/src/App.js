@@ -22,6 +22,7 @@ axios.defaults.withCredentials = true;
 
 function App() {
   const state = useSelector((state) => state.userInfoReducer);
+  console.log(state);
   const {
     isShowLoginOrSignupModal,
     isShowQuizModal,
