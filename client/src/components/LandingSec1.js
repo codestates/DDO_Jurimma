@@ -1,14 +1,18 @@
 import styled, { keyframes } from 'styled-components';
 import '../App.css';
 import TypingEffect from 'react-typing-effect';
+import downScroll1 from '../images/scrollDown1.svg';
+import downScroll2 from '../images/scrollDown2.svg';
 
 const SectionWrap = styled.div`
   width: 100%;
   height: 100vh;
-  border: 1px solid red;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+`;
+
+const scrollBlink = keyframes`
+  0%{opacity : 1}
+  50%{opacity : 0}
+  100%{opacity : 1}
 `;
 
 const typing = keyframes`
@@ -21,11 +25,18 @@ const blinkCaret = keyframes`
     50% { border-color: #230638 }
 `;
 
+const IntroWrap = styled.div`
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const IntroMessageBox = styled.div`
   width: max(55vw, 300px);
   height: max(25vw, 300px);
+  padding-top: 50px;
   > h1 {
-    margin-top: 50px;
     font-size: max(9vw, 50px);
     text-align: center;
     color: #fff;
@@ -59,6 +70,20 @@ const IntroMessageBox = styled.div`
   }
 `;
 
+const DownScrollWrap = styled.div`
+  width: 150px;
+  height: 150px;
+  margin: -150px auto;
+`;
+
+const DownScroll = styled.div`
+  width: max(8vw, 80px);
+  height: max(8vw, 80px);
+  margin: 0 auto;
+  background: url(${downScroll2});
+  animation: ${scrollBlink} 1.4s 4;
+`;
+
 // > div {
 //     width: 100%;
 //     height: max(5vw, 50px);
@@ -74,19 +99,24 @@ const IntroMessageBox = styled.div`
 function LandingSec1() {
   return (
     <SectionWrap>
-      <IntroMessageBox>
-        <h1>JURIMMA</h1>
-        <div id='introWrap'>
-          <TypingEffect
-            id='typingEffect'
-            text='세상의 모든 줄임말을 담다.'
-            speed={150}
-          />
-          {/* <div id='intro'>
+      <IntroWrap>
+        <IntroMessageBox>
+          <h1>JURIMMA</h1>
+          <div id='introWrap'>
+            <TypingEffect
+              id='typingEffect'
+              text='세상의 모든 줄임말을 담다.'
+              speed={150}
+            />
+            {/* <div id='intro'>
             <p>세상의 모든 줄임말을 담다.</p>
           </div> */}
-        </div>
-      </IntroMessageBox>
+          </div>
+        </IntroMessageBox>
+      </IntroWrap>
+      <DownScrollWrap>
+        <DownScroll></DownScroll>
+      </DownScrollWrap>
     </SectionWrap>
   );
 }
