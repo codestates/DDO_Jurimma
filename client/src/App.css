@@ -52,7 +52,8 @@ button {
   margin: 0;
   border: 0;
   vertical-align: baseline;
-  font-family: 'NEXON Lv2 Gothic Bold', 'Nanum Gothic', 'Noto Sans', sans-serif;
+  font-family: 'NEXON Lv2 Gothic', 'NEXON Lv2 Gothic Bold', 'Nanum Gothic',
+    'Noto Sans', sans-serif;
   box-sizing: border-box;
   color: #000;
 }
@@ -75,4 +76,10 @@ body::-webkit-scrollbar {
   min-height: 467px;
   border: 1px solid red;
   box-sizing: border-box;
+}
+
+#typingEffect {
+  font-family: 'NEXON Lv2 Gothic';
+  font-size: max(2.8vw, 15px);
+  line-height: max(5vw, 50px);
 }
