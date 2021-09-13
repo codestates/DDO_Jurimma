@@ -19,7 +19,7 @@ module.exports = {
       // refreshToken 유효
       else {
         delete refreshVerify.exp;
-        const accessToken = await generateAccessToken(refreshVerify);
+        const accessToken = generateAccessToken(refreshVerify);
         const userInfo = await user.findOne({
           where: { id: refreshVerify.id },
         });
