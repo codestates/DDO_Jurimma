@@ -92,13 +92,13 @@ const QuizChoices = styled.div`
 const QuizCount = styled.div`
   margin-bottom: 20px;
   > span {
-    font-size: 28px;
+    font-size: 1.6rem;
   }
 `;
 
 const QuizText = styled.div`
   width: 100%;
-  font-size: 2rem;
+  font-size: 1.4rem;
 `;
 
 const QuizChoiceButton = styled.button`
@@ -121,84 +121,239 @@ const QuizChoiceButton = styled.button`
 
 function Quiz() {
   const nowDate = new Date().toLocaleDateString(); // 접속한 날짜를 "2021. 9. 12."와 같은 형식으로 저장
-
+  const questionNum = new Date().getDay(); // 요일 정보를 0(일요일)~6(토요일)으로 나타냄
   const questions = [
-    {
-      questionText: '',
-      answerOptions: [{ answerText: '시작하기', isCorrect: true }],
-    },
-    {
-      questionText: '"ㄱㅇㅇ"의 뜻으로 올바른 것은?',
-      answerOptions: [
-        { answerText: '귀없어?', isCorrect: false },
-        { answerText: '귀여워', isCorrect: true },
-        { answerText: '거울은?', isCorrect: false },
-      ],
-    },
-    {
-      questionText:
-        '"군싹"의 뜻과 유행한 캐릭터 이미지가 올바르게 짝지어진 것은?',
-      answerOptions: [
-        { answerText: '군침이 싹 도네 - 루피', isCorrect: true },
-        {
-          answerText: '군고구마 해먹을 고구마에 싹이 돋아나네 - 춘식이',
-          isCorrect: false,
-        },
-        { answerText: '군침이 싹 도네 - 바보새', isCorrect: false },
-      ],
-    },
-    {
-      questionText: '"당모치"의 뜻으로 올바른 것은?',
-      answerOptions: [
-        { answerText: '당신은 모찌 치즈볼이 먹고싶다', isCorrect: false },
-        { answerText: '당연히 모든 치킨은 옳다', isCorrect: true },
-        {
-          answerText: '당근을 모르는데 치킨은 안다고?',
-          isCorrect: false,
-        },
-      ],
-    },
-  ]; // 문제
+    [
+      {
+        questionText: '',
+        answerOptions: [{ answerText: '시작하기', isCorrect: true }],
+      },
+      {
+        questionText: '"ㄱㅇㅇ"의 뜻으로 올바른 것은?',
+        answerOptions: [
+          { answerText: '귀없어?', isCorrect: false },
+          { answerText: '귀여워', isCorrect: true },
+          { answerText: '거울은?', isCorrect: false },
+        ],
+      },
+      {
+        questionText:
+          '"군싹"의 뜻과 유행한 캐릭터 이미지가 올바르게 짝지어진 것은?',
+        answerOptions: [
+          { answerText: '군침이 싹 도네 - 루피', isCorrect: true },
+          {
+            answerText: '군고구마 해먹을 고구마에 싹이 돋아나네 - 춘식이',
+            isCorrect: false,
+          },
+          { answerText: '군침이 싹 도네 - 바보새', isCorrect: false },
+        ],
+      },
+    ], // 0번째
+
+    [
+      {
+        questionText: '',
+        answerOptions: [{ answerText: '시작하기', isCorrect: true }],
+      },
+      {
+        questionText: '"연서복"의 뜻으로 올바른 것은?',
+        answerOptions: [
+          {
+            answerText: '연하때문에 서러워서 늦게 복학한 10학번',
+            isCorrect: false,
+          },
+          { answerText: '연장에 서툰 복집 주방장', isCorrect: false },
+          { answerText: '연애에 서툰 복학생', isCorrect: true },
+        ],
+      },
+      {
+        questionText: '"신토불이"의 뜻으로 올바른 것은?',
+        answerOptions: [
+          { answerText: '신나는 토요일 불타는 이밤', isCorrect: true },
+          {
+            answerText: '신나게 토요일에 술먹고 속이 불타는 일요일 이밤',
+            isCorrect: false,
+          },
+          {
+            answerText:
+              '신났던 토요일, 일요일되니 속이 불타 이세상 사람이 아니게 됨',
+            isCorrect: false,
+          },
+        ],
+      },
+    ], // 1번째
+
+    [
+      {
+        questionText: '',
+        answerOptions: [{ answerText: '시작하기', isCorrect: true }],
+      },
+      {
+        questionText: '"갑분싸"의 뜻으로 올바른 것은?',
+        answerOptions: [
+          { answerText: '갑자기 분뇨를 싸지른다', isCorrect: false },
+          { answerText: '갑자기 분위기 싸해진다', isCorrect: true },
+          { answerText: '갑자기 분노를 싸그리 토해낸다', isCorrect: false },
+        ],
+      },
+      {
+        questionText: '"욕세권"의 뜻으로 올바른 것은?',
+        answerOptions: [
+          {
+            answerText: '욕을 먹을수록 값이 오르는 아파트 단지',
+            isCorrect: true,
+          },
+          {
+            answerText: '욕을 먹을정도로 상태가 안좋은 아파트 단지',
+            isCorrect: false,
+          },
+          { answerText: '욕을 먹어서 재건축한 아파트 단지', isCorrect: false },
+        ],
+      },
+    ], //2번째
+
+    [
+      {
+        questionText: '',
+        answerOptions: [{ answerText: '시작하기', isCorrect: true }],
+      },
+      {
+        questionText: '"일취월장"의 뜻으로 올바른 것은?',
+        answerOptions: [
+          { answerText: '일요일에 취하면 월요일에 장난아냐', isCorrect: true },
+          {
+            answerText: '일요일 아침에 만든걸 월요일에 먹으라니 장난하냐',
+            isCorrect: false,
+          },
+          {
+            answerText:
+              '일요일에 취해서 라면을 다먹어서 월요일엔 장보러 가야함',
+            isCorrect: false,
+          },
+        ],
+      },
+      {
+        questionText: '"방방봐"의 뜻으로 올바른 것은?',
+        answerOptions: [
+          {
+            answerText: '방송국에서 하는 방송보다 유튜브를 더 많이 봐',
+            isCorrect: false,
+          },
+          { answerText: '방송은 방송으로만 봐', isCorrect: true },
+          {
+            answerText: '방방 뛰다가 넘어진것좀 봐',
+            isCorrect: false,
+          },
+        ],
+      },
+    ], //3번째
+
+    [
+      {
+        questionText: '',
+        answerOptions: [{ answerText: '시작하기', isCorrect: true }],
+      },
+      {
+        questionText: '"쫌쫌따리"의 뜻으로 올바른 것은?',
+        answerOptions: [
+          { answerText: '쫑쫑 따라가는 모양', isCorrect: false },
+          { answerText: '아주 조금씩 틈틈히', isCorrect: true },
+          { answerText: '"좀 있다가"를 빠르게 발음한 모양', isCorrect: false },
+        ],
+      },
+      {
+        questionText: '"남아공"의 뜻으로 올바른 것은?',
+        answerOptions: [
+          { answerText: '남아서 공부나 해', isCorrect: true },
+          {
+            answerText: '남아서 공부할바엔 알바하지',
+            isCorrect: false,
+          },
+          { answerText: '남아서 공부하다가 짝이랑 눈맞을듯', isCorrect: false },
+        ],
+      },
+    ], //4번째
+
+    [
+      {
+        questionText: '',
+        answerOptions: [{ answerText: '시작하기', isCorrect: true }],
+      },
+      {
+        questionText: '"최최차차"의 뜻으로 올바른 것은?',
+        answerOptions: [
+          { answerText: '최애는 최애고, 차두리는 차두리다.', isCorrect: false },
+          { answerText: '최애는 최애고, 차은우는 차은우다.', isCorrect: true },
+          { answerText: '최애는 최씨고, 차애는 차타현이다.', isCorrect: false },
+        ],
+      },
+      {
+        questionText: '"무야호"를 사용할때 뒤에 붙는 말로 적절한 것은?',
+        answerOptions: [
+          { answerText: '그만큼 신나시다는 거지', isCorrect: true },
+          {
+            answerText: '그만큼 놀라셨다는 거지',
+            isCorrect: false,
+          },
+          { answerText: '그만큼 빨리 집에 가고싶다는 거지', isCorrect: false },
+        ],
+      },
+    ], // 5번째
+
+    [
+      {
+        questionText: '',
+        answerOptions: [{ answerText: '시작하기', isCorrect: true }],
+      },
+      {
+        questionText: '"퇴튜던트"의 뜻으로 올바른 것은?',
+        answerOptions: [
+          { answerText: '퇴직하고 선생님이 되려는 사람', isCorrect: false },
+          { answerText: '퇴근 후 공부하는 직장인', isCorrect: true },
+          {
+            answerText: '퇴근 후 공부하려다가 잠드는 직장인',
+            isCorrect: false,
+          },
+        ],
+      },
+      {
+        questionText: '"자강두천"의 뜻으로 올바른 것은?',
+        answerOptions: [
+          { answerText: '자리 두고 강하게 싸우는 두 천재', isCorrect: false },
+          { answerText: '자존심 강한 두 천재', isCorrect: true },
+          {
+            answerText: '자존심 강하다고 떠드는 두 천재',
+            isCorrect: false,
+          },
+        ],
+      },
+    ], // 6번째
+  ]; // 문제 모음
+
   const dispatch = useDispatch();
   const [quizCurrentQuestion, setQuizCurrentQuestion] = useState(0); // 현재 문제 index
   const [showQuizScore, setShowQuizScore] = useState(false); // 점수 화면 보임 여부
   const [quizScore, setQuizScore] = useState(-1); // 점수 카운트
-  const [quizScoreComment, setQuizScoreComment] = useState(''); // 점수에 따라 다르게 나타날 문구
 
-  const updateLastQuiz = () => {
-    dispatch(setQuizState(nowDate));
-  }; // 접속한 날짜 업데이트하는 함수
+  const updateLastQuizAndExp = () => {
+    dispatch(setQuizState(nowDate, quizScore * 5)); // state값은 업데이트 됨
+    // axios로 서버에 업데이트 된 값 전달해야 함
+  }; // 접속한 날짜, 경험치 업데이트하는 함수
   const closeQuizModal = (isOpen) => {
-    dispatch(setQuizModal(isOpen));
-    // if (!showQuizScore) {
-    //   dispatch(setQuizModal(isOpen));
-    // }
+    dispatch(setQuizModal(isOpen)); // 퀴즈 모달 닫기
+    updateLastQuizAndExp(); // 최근에 퀴즈 푼 날짜와 경험치 값로 상태 업데이트한 값 서버에 전달
   }; // 퀴즈 모달 닫는 함수
-  const quizCommentChange = () => {
-    if (quizScore === 0) {
-      setQuizScoreComment('5포인트가 적립되었습니다!');
-    } else if (quizScore === 1) {
-      setQuizScoreComment('10포인트가 적립되었습니다!');
-    } else if (quizScore === 2) {
-      setQuizScoreComment('15포인트가 적립되었습니다!');
-    }
-  }; // 문구 업데이트 해줄 함수
-  const expGenerate = () => {}; // 점수에 따른 경험치 계산하고 서버에 전송하는 함수. server/controllers/user/quizExp.js 참고해서 작성할것
 
   const handleQuizAnswerClick = (isCorrect) => {
     if (isCorrect) {
       setQuizScore(quizScore + 1); // 맞다면 점수에 ++1
     }
-
     const nextQuizQuestion = quizCurrentQuestion + 1; // currentQuestion에 다음문제가 있나?
-    if (nextQuizQuestion < questions.length) {
+    if (nextQuizQuestion < questions[questionNum].length) {
       // 다음문제가 있다면
       setQuizCurrentQuestion(nextQuizQuestion); // currentQuestion 정식으로 업데이트
     } else {
       // 다음문제가 없다면
-      quizCommentChange(); // 점수에 따라 나타날 문구 설정하기
-      updateLastQuiz(nowDate); // 최근에 퀴즈 푼 날짜로 상태 업데이트
-      // 서버에 점수 전달하고 경험치 업데이트(expGenerate)
       setShowQuizScore(true); // 점수 보여주기
     }
   }; // 점수 계산, 점수 통보 및 점수창 보여주기 함수
@@ -215,7 +370,7 @@ function Quiz() {
             <img src={you_quiz} alt='You Quiz?' />
             <div>
               <p>총 {quizScore}개를 맞추셨습니다!</p>
-              <p>{quizScoreComment}</p>
+              <p>{quizScore * 5} 포인트가 적립되었습니다!</p>
             </div>
             {/*점수 보여줌 */}
           </QuizScore>
@@ -227,15 +382,17 @@ function Quiz() {
               ) : (
                 <QuizCount>
                   <span>Question {quizCurrentQuestion}</span>/
-                  {questions.length - 1}
+                  {questions[questionNum].length - 1}
                 </QuizCount>
               )}
-              <QuizText>{questions[quizCurrentQuestion].questionText}</QuizText>
+              <QuizText>
+                {questions[questionNum][quizCurrentQuestion].questionText}
+              </QuizText>
             </QuizQuestion>
 
             {/* 선택지 */}
             <QuizChoices>
-              {questions[quizCurrentQuestion].answerOptions.map(
+              {questions[questionNum][quizCurrentQuestion].answerOptions.map(
                 (answerOption, idx) => (
                   <QuizChoiceButton
                     key={idx}

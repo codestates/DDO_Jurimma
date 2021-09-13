@@ -20,7 +20,8 @@ const defaultUserInfo = {
     email: '',
     username: '',
     userPic: null,
-    exp: 0,
+    experience: 0,
+    quizDate: null, // 퀴즈 모달에 접속한 날짜
   }, // 기본 유저 정보
   isLogin: true, //로그인 상태
   isShowLoginOrSignupModal: false, // 로그인or회원가입 모달 상태
@@ -30,7 +31,6 @@ const defaultUserInfo = {
   isShowChartModal: false, // 차트 모달 상태
   isShowNewContentModal: false, // 새로운 글 쓰기 모달상태
   isShowEditContentModal: false, // 글 수정 모달 상태
-  lastQuiz: null, // 퀴즈 모달에 접속한 날짜
 };
 
 const userInfoReducer = (state = defaultUserInfo, action) => {
@@ -84,10 +84,14 @@ const userInfoReducer = (state = defaultUserInfo, action) => {
       };
 
     case SET_QUIZ_STATE:
-      return {
-        ...state,
-        lastQuiz: action.quizDate,
-      }; // 퀴즈 모달 상태 변경하기
+      console.log(action);
+      return Object.assign({}, state, {
+        userInfo: {
+          ...state.userInfo,
+          quizDate: action.quizDate,
+          experience: state.userInfo.experience + action.experience,
+        },
+      }); // 퀴즈에 따른 퀴즈 값 변경
 
     default:
       // 기본 reducer
