@@ -22,7 +22,7 @@ const defaultUserInfo = {
     userPic: null,
     exp: 0,
   }, // 기본 유저 정보
-  isLogin: true, //로그인 상태
+  isLogin: false, //로그인 상태
   isShowLoginOrSignupModal: false, // 로그인or회원가입 모달 상태
   isShowQuizModal: false, // 퀴즈 모달 상태
   isShowSignoutModal: false, // 회원탈퇴 모달 상태
