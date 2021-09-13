@@ -23,6 +23,9 @@ module.exports = {
       experience: {
         type: Sequelize.INTEGER,
       },
+      quizDate: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
