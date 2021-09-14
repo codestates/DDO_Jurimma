@@ -21,10 +21,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         defaultValue: null,
       },
-      isLogin: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
-      },
       emailAuth: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,

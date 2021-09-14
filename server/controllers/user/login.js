@@ -20,19 +20,16 @@ module.exports = {
       if (decryptedPw !== password) {
         res.status(400).json({ message: 'Invalid User' });
       }
-      // 중복 로그인인 경우
-      else if (userInfo.isLogin === true) {
-        res.status(409).json({ message: 'Already Logged In' });
+      // 이메일 인증을 안 한 경우
+      else if (userInfo.emailAuth === false) {
+        res.status(409).json({ message: 'Not Authorized Email' });
       }
       // 그 외의 경우는 로그인 성공, accessToken과 userInfo를 return
       else {
         delete userInfo.dataValues.password;
-        delete userInfo.dataValues.isLogin;
         const accessToken = generateAccessToken(userInfo.dataValues);
         const refreshToken = generateRefreshToken(userInfo.dataValues);
         sendRefreshToken(res, refreshToken);
-        userInfo.isLogin = true;
-        await userInfo.save();
         res.status(200).json({ accessToken, userInfo });
       }
     }
