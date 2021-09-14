@@ -11,7 +11,7 @@ const SearchWrap = styled.div`
   background-color: pink;
   display: flex;
   flex-direction: column;
-  @media screen and (max-width: 1680px) {
+  @media screen and (min-width: 1680px) {
     background-color: green;
     width: 80%;
     margin: 0 auto;
