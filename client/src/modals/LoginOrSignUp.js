@@ -12,72 +12,87 @@ import swal from 'sweetalert';
 library.add(fab, faComment);
 
 const LoginOrSignupBackdrop = styled.div`
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.7);
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 10;
+  position: fixed;
 `;
 
 const LoginOrSignupModal = styled.article`
-  width: max(340px, 50vw);
-  max-width: 500px;
-  height: max(25vw, 300px);
+  width: max(30vw, 350px);
+  height: 600px;
   background-color: #fff;
   position: relative;
   display: flex;
   flex-direction: column;
-  border-radius: 15px;
+  border-radius: 20px;
   > .closeBtn {
     z-index: 10;
-    font-size: 3rem;
+    font-size: 50px;
     position: absolute;
     right: -40px;
     top: -40px;
     color: #fff;
+    cursor: pointer;
+    transition: 0.5s;
+    @media screen and (max-width: 479px) {
+      right: 10px;
+      top: 5px;
+      color: #000;
+      font-size: 30px;
+    }
+  }
+  > .closeBtn:hover {
+    transform: rotate(-90deg);
   }
 `;
 const OauthLogin = styled.div`
-  height: 200px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  height: 150px;
   > p {
     text-align: center;
-    height: max(2vh, 40px);
+    height: 30px;
+    margin-top: 10px;
     line-height: max(2vh, 40px);
   }
   > .OauthLoginBtn {
     display: flex;
-    width: 100%;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 20px;
     height: max(3vh, 50px);
-    > button {
-      width: 45%;
-      display: block;
-      box-sizing: border-box;
-      border-radius: max(70px, 5vh);
-      cursor: pointer;
-      margin-right: 10px;
-    }
-    > button:nth-child(2) {
-      margin-right: 0;
-    }
+    justify-content: space-evenly;
   }
 `;
 const KakaoLogin = styled.button`
+  border-radius: 40px;
+  width: 40%;
   background-color: #fee500;
+  cursor: pointer;
+  transition: 0.3s;
+  :hover {
+    background-color: #000;
+    color: #fff;
+  }
 `;
 const GoogleLogin = styled.button`
-  flex: 1 1 auto;
+  width: 40%;
+  border-radius: 40px;
+  background-color: #ddd;
+  cursor: pointer;
+  transition: 0.3s;
+  :hover {
+    background-color: #000;
+    color: #fff;
+  }
 `;
 
 const TabWrap = styled.div`
   display: flex;
-  min-height: 500px;
   flex-direction: column;
   overflow: hidden;
 `;
@@ -97,17 +112,18 @@ const TabMenu = styled.ul`
   }
 `;
 const TabContent = styled.div`
+  height: 450px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #440a67;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
+  border-radius: 0 0 20px 20px;
   > .tabContentWrap {
-    flex: 1 1 auto;
+    width: 100%;
+    height: 400px;
     display: flex;
+    justify-content: center;
     flex-direction: column;
-    justify-content: space-between;
     > form {
       display: flex;
       flex-direction: column;
@@ -156,7 +172,7 @@ const TabContent = styled.div`
 
 const ErrorMsg = styled.div`
   width: 300px;
-  height: 30px;
+  height: 20px;
   margin: 0 auto;
   margin-top: 20px;
   margin-bottom: 20px;
