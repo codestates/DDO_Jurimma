@@ -14,6 +14,7 @@ const MypageEditWrap = styled.div`
 
 function MypageEdit() {
   const state = useSelector((state) => state.userInfoReducer);
+  // edit해서 state 업데이트 + axios 요청
   return (
     <>
       {state.isLogin ? (
