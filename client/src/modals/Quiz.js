@@ -120,6 +120,7 @@ const QuizChoiceButton = styled.button`
 `;
 
 function Quiz() {
+  const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const nowDate = new Date().toLocaleDateString(); // 접속한 날짜를 "2021. 9. 12."와 같은 형식으로 저장
   const questionNum = new Date().getDay(); // 요일 정보를 0(일요일)~6(토요일)으로 나타냄
   const questions = [
@@ -337,7 +338,7 @@ function Quiz() {
 
   const updateLastQuizAndExp = () => {
     dispatch(setQuizState(nowDate, quizScore * 5)); // state값은 업데이트 됨
-    // axios로 서버에 업데이트 된 값 전달해야 함
+    let result; // axios로 서버에 업데이트 된 값 전달해야 함
   }; // 접속한 날짜, 경험치 업데이트하는 함수
   const closeQuizModal = (isOpen) => {
     dispatch(setQuizModal(isOpen)); // 퀴즈 모달 닫기
