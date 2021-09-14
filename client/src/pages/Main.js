@@ -13,6 +13,9 @@ const MainWrap = styled.div`
   background-color: orange;
   margin: 0 auto;
   margin-top: 200px;
+  @media screen and (min-width: 1500px) {
+    background-color: pink;
+  }
 `; // 현재 3:1비율로 한꺼번에 보이는데, 크기가 작아질 경우 상단에 검색창 + 하단에 검색어 차트가 보이게 수정 필요
 
 function Main() {
