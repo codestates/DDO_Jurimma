@@ -14,14 +14,14 @@ const MypageEditWrap = styled.div`
 
 function MypageEdit() {
   const state = useSelector((state) => state.userInfoReducer);
-  // edit해서 state 업데이트 + axios 요청
   return (
     <>
       {state.isLogin ? (
         <MypageEditWrap>
           {/*this is mypageEdit*/}
-          <EditUserPic />
-          <EditUserInfo />
+          <EditUserInfo />{' '}
+          {/* EditUserInfo에서 버튼이 눌리면 state 업데이트 +
+          axios 요청*/}
         </MypageEditWrap>
       ) : (
         <Redirect to='/'></Redirect>

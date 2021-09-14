@@ -28,7 +28,7 @@ function Chart() {
   const dispatch = useDispatch();
   const openChartGraphModal = (isOpen) => {
     dispatch(setChartModal(isOpen));
-  }; // 로그인 모달 닫는 함수
+  }; // 차트 모달 닫는 함수
 
   return (
     <ChartWrap>
