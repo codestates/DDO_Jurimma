@@ -3,9 +3,8 @@ module.exports = {
   kakao: require('./kakao'),
   google: require('./google'),
   signup: require('./signup'),
-  checkEmail: require('./checkEmail'),
+  emailCheck: require('./emailCheck'),
   logout: require('./logout'),
-  signout: require('./signout'),
-  edition: require('./edition'),
+  userInfo: require('./userInfo'),
   quizExp: require('./quizExp'),
 };

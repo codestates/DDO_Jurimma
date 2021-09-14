@@ -7,6 +7,10 @@ const { refreshAuthorized } = require('../tokenFunction/refreshToken');
 const { encryptPwd, decryptPwd } = require('../hashing/hashingPwd');
 
 module.exports = {
+  get: async (req, res) => {
+    res.send('this is get/user');
+  },
+
   patch: async (req, res) => {
     const { userPic, username, oldPassword, newPassword } = req.body;
     const accessVerify = await isAuthorized(req);
@@ -55,5 +59,9 @@ module.exports = {
         res.status(200).json({ userInfo });
       }
     }
+  },
+
+  delete: async (req, res) => {
+    res.send('this is delete/user');
   },
 };
