@@ -1,4 +1,4 @@
-const { user, content, thumbsup } = require('../../models');
+const { user, content, thumbsups } = require('../../models');
 const {
   isAuthorized,
   generateAccessToken,
@@ -102,8 +102,8 @@ module.exports = {
     // content 테이블의 해당 유저의 id로 저장된 레코드 삭제
     await content.destroy({ where: { userId: userData.id }, force: true });
     // user_contents 테이블의 해당 유저의 id로 저장된 레코드 삭제
-    await thumbsup.destroy({
-      where: { user_Id: userData.id },
+    await thumbsups.destroy({
+      where: { userId: userData.id },
       force: true,
     });
     res.status(200).json({ message: 'ok' });
