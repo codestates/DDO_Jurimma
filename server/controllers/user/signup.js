@@ -85,7 +85,7 @@ module.exports = {
         if (!isAuth.emailAuth) {
           await user.destroy({ where: { email: email }, force: true });
         }
-      }, 10 * 1000);
+      }, 30 * 1000);
 
       res.status(200).json({ message: 'ok' });
       transporter.close();
