@@ -43,7 +43,7 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-const { content, user, user_contents, word } = sequelize.models;
+const { content, user, thumbsup, word } = sequelize.models;
 
 // users 테이블과 contents 테이블 관계
 content.belongsTo(user);
@@ -53,22 +53,22 @@ user.hasMany(content);
 content.belongsTo(word);
 word.hasMany(content);
 
-// user_coutents N:M 테이블
+// thumbsup N:M 테이블
 content.belongsToMany(user, {
-  through: 'user_contents',
+  through: 'thumbsup',
   foreignKey: 'id',
 });
 user.belongsToMany(content, {
-  through: 'user_contents',
+  through: 'thumbsup',
   foreignKey: 'id',
 });
-user_contents.belongsTo(user, {
+thumbsup.belongsTo(user, {
   foreignKey: 'user_Id',
 });
-user.hasMany(user_contents);
-user_contents.belongsTo(content, {
+user.hasMany(thumbsup);
+thumbsup.belongsTo(content, {
   foreignKey: 'content_Id',
 });
-content.hasMany(user_contents);
+content.hasMany(thumbsup);
 
 module.exports = db;

@@ -7,10 +7,6 @@ module.exports = (sequelize, DataTypes) => {
   content.init(
     {
       wordMean: DataTypes.STRING,
-      thumbsup: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
-      },
     },
     {
       sequelize,
