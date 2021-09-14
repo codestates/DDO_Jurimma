@@ -14,12 +14,6 @@ module.exports = {
     // 그 외의 경우 accessToken, refreshToken 삭제
     else {
       sendRefreshToken(res, null);
-      const userInfo = await user.findOne({
-        where: { id: refreshTokenCheck.id },
-      });
-      // 로그아웃할 때 유저의 로그인 상태 변경
-      userInfo.isLogin = false;
-      await userInfo.save();
       res.status(200).json({ accessToken: null, message: 'ok' });
     }
   },

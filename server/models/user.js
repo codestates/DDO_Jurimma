@@ -9,13 +9,19 @@ module.exports = (sequelize, DataTypes) => {
       username: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.STRING,
-      userPic: DataTypes.STRING,
+      userPic: {
+        type: DataTypes.STRING,
+        defaultValue: null,
+      },
       experience: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
       },
-      quizDate: DataTypes.STRING,
-      isLogin: {
+      quizDate: {
+        type: DataTypes.STRING,
+        defaultValue: null,
+      },
+      emailAuth: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
