@@ -8,22 +8,55 @@ const { encryptPwd, decryptPwd } = require('../hashing/hashingPwd');
 
 module.exports = {
   get: async (req, res) => {
-    res.send('this is get/user');
+    const accessVerify = isAuthorized(req);
+    const refreshVerify = refreshAuthorized(req);
+
+    if (accessVerify) {
+      const userInfo = await user.findOne({
+        where: { id: accessVerify.id },
+      });
+      delete userInfo.dataValues.password;
+      delete userInfo.dataValues.emailAuth;
+      delete userInfo.dataValues.createdAt;
+      delete userInfo.dataValues.updatedAt;
+      res.status(200).json({
+        data: userInfo,
+      });
+    } else {
+      if (refreshVerify) {
+        delete refreshVerify.exp;
+        const accessToken = generateAccessToken(refreshVerify);
+
+        const userInfo = await user.findOne({
+          where: { id: refreshVerify.id },
+        });
+        delete userInfo.dataValues.password;
+        delete userInfo.dataValues.emailAuth;
+        delete userInfo.dataValues.createdAt;
+        delete userInfo.dataValues.updatedAt;
+        res.status(201).json({
+          accessToken: accessToken,
+          data: userInfo,
+        });
+      } else {
+        res.status(401).json({ message: 'Send new Login Request' });
+      }
+    }
   },
 
   patch: async (req, res) => {
     const { userPic, username, oldPassword, newPassword } = req.body;
-    const accessVerify = await isAuthorized(req);
+    const accessVerify = isAuthorized(req);
 
     // accessToken 만료
     if (!accessVerify) {
-      const refreshVerify = await refreshAuthorized(req);
+      const refreshVerify = refreshAuthorized(req);
       // refreshToken 유효한 경우
       if (refreshVerify) {
         delete refreshVerify.exp;
-        const accessToken = await generateAccessToken(refreshVerify);
+        const accessToken = generateAccessToken(refreshVerify);
         const userInfo = await user.findOne({
-          where: { email: refreshVerify.email },
+          where: { id: refreshVerify.id },
         });
         // 유저가 입력한 oldPassword가 db에 저장된 password와 다른 경우
         if (!userInfo || decryptPwd(userInfo.password) !== oldPassword) {
@@ -33,8 +66,10 @@ module.exports = {
           userInfo.password = encryptPwd(newPassword);
           userInfo.userPic = userPic;
           await userInfo.save();
-          delete userInfo.dataValues.password;
-          res.status(201).json({ accessToken, userInfo });
+          res.status(201).json({
+            accessToken: accessToken,
+            message: 'ok',
+          });
         }
       }
       // refreshToken 만료
@@ -45,18 +80,17 @@ module.exports = {
     // accessToken 유효
     else {
       const userInfo = await user.findOne({
-        where: { email: accessVerify.email },
+        where: { id: accessVerify.id },
       });
       // 유저가 입력한 oldPassword가 db에 저장된 pw 와 다른 경우
       if (!userInfo || decryptPwd(userInfo.password) !== oldPassword) {
-        res.status(404).json({ message: 'Wrong Password' });
+        res.status(400).json({ message: 'Wrong Password' });
       } else {
         userInfo.username = username;
         userInfo.password = encryptPwd(newPassword);
         userInfo.userPic = userPic;
         await userInfo.save();
-        delete userInfo.dataValues.password;
-        res.status(200).json({ userInfo });
+        res.status(200).json({ message: 'ok' });
       }
     }
   },
