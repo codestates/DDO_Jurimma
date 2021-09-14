@@ -1,8 +1,8 @@
 const { user } = require('../../models');
 
 module.exports = {
-  post: async (req, res) => {
-    const { email } = req.body;
+  get: async (req, res) => {
+    const { email } = req.query;
 
     const emailCheck = await user.findOne({ where: { email: email } });
     // console.log('emailcheck : ', emailCheck);

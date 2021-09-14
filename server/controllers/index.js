@@ -1,5 +1,5 @@
 module.exports = {
   userController: require('./user/index'),
-  myContentsController: require('./myContents/index'),
-  contentController: require('./content/index'),
+  wordController: require('./word/index'),
+  meaningController: require('./meaning/index'),
 };

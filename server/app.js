@@ -9,8 +9,8 @@ const port = process.env.SERVER_PORT || 4000;
 const { sequelize } = require('./models');
 
 const userRouter = require('./routes/user');
-const myContentsRouter = require('./routes/my-contents');
-const contentRouter = require('./routes/content');
+const wordRouter = require('./routes/word');
+const meaningRouter = require('./routes/meaning');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -25,8 +25,8 @@ app.use(
 );
 
 app.use('/user', userRouter);
-app.use('/my-contents', myContentsRouter);
-app.use('/content', contentRouter);
+app.use('/word', wordRouter);
+app.use('/meaning', meaningRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
