@@ -6,11 +6,16 @@ import SearchInput from './SearchInput';
 import SearchResult from './SearchResult';
 
 const SearchWrap = styled.div`
-  flex: 3 1 auto; // 콘텐츠 전체 길이 생각해서 후에 수정해주기
-  border: 1px solid red;
-  box-sizing: border-box;
+  width: 1000px;
+  height: 100vh;
+  background-color: pink;
   display: flex;
   flex-direction: column;
+  @media screen and (max-width: 1680px) {
+    background-color: green;
+    width: 80%;
+    margin: 0 auto;
+  }
 `;
 
 function Search() {
