@@ -11,9 +11,6 @@ module.exports = {
       wordMean: {
         type: Sequelize.STRING,
       },
-      thumbsup: {
-        type: Sequelize.INTEGER,
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
