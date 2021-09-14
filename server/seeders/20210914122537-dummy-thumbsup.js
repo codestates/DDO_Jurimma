@@ -3,65 +3,65 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert(
-      'thumbsup',
+      'thumbsups',
       [
         {
-          user_Id: 1,
-          content_Id: 3,
+          userId: 1,
+          contentId: 3,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          user_Id: 1,
-          content_Id: 5,
+          userId: 1,
+          contentId: 5,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          user_Id: 2,
-          content_Id: 8,
+          userId: 2,
+          contentId: 8,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          user_Id: 3,
-          content_Id: 7,
+          userId: 3,
+          contentId: 7,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          user_Id: 1,
-          content_Id: 2,
+          userId: 1,
+          contentId: 2,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          user_Id: 1,
-          content_Id: 6,
+          userId: 1,
+          contentId: 6,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          user_Id: 2,
-          content_Id: 7,
+          userId: 2,
+          contentId: 7,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          user_Id: 1,
-          content_Id: 4,
+          userId: 1,
+          contentId: 4,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          user_Id: 1,
-          content_Id: 9,
+          userId: 1,
+          contentId: 9,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          user_Id: 3,
-          content_Id: 10,
+          userId: 3,
+          contentId: 10,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -71,6 +71,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('thumbsup', null, {});
+    await queryInterface.bulkDelete('thumbsups', null, {});
   },
 };
