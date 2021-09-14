@@ -1,4 +1,4 @@
-const { content, word } = require('../../models');
+const { user, content, word } = require('../../models');
 const {
   isAuthorized,
   generateAccessToken,
@@ -21,14 +21,19 @@ module.exports = {
         const myData = await content.findAll({
           where: { userId: userData.id },
         });
+        const tmpUserInfo = await user.findOne({
+          where: { id: userData.id },
+        });
         const userInfo = {
-          userId: userData.id,
-          email: userData.email,
-          username: userData.username,
-          userPic: userData.userPic,
-          experience: userData.experience,
-          quizDate: userData.quizDate,
+          userId: tmpUserInfo.id,
+          email: tmpUserInfo.email,
+          username: tmpUserInfo.username,
+          userPic: tmpUserInfo.userPic,
+          experience: tmpUserInfo.experience,
+          quizDate: tmpUserInfo.quizDate,
+          isLogin: tmpUserInfo.isLogin,
         };
+        // console.log(userInfo);
         // 작성한 글이 없는 경우
         if (myData.length === 0) {
           res.status(201).json({
@@ -37,15 +42,15 @@ module.exports = {
             userInfo: userInfo,
           });
         } else {
-          const wordName = await word.findOne({
-            where: { id: myData[0].dataValues.wordId },
-          });
-          const returnData = myData.map((data) =>
-            Object.assign(data.dataValues, wordName.dataValues)
-          );
+          for (let el of myData) {
+            const wordName = await word.findOne({
+              where: { id: el.wordId },
+            });
+            el.dataValues.wordName = wordName.dataValues.wordName;
+          }
           res.status(201).json({
             accessToken: accessToken,
-            data: returnData,
+            data: myData,
             userInfo: userInfo,
           });
         }
@@ -55,29 +60,31 @@ module.exports = {
       const myData = await content.findAll({
         where: { userId: accIsValid.id },
       });
-      console.log(myData);
+      // console.log(myData);
+      const tmpUserInfo = await user.findOne({
+        where: { id: accIsValid.id },
+      });
       const userInfo = {
-        userId: accIsValid.id,
-        email: accIsValid.email,
-        username: accIsValid.username,
-        userPic: accIsValid.userPic,
-        experience: accIsValid.experience,
-        quizDate: accIsValid.quizDate,
+        userId: tmpUserInfo.id,
+        email: tmpUserInfo.email,
+        username: tmpUserInfo.username,
+        userPic: tmpUserInfo.userPic,
+        experience: tmpUserInfo.experience,
+        quizDate: tmpUserInfo.quizDate,
+        isLogin: tmpUserInfo.isLogin,
       };
+      // console.log(userInfo);
       // 작성한 글이 없는 경우
       if (myData.length === 0) {
         res.status(200).json({ data: myData, userInfo: userInfo });
       } else {
-        console.log('myData : ', myData);
-        const wordName = await word.findOne({
-          where: { id: myData[0].dataValues.wordId },
-        });
-        console.log('wordName : ', wordName.dataValues);
-        const returnData = myData.map((data) =>
-          Object.assign(data.dataValues, wordName.dataValues)
-        );
-        console.log('returnData : ', returnData);
-        res.status(200).json({ data: returnData, userInfo: userInfo });
+        for (let el of myData) {
+          const wordName = await word.findOne({
+            where: { id: el.wordId },
+          });
+          el.dataValues.wordName = wordName.dataValues.wordName;
+        }
+        res.status(200).json({ data: myData, userInfo: userInfo });
       }
     }
   },

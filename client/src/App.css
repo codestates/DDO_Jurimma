@@ -55,6 +55,7 @@ button {
   font-family: 'NEXON Lv2 Gothic', 'NEXON Lv2 Gothic Bold', 'Nanum Gothic',
     'Noto Sans', sans-serif;
   box-sizing: border-box;
+  list-style: none;
   color: #000;
 }
 
@@ -62,6 +63,7 @@ body {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 body::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera*/

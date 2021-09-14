@@ -27,6 +27,7 @@ module.exports = {
       // 그 외의 경우는 로그인 성공, accessToken과 userInfo를 return
       else {
         delete userInfo.dataValues.password;
+        console.log('유저 정보 : ', userInfo.dataValues);
         const accessToken = generateAccessToken(userInfo.dataValues);
         const refreshToken = generateRefreshToken(userInfo.dataValues);
         sendRefreshToken(res, refreshToken);

@@ -2,6 +2,18 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import you_quiz from '../images/you_quiz.svg';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
+AOS.init();
+
+const SectionWrap = styled.div`
+  width: 100%;
+  height: 100vh;
+  margin-top: 200px;
+  display: flex;
+  align-items: center;
+`;
 
 const LandingQuizBox = styled.article`
   width: max(340px, 50vw);
@@ -92,7 +104,9 @@ const LandingQuizChoiceButton = styled.button`
   cursor: pointer;
   transition: all 0.3s;
   :hover {
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    /* box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3); */
+    background-color: #230638;
+    color: #fff;
   }
 `;
 
@@ -150,50 +164,56 @@ function LandingQuiz() {
   };
 
   return (
-    <LandingQuizBox>
-      {showScore ? ( // 점수 화면 보임 여부가 true라면
-        <LandingQuizScore>
-          <img src={you_quiz} alt='You Quiz?' />
-          <div>
-            <p>총 {score}개를 맞추셨습니다!</p>
-            <p>오늘의 퀴즈는 로그인 후 이용 가능합니다.</p>
-          </div>
-          {/*점수 보여줌 */}
-        </LandingQuizScore>
-      ) : (
-        // 점수 화면 보임 여부가 false 라면(=아직 풀 문제가 남음)
-        <>
-          <LandingQuizQuestion>
-            {score === -1 ? (
-              <img src={you_quiz} alt='You Quiz?' />
-            ) : (
-              <LandingQuizCount>
-                <span>Question {currentQuestion}</span>/{questions.length - 1}
-              </LandingQuizCount>
-            )}
-            <LandingQuizText>
-              {questions[currentQuestion].questionText}
-            </LandingQuizText>
-          </LandingQuizQuestion>
+    <SectionWrap>
+      <LandingQuizBox
+        data-aos='zoom-in'
+        data-aos-duration='2000'
+        data-aos-offset='300'
+      >
+        {showScore ? ( // 점수 화면 보임 여부가 true라면
+          <LandingQuizScore>
+            <img src={you_quiz} alt='You Quiz?' />
+            <div>
+              <p>총 {score}개를 맞추셨습니다!</p>
+              <p>오늘의 퀴즈는 로그인 후 이용 가능합니다.</p>
+            </div>
+            {/*점수 보여줌 */}
+          </LandingQuizScore>
+        ) : (
+          // 점수 화면 보임 여부가 false 라면(=아직 풀 문제가 남음)
+          <>
+            <LandingQuizQuestion>
+              {score === -1 ? (
+                <img src={you_quiz} alt='You Quiz?' />
+              ) : (
+                <LandingQuizCount>
+                  <span>Question {currentQuestion}</span>/{questions.length - 1}
+                </LandingQuizCount>
+              )}
+              <LandingQuizText>
+                {questions[currentQuestion].questionText}
+              </LandingQuizText>
+            </LandingQuizQuestion>
 
-          {/* 선택지 */}
-          <LandingQuizChoices>
-            {questions[currentQuestion].answerOptions.map(
-              (answerOption, idx) => (
-                <LandingQuizChoiceButton
-                  key={idx}
-                  onClick={() =>
-                    handleAnswerOptionClick(answerOption.isCorrect)
-                  }
-                >
-                  {answerOption.answerText}
-                </LandingQuizChoiceButton>
-              )
-            )}
-          </LandingQuizChoices>
-        </>
-      )}
-    </LandingQuizBox>
+            {/* 선택지 */}
+            <LandingQuizChoices>
+              {questions[currentQuestion].answerOptions.map(
+                (answerOption, idx) => (
+                  <LandingQuizChoiceButton
+                    key={idx}
+                    onClick={() =>
+                      handleAnswerOptionClick(answerOption.isCorrect)
+                    }
+                  >
+                    {answerOption.answerText}
+                  </LandingQuizChoiceButton>
+                )
+              )}
+            </LandingQuizChoices>
+          </>
+        )}
+      </LandingQuizBox>
+    </SectionWrap>
   );
 }
 

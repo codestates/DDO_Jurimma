@@ -71,10 +71,11 @@ export const setLogout = () => {
   };
 };
 
-export const setQuizState = (quizDate) => {
+export const setQuizState = (quizDate, experience) => {
   return {
     type: SET_QUIZ_STATE,
     quizDate,
+    experience,
   };
 };
 
