@@ -1,4 +1,4 @@
-const { user } = require('../../models');
+const { user, content, thumbsup } = require('../../models');
 const {
   isAuthorized,
   generateAccessToken,
@@ -62,6 +62,18 @@ module.exports = {
   },
 
   delete: async (req, res) => {
-    res.send('this is delete/user');
+    const userData = refreshAuthorized(req);
+    // user 테이블의 해당 유저의 id로 저장된 레코드 삭제
+    await user.destroy({ where: { id: userData.id }, force: true });
+    // content 테이블의 해당 유저의 id로 저장된 레코드 삭제
+    await content.destroy({ where: { userId: userData.id }, force: true });
+    // user_contents 테이블의 해당 유저의 id로 저장된 레코드 삭제
+    await thumbsup.destroy({
+      where: { user_Id: userData.id },
+      force: true,
+    });
+    res.status(200).json({ message: 'ok' });
+    // word 테이블은 wordName과 count만 있음.
+    // content의 wordId에 해당하는 레코드를 지우면, 다른 유저가 쓴 같은 뜻도 사라지게 되므로 word 테이블은 건들지 않음.
   },
 };

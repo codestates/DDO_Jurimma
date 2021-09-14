@@ -10,7 +10,7 @@ module.exports = {
   post: async (req, res) => {
     // db에 req.body로 들어온 유저 정보가 없다면 invalid user
     const { email, password } = req.body;
-    const userInfo = await user.findOne({ where: { email } });
+    const userInfo = await user.findOne({ where: { email: email } });
     if (!userInfo) {
       res.status(400).json({ message: 'Invalid User' });
     } else {
@@ -27,6 +27,9 @@ module.exports = {
       // 그 외의 경우는 로그인 성공, accessToken과 userInfo를 return
       else {
         delete userInfo.dataValues.password;
+        delete userInfo.dataValues.emailAuth;
+        delete userInfo.dataValues.createdAt;
+        delete userInfo.dataValues.updatedAt;
         console.log('유저 정보 : ', userInfo.dataValues);
         const accessToken = generateAccessToken(userInfo.dataValues);
         const refreshToken = generateRefreshToken(userInfo.dataValues);
