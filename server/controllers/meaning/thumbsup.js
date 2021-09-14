@@ -1,4 +1,4 @@
-const { content, user_contents } = require('../../models');
+const { content, thumbsup } = require('../../models');
 const {
   generateAccessToken,
   isAuthorized,
@@ -14,11 +14,7 @@ module.exports = {
       // accessToken이 만료되지 않았을 경우,
       // => 바로 요청에 대한 응답 제공
       const { contentId } = req.body;
-      const findContent = await content.findOne({
-        where: { id: contentId },
-      });
-      await findContent.increment('thumbsup');
-      await user_contents.create({
+      await thumbsup.create({
         user_Id: accessTokenCheck.id,
         content_Id: contentId,
       });
@@ -32,11 +28,7 @@ module.exports = {
         const accessToken = generateAccessToken(refreshTokenCheck);
 
         const { contentId } = req.body;
-        const findContent = await content.findOne({
-          where: { id: contentId },
-        });
-        await findContent.increment('thumbsup');
-        await user_contents.create({
+        await thumbsup.create({
           user_Id: refreshTokenCheck.id,
           content_Id: contentId,
         });
