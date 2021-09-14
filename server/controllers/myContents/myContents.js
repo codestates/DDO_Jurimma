@@ -31,7 +31,7 @@ module.exports = {
           userPic: tmpUserInfo.userPic,
           experience: tmpUserInfo.experience,
           quizDate: tmpUserInfo.quizDate,
-          isLogin: tmpUserInfo.isLogin,
+          emailAuth: tmpUserInfo.emailAuth,
         };
         // console.log(userInfo);
         // 작성한 글이 없는 경우
@@ -71,7 +71,7 @@ module.exports = {
         userPic: tmpUserInfo.userPic,
         experience: tmpUserInfo.experience,
         quizDate: tmpUserInfo.quizDate,
-        isLogin: tmpUserInfo.isLogin,
+        emailAuth: tmpUserInfo.emailAuth,
       };
       // console.log(userInfo);
       // 작성한 글이 없는 경우

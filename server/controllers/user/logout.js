@@ -1,4 +1,3 @@
-const { user } = require('../../models');
 const {
   sendRefreshToken,
   refreshAuthorized,
