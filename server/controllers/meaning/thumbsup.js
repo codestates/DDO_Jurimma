@@ -9,11 +9,11 @@ module.exports = {
   patch: async (req, res) => {
     const accessTokenCheck = isAuthorized(req);
     const refreshTokenCheck = refreshAuthorized(req);
+    const { contentId } = req.body;
 
     if (accessTokenCheck) {
       // accessToken이 만료되지 않았을 경우,
       // => 바로 요청에 대한 응답 제공
-      const { contentId } = req.body;
       await thumbsups.create({
         userId: accessTokenCheck.id,
         contentId: contentId,
@@ -26,8 +26,6 @@ module.exports = {
       if (refreshTokenCheck) {
         delete refreshTokenCheck.exp;
         const accessToken = generateAccessToken(refreshTokenCheck);
-
-        const { contentId } = req.body;
         await thumbsups.create({
           userId: refreshTokenCheck.id,
           contentId: contentId,
