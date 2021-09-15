@@ -15,8 +15,9 @@ function SearchMore() {
   const dispatch = useDispatch();
   const openNewContentModal = (isOpen) => {
     dispatch(setNewContentModal(isOpen));
-  };
-
+  }; // 새로 글쓰는 모달 키는 함수(=== true값으로 만들어줌)
+  // 만약 다른곳에서 새로운 글쓰기 모달이 꺼져서 isShowNewContentModal 값이 false가 되었다면 useEffect를 통해 검색값 다시 요청해서 결과 업데이트 되도록 하기
+  // 좋아요 누르면 useEffect를 통해 검색값 다시 요청해서 결과 업데이트 되도록 하기
   return (
     <SearchMoreWrap>
       this is searchMore page

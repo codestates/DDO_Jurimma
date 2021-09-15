@@ -23,7 +23,7 @@ function NewContent() {
   const dispatch = useDispatch();
   const closeNewContentModal = (isOpen) => {
     dispatch(setNewContentModal(isOpen));
-  }; // 로그인 모달 닫는 함수
+  }; // 새로 글쓰는 모달 닫는 함수
 
   return (
     <NewContentBackdrop>

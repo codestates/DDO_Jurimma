@@ -19,8 +19,9 @@ function MypageEdit() {
       {state.isLogin ? (
         <MypageEditWrap>
           {/*this is mypageEdit*/}
-          <EditUserPic />
-          <EditUserInfo />
+          <EditUserInfo />{' '}
+          {/* EditUserInfo에서 버튼이 눌리면 state 업데이트 +
+          axios 요청*/}
         </MypageEditWrap>
       ) : (
         <Redirect to='/'></Redirect>
