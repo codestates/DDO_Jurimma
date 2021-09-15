@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import mainLogo from '../images/main_logo.svg';
 import whiteLogo from '../images/main_logoWhite.svg';
 import '../App.css';
+import swal from 'sweetalert';
 
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -143,13 +144,21 @@ function Nav() {
   const [navBarScroll, setNavBarScroll] = useState(false); // nav bar 스크롤 했을 때
 
   const openQuizModal = (isOpen) => {
-    if (nowDate !== state.userInfo.quizDate && state.isLogin) {
+    if (state.isLogin === false) {
+      swal({
+        title: '로그인이 필요합니다.',
+        text: '로그인 후에 오늘의 퀴즈를 풀어보세요!',
+        icon: 'warning',
+      });
+    } else if (nowDate === state.userInfo.quizDate) {
+      swal({
+        title: '이미 퀴즈를 진행하였습니다.',
+        text: '내일 다시 도전해주세요!',
+        icon: 'warning',
+      });
+    } else {
       // 로그인 되어있고 최근 퀴즈를 푼 날짜가 오늘 날짜와 다를때만 실행
       dispatch(setQuizModal(isOpen));
-    } else if (state.isLogin === false) {
-      alert('로그인이 필요합니다.');
-    } else {
-      alert('이미 퀴즈를 진행하였습니다.');
     }
   }; // 퀴즈 모달 여는 함수
 

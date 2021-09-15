@@ -16,6 +16,28 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          username: '동영배',
+          email: 'TY@gmail.com',
+          password: 'TY12345123!',
+          userPic: '',
+          experience: 30,
+          quizDate: '',
+          emailAuth: true,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          username: '구교환',
+          email: 'exchange@gmail.com',
+          password: 'exchange8282',
+          userPic: '',
+          experience: 10,
+          quizDate: '',
+          emailAuth: true,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );

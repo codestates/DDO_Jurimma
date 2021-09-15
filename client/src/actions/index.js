@@ -9,7 +9,8 @@ export const SET_MODAL_LOGOUT = 'SET_MODAL_LOGOUT'; // 로그아웃 모달 상�
 export const SET_MODAL_CHART = 'SET_MODAL_CHART'; // 차트 모달 상태
 export const SET_MODAL_NEWCONTENT = 'SET_MODAL_NEWCONTENT'; // 글 생성 모달 상태
 export const SET_MODAL_EDITCONTENT = 'SET_MODAL_EDITCONTENT'; // 글 수정 모달 상태
-export const SET_QUIZ_STATE = 'SET_QUIZ_STATE'; // 가장 최근에 퀴즈에 접속한 날짜 상태
+export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN'; // accessToken 업데이트 및 localStorage 업뎃
+export const SET_USER_INFO = 'SET_USER_INFO'; // 유저 정보 요청
 
 export const SET_USER_CONTENT = 'SET_USER_CONTENT'; // 유저가 쓴 글 받아오기
 export const DELETE_CONTENT = 'DELETE_CONTENT'; // 유저가 쓴 글 삭제
@@ -57,28 +58,35 @@ export const setLogoutModal = (isOpen) => {
   };
 };
 
-export const setLogin = (userData, isLogin) => {
+export const setLogin = (isLogin) => {
   return {
     type: SET_LOGIN_STATE,
-    userData,
     isLogin,
   };
 };
 
 export const setLogout = () => {
+  localStorage.clear();
   return {
     type: SET_LOGOUT_STATE,
   };
 };
 
-export const setQuizState = (quizDate, experience) => {
+export const setAccessToken = (accessToken) => {
+  localStorage.setItem('accessToken', accessToken);
   return {
-    type: SET_QUIZ_STATE,
-    quizDate,
-    experience,
+    type: SET_ACCESS_TOKEN,
+    accessToken,
   };
 };
 
+export const setUserInfo = (userInfo) => {
+  localStorage.setItem('userInfo', JSON.stringify(userInfo));
+  return {
+    type: SET_USER_INFO,
+    userInfo,
+  };
+};
 export const getContent = (userContent) => {
   return {
     type: SET_USER_CONTENT,
