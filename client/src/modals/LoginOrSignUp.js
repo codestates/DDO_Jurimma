@@ -260,6 +260,7 @@ function LoginOrSignUp() {
           password: loginInfo.loginPassword,
         }); // axios 요청 전송
         console.log(result.data);
+
         dispatch(setLogin(true)); // axios응답으로 redux 업데이트
         dispatch(setAccessToken(result.data.accessToken)); // axios 응답으로 accessToken 업데이트
         dispatch(setUserInfo(result.data.userInfo)); // axios응답으로 userInfo 업데이트
@@ -268,26 +269,27 @@ function LoginOrSignUp() {
         console.log(state.userInfo); // 유저 정보 콘솔에 찍어보기
         swal({
           title: '로그인이 완료되었습니다!',
-          text: '만반잘부(만나서 반갑고 잘 부탁해)!',
+          text: '만반잘부 😆 (만나서 반갑고 잘 부탁해)!',
           icon: 'success',
         }); // sweet alert로 안내
         closeLoginOrSignupModal(false); // 모달 끄기
       }
     } catch (error) {
-      console.log(error);
-      if (error.message === 'Invalid User') {
+      console.log(error.response.data.message);
+
+      if (error.response.data.message === 'Invalid User') {
         // 제대로 입력하지 않은 경우
         swal({
           title: '로그인에 실패하였습니다',
           text: '이메일과 비밀번호를 다시 한번 확인해주세요!',
-          icon: 'fail',
+          icon: 'warning',
         }); // swal로 안내
-      } else if (error.message === 'Not Authorized Email') {
+      } else if (error.response.data.message === 'Not Authorized Email') {
         // 이메일 인증이 완료되지 않은 경우
         swal({
           title: '로그인에 실패하였습니다',
           text: '이메일 인증이 완료되지 않았습니다. 다시 한번 확인해주세요!',
-          icon: 'fail',
+          icon: 'warning',
         }); // swal로 안내
       }
     }

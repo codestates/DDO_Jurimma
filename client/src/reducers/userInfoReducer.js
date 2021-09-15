@@ -84,17 +84,6 @@ const userInfoReducer = (state = defaultUserInfo, action) => {
       localStorage.clear();
       return Object.assign({}, { ...defaultUserInfo });
 
-    case SET_QUIZ_STATE:
-      console.log('state.userInfo.experience: ', state.userInfo.experience);
-      console.log('action.experience: ', action.experience);
-      return Object.assign({}, state, {
-        userInfo: {
-          ...state.userInfo,
-          quizDate: action.quizDate,
-          experience: action.NewExp,
-        },
-      }); // 퀴즈에 따른 퀴즈 값 변경
-
     case SET_ACCESS_TOKEN:
       return {
         ...state,
@@ -102,6 +91,7 @@ const userInfoReducer = (state = defaultUserInfo, action) => {
       };
 
     case SET_USER_INFO:
+      console.log(action.userInfo);
       return {
         ...state,
         userInfo: action.userInfo,
