@@ -34,7 +34,7 @@ function Mypage() {
           <UserContents />
         </MypageWrap>
       ) : (
-        <Redirect to='/'></Redirect> // 로그인상태 X라면 랜딩페이지로 되돌아감
+        <Redirect to='/main' /> // 로그인상태 X라면 메인페이지로 되돌아감
       )}
     </>
   );

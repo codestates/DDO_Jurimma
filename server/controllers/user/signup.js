@@ -102,7 +102,11 @@ module.exports = {
       console.log('emailAuth : ', isAuth.emailAuth);
       await isAuth.save();
       // ! 유저 테이블의 emailAuth를 true로 바꾸고 랜딩페이지로 리디렉트한다.
-      res.redirect(URL);
+      // res.redirect(URL).json({ emailAuth: isAuth.emailAuth });
+      res.send(
+        `<script>
+        alert('회원가입이 완료되었습니다.');location.href='${URL}';</script>`
+      );
     } else {
       // ! 유저가 2분이 지나고 이메일 인증을 누른 경우
       res.send(

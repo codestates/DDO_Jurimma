@@ -1,8 +1,10 @@
 // main 페이지 (검색 및 검색결과 보기 페이지)
 import styled from 'styled-components';
-
 import Search from '../components/Search';
 import Chart from '../components/Chart';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setLogin } from '../actions/index';
 
 const MainWrap = styled.div`
   width: 1400px;

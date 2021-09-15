@@ -143,13 +143,13 @@ function Nav() {
   const [navBarScroll, setNavBarScroll] = useState(false); // nav bar 스크롤 했을 때
 
   const openQuizModal = (isOpen) => {
-    if (nowDate !== state.userInfo.quizDate && state.isLogin) {
+    if (state.isLogin === false) {
+      alert('로그인이 필요합니다.');
+    } else if (nowDate === state.userInfo.quizDate) {
+      alert('이미 퀴즈를 진행하였습니다.');
+    } else {
       // 로그인 되어있고 최근 퀴즈를 푼 날짜가 오늘 날짜와 다를때만 실행
       dispatch(setQuizModal(isOpen));
-    } else if (state.isLogin === false) {
-      alert('로그인이 필요합니다.');
-    } else {
-      alert('이미 퀴즈를 진행하였습니다.');
     }
   }; // 퀴즈 모달 여는 함수
 

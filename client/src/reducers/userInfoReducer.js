@@ -12,6 +12,8 @@ import {
   SET_MODAL_EDITCONTENT,
   SET_MODAL_LOGOUT,
   SET_QUIZ_STATE,
+  SET_ACCESS_TOKEN,
+  SET_USER_INFO,
 } from '../actions/index';
 
 const defaultUserInfo = {
@@ -24,6 +26,7 @@ const defaultUserInfo = {
     quizDate: null, // 퀴즈 모달에 접속한 날짜
   }, // 기본 유저 정보
   isLogin: false, //로그인 상태
+  accessToken: null,
   isShowLoginOrSignupModal: false, // 로그인or회원가입 모달 상태
   isShowQuizModal: false, // 퀴즈 모달 상태
   isShowSignoutModal: false, // 회원탈퇴 모달 상태
@@ -74,23 +77,35 @@ const userInfoReducer = (state = defaultUserInfo, action) => {
     case SET_LOGIN_STATE: // 로그인 reducer
       return {
         ...state,
-        userInfo: action.userData,
         isLogin: action.isLogin,
       };
 
     case SET_LOGOUT_STATE: // 로그아웃 reducer
-      return {
-        ...defaultUserInfo,
-      };
+      localStorage.clear();
+      return Object.assign({}, { ...defaultUserInfo });
 
     case SET_QUIZ_STATE:
+      console.log('state.userInfo.experience: ', state.userInfo.experience);
+      console.log('action.experience: ', action.experience);
       return Object.assign({}, state, {
         userInfo: {
           ...state.userInfo,
           quizDate: action.quizDate,
-          experience: state.userInfo.experience + action.experience,
+          experience: action.NewExp,
         },
       }); // 퀴즈에 따른 퀴즈 값 변경
+
+    case SET_ACCESS_TOKEN:
+      return {
+        ...state,
+        accessToken: action.accessToken,
+      };
+
+    case SET_USER_INFO:
+      return {
+        ...state,
+        userInfo: action.userInfo,
+      };
 
     default:
       // 기본 reducer

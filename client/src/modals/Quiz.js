@@ -1,9 +1,18 @@
 // 오늘의 퀴즈 부분
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { setQuizModal, setQuizState } from '../actions/index';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setQuizModal,
+  setQuizState,
+  setAccessToken,
+  setLogout,
+  setUserInfo,
+} from '../actions/index';
 import { useState } from 'react';
+import axios from 'axios';
 import you_quiz from '../images/you_quiz.svg';
+import swal from 'sweetalert';
+axios.defaults.withCredentials = true;
 
 const QuizBackdrop = styled.div`
   position: fixed;
@@ -332,13 +341,51 @@ function Quiz() {
   ]; // 문제 모음
 
   const dispatch = useDispatch();
+  const state = useSelector((state) => state.userInfoReducer);
   const [quizCurrentQuestion, setQuizCurrentQuestion] = useState(0); // 현재 문제 index
   const [showQuizScore, setShowQuizScore] = useState(false); // 점수 화면 보임 여부
   const [quizScore, setQuizScore] = useState(-1); // 점수 카운트
 
-  const updateLastQuizAndExp = () => {
-    dispatch(setQuizState(nowDate, quizScore * 5)); // state값은 업데이트 됨
-    let result; // axios로 서버에 업데이트 된 값 전달해야 함
+  const updateLastQuizAndExp = async () => {
+    try {
+      dispatch(
+        setQuizState(nowDate, quizScore * 5 + state.userInfo.experience)
+      ); // state값은 업데이트 됨
+      console.log('state값: ', state);
+      console.log('state.userInfo.experience: ', state.userInfo.experience);
+      const patchResult = await axios.patch(
+        `${url}/user/quiz-exp`,
+        {
+          quizDate: nowDate,
+          experience: state.userInfo.experience,
+        },
+        {
+          headers: { authorization: `Bearer ${state.accessToken}` },
+        }
+      ); // axios로 서버에 업데이트 된 값 전달해야 함
+      // 다시 유저 정보 조회
+      if (patchResult.data.accessToken) {
+        // localstorage에 담긴 accessToken 업데이트
+        // reducer에서 accessToken값 업데이트
+        dispatch(setAccessToken(patchResult.data.accessToken));
+      }
+      const getResult = await axios.get(`${url}/user`, {
+        headers: { authorization: `Bearer ${state.accessToken}` },
+      }); //새로 유저 정보 요청하는 axios 요청
+      dispatch(setUserInfo(getResult.data.userInfo)); // axios 리턴으로 유저 정보 업데이트
+    } catch (err) {
+      // login상태 false로 변경
+      // localStorage에 담긴 내용 다 지우기
+      // reducer에서 관리하는 userInfo
+      dispatch(setLogout());
+      // swal로 다시 로그인 해달라고 하기
+      swal({
+        title: '로그인이 필요합니다.',
+        text: '로그인이 만료되었습니다.',
+        icon: 'fail',
+      });
+      console.log(err);
+    }
   }; // 접속한 날짜, 경험치 업데이트하는 함수
   const closeQuizModal = (isOpen) => {
     dispatch(setQuizModal(isOpen)); // 퀴즈 모달 닫기

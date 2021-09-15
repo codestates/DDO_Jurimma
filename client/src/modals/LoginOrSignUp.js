@@ -2,7 +2,12 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLoginOrSignupModal, setLogin } from '../actions/index';
+import {
+  setLoginOrSignupModal,
+  setLogin,
+  setAccessToken,
+  setUserInfo,
+} from '../actions/index';
 import checkModule from '../checkModule';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -254,7 +259,12 @@ function LoginOrSignUp() {
           email: loginInfo.loginEmail,
           password: loginInfo.loginPassword,
         }); // axios 요청 전송
-        dispatch(setLogin(result.userInfo, true)); // axios응답으로 redux 업데이트
+        console.log(result.data);
+        dispatch(setLogin(true)); // axios응답으로 redux 업데이트
+        dispatch(setAccessToken(result.data.accessToken)); // axios 응답으로 accessToken 업데이트
+        dispatch(setUserInfo(result.data.userInfo)); // axios응답으로 userInfo 업데이트
+        localStorage.setItem('userInfo', JSON.stringify(result.data.userInfo)); // localStorage에 유저 정보 저장
+        localStorage.setItem('accessToken', result.data.accessToken);
         console.log(state.userInfo); // 유저 정보 콘솔에 찍어보기
         swal({
           title: '로그인이 완료되었습니다!',
@@ -317,7 +327,7 @@ function LoginOrSignUp() {
         }); // axios 회원 가입 요청 전송
         setIsLoading(false); // loading indicator 끄기
         swal({
-          title: '가입이 완료 되었습니다!',
+          title: '이메일 인증을 해주세요!',
           text: '2분 이내에 이메일 인증을 하지 않을시 회원가입이 취소됩니다.',
           icon: 'success',
         }); // sweet alert로 안내
