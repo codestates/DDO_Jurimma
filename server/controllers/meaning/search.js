@@ -20,7 +20,7 @@ module.exports = {
       });
       //! 검색 결과가 아무것도 존재하지 않는 경우
       if (!coWordName) {
-        res.status(404).json({ message: 'Not Found!' });
+        res.status(200).json({ data: [] });
       }
       //! 검색 결과가 존재하는 경우
       else {
@@ -38,7 +38,7 @@ module.exports = {
           });
           const thumbsupResult = thumbsupContent.map((el) => el.dataValues);
           thumbsupData.push(thumbsupResult);
-          console.log('thumbsupResult : ', thumbsupResult);
+          // console.log('thumbsupResult : ', thumbsupResult);
         }
 
         // console.log('contentsId : ', contentsId);
@@ -64,7 +64,7 @@ module.exports = {
 
     //! 더보기 페이지 검색 결과
     else {
-      console.log(wordName, offset, limit);
+      // console.log(wordName, offset, limit);
       // console.log(offset + limit);
       const accessTokenCheck = isAuthorized(req);
       const refreshTokenCheck = refreshAuthorized(req);
@@ -76,7 +76,7 @@ module.exports = {
         });
         //! 검색 결과가 아무것도 존재하지 않는 경우
         if (!coWordName) {
-          res.status(404).json({ message: 'Not Found!' });
+          res.status(200).json({ data: [] });
         }
         //! 검색 결과가 존재하는 경우
         else {
@@ -125,7 +125,7 @@ module.exports = {
           });
           //! 검색 결과가 아무것도 존재하지 않는 경우
           if (!coWordName) {
-            res.status(404).json({ message: 'Not Found!' });
+            res.status(201).json({ data: [] });
           }
           //! 검색 결과가 존재하는 경우
           else {
