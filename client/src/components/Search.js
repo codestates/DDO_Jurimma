@@ -12,7 +12,6 @@ const SearchWrap = styled.div`
   flex-direction: column;
   @media only screen and (max-width: 1399px) {
     width: 100%;
-    background-color: green;
   }
 `;
 

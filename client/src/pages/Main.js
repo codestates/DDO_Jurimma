@@ -14,7 +14,6 @@ const MainWrap = styled.div`
   flex-wrap: wrap;
   @media only screen and (max-width: 1399px) {
     width: 80vw;
-    background-color: pink;
   }
 `; // 현재 3:1비율로 한꺼번에 보이는데, 크기가 작아질 경우 상단에 검색창 + 하단에 검색어 차트가 보이게 수정 필요
 
