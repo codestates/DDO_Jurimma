@@ -6,17 +6,15 @@ import { useDispatch } from 'react-redux';
 import { setChartModal } from '../actions/index';
 
 const ChartWrap = styled.div`
-  width: 500px; // 콘텐츠 전체 길이 생각해서 후에 수정해주기
+  width: 400px; // 콘텐츠 전체 길이 생각해서 후에 수정해주기
   height: 100vh;
   border: 1px solid red;
   box-sizing: border-box;
-  background-color: yellow;
   display: flex;
   flex-direction: column;
-  @media screen and (max-width: 1680px) {
-    background-color: #ddd;
-    width: 80%;
-    margin: 0 auto;
+  @media only screen and (max-width: 1399px) {
+    width: 100%;
+    background-color: blue;
   }
 `;
 
