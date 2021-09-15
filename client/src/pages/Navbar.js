@@ -162,7 +162,7 @@ function Nav() {
   }; // 로그아웃 모달 여는 함수
 
   const scrollNavChange = () => {
-    if (window.scrollY >= 200) {
+    if (window.scrollY >= 100) {
       setNavBarScroll(true);
     } else {
       setNavBarScroll(false);

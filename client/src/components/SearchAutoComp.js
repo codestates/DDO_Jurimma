@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 
 const SearchAutoCompWrap = styled.div`
-  flex: 1 1 auto; // 콘텐츠 전체 길이 생각해서 후에 수정해주기
+  height: 350px;
   border: 1px solid red;
   box-sizing: border-box;
 `;
