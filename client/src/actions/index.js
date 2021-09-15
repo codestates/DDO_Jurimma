@@ -73,14 +73,6 @@ export const setLogout = () => {
   };
 };
 
-export const setQuizState = (quizDate, NewExp) => {
-  return {
-    type: SET_QUIZ_STATE,
-    quizDate,
-    NewExp,
-  };
-};
-
 export const setAccessToken = (accessToken) => {
   localStorage.setItem('accessToken', accessToken);
   return {
@@ -90,7 +82,7 @@ export const setAccessToken = (accessToken) => {
 };
 
 export const setUserInfo = (userInfo) => {
-  localStorage.setItem('userInfo', userInfo);
+  localStorage.setItem('userInfo', JSON.stringify(userInfo));
   return {
     type: SET_USER_INFO,
     userInfo,

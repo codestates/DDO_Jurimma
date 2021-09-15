@@ -19,6 +19,7 @@ function Mypage() {
 
   // 만약 내가 쓴 글 수정하는 isShowEditContentModal상태가 꺼진 상태라면 state 업데이트 + axios로 글 수정 요청
   // 만약 글을 삭제하면 state 업데이트 + axios로 글 없애기 요청
+  console.log(state);
 
   return (
     <>

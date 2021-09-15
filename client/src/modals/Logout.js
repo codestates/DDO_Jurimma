@@ -41,7 +41,7 @@ function Logout() {
         dispatch(setLogout()); // reducer 로그아웃으로 상태 업데이트
         swal({
           title: '로그아웃 되었습니다',
-          text: '다또봐(다음에 또 봐~)',
+          text: '다또봐 👋 (다음에 또 봐~)',
           icon: 'success',
         });
         console.log(state);

@@ -30,13 +30,18 @@ function App() {
   // 회원탈퇴 할때도 localStorage.clear() 해줘야함
 
   useEffect(() => {
+    // console.log(JSON.parse(localStorage.userInfo).id);
     if (localStorage.userInfo) {
-      dispatch(setLogin(true));
-      dispatch(setUserInfo(JSON.stringify(state.userInfo)));
-      dispatch(setAccessToken(state.accessToken));
+      if (JSON.parse(localStorage.userInfo).id !== -1) {
+        dispatch(setLogin(true));
+        const localUserInfo = localStorage.userInfo;
+        dispatch(setUserInfo(JSON.parse(localUserInfo)));
+        dispatch(setAccessToken(localStorage.accessToken));
+        console.log(JSON.parse(localUserInfo));
+      }
     } else {
       dispatch(setLogin(false));
-      dispatch(setUserInfo(JSON.stringify(state.userInfo)));
+      dispatch(setUserInfo(state.userInfo));
       dispatch(setAccessToken(state.accessToken));
     }
   }, []);

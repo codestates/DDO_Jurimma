@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setQuizModal,
-  setQuizState,
   setAccessToken,
   setLogout,
   setUserInfo,
@@ -348,16 +347,11 @@ function Quiz() {
 
   const updateLastQuizAndExp = async () => {
     try {
-      dispatch(
-        setQuizState(nowDate, quizScore * 5 + state.userInfo.experience)
-      ); // state값은 업데이트 됨
-      console.log('state값: ', state);
-      console.log('state.userInfo.experience: ', state.userInfo.experience);
       const patchResult = await axios.patch(
         `${url}/user/quiz-exp`,
         {
           quizDate: nowDate,
-          experience: state.userInfo.experience,
+          experience: quizScore * 5 + state.userInfo.experience,
         },
         {
           headers: { authorization: `Bearer ${state.accessToken}` },
@@ -372,7 +366,7 @@ function Quiz() {
       const getResult = await axios.get(`${url}/user`, {
         headers: { authorization: `Bearer ${state.accessToken}` },
       }); //새로 유저 정보 요청하는 axios 요청
-      dispatch(setUserInfo(getResult.data.userInfo)); // axios 리턴으로 유저 정보 업데이트
+      dispatch(setUserInfo(getResult.data.data)); // axios 리턴으로 유저 정보 업데이트
     } catch (err) {
       // login상태 false로 변경
       // localStorage에 담긴 내용 다 지우기
@@ -382,7 +376,7 @@ function Quiz() {
       swal({
         title: '로그인이 필요합니다.',
         text: '로그인이 만료되었습니다.',
-        icon: 'fail',
+        icon: 'warning',
       });
       console.log(err);
     }
