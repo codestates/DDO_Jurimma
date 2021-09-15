@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 const SearchAutoCompWrap = styled.div`
   height: 350px;
-  border: 1px solid red;
   box-sizing: border-box;
 `;
 

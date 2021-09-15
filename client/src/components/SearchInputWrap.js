@@ -4,6 +4,7 @@ import SearchAutoComp from './SearchAutoComp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Throttle } from 'react-throttle';
 
 const HeaderKeyFrame = keyframes`
     0% {
@@ -19,7 +20,6 @@ const HeaderKeyFrame = keyframes`
 
 const SearchInputBox = styled.div`
   width: 100%;
-  border: 1px solid red;
   box-sizing: border-box;
   @media only screen and (max-width: 1399px) {
     width: 100%;
@@ -31,14 +31,14 @@ const InputBox = styled.div`
   width: 100%;
   height: 70px;
   flex: 1 1 auto;
-  background: linear-gradient(-45deg, red, #b4aee8);
+  background: linear-gradient(-45deg, blue, #b4aee8);
   animation: ${HeaderKeyFrame} 5s ease infinite;
   background-size: 200% 100%;
   border-radius: 50px;
   display: flex;
   align-items: center;
   > #searchBox {
-    width: 882px;
+    width: 890px;
     height: 60px;
     border-radius: 50px;
     border: none;
@@ -50,12 +50,13 @@ const InputBox = styled.div`
     background-color: #fff;
     line-height: 60px;
     @media only screen and (max-width: 1399px) {
-      width: 97%;
-      height: 85%;
+      width: 98.5%;
+      height: 87%;
     }
     > input {
-      flex: 3 1 auto;
+      flex: 4 1 auto;
       height: 30px;
+      padding-left: 10px;
       outline: none;
       @media only screen and (max-width: 1399px) {
         width: 70%;
@@ -74,25 +75,31 @@ const InputBox = styled.div`
         background-color: transparent;
         cursor: pointer;
         @media only screen and (max-width: 1399px) {
-          font-size: 15px;
+          font-size: 18px;
         }
       }
     }
   }
 `;
 
-function SearchInputWrap() {
+function SearchInputWrap({ addEnterTags, addClickTags, changeWord }) {
   return (
     <SearchInputBox>
       <InputBox>
         <div id='searchBox'>
-          <input></input>
+          <Throttle time='200' handler='onChange'>
+            <input
+              id='reqInput'
+              onChange={changeWord}
+              onKeyUp={(event) => addEnterTags(event)}
+            ></input>
+          </Throttle>
           <div id='buttonWrap'>
             <button>&times;</button>
             <button>
               <FontAwesomeIcon icon={faMicrophone} />
             </button>
-            <button>
+            <button onClick={addClickTags}>
               <FontAwesomeIcon icon={faSearch} />
             </button>
           </div>

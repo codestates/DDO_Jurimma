@@ -80,7 +80,7 @@ body::-webkit-scrollbar {
 }
 .mainContent {
   min-height: 467px;
-  border: 1px solid red;
+  border: 1px solid transparent;
   box-sizing: border-box;
 }
 
