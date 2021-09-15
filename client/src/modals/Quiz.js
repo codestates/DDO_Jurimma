@@ -378,7 +378,7 @@ function Quiz() {
         text: '로그인이 만료되었습니다.',
         icon: 'warning',
       });
-      console.log(err);
+      // console.log(err);
     }
   }; // 접속한 날짜, 경험치 업데이트하는 함수
   const closeQuizModal = (isOpen) => {

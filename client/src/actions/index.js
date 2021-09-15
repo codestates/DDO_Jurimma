@@ -9,7 +9,6 @@ export const SET_MODAL_LOGOUT = 'SET_MODAL_LOGOUT'; // 로그아웃 모달 상�
 export const SET_MODAL_CHART = 'SET_MODAL_CHART'; // 차트 모달 상태
 export const SET_MODAL_NEWCONTENT = 'SET_MODAL_NEWCONTENT'; // 글 생성 모달 상태
 export const SET_MODAL_EDITCONTENT = 'SET_MODAL_EDITCONTENT'; // 글 수정 모달 상태
-export const SET_QUIZ_STATE = 'SET_QUIZ_STATE'; // 가장 최근에 퀴즈에 접속한 날짜 상태
 export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN'; // accessToken 업데이트 및 localStorage 업뎃
 export const SET_USER_INFO = 'SET_USER_INFO'; // 유저 정보 요청
 
