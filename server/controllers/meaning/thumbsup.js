@@ -1,4 +1,4 @@
-const { content, user_contents } = require('../../models');
+const { content, thumbsups } = require('../../models');
 const {
   generateAccessToken,
   isAuthorized,
@@ -9,18 +9,14 @@ module.exports = {
   patch: async (req, res) => {
     const accessTokenCheck = isAuthorized(req);
     const refreshTokenCheck = refreshAuthorized(req);
+    const { contentId } = req.body;
 
     if (accessTokenCheck) {
       // accessToken이 만료되지 않았을 경우,
       // => 바로 요청에 대한 응답 제공
-      const { contentId } = req.body;
-      const findContent = await content.findOne({
-        where: { id: contentId },
-      });
-      await findContent.increment('thumbsup');
-      await user_contents.create({
-        user_Id: accessTokenCheck.id,
-        content_Id: contentId,
+      await thumbsups.create({
+        userId: accessTokenCheck.id,
+        contentId: contentId,
       });
       res.status(200).json({ message: 'ok' });
     } else {
@@ -30,15 +26,9 @@ module.exports = {
       if (refreshTokenCheck) {
         delete refreshTokenCheck.exp;
         const accessToken = generateAccessToken(refreshTokenCheck);
-
-        const { contentId } = req.body;
-        const findContent = await content.findOne({
-          where: { id: contentId },
-        });
-        await findContent.increment('thumbsup');
-        await user_contents.create({
-          user_Id: refreshTokenCheck.id,
-          content_Id: contentId,
+        await thumbsups.create({
+          userId: refreshTokenCheck.id,
+          contentId: contentId,
         });
         res.status(201).json({
           accessToken: accessToken,

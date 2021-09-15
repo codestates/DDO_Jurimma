@@ -3,7 +3,7 @@ const { user } = require('../../models');
 module.exports = {
   get: async (req, res) => {
     const { email } = req.query;
-
+    // console.log(email);
     const emailCheck = await user.findOne({ where: { email: email } });
     // console.log('emailcheck : ', emailCheck);
     // db에 저장된 user email 정보가 겹치는지 확인해야한다

@@ -1,15 +1,23 @@
 // 로그인 / 회원가입 모달
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { setLoginOrSignupModal } from '../actions/index';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setLoginOrSignupModal,
+  setLogin,
+  setAccessToken,
+  setUserInfo,
+} from '../actions/index';
 import checkModule from '../checkModule';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 import swal from 'sweetalert';
+import axios from 'axios';
+import '../loadingCss.css';
 library.add(fab, faComment);
+axios.defaults.withCredentials = true;
 
 const LoginOrSignupBackdrop = styled.div`
   /* width: 100vw;
@@ -171,6 +179,11 @@ const TabContent = styled.div`
       background-color: #fff;
       color: #440a67;
     }
+    > #loadingIndicator {
+      width: 50%;
+      height: 50px;
+      margin: 0 auto;
+    }
   }
 `;
 
@@ -189,9 +202,12 @@ const ErrorMsg = styled.div`
 
 function LoginOrSignUp() {
   const dispatch = useDispatch();
+  const state = useSelector((state) => state.userInfoReducer);
+  const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const closeLoginOrSignupModal = (isOpen) => {
     dispatch(setLoginOrSignupModal(isOpen));
   }; // 로그인 모달 닫는 함수
+  const [isLoading, setIsLoading] = useState(false); // 회원가입 진행 상태
   const [loginInfo, setLoginInfo] = useState({
     loginEmail: '',
     loginPassword: '',
@@ -238,18 +254,41 @@ function LoginOrSignUp() {
       ) {
         setErrorMsg('유효하지 않은 비밀번호 입니다.');
       } else {
-        setErrorMsg('');
-        // axios 요청 전송
+        setErrorMsg(''); // 에러메세지 리셋
+        let result = await axios.post(`${url}/user/login`, {
+          email: loginInfo.loginEmail,
+          password: loginInfo.loginPassword,
+        }); // axios 요청 전송
+        // console.log(result.data);
+
+        dispatch(setLogin(true)); // axios응답으로 redux 업데이트
+        dispatch(setAccessToken(result.data.accessToken)); // axios 응답으로 accessToken 업데이트
+        dispatch(setUserInfo(result.data.userInfo)); // axios응답으로 userInfo 업데이트
+        // console.log(state.userInfo); // 유저 정보 콘솔에 찍어보기
         swal({
           title: '로그인이 완료되었습니다!',
-          text: '만반잘부(만나서 반갑고 잘 부탁해)!',
+          text: '만반잘부 😆 (만나서 반갑고 잘 부탁해)!',
           icon: 'success',
-        });
+        }); // sweet alert로 안내
         closeLoginOrSignupModal(false); // 모달 끄기
       }
     } catch (error) {
-      console.log(error);
-      setErrorMsg('로그인 정보가 없습니다.');
+      // console.log(error.response.data.message);
+      if (error.response.data.message === 'Invalid User') {
+        // 제대로 입력하지 않은 경우
+        swal({
+          title: '로그인에 실패하였습니다',
+          text: '이메일과 비밀번호를 다시 한번 확인해주세요!',
+          icon: 'warning',
+        }); // swal로 안내
+      } else if (error.response.data.message === 'Not Authorized Email') {
+        // 이메일 인증이 완료되지 않은 경우
+        swal({
+          title: '로그인에 실패하였습니다',
+          text: '이메일 인증이 완료되지 않았습니다. 다시 한번 확인해주세요!',
+          icon: 'warning',
+        }); // swal로 안내
+      }
     }
   };
 
@@ -275,23 +314,38 @@ function LoginOrSignUp() {
       } else if (checkModule.OnlyKorEng(signupInfo.signupUsername) === false) {
         setErrorMsg('유효하지 않은 이름입니다.');
       } else {
-        // axios 요청 전송
-        setErrorMsg('');
+        setErrorMsg(''); // 에러메세지 리셋
+        setIsLoading(true); // loading indicator 보여주기
+        await axios.get(
+          `${url}/user/email-check?email=${signupInfo.signupEmail}`
+        ); // axios 이메일 중복 확인 요청 전송 -> 시간이 좀 걸림..
+        await axios.post(`${url}/user/signup`, {
+          username: signupInfo.signupUsername,
+          email: signupInfo.signupEmail,
+          password: signupInfo.signupPassword,
+        }); // axios 회원 가입 요청 전송
+        setIsLoading(false); // loading indicator 끄기
         swal({
-          title: '가입이 완료 되었습니다!',
+          title: '이메일 인증을 해주세요!',
           text: '2분 이내에 이메일 인증을 하지 않을시 회원가입이 취소됩니다.',
           icon: 'success',
-        });
+        }); // sweet alert로 안내
         closeLoginOrSignupModal(false); // 모달 끄기
       }
     } catch (error) {
       console.log(error);
+      swal({
+        title: '가입에 실패했습니다.',
+        text: '이미 가입된 사용자입니다. 이메일 정보를 다시 한번 확인해주세요!',
+        icon: 'error',
+      }); // sweet alert로 안내
       setErrorMsg('이미 가입된 사용자입니다.');
     }
   };
 
   const [currentTab, setCurrentTab] = useState(0);
   const selectMenuHandler = (index) => {
+    setErrorMsg(''); // 탭 옮기면 에러메세지 다 사라지도록
     setCurrentTab(index);
   };
   return (
@@ -395,7 +449,13 @@ function LoginOrSignUp() {
                 </form>
 
                 <ErrorMsg>{errorMsg}</ErrorMsg>
-                <button onClick={handleSignup}>가입하기</button>
+                {isLoading ? (
+                  <div id='loadingIndicator'>
+                    <div className='lds-dual-ring'></div>
+                  </div>
+                ) : (
+                  <button onClick={handleSignup}>가입하기</button>
+                )}
               </div>
             )}
           </TabContent>

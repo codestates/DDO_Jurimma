@@ -49,6 +49,10 @@ function Search() {
       setTags([...tags, word]);
     }
   };
+  // 검색 결과값을 빈 useState으로 갖고있음
+  // Input에 입력하고 엔터키 / 버튼 클릭하게 되면 axios 요청이 가게 되고 검색결과값 state가 업데이트 됨 + localStorage에서 보관하는 searchHistory에도 추가사키기
+  // 만약에 SearchResult에 결과가 아무것도 없다면 SearchResult에 글쓰기 모달 뜨는 버튼 만들기
+  // -> /main에서 글쓰기를 마치면(=state.isShowNewContentModal이 바뀐다면) 다시 검색 요청이 가게....?
 
   return (
     <SearchWrap>
