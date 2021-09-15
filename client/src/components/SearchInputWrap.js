@@ -23,7 +23,6 @@ const SearchInputBox = styled.div`
   box-sizing: border-box;
   @media only screen and (max-width: 1399px) {
     width: 100%;
-    background-color: green;
   }
 `;
 
@@ -31,7 +30,7 @@ const InputBox = styled.div`
   width: 100%;
   height: 70px;
   flex: 1 1 auto;
-  background: linear-gradient(-45deg, blue, #b4aee8);
+  background: linear-gradient(-45deg, red, #b4aee8);
   animation: ${HeaderKeyFrame} 5s ease infinite;
   background-size: 200% 100%;
   border-radius: 50px;
