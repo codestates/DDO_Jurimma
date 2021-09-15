@@ -1,4 +1,4 @@
-const { user, content, word, user_contents } = require('../../models');
+const { user, content, word, thumbsups } = require('../../models');
 const {
   isAuthorized,
   generateAccessToken,
@@ -7,84 +7,114 @@ const { refreshAuthorized } = require('../tokenFunction/refreshToken');
 
 module.exports = {
   get: async (req, res) => {
-    const accIsValid = isAuthorized(req);
-    if (!accIsValid) {
+    const accessTokenCheck = isAuthorized(req);
+    const refreshTokenCheck = refreshAuthorized(req);
+    if (!accessTokenCheck) {
       // accessToken 만료 / refreshToken 만료
-      if (!refreshAuthorized(req)) {
+      if (!refreshTokenCheck) {
         res.status(401).json({ message: 'Send new Login Request' });
       }
       // accessToken 만료 / refreshToken 유효
       else {
-        const userData = refreshAuthorized(req);
-        delete userData.exp;
-        const accessToken = generateAccessToken(userData);
+        delete refreshTokenCheck.exp;
+        const accessToken = generateAccessToken(refreshTokenCheck);
         const myData = await content.findAll({
-          where: { userId: userData.id },
+          attributes: ['id', 'wordMean', 'userId', 'wordId'],
+          where: { userId: refreshTokenCheck.id },
         });
-        const tmpUserInfo = await user.findOne({
-          where: { id: userData.id },
-        });
-        const userInfo = {
-          userId: tmpUserInfo.id,
-          email: tmpUserInfo.email,
-          username: tmpUserInfo.username,
-          userPic: tmpUserInfo.userPic,
-          experience: tmpUserInfo.experience,
-          quizDate: tmpUserInfo.quizDate,
-          emailAuth: tmpUserInfo.emailAuth,
-        };
-        // console.log(userInfo);
-        // 작성한 글이 없는 경우
-        if (myData.length === 0) {
-          res.status(201).json({
-            accessToken: accessToken,
-            data: myData,
-            userInfo: userInfo,
-          });
-        } else {
-          for (let el of myData) {
-            const wordName = await word.findOne({
-              where: { id: el.wordId },
+        //! 내가 쓴 글이 아무것도 존재하지 않는 경우
+        if (!myData) {
+          res.status(201).json({ accessToken, data: [] });
+        }
+        //! 내가 쓴 글이 존재하는 경우
+        else {
+          const contentsId = myData.map((el) => el.dataValues);
+          const thumbsupData = [];
+          const wordNameRes = [];
+          for (let i = 0; i < contentsId.length; i++) {
+            let thumbsupContent = await thumbsups.findAll({
+              attributes: ['userId', 'contentId'],
+              where: { contentId: contentsId[i].id },
             });
-            el.dataValues.wordName = wordName.dataValues.wordName;
+            const thumbsupResult = thumbsupContent.map((el) => el.dataValues);
+            thumbsupData.push(thumbsupResult);
+            const coWordName = await word.findOne({
+              attributes: ['wordName'],
+              where: { id: contentsId[i].wordId },
+            });
+            wordNameRes.push(coWordName);
+            console.log('coWordName : ', coWordName);
+            console.log('thumbsupResult : ', thumbsupResult);
           }
-          res.status(201).json({
-            accessToken: accessToken,
-            data: myData,
-            userInfo: userInfo,
+
+          console.log('contentsId : ', contentsId);
+          console.log('thumbsupData : ', thumbsupData);
+          console.log('wordNameRes : ', wordNameRes);
+
+          const returnData = contentsId.map((el) => {
+            el.wordName = '';
+            return el;
           });
+          for (let i = 0; i < returnData.length; i++) {
+            returnData[i].wordName = wordNameRes[i];
+          }
+          for (let i = 0; i < returnData.length; i++) {
+            returnData[i].thumbsup = thumbsupData[i];
+          }
+          console.log('returnData : ', returnData);
+          console.log(returnData[3].thumbsup);
+          res.status(201).json({ accessToken, data: returnData });
         }
       }
-    } else {
-      // accessToken 유효 / refreshToken 유효
+    }
+    // ! accessToken 존재 (200)
+    else {
       const myData = await content.findAll({
-        where: { userId: accIsValid.id },
+        attributes: ['id', 'wordMean', 'userId', 'wordId'],
+        where: { userId: accessTokenCheck.id },
       });
-      // console.log(myData);
-      const tmpUserInfo = await user.findOne({
-        where: { id: accIsValid.id },
-      });
-      const userInfo = {
-        userId: tmpUserInfo.id,
-        email: tmpUserInfo.email,
-        username: tmpUserInfo.username,
-        userPic: tmpUserInfo.userPic,
-        experience: tmpUserInfo.experience,
-        quizDate: tmpUserInfo.quizDate,
-        emailAuth: tmpUserInfo.emailAuth,
-      };
-      // console.log(userInfo);
-      // 작성한 글이 없는 경우
-      if (myData.length === 0) {
-        res.status(200).json({ data: myData, userInfo: userInfo });
-      } else {
-        for (let el of myData) {
-          const wordName = await word.findOne({
-            where: { id: el.wordId },
+      //! 내가 쓴 글이 아무것도 존재하지 않는 경우
+      if (!myData) {
+        res.status(200).json({ data: [] });
+      }
+      //! 내가 쓴 글이 존재하는 경우
+      else {
+        const contentsId = myData.map((el) => el.dataValues);
+        const thumbsupData = [];
+        const wordNameRes = [];
+        for (let i = 0; i < contentsId.length; i++) {
+          let thumbsupContent = await thumbsups.findAll({
+            attributes: ['userId', 'contentId'],
+            where: { contentId: contentsId[i].id },
           });
-          el.dataValues.wordName = wordName.dataValues.wordName;
+          const thumbsupResult = thumbsupContent.map((el) => el.dataValues);
+          thumbsupData.push(thumbsupResult);
+          const coWordName = await word.findOne({
+            attributes: ['wordName'],
+            where: { id: contentsId[i].wordId },
+          });
+          wordNameRes.push(coWordName.dataValues.wordName);
+          // console.log('coWordName : ', coWordName);
+          // console.log('thumbsupResult : ', thumbsupResult);
         }
-        res.status(200).json({ data: myData, userInfo: userInfo });
+
+        // console.log('contentsId : ', contentsId);
+        // console.log('thumbsupData : ', thumbsupData);
+        console.log('wordNameRes : ', wordNameRes);
+
+        const returnData = contentsId.map((el) => {
+          el.wordName = '';
+          return el;
+        });
+        for (let i = 0; i < returnData.length; i++) {
+          returnData[i].wordName = wordNameRes[i];
+        }
+        for (let i = 0; i < returnData.length; i++) {
+          returnData[i].thumbsup = thumbsupData[i];
+        }
+        console.log('returnData : ', returnData);
+        // console.log(returnData[3].thumbsup);
+        res.status(200).json({ data: returnData });
       }
     }
   },
@@ -92,11 +122,12 @@ module.exports = {
   post: async (req, res) => {
     const accessTokenCheck = isAuthorized(req);
     const refreshTokenCheck = refreshAuthorized(req);
+    const { experience, wordName, wordMean } = req.body;
 
     if (accessTokenCheck) {
       // accessToken이 만료되지 않았을 경우,
       // => 바로 요청에 대한 응답 제공
-      const { experience, userId, wordName, wordMean } = req.body;
+      const userId = accessTokenCheck.id;
       const [newOrFind, created] = await word.findOrCreate({
         where: { wordName: wordName },
         defaults: { count: 0 },
@@ -104,7 +135,6 @@ module.exports = {
       await content.create({
         wordId: newOrFind.id,
         wordMean: wordMean,
-        thumbsup: 0,
         userId: userId,
       });
       const userInfo = await user.findOne({
@@ -120,8 +150,7 @@ module.exports = {
       if (refreshTokenCheck) {
         delete refreshTokenCheck.exp;
         const accessToken = generateAccessToken(refreshTokenCheck);
-
-        const { experience, userId, wordName, wordMean } = req.body;
+        const userId = refreshTokenCheck.id;
         const [newOrFind, created] = await word.findOrCreate({
           where: { wordName: wordName },
           defaults: { count: 0 },
@@ -129,7 +158,6 @@ module.exports = {
         await content.create({
           wordId: newOrFind.id,
           wordMean: wordMean,
-          thumbsup: 0,
           userId: userId,
         });
         const userInfo = await user.findOne({
@@ -137,6 +165,43 @@ module.exports = {
         });
         userInfo.experience = experience;
         await userInfo.save();
+        res.status(201).json({
+          accessToken: accessToken,
+          message: 'ok',
+        });
+      } else {
+        res.status(401).json({ message: 'Send new Login Request' });
+      }
+    }
+  },
+
+  patch: async (req, res) => {
+    const accessTokenCheck = isAuthorized(req);
+    const refreshTokenCheck = refreshAuthorized(req);
+    const contentId = Number(req.query['content-id']);
+    const { wordMean } = req.body;
+    if (accessTokenCheck) {
+      // accessToken이 만료되지 않았을 경우,
+      // => 바로 요청에 대한 응답 제공
+      const oldContent = await content.findOne({
+        where: { id: contentId },
+      });
+      console.log('oldContent : ', oldContent);
+      oldContent.wordMean = wordMean;
+      await oldContent.save();
+      res.status(200).json({ message: 'ok' });
+    } else {
+      // accessToken이 만료되어서 refreshToken을 판별하고,
+      // refreshToken은 만료되지 않았을 경우,
+      // => 요청에 대한 응답과 함께 새로 만든 accessToken 발급
+      if (refreshTokenCheck) {
+        delete refreshTokenCheck.exp;
+        const accessToken = generateAccessToken(refreshTokenCheck);
+        const oldContent = await content.findOne({
+          where: { id: contentId },
+        });
+        oldContent.wordMean = wordMean;
+        await oldContent.save();
         res.status(201).json({
           accessToken: accessToken,
           message: 'ok',
@@ -150,82 +215,13 @@ module.exports = {
     }
   },
 
-  patch: async (req, res) => {
-    const accessTokenCheck = isAuthorized(req);
-    const refreshTokenCheck = refreshAuthorized(req);
-
-    if (accessTokenCheck) {
-      // accessToken이 만료되지 않았을 경우,
-      // => 바로 요청에 대한 응답 제공
-      const { contentId, wordMean } = req.body;
-      const oldContent = await content.findOne({
-        where: { id: contentId },
-      });
-      // console.log('oldContent : ', oldContent);
-      oldContent.wordMean = wordMean;
-      await oldContent.save();
-      const allMyContents = await content.findAll({
-        where: { userId: accessTokenCheck.id },
-      });
-      // console.log('allMyContents 1 : ', allMyContents);
-      for (let el of allMyContents) {
-        // console.log('el.wordId : ', el.wordId);
-        const matchingWord = await word.findOne({
-          where: { id: el.wordId },
-        });
-        // console.log('matchingWord : ', matchingWord.dataValues.wordName);
-        el.dataValues.wordName = matchingWord.dataValues.wordName;
-      }
-      // console.log('allMyContents 2 : ', allMyContents);
-      res.status(200).json({ data: allMyContents });
-    } else {
-      // accessToken이 만료되어서 refreshToken을 판별하고,
-      // refreshToken은 만료되지 않았을 경우,
-      // => 요청에 대한 응답과 함께 새로 만든 accessToken 발급
-      if (refreshTokenCheck) {
-        delete refreshTokenCheck.exp;
-        const accessToken = generateAccessToken(refreshTokenCheck);
-
-        const { contentId, wordMean } = req.body;
-        const oldContent = await content.findOne({
-          where: { id: contentId },
-        });
-        oldContent.wordMean = wordMean;
-        await oldContent.save();
-        const allMyContents = await content.findAll({
-          where: { userId: refreshTokenCheck.id },
-        });
-        // console.log('allMyContents 1 : ', allMyContents);
-        for (let el of allMyContents) {
-          // console.log('el.wordId : ', el.wordId);
-          const matchingWord = await word.findOne({
-            where: { id: el.wordId },
-          });
-          // console.log('matchingWord : ', matchingWord.dataValues.wordName);
-          el.dataValues.wordName = matchingWord.dataValues.wordName;
-        }
-        // console.log('allMyContents 2 : ', allMyContents);
-        res.status(201).json({
-          accessToken: accessToken,
-          data: allMyContents,
-        });
-      } else {
-        // accessToken이 만료되어서 refreshToken을 판별하고,
-        // refreshToken도 만료되었을 경우,
-        // 클라이언트에게 다시 로그인을 하라는 메시지 응답을 보낸다.
-        res.status(401).json({ message: 'Send new Login Request' });
-      }
-    }
-  },
-
   delete: async (req, res) => {
     const accessTokenCheck = isAuthorized(req);
     const refreshTokenCheck = refreshAuthorized(req);
-
+    const contentId = Number(req.query['content-id']);
     if (accessTokenCheck) {
       // accessToken이 만료되지 않았을 경우,
       // => 바로 요청에 대한 응답 제공
-      const { contentId } = req.body;
       const deletedContent = await content.findOne({
         where: { id: contentId },
       });
@@ -233,35 +229,21 @@ module.exports = {
         where: { id: contentId },
         force: true,
       });
-      await user_contents.destroy({
-        where: { content_Id: contentId },
+      await thumbsups.destroy({
+        where: { contentId: contentId },
         force: true,
       });
-      // console.log('deletedContent : ', deletedContent.wordId);
       const findSameWordId = await content.findAll({
         where: { wordId: deletedContent.wordId },
       });
-      // console.log('findSameWordId : ', findSameWordId);
       if (findSameWordId.length === 0) {
         await word.destroy({
           where: { id: deletedContent.wordId },
           force: true,
         });
       }
-      const allMyContents = await content.findAll({
-        where: { userId: accessTokenCheck.id },
-      });
-      // console.log('allMyContents 1 : ', allMyContents);
-      for (let el of allMyContents) {
-        // console.log('el.wordId : ', el.wordId);
-        const matchingWord = await word.findOne({
-          where: { id: el.wordId },
-        });
-        // console.log('matchingWord : ', matchingWord.dataValues.wordName);
-        el.dataValues.wordName = matchingWord.dataValues.wordName;
-      }
-      // console.log('allMyContents 2 : ', allMyContents);
-      res.status(200).json({ data: allMyContents });
+
+      res.status(200).json({ message: 'ok' });
     } else {
       // accessToken이 만료되어서 refreshToken을 판별하고,
       // refreshToken은 만료되지 않았을 경우,
@@ -269,8 +251,6 @@ module.exports = {
       if (refreshTokenCheck) {
         delete refreshTokenCheck.exp;
         const accessToken = generateAccessToken(refreshTokenCheck);
-
-        const { contentId } = req.body;
         const deletedContent = await content.findOne({
           where: { id: contentId },
         });
@@ -278,37 +258,22 @@ module.exports = {
           where: { id: contentId },
           force: true,
         });
-        await user_contents.destroy({
-          where: { content_Id: contentId },
+        await thumbsups.destroy({
+          where: { contentId: contentId },
           force: true,
         });
-        // console.log('deletedContent : ', deletedContent.wordId);
         const findSameWordId = await content.findAll({
           where: { wordId: deletedContent.wordId },
         });
-        // console.log('findSameWordId : ', findSameWordId);
         if (findSameWordId.length === 0) {
           await word.destroy({
             where: { id: deletedContent.wordId },
             force: true,
           });
         }
-        const allMyContents = await content.findAll({
-          where: { userId: refreshTokenCheck.id },
-        });
-        // console.log('allMyContents 1 : ', allMyContents);
-        for (let el of allMyContents) {
-          // console.log('el.wordId : ', el.wordId);
-          const matchingWord = await word.findOne({
-            where: { id: el.wordId },
-          });
-          // console.log('matchingWord : ', matchingWord.dataValues.wordName);
-          el.dataValues.wordName = matchingWord.dataValues.wordName;
-        }
-        // console.log('allMyContents 2 : ', allMyContents);
         res.status(201).json({
           accessToken: accessToken,
-          data: allMyContents,
+          message: 'ok',
         });
       } else {
         // accessToken이 만료되어서 refreshToken을 판별하고,
