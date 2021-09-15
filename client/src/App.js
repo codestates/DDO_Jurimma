@@ -37,7 +37,10 @@ function App() {
         const localUserInfo = localStorage.userInfo;
         dispatch(setUserInfo(JSON.parse(localUserInfo)));
         dispatch(setAccessToken(localStorage.accessToken));
-        console.log(JSON.parse(localUserInfo));
+        console.log(
+          '로그인 상태일 때 가장 먼저 찍히는 유저 정보 : ',
+          JSON.parse(localUserInfo)
+        );
       }
     } else {
       dispatch(setLogin(false));

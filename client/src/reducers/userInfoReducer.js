@@ -11,7 +11,6 @@ import {
   SET_MODAL_NEWCONTENT,
   SET_MODAL_EDITCONTENT,
   SET_MODAL_LOGOUT,
-  SET_QUIZ_STATE,
   SET_ACCESS_TOKEN,
   SET_USER_INFO,
 } from '../actions/index';
@@ -91,7 +90,7 @@ const userInfoReducer = (state = defaultUserInfo, action) => {
       };
 
     case SET_USER_INFO:
-      console.log(action.userInfo);
+      // console.log(action.userInfo);
       return {
         ...state,
         userInfo: action.userInfo,
