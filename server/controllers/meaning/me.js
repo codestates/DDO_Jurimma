@@ -19,7 +19,6 @@ module.exports = {
         delete refreshTokenCheck.exp;
         const accessToken = generateAccessToken(refreshTokenCheck);
         const myData = await content.findAll({
-          attributes: ['id', 'wordMean', 'userId', 'wordId'],
           where: { userId: refreshTokenCheck.id },
         });
         //! 내가 쓴 글이 아무것도 존재하지 않는 경우
@@ -43,13 +42,13 @@ module.exports = {
               where: { id: contentsId[i].wordId },
             });
             wordNameRes.push(coWordName);
-            console.log('coWordName : ', coWordName);
-            console.log('thumbsupResult : ', thumbsupResult);
+            // console.log('coWordName : ', coWordName);
+            // console.log('thumbsupResult : ', thumbsupResult);
           }
 
-          console.log('contentsId : ', contentsId);
-          console.log('thumbsupData : ', thumbsupData);
-          console.log('wordNameRes : ', wordNameRes);
+          // console.log('contentsId : ', contentsId);
+          // console.log('thumbsupData : ', thumbsupData);
+          // console.log('wordNameRes : ', wordNameRes);
 
           const returnData = contentsId.map((el) => {
             el.wordName = '';
@@ -61,8 +60,9 @@ module.exports = {
           for (let i = 0; i < returnData.length; i++) {
             returnData[i].thumbsup = thumbsupData[i];
           }
-          console.log('returnData : ', returnData);
-          console.log(returnData[3].thumbsup);
+          // console.log('returnData : ', returnData);
+          // console.log(returnData[3].thumbsup);
+          returnData.sort((a, b) => b.updatedAt - a.updatedAt);
           res.status(201).json({ accessToken, data: returnData });
         }
       }
@@ -70,7 +70,6 @@ module.exports = {
     // ! accessToken 존재 (200)
     else {
       const myData = await content.findAll({
-        attributes: ['id', 'wordMean', 'userId', 'wordId'],
         where: { userId: accessTokenCheck.id },
       });
       //! 내가 쓴 글이 아무것도 존재하지 않는 경우
@@ -100,7 +99,7 @@ module.exports = {
 
         // console.log('contentsId : ', contentsId);
         // console.log('thumbsupData : ', thumbsupData);
-        console.log('wordNameRes : ', wordNameRes);
+        // console.log('wordNameRes : ', wordNameRes);
 
         const returnData = contentsId.map((el) => {
           el.wordName = '';
@@ -112,8 +111,9 @@ module.exports = {
         for (let i = 0; i < returnData.length; i++) {
           returnData[i].thumbsup = thumbsupData[i];
         }
-        console.log('returnData : ', returnData);
+        // console.log('returnData : ', returnData);
         // console.log(returnData[3].thumbsup);
+        returnData.sort((a, b) => b.updatedAt - a.updatedAt);
         res.status(200).json({ data: returnData });
       }
     }
@@ -186,7 +186,7 @@ module.exports = {
       const oldContent = await content.findOne({
         where: { id: contentId },
       });
-      console.log('oldContent : ', oldContent);
+      // console.log('oldContent : ', oldContent);
       oldContent.wordMean = wordMean;
       await oldContent.save();
       res.status(200).json({ message: 'ok' });

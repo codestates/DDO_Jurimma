@@ -41,8 +41,8 @@ module.exports = {
           console.log('thumbsupResult : ', thumbsupResult);
         }
 
-        console.log('contentsId : ', contentsId);
-        console.log('thumbsupData : ', thumbsupData);
+        // console.log('contentsId : ', contentsId);
+        // console.log('thumbsupData : ', thumbsupData);
 
         const returnData = contentsId.map((el) => {
           el.wordName = wordName;
@@ -51,21 +51,21 @@ module.exports = {
         for (let i = 0; i < returnData.length; i++) {
           returnData[i].thumbsup = thumbsupData[i];
         }
-        console.log('returnData : ', returnData);
-        console.log(returnData[3].thumbsup);
+        // console.log('returnData : ', returnData);
+        // console.log(returnData[3].thumbsups);
         const sortedResult = returnData
           .sort((a, b) => b.thumbsup.length - a.thumbsup.length)
           .slice(0, 3);
-        console.log('sortedResult : ', sortedResult);
-        console.log('sortedResultThumbsup : ', sortedResult[0].thumbsup);
+        // console.log('sortedResult : ', sortedResult);
+        // console.log('sortedResultThumbsup : ', sortedResult[0].thumbsup);
         res.status(200).json({ data: sortedResult });
       }
     }
 
-    //! 메인 페이지의 검색 Top 3
+    //! 더보기 페이지 검색 결과
     else {
       console.log(wordName, offset, limit);
-      console.log(offset + limit);
+      // console.log(offset + limit);
       const accessTokenCheck = isAuthorized(req);
       const refreshTokenCheck = refreshAuthorized(req);
       // ! accessToken이 만료되지 않았을 경우,
@@ -94,11 +94,11 @@ module.exports = {
             });
             const thumbsupResult = thumbsupContent.map((el) => el.dataValues);
             thumbsupData.push(thumbsupResult);
-            console.log('thumbsupResult : ', thumbsupResult);
+            // console.log('thumbsupResult : ', thumbsupResult);
           }
 
-          console.log('contentsId : ', contentsId);
-          console.log('thumbsupData : ', thumbsupData);
+          // console.log('contentsId : ', contentsId);
+          // console.log('thumbsupData : ', thumbsupData);
 
           const returnData = contentsId.map((el) => {
             el.wordName = wordName;
@@ -107,12 +107,12 @@ module.exports = {
           for (let i = 0; i < returnData.length; i++) {
             returnData[i].thumbsup = thumbsupData[i];
           }
-          console.log('returnData : ', returnData);
-          console.log(returnData[3].thumbsup);
+          // console.log('returnData : ', returnData);
+          // console.log(returnData[3].thumbsup);
           const sortedResult = returnData
             .sort((a, b) => b.thumbsup.length - a.thumbsup.length)
             .slice(offset, offset + limit);
-          console.log('sortedResult : ', sortedResult);
+          // console.log('sortedResult : ', sortedResult);
           res.status(200).json({ data: sortedResult });
         }
       } else {
@@ -143,11 +143,11 @@ module.exports = {
               });
               const thumbsupResult = thumbsupContent.map((el) => el.dataValues);
               thumbsupData.push(thumbsupResult);
-              console.log('thumbsupResult : ', thumbsupResult);
+              // console.log('thumbsupResult : ', thumbsupResult);
             }
 
-            console.log('contentsId : ', contentsId);
-            console.log('thumbsupData : ', thumbsupData);
+            // console.log('contentsId : ', contentsId);
+            // console.log('thumbsupData : ', thumbsupData);
 
             const returnData = contentsId.map((el) => {
               el.wordName = wordName;
@@ -156,12 +156,12 @@ module.exports = {
             for (let i = 0; i < returnData.length; i++) {
               returnData[i].thumbsup = thumbsupData[i];
             }
-            console.log('returnData : ', returnData);
-            console.log(returnData[3].thumbsup);
+            // console.log('returnData : ', returnData);
+            // console.log(returnData[3].thumbsup);
             const sortedResult = returnData
               .sort((a, b) => b.thumbsup.length - a.thumbsup.length)
               .slice(offset, offset + limit);
-            console.log('sortedResult : ', sortedResult);
+            // console.log('sortedResult : ', sortedResult);
             res.status(201).json({ accessToken, data: sortedResult });
           }
         }
