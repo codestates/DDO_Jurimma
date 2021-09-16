@@ -10,7 +10,7 @@ const SearchResultWrap = styled.div`
   box-sizing: border-box;
 `;
 
-function SearchResult() {
+function SearchResult({ wordResult }) {
   const dispatch = useDispatch();
   const openNewContentModal = (isOpen) => {
     dispatch(setNewContentModal(isOpen));
@@ -18,7 +18,15 @@ function SearchResult() {
 
   return (
     <SearchResultWrap>
-      this is SearchResult{' '}
+      <ul>
+        {wordResult.map((res) => {
+          return (
+            <li key={res.id}>
+              {res.wordName}, {res.wordMean}, {res.thumbsup.length}
+            </li>
+          );
+        })}
+      </ul>
       {/*search의 검색결과가 0일때만 아래 새글쓰기 버튼이 보이도록 지정해줘야 함*/}
       <button onClick={() => openNewContentModal(true)}>새글쓰기</button>
       <button>
