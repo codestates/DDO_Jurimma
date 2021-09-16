@@ -1,10 +1,10 @@
-// 사용자가 새로운 글을 쓰는 모달
+// 회원 탈퇴 모달
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { setNewContentModal } from '../actions/index';
-import mainLogo from '../images/main_logo.svg';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSignOutModal } from '../actions/index';
 
-const NewContentBackdrop = styled.div`
+const SignoutBackdrop = styled.div`
   position: fixed;
   top: 0;
   right: 0;
@@ -16,7 +16,7 @@ const NewContentBackdrop = styled.div`
   z-index: 20;
 `;
 
-const NewContentModal = styled.div`
+const SignoutModal = styled.div`
   width: max(40vw, 350px);
   height: 600px;
   background-color: #fff;
@@ -43,36 +43,20 @@ const NewContentModal = styled.div`
   > .closeBtn:hover {
     transform: rotate(-90deg);
   }
-  > #inputWrap {
-    height: 40px;
-    width: 60%;
+  > #wordName {
+    height: 50px;
+    width: 40%;
+    text-align: center;
     margin: 0 auto;
     margin-top: 20px;
-    display: inline-block;
-    ::after {
-      display: block;
-      content: '';
-      border-bottom: solid 3px #440a67;
-      transform: scaleX(0);
-      transition: transform 250ms ease-in-out;
-    }
-    :hover:after {
-      transform: scaleX(1);
-    }
-    > input {
-      height: 40px;
-      width: 90%;
-      display: block;
-      margin: 0 auto;
-      text-align: center;
-      outline: none;
-      font-size: max(1vw, 13px);
-      :focus::-webkit-input-placeholder {
-        color: transparent;
-      }
-    }
+    line-height: 50px;
+    font-size: max(1vw, 14px);
+    cursor: default;
+    background-color: #440a67;
+    color: #fff;
+    border-radius: 10px;
+    font-family: 'NEXON Lv2 Gothic Bold';
   }
-
   > textarea {
     width: 90%;
     height: 300px;
@@ -119,29 +103,25 @@ const Logo = styled.div`
   margin-top: 20px;
 `;
 
-function NewContent() {
+function Signout() {
   const dispatch = useDispatch();
-  const closeNewContentModal = (isOpen) => {
-    dispatch(setNewContentModal(isOpen));
-  }; // 새로 글쓰는 모달 닫는 함수
+  const closeEditContentModal = (isOpen) => {
+    dispatch(setSignOutModal(isOpen));
+  }; // 로그인 모달 닫는 함수
 
   return (
-    <NewContentBackdrop>
-      <NewContentModal>
-        <div className='closeBtn' onClick={() => closeNewContentModal(false)}>
+    <SignoutBackdrop>
+      <SignoutModal>
+        <div className='closeBtn' onClick={() => closeEditContentModal(false)}>
           &times;
         </div>
-        <Logo>
-          <img src={mainLogo} />
-        </Logo>
-        <div id='inputWrap'>
-          <input type='text' placeholder='작성할 단어를 입력해주세요'></input>
-        </div>
-        <textarea placeholder='작성할 단어의 뜻을 입력해주세요'></textarea>
+        <Logo></Logo>
+        <div id='wordName'>자만추</div>
+        <textarea placeholder='수정할 단어의 뜻을 입력해주세요'></textarea>
         <button>저장하기</button>
-      </NewContentModal>
-    </NewContentBackdrop>
+      </SignoutModal>
+    </SignoutBackdrop>
   );
 }
 
-export default NewContent;
+export default Signout;

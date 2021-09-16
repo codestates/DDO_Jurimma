@@ -1,27 +1,36 @@
 // Search에서 자동완성 창
 import styled from 'styled-components';
 
-const SearchAutoCompWrap = styled.div`
-  height: 350px;
-`;
+const SearchAutoCompWrap = styled.div``;
 
 const AutoComp = styled.div`
   margin-top: 20px;
-  height: 350px;
   box-sizing: border-box;
-  border-radius: 40px;
+  border-radius: 30px;
   background-color: #fff;
-  border: 5px solid #b4aee8;
-  /* display: none; */
+  opacity: 0.8;
+  > li {
+    height: 60px;
+    line-height: 60px;
+    padding-left: 30px;
+    cursor: pointer;
+    :hover {
+      border-radius: 30px;
+      background-color: #440a67;
+      color: #fff;
+    }
+  }
 `;
 
 function SearchAutoComp({ autoCompResult }) {
   return (
     <SearchAutoCompWrap>
       <AutoComp>
-        {autoCompResult.map((res, idx) => {
-          return <li key={idx}>{res}</li>;
-        })}
+        {autoCompResult.length === 0 ? (
+          <li>존재하지 않는 단어입니다.</li>
+        ) : (
+          autoCompResult.map((data, index) => <li key={index}>{data}</li>)
+        )}
       </AutoComp>
     </SearchAutoCompWrap>
   );

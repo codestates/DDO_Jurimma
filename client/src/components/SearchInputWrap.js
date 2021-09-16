@@ -84,8 +84,8 @@ const InputBox = styled.div`
 function SearchInputWrap({
   addEnterTags,
   addClickTags,
-  word,
   changeWord,
+  word,
   autoCompResult,
 }) {
   return (

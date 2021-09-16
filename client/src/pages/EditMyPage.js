@@ -6,10 +6,16 @@ import EditUserPic from '../components/EditUserPic';
 import { useSelector } from 'react-redux';
 
 const MypageEditWrap = styled.div`
-  height: 70vh; // 콘텐츠 전체 길이 생각해서 후에 max 설정해주기
-  border: 1px solid red;
-  box-sizing: border-box;
+  width: 1400px;
+  margin: 0 auto;
   display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  margin-top: 150px;
+  @media only screen and (max-width: 1399px) {
+    width: 80vw;
+  }
 `;
 
 function MypageEdit() {
@@ -19,6 +25,7 @@ function MypageEdit() {
       {state.isLogin ? (
         <MypageEditWrap>
           {/*this is mypageEdit*/}
+          <EditUserPic />
           <EditUserInfo />{' '}
           {/* EditUserInfo에서 버튼이 눌리면 state 업데이트 +
           axios 요청*/}

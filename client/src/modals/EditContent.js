@@ -2,6 +2,8 @@
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { setEditContentModal } from '../actions/index';
+import mainLogo from '../images/main_logo.svg';
+import '../App.css';
 
 const EditContentBackdrop = styled.div`
   position: fixed;
@@ -43,29 +45,54 @@ const EditContentModal = styled.div`
   }
   > #wordName {
     height: 50px;
-    background-color: orange;
-    width: 90%;
+    width: 40%;
     text-align: center;
     margin: 0 auto;
     margin-top: 20px;
     line-height: 50px;
+    font-size: max(1vw, 14px);
+    cursor: default;
+    background-color: #440a67;
+    color: #fff;
+    border-radius: 10px;
+    font-family: 'NEXON Lv2 Gothic Bold';
   }
   > textarea {
     width: 90%;
     height: 300px;
     margin: 0 auto;
     text-align: top;
-    background-color: pink;
     outline: none;
     margin-top: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid #440a67;
+    font-size: max(0.85vw, 12px);
+    border-radius: 20px;
+    :focus::-webkit-input-placeholder {
+      color: transparent;
+    }
+    :focus {
+      border: 2px solid #440a67;
+    }
   }
   > button {
     width: 50%;
     height: 50px;
     width: 200px;
     margin: 0 auto;
-    margin-top: 20px;
     cursor: pointer;
+    border-radius: 50px;
+    background-color: transparent;
+    background-color: #440a67;
+    color: #fff;
+    transition: 0.3s;
+    font-size: max(0.85vw, 12px);
+    margin-top: 20px;
+  }
+  > button:hover {
+    background-color: #230638;
+    color: #fff;
   }
 `;
 
@@ -73,7 +100,6 @@ const Logo = styled.div`
   width: 100px;
   height: 100px;
   margin: 0 auto;
-  background-color: red;
   margin-top: 20px;
 `;
 
@@ -89,7 +115,9 @@ function EditContent() {
         <div className='closeBtn' onClick={() => closeEditContentModal(false)}>
           &times;
         </div>
-        <Logo>로고로고</Logo>
+        <Logo>
+          <img src={mainLogo} />
+        </Logo>
         <div id='wordName'>자만추</div>
         <textarea placeholder='수정할 단어의 뜻을 입력해주세요'></textarea>
         <button>저장하기</button>
