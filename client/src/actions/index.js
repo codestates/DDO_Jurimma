@@ -73,7 +73,8 @@ export const setLogin = (isLogin) => {
 };
 
 export const setLogout = () => {
-  localStorage.clear();
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('userInfo');
   return {
     type: SET_LOGOUT_STATE,
   };

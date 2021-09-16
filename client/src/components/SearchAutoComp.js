@@ -22,17 +22,14 @@ const AutoComp = styled.div`
   }
 `;
 
-function SearchAutoComp() {
-  const dummyDatas = ['자전거', '자만추', '자신만만', '자두']; // 검색결과 있는지 없는지 확인하는 용도의 데이터
-  // axios할 때 지울 것
-
+function SearchAutoComp({ autoCompResult }) {
   return (
     <SearchAutoCompWrap>
       <AutoComp>
-        {dummyDatas.length === 0 ? (
+        {autoCompResult.length === 0 ? (
           <li>존재하지 않는 단어입니다.</li>
         ) : (
-          dummyDatas.map((data, index) => <li key={index}>{data}</li>)
+          autoCompResult.map((data, index) => <li key={index}>{data}</li>)
         )}
       </AutoComp>
     </SearchAutoCompWrap>

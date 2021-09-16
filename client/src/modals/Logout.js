@@ -98,7 +98,7 @@ function Logout() {
           text: '다또봐 👋 (다음에 또 봐~)',
           icon: 'success',
         });
-        console.log(state);
+        // console.log(state);
       })
       .catch((err) => {
         console.log(err);

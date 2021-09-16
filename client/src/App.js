@@ -16,7 +16,7 @@ import Signout from './modals/Signout';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLogin, setUserInfo, setAccessToken } from './actions/index';
+import { setLogin } from './actions/index';
 import NewContent from './modals/NewContent';
 import { useEffect } from 'react';
 
@@ -25,6 +25,7 @@ axios.defaults.withCredentials = true;
 
 function App() {
   const state = useSelector((state) => state.userInfoReducer);
+  const url = process.env.REACT_APP_API_URL || `http://localhost:3000`;
   const dispatch = useDispatch();
   // local 저장할땐 stringify를 해야한다 (뺄때는 parse)
   // useredit 이런거 할때 localStorage.removeItem('키') 써서 같이 수정하게 하고
@@ -33,20 +34,9 @@ function App() {
   useEffect(() => {
     // console.log(JSON.parse(localStorage.userInfo).id);
     if (localStorage.userInfo) {
-      if (JSON.parse(localStorage.userInfo).id !== -1) {
-        dispatch(setLogin(true));
-        const localUserInfo = localStorage.userInfo;
-        dispatch(setUserInfo(JSON.parse(localUserInfo)));
-        dispatch(setAccessToken(localStorage.accessToken));
-        console.log(
-          '로그인 상태일 때 가장 먼저 찍히는 유저 정보 : ',
-          JSON.parse(localUserInfo)
-        );
-      }
+      dispatch(setLogin(true));
     } else {
       dispatch(setLogin(false));
-      dispatch(setUserInfo(state.userInfo));
-      dispatch(setAccessToken(state.accessToken));
     }
   }, []);
 
