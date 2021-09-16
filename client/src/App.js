@@ -25,7 +25,6 @@ axios.defaults.withCredentials = true;
 
 function App() {
   const state = useSelector((state) => state.userInfoReducer);
-  const url = process.env.REACT_APP_API_URL || `http://localhost:3000`;
   const dispatch = useDispatch();
   // local 저장할땐 stringify를 해야한다 (뺄때는 parse)
   // useredit 이런거 할때 localStorage.removeItem('키') 써서 같이 수정하게 하고

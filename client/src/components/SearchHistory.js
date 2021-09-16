@@ -74,7 +74,7 @@ export const SearchHistoryBox = styled.div`
   }
 `;
 
-function SearchHistory({ removeTags, tags }) {
+function SearchHistory({ removeTags, tags, setWord }) {
   return (
     <SearchHistoryWrap>
       <SearchHistoryBox>
@@ -82,7 +82,9 @@ function SearchHistory({ removeTags, tags }) {
           {tags.map((tag, index) => {
             return (
               <li key={index} className='tag'>
-                <span className='tagTitle'>{tag}</span>
+                <span className='tagTitle' onClick={() => setWord(tag)}>
+                  {tag}
+                </span>
                 <span className='closeTag' onClick={() => removeTags(index)}>
                   &times;
                 </span>

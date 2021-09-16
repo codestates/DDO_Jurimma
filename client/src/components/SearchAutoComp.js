@@ -4,7 +4,9 @@ import styled from 'styled-components';
 const SearchAutoCompWrap = styled.div``;
 
 const AutoComp = styled.div`
-  margin-top: 20px;
+  width: 100%;
+  position: absolute;
+  z-index: 3;
   box-sizing: border-box;
   border-radius: 30px;
   background-color: #fff;
@@ -22,14 +24,20 @@ const AutoComp = styled.div`
   }
 `;
 
-function SearchAutoComp({ autoCompResult }) {
+function SearchAutoComp({ autoCompResult, setWord }) {
   return (
     <SearchAutoCompWrap>
       <AutoComp>
         {autoCompResult.length === 0 ? (
           <li>존재하지 않는 단어입니다.</li>
         ) : (
-          autoCompResult.map((data, index) => <li key={index}>{data}</li>)
+          autoCompResult.map((data, index) => {
+            return (
+              <li key={index} onClick={() => setWord(data)}>
+                {data}
+              </li>
+            );
+          })
         )}
       </AutoComp>
     </SearchAutoCompWrap>

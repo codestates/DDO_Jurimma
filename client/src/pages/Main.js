@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import Search from '../components/Search';
 import Chart from '../components/Chart';
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { setLogin } from '../actions/index';
 import axios from 'axios';
 
 const MainWrap = styled.div`
@@ -50,7 +48,7 @@ function Main() {
         setRealTime(res.data.data);
       })
       .catch((err) => console.log(err));
-  }, 10000);
+  }, 60000);
 
   useEffect(() => {
     axios

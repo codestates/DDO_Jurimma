@@ -25,7 +25,7 @@ const defaultUserInfo = {
     experience: 0,
     quizDate: null, // 퀴즈 모달에 접속한 날짜
   }, // 기본 유저 정보
-  isLogin: true, //로그인 상태
+  isLogin: false, //로그인 상태
   accessToken: null,
   isShowLoginOrSignupModal: false, // 로그인or회원가입 모달 상태
   isShowQuizModal: false, // 퀴즈 모달 상태
