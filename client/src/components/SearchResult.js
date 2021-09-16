@@ -46,7 +46,7 @@ function SearchResult({ wordResult }) {
 
   return (
     <SearchResultWrap>
-    <ul>
+      <ul>
         {wordResult.map((res) => {
           return (
             <li key={res.id}>

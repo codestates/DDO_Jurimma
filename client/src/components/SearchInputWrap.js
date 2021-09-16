@@ -81,7 +81,12 @@ const InputBox = styled.div`
   }
 `;
 
-function SearchInputWrap({ addEnterTags, addClickTags, changeWord }) {
+function SearchInputWrap({
+  addEnterTags,
+  addClickTags,
+  changeWord,
+  autoCompResult,
+}) {
   return (
     <SearchInputBox>
       <InputBox>
@@ -104,7 +109,7 @@ function SearchInputWrap({ addEnterTags, addClickTags, changeWord }) {
           </div>
         </div>
       </InputBox>
-      <SearchAutoComp />
+      <SearchAutoComp autoCompResult={autoCompResult} />
     </SearchInputBox>
   );
 }
