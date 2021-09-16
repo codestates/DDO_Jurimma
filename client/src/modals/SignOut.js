@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSignOutModal } from '../actions/index';
+import mainLogo from '../images/main_logo.svg';
 
 const SignoutBackdrop = styled.div`
   position: fixed;
@@ -17,8 +18,8 @@ const SignoutBackdrop = styled.div`
 `;
 
 const SignoutModal = styled.div`
-  width: max(40vw, 350px);
-  height: 600px;
+  width: max(30vw, 350px);
+  height: 400px;
   background-color: #fff;
   position: relative;
   display: flex;
@@ -43,56 +44,11 @@ const SignoutModal = styled.div`
   > .closeBtn:hover {
     transform: rotate(-90deg);
   }
-  > #wordName {
-    height: 50px;
-    width: 40%;
+  > #queSignout {
+    height: 80px;
+    line-height: 80px;
     text-align: center;
-    margin: 0 auto;
-    margin-top: 20px;
-    line-height: 50px;
-    font-size: max(1vw, 14px);
-    cursor: default;
-    background-color: #440a67;
-    color: #fff;
-    border-radius: 10px;
-    font-family: 'NEXON Lv2 Gothic Bold';
-  }
-  > textarea {
-    width: 90%;
-    height: 300px;
-    margin: 0 auto;
-    text-align: top;
-    outline: none;
-    margin-top: 20px;
-    padding: 20px;
-    box-sizing: border-box;
-    border: 1px solid #440a67;
-    font-size: max(0.85vw, 12px);
-    border-radius: 20px;
-    :focus::-webkit-input-placeholder {
-      color: transparent;
-    }
-    :focus {
-      border: 2px solid #440a67;
-    }
-  }
-  > button {
-    width: 50%;
-    height: 50px;
-    width: 200px;
-    margin: 0 auto;
-    cursor: pointer;
-    border-radius: 50px;
-    background-color: transparent;
-    background-color: #440a67;
-    color: #fff;
-    transition: 0.3s;
-    font-size: max(0.85vw, 12px);
-    margin-top: 20px;
-  }
-  > button:hover {
-    background-color: #230638;
-    color: #fff;
+    font-size: max(1.2vw, 16px);
   }
 `;
 
@@ -100,7 +56,34 @@ const Logo = styled.div`
   width: 100px;
   height: 100px;
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 85px;
+  background: url(${mainLogo});
+`;
+
+const ButtonWrap = styled.div`
+  width: 80%;
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  > button {
+    height: 50px;
+    width: 200px;
+    margin: 0 auto;
+    cursor: pointer;
+    border-radius: 50px;
+    background-color: #440a67;
+    color: #fff;
+    margin-left: 10px;
+    transition: 0.3s;
+    font-size: max(0.85vw, 12px);
+  }
+  > button:nth-child(1) {
+    margin-left: 0;
+  }
+  > button:hover {
+    background-color: #b61919;
+    color: #fff;
+  }
 `;
 
 function Signout() {
@@ -116,9 +99,11 @@ function Signout() {
           &times;
         </div>
         <Logo></Logo>
-        <div id='wordName'>자만추</div>
-        <textarea placeholder='수정할 단어의 뜻을 입력해주세요'></textarea>
-        <button>저장하기</button>
+        <div id='queSignout'>정말 회원탈퇴 하실 건가요?</div>
+        <ButtonWrap>
+          <button>취소하기</button>
+          <button>저장하기</button>
+        </ButtonWrap>
       </SignoutModal>
     </SignoutBackdrop>
   );
