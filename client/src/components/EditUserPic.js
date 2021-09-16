@@ -1,6 +1,8 @@
 // EditMyPage에서 사진 변경 일어나는 부분
 import styled from 'styled-components';
 import basicProfile from '../images/basic_profileImg.svg';
+import { setSignOutModal } from '../actions/index';
+import { useDispatch } from 'react-redux';
 
 const EditUserPicWrap = styled.div`
   width: 400px; // 콘텐츠 전체 길이 생각해서 후에 수정해주기
@@ -42,13 +44,19 @@ const ProfileChange = styled.div`
 `;
 
 function EditUserPic() {
+  const dispatch = useDispatch();
+  const openSignoutModal = (isOpen) => {
+    dispatch(setSignOutModal(isOpen));
+    console.log(setSignOutModal);
+  }; // 회원탈퇴 모달 여는 함수
+
   return (
     <EditUserPicWrap>
       <ProfileChange>
         <div id='profileImg'></div>
         <button>프로필 사진 바꾸기</button>
       </ProfileChange>
-      <button>회원탈퇴 하기</button>
+      <button onClick={() => openSignoutModal(true)}>회원탈퇴 하기</button>
     </EditUserPicWrap>
   );
 }

@@ -12,6 +12,7 @@ import ChartModal from './modals/ChartModal';
 import Quiz from './modals/Quiz';
 import EditContent from './modals/EditContent';
 import Logout from './modals/Logout';
+import Signout from './modals/Signout';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -56,6 +57,7 @@ function App() {
     isShowNewContentModal,
     isShowEditContentModal,
     isShowLogoutModal,
+    isShowSignoutModal,
     isLogin,
     userInfo,
   } = state;
@@ -70,6 +72,7 @@ function App() {
         {isShowNewContentModal ? <NewContent /> : null}
         {isShowEditContentModal ? <EditContent /> : null}
         {isShowLogoutModal ? <Logout /> : null}
+        {isShowSignoutModal ? <Signout /> : null}
         <header>
           <Switch>
             <Nav />

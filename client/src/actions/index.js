@@ -58,6 +58,13 @@ export const setLogoutModal = (isOpen) => {
   };
 };
 
+export const setSignOutModal = (isOpen) => {
+  return {
+    type: SET_MODAL_SIGNOUT,
+    isOpen,
+  };
+};
+
 export const setLogin = (isLogin) => {
   return {
     type: SET_LOGIN_STATE,

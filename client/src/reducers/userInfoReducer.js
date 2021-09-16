@@ -11,6 +11,7 @@ import {
   SET_MODAL_NEWCONTENT,
   SET_MODAL_EDITCONTENT,
   SET_MODAL_LOGOUT,
+  SET_MODAL_SIGNOUT,
   SET_ACCESS_TOKEN,
   SET_USER_INFO,
 } from '../actions/index';
@@ -47,7 +48,13 @@ const userInfoReducer = (state = defaultUserInfo, action) => {
       return {
         ...state,
         isShowLoginOrSignupModal: action.isOpen,
-      }; // 퀴즈 모달 상태 변경하기
+      }; // 로그인 회원가입 모달 상태 변경하기
+
+    case SET_MODAL_SIGNOUT:
+      return {
+        ...state,
+        isShowSignoutModal: action.isOpen,
+      };
 
     case SET_MODAL_CHART:
       return {
