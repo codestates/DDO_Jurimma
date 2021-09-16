@@ -39,7 +39,7 @@ export const setChartModal = (isOpen) => {
 
 export const setNewContentModal = (isOpen) => {
   return {
-    type: SET_MODAL_EDITCONTENT,
+    type: SET_MODAL_NEWCONTENT,
     isOpen,
   };
 };
