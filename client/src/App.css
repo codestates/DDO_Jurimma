@@ -68,16 +68,13 @@ body {
   scrollbar-width: none; /* Firefox */
   scroll-behavior: smooth;
   overflow-x: hidden;
+  background-image: linear-gradient(#5f1f86, #230638, #000000);
 }
 body::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera*/
   scroll-behavior: smooth;
 }
 
-.App {
-  background-image: linear-gradient(#5f1f86, #230638, #000000);
-  /* font-family: 'NEXON Lv2 Gothic Bold'; */
-}
 .mainContent {
   min-height: 467px;
   border: 1px solid transparent;

@@ -6,11 +6,12 @@ import { Link, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const MypageWrap = styled.div`
-  height: 70vh; // 콘텐츠 전체 길이 생각해서 후에 max 설정해주기
+  height: 100vh; // 콘텐츠 전체 길이 생각해서 후에 max 설정해주기
   border: 1px solid red;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  margin-top: 150px;
 `;
 
 function Mypage() {
