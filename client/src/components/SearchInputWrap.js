@@ -102,7 +102,6 @@ function SearchInputWrap({
     }
   }, [word]); // 입력값이 변할때마다
 
-}) {
   return (
     <SearchInputBox>
       <InputBox>
