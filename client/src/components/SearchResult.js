@@ -7,6 +7,32 @@ import { setNewContentModal } from '../actions/index';
 const SearchResultWrap = styled.div`
   flex: 1 1 auto; // 콘텐츠 전체 길이 생각해서 후에 수정해주기
   box-sizing: border-box;
+  margin-top: 20px;
+  > .wordResultList {
+    width: 100%;
+    > li {
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
+      background-color: #fff;
+      border-radius: 50px;
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 10px;
+    }
+    > li:last-child {
+      margin-bottom: 0px;
+    }
+  }
+  > .noWordMsg {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    background-color: #fff;
+    border-radius: 50px;
+    text-align: center;
+    margin: 0 auto;
+  }
 `;
 
 const BtnWrap = styled.div`
@@ -38,7 +64,7 @@ const BtnWrap = styled.div`
   }
 `;
 
-function SearchResult({ wordResult }) {
+function SearchResult({ wordResult, notSearched }) {
   const dispatch = useDispatch();
   const openNewContentModal = (isOpen) => {
     dispatch(setNewContentModal(isOpen));
@@ -46,28 +72,47 @@ function SearchResult({ wordResult }) {
 
   return (
     <SearchResultWrap>
-      <ul>
-        {wordResult.map((res) => {
-          return (
-            <li key={res.id}>
-              {res.wordName}, {res.wordMean}, {res.thumbsup.length}
-            </li>
-          );
-        })}
-      </ul>
-      <BtnWrap>
-        {/*search의 검색결과가 0일때만 아래 새글쓰기 버튼이 보이도록 지정해줘야 함*/}
-        <button
-          className='newOrSearchBtn'
-          onClick={() => openNewContentModal(true)}
-        >
-          새글쓰기
-        </button>
-        <button className='newOrSearchBtn'>
-          {/* <Link to={`/searchMore?wordName=${}</button>`>검색하기</Link>로 바꿔줘야함 */}
-          <Link to='/searchMore'>더보기</Link> {/* 더보기 페이지로 이동 */}
-        </button>
-      </BtnWrap>
+      {notSearched ? null : (
+        <>
+          {wordResult.length !== 0 ? (
+            <>
+              <ul className='wordResultList'>
+                {wordResult.map((res) => {
+                  return (
+                    <li key={res.id} className='wordResultData'>
+                      <p>{res.wordName}</p>
+                      <p>{res.wordMean}</p>
+                      <p>{res.thumbsup.length}</p>
+                    </li>
+                  );
+                })}
+              </ul>
+              <BtnWrap>
+                <button className='newOrSearchBtn'>
+                  {/* <Link to={`/searchMore?wordName=${}</button>`>검색하기</Link>로 바꿔줘야함 */}
+                  <Link to='/searchMore'>더보기</Link>{' '}
+                  {/* 더보기 페이지로 이동 */}
+                </button>
+              </BtnWrap>
+            </>
+          ) : (
+            <>
+              <p className='noWordMsg'>
+                아직 뜻이 없네요! 새로 작성하시겠어요?
+              </p>
+              <BtnWrap>
+                {/*search의 검색결과가 0일때만 아래 새글쓰기 버튼이 보이도록 지정해줘야 함*/}
+                <button
+                  className='newOrSearchBtn'
+                  onClick={() => openNewContentModal(true)}
+                >
+                  새글쓰기
+                </button>
+              </BtnWrap>
+            </>
+          )}
+        </>
+      )}
     </SearchResultWrap>
   );
 }

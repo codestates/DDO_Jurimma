@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Throttle } from 'react-throttle';
+import { useState, useEffect } from 'react';
 
 const HeaderKeyFrame = keyframes`
     0% {
@@ -24,6 +25,7 @@ const SearchInputBox = styled.div`
   @media only screen and (max-width: 1399px) {
     width: 100%;
   }
+  position: relative;
 `;
 
 const InputBox = styled.div`
@@ -86,19 +88,32 @@ function SearchInputWrap({
   addClickTags,
   changeWord,
   autoCompResult,
+  setWord,
+  word,
+}) {
+  const [isShowAutoComp, setIsShowAutoComp] = useState(false); // 자동 검색 여부 display 여부
+
+  useEffect(() => {
+    if (word === '') {
+      // 만약 입력값이 아무것도 입력되지 않은 상태라면
+      setIsShowAutoComp(false); // 자동 검색 안보이게
+    } else {
+      setIsShowAutoComp(true); // 자동 검색 보이게
+    }
+  }, [word]); // 입력값이 변할때마다
+
 }) {
   return (
     <SearchInputBox>
       <InputBox>
         <div id='searchBox'>
-          <Throttle time='200' handler='onChange'>
-            <input
-              id='reqInput'
-              onChange={changeWord}
-              onKeyUp={(event) => addEnterTags(event)}
-            ></input>
-          </Throttle>
-          <div id='buttonWrap'>
+          <input
+            id='reqInput'
+            onChange={changeWord}
+            onKeyUp={(event) => addEnterTags(event)}
+            value={word}
+          ></input>
+          <div id='buttonWrap' onClick={() => setWord('')}>
             <button>&times;</button>
             <button>
               <FontAwesomeIcon icon={faMicrophone} />
@@ -109,7 +124,9 @@ function SearchInputWrap({
           </div>
         </div>
       </InputBox>
-      <SearchAutoComp autoCompResult={autoCompResult} />
+      {isShowAutoComp ? (
+        <SearchAutoComp autoCompResult={autoCompResult} setWord={setWord} />
+      ) : null}
     </SearchInputBox>
   );
 }
