@@ -76,9 +76,10 @@ const Logo = styled.div`
   height: 100px;
   margin: 0 auto;
   margin-top: 85px;
+  background: url(${mainLogo});
 `;
 
-function Logout() {
+function LogOut() {
   const state = useSelector((state) => state.userInfoReducer);
   const dispatch = useDispatch();
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
@@ -98,7 +99,7 @@ function Logout() {
           text: '다또봐 👋 (다음에 또 봐~)',
           icon: 'success',
         });
-        // console.log(state);
+        console.log(state);
       })
       .catch((err) => {
         console.log(err);
@@ -111,9 +112,7 @@ function Logout() {
         <div className='closeBtn' onClick={() => closeLogoutModal(false)}>
           &times;
         </div>
-        <Logo>
-          <img src={mainLogo} />
-        </Logo>
+        <Logo></Logo>
         <div id='queLogout'>정말 로그아웃 하실 건가요?</div>
         <button onClick={changeToLogout}>로그아웃 하기</button>
       </LogoutModal>
@@ -121,4 +120,4 @@ function Logout() {
   );
 }
 
-export default Logout;
+export default LogOut;
