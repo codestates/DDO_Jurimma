@@ -18,7 +18,7 @@ module.exports = {
     const desc = `JURIMMA의 회원이 되어주셔서 굉장히 감사드립니다! 😍 <br/><br/> JURIMMA는 <b>${username}님</b>께서 등록한 줄임말들이 곧 컨텐츠이며, 자산입니다. <br/><br/> <b>${username}님</b>이 알고계신 줄임말들을 등록하여 많은 분들에게 알려주세요! <br/><br/> JURIMMA에 오신 것을 환영하며, 감사드립니다! 😁`;
 
     // 서버로 GET 요청을 보내기 위한 URL
-    const URL = process.env.DATABASE_HOST || 'http://localhost:4000';
+    const URL = process.env.SERVER_URL || 'http://localhost:4000';
 
     // 메일 전송하기
     const transporter = nodemailer.createTransport({
