@@ -6,6 +6,7 @@ const FooterBar = styled.footer`
   height: max(133.39px, 20vh);
   border: 1px solid red;
   box-sizing: border-box;
+  margin-top: 150px;
 `;
 
 function Footer() {
