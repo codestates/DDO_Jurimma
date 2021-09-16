@@ -32,20 +32,9 @@ function App() {
   useEffect(() => {
     // console.log(JSON.parse(localStorage.userInfo).id);
     if (localStorage.userInfo) {
-      if (JSON.parse(localStorage.userInfo).id !== -1) {
-        dispatch(setLogin(true));
-        const localUserInfo = localStorage.userInfo;
-        dispatch(setUserInfo(JSON.parse(localUserInfo)));
-        dispatch(setAccessToken(localStorage.accessToken));
-        console.log(
-          '로그인 상태일 때 가장 먼저 찍히는 유저 정보 : ',
-          JSON.parse(localUserInfo)
-        );
-      }
+      dispatch(setLogin(true));
     } else {
       dispatch(setLogin(false));
-      dispatch(setUserInfo(state.userInfo));
-      dispatch(setAccessToken(state.accessToken));
     }
   }, []);
 
