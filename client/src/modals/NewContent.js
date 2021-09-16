@@ -2,6 +2,7 @@
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { setNewContentModal } from '../actions/index';
+import mainLogo from '../images/main_logo.svg';
 
 const NewContentBackdrop = styled.div`
   position: fixed;
@@ -42,31 +43,72 @@ const NewContentModal = styled.div`
   > .closeBtn:hover {
     transform: rotate(-90deg);
   }
-  > input {
-    height: 50px;
-    background-color: orange;
-    width: 90%;
-    text-align: center;
+  > #inputWrap {
+    height: 40px;
+    width: 60%;
     margin: 0 auto;
     margin-top: 20px;
-    line-height: 50px;
+    display: inline-block;
+    ::after {
+      display: block;
+      content: '';
+      border-bottom: solid 3px #440a67;
+      transform: scaleX(0);
+      transition: transform 250ms ease-in-out;
+    }
+    :hover:after {
+      transform: scaleX(1);
+    }
+    > input {
+      height: 40px;
+      width: 90%;
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+      outline: none;
+      font-size: max(1vw, 13px);
+      :focus::-webkit-input-placeholder {
+        color: transparent;
+      }
+    }
   }
+
   > textarea {
     width: 90%;
     height: 300px;
     margin: 0 auto;
     text-align: top;
-    background-color: pink;
     outline: none;
     margin-top: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid #440a67;
+    font-size: max(0.85vw, 12px);
+    border-radius: 20px;
+    :focus::-webkit-input-placeholder {
+      color: transparent;
+    }
+    :focus {
+      border: 2px solid #440a67;
+    }
   }
   > button {
     width: 50%;
     height: 50px;
     width: 200px;
     margin: 0 auto;
-    margin-top: 20px;
     cursor: pointer;
+    border-radius: 50px;
+    background-color: transparent;
+    background-color: #440a67;
+    color: #fff;
+    transition: 0.3s;
+    font-size: max(0.85vw, 12px);
+    margin-top: 20px;
+  }
+  > button:hover {
+    background-color: #230638;
+    color: #fff;
   }
 `;
 
@@ -74,7 +116,6 @@ const Logo = styled.div`
   width: 100px;
   height: 100px;
   margin: 0 auto;
-  background-color: red;
   margin-top: 20px;
 `;
 
@@ -90,8 +131,12 @@ function NewContent() {
         <div className='closeBtn' onClick={() => closeNewContentModal(false)}>
           &times;
         </div>
-        <Logo>로고로고</Logo>
-        <input type='text' placeholder='작성할 단어를 입력해주세요'></input>
+        <Logo>
+          <img src={mainLogo} />
+        </Logo>
+        <div id='inputWrap'>
+          <input type='text' placeholder='작성할 단어를 입력해주세요'></input>
+        </div>
         <textarea placeholder='작성할 단어의 뜻을 입력해주세요'></textarea>
         <button>저장하기</button>
       </NewContentModal>
