@@ -24,4 +24,12 @@ module.exports = {
   WordMeanLength: (str) => {
     return /^.{1,200}$/.test(str);
   },
+
+  IsValidateWordName: (str) => {
+    return /([^가-힣\x20])/i.test(str);
+  },
+
+  LimitWordName: (str) => {
+    return /^.{1,5}$/.test(str);
+  },
 };

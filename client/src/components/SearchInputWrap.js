@@ -4,7 +4,7 @@ import SearchAutoComp from './SearchAutoComp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { Throttle } from 'react-throttle';
+import { Throttle, Debounce } from 'react-throttle';
 
 const HeaderKeyFrame = keyframes`
     0% {
@@ -81,18 +81,32 @@ const InputBox = styled.div`
   }
 `;
 
-function SearchInputWrap({ addEnterTags, addClickTags, changeWord }) {
+function SearchInputWrap({
+  addEnterTags,
+  addClickTags,
+  word,
+  changeWord,
+  autoCompResult,
+}) {
   return (
     <SearchInputBox>
       <InputBox>
         <div id='searchBox'>
-          <Throttle time='200' handler='onChange'>
+          {/* <Debounce time='2000' handler='onChange'>
             <input
               id='reqInput'
               onChange={changeWord}
               onKeyUp={(event) => addEnterTags(event)}
+              // value={word}
             ></input>
-          </Throttle>
+          </Debounce> */}
+          {/*throttle로 인해서 value적용 바로 안되서 빼둠 ㅠㅜ */}
+          <input
+            id='reqInput'
+            onChange={changeWord}
+            onKeyUp={(event) => addEnterTags(event)}
+            value={word}
+          ></input>
           <div id='buttonWrap'>
             <button>&times;</button>
             <button>
@@ -104,7 +118,7 @@ function SearchInputWrap({ addEnterTags, addClickTags, changeWord }) {
           </div>
         </div>
       </InputBox>
-      <SearchAutoComp />
+      <SearchAutoComp autoCompResult={autoCompResult} />
     </SearchInputBox>
   );
 }

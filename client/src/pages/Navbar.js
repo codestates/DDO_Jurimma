@@ -137,7 +137,7 @@ const NavBar2 = styled.nav`
   }
 `;
 
-function Nav() {
+function Nav({ timer }) {
   const state = useSelector((state) => state.userInfoReducer);
   const nowDate = new Date().toLocaleDateString(); // 접속한 날짜를 "2021. 9. 13."와 같은 형식으로 확인
   const dispatch = useDispatch();
@@ -178,6 +178,17 @@ function Nav() {
     }
   }; // 지정된 스크롤에 닿았을 때 nav bar 변경
 
+  // const clearTimer = (timer) => {
+  //   // console.log('멈춰!');
+  //   clearInterval(timer);
+  // };
+  // const workTimer = () => {
+  //   console.log('들어옴!');
+  //   timer = setInterval(function () {
+  //     console.log('작동중!');
+  //   }, 3000);
+  //   console.log('작동함!');
+  // };
   window.addEventListener('scroll', scrollNavChange);
 
   return (

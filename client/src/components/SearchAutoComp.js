@@ -12,13 +12,17 @@ const AutoComp = styled.div`
   border-radius: 40px;
   background-color: #fff;
   border: 5px solid #b4aee8;
-  display: none;
+  /* display: none; */
 `;
 
-function SearchAutoComp() {
+function SearchAutoComp({ autoCompResult }) {
   return (
     <SearchAutoCompWrap>
-      <AutoComp></AutoComp>
+      <AutoComp>
+        {autoCompResult.map((res, idx) => {
+          return <li key={idx}>{res}</li>;
+        })}
+      </AutoComp>
     </SearchAutoCompWrap>
   );
   // 입력할때 마다 axios 요청 + 응답으로 받은 값 useState로 관리

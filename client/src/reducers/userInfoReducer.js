@@ -80,8 +80,7 @@ const userInfoReducer = (state = defaultUserInfo, action) => {
       };
 
     case SET_LOGOUT_STATE: // 로그아웃 reducer
-      localStorage.clear();
-      return Object.assign({}, { ...defaultUserInfo });
+      return { ...defaultUserInfo };
 
     case SET_ACCESS_TOKEN:
       return {
