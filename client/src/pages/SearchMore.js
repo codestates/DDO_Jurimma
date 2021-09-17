@@ -88,6 +88,10 @@ const SearchMoreBox = styled.div`
     > button {
       width: 200px;
       height: 50px;
+      border-bottom: 2px solid #fff;
+      background-color: transparent;
+      color: #fff;
+      cursor: pointer;
       @media only screen and (max-width: 550px) {
         width: 120px;
         height: 40px;
@@ -96,7 +100,18 @@ const SearchMoreBox = styled.div`
     > select {
       width: 200px;
       height: 50px;
+      text-align-last: center;
+      text-align: center;
+      cursor: pointer;
+      -ms-text-align-last: center;
+      -moz-text-align-last: center;
       outline: none;
+      border-bottom: 2px solid #fff;
+      background-color: transparent;
+      color: #fff;
+      > option {
+        background-color: black;
+      }
       @media only screen and (max-width: 550px) {
         width: 120px;
         height: 40px;
@@ -104,7 +119,7 @@ const SearchMoreBox = styled.div`
     }
   }
   > ul {
-    margin-top: 50px;
+    margin-top: 30px;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 20px;
@@ -136,6 +151,13 @@ const SearchMoreBox = styled.div`
             line-height: 50px;
             border-radius: 10px;
             border: 2px solid #fff;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            @media only screen and (max-width: 550px) {
+              width: 80px;
+              font-size: 14px;
+            }
           }
         }
         > .wordMean {
@@ -172,6 +194,26 @@ const SearchMoreBox = styled.div`
             background-color: #fff;
             margin-left: 10px;
             border-radius: 10px;
+            transition: 0.3s;
+            box-sizing: border-box;
+            cursor: pointer;
+            border: 2px solid transparent;
+            :hover {
+              background-color: #440a67;
+              border: 2px solid #fff;
+              > .thumbsupWrap {
+                top: -40px;
+                color: #fff;
+              }
+              > .hoverThumbsup {
+                display: block;
+              }
+            }
+            > .thumbsupWrap {
+              color: #230638;
+              position: relative;
+              /* top: -40px; */
+            }
           }
         }
       }
@@ -179,18 +221,36 @@ const SearchMoreBox = styled.div`
   }
 `;
 
+const HoverThumbsup = styled.div`
+  width: 200px;
+  height: 40px;
+  position: relative;
+  top: -50px;
+  left: -80px;
+  font-size: 12px;
+  background-color: #440a67;
+  color: #fff;
+  border-radius: 10px;
+  border: 2px solid #fff;
+  display: none;
+`;
+
 const ProfileWrap = styled.div`
   height: 50px;
   display: flex;
   align-items: center;
   > .userName {
-    width: 100px;
+    width: 120px;
     height: 40px;
     text-align: center;
     line-height: 40px;
     color: #fff;
     border: 2px solid #fff;
     border-radius: 10px;
+    @media only screen and (max-width: 550px) {
+      width: 50px;
+      font-size: 10px;
+    }
   }
   > img {
     margin-left: 10px;
@@ -280,8 +340,13 @@ function SearchMore() {
                         <div className='bottomWrap'>
                           <span>2021-09-17</span>
                           <p>
-                            <FontAwesomeIcon icon={faThumbsUp} />
-                            {data.thumbsup.length}개
+                            <HoverThumbsup className='hoverThumbsup'>
+                              박해커님 외에 1명이 좋아합니다.
+                            </HoverThumbsup>
+                            <div className='thumbsupWrap'>
+                              <FontAwesomeIcon icon={faThumbsUp} />
+                              {data.thumbsup.length}개
+                            </div>
                           </p>
                         </div>
                       </div>
