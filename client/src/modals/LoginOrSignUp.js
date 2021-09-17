@@ -354,10 +354,11 @@ function LoginOrSignUp() {
 
   const kakaoRedirectUri =
     process.env.REACT_APP_KAKAO_REDIRECT_URI || `http://localhost:3000`;
+
   const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${kakaoRedirectUri}&response_type=code`;
 
   const handleKakaoLogin = () => {
-    localStorage.setItem('socialType', 'google');
+    localStorage.setItem('socialType', 'kakao');
     window.location.assign(KAKAO_LOGIN_URL);
   };
 

@@ -51,8 +51,10 @@ function App() {
   const getUserInfoAndAccessToken = (authorizationCode) => {
     const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
     const payload = { authorizationCode };
+    const socialType = localStorage.getItem('socialType');
+
     axios
-      .post(`${url}/user/kakao`, payload)
+      .post(`${url}/user/${socialType}`, payload)
       .then((res) => {
         console.log(res.data);
         dispatch(setLogin(true)); // axios응답으로 redux 업데이트
@@ -64,6 +66,7 @@ function App() {
           text: '만반잘부 😆 (만나서 반갑고 잘 부탁해)!',
           icon: 'success',
         }); // sweet alert로 안내
+        localStorage.removeItem('socialType');
       })
       .catch((err) => {
         console.log(err);
