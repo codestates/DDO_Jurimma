@@ -10,7 +10,6 @@ const AutoComp = styled.div`
   box-sizing: border-box;
   border-radius: 30px;
   background-color: #fff;
-  opacity: 0.8;
   > li {
     height: 60px;
     line-height: 60px;

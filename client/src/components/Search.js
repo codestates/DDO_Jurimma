@@ -128,7 +128,11 @@ function Search() {
         setWord={setWord}
         autoCompResult={autoCompResult}
       />
-      <SearchResult wordResult={wordResult} notSearched={notSearched} />
+      <SearchResult
+        wordResult={wordResult}
+        notSearched={notSearched}
+        word={word}
+      />
     </SearchWrap>
   );
 }
