@@ -92,7 +92,6 @@ function EditUserPic() {
   const dispatch = useDispatch();
   const openSignoutModal = (isOpen) => {
     dispatch(setSignOutModal(isOpen));
-    console.log(setSignOutModal);
   }; // 회원탈퇴 모달 여는 함수
 
   return (

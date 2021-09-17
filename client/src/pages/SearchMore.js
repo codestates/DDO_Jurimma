@@ -7,6 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import exProfileImg from '../images/basic_profileImg.svg';
+import { useEffect } from 'react/cjs/react.development';
+import axios from 'axios';
+import { useState } from 'react';
+import { setAccessToken } from '../actions/index';
 
 const SearchMoreWrap = styled.div`
   width: 1200px;
@@ -197,13 +201,39 @@ const ProfileWrap = styled.div`
 `;
 
 function SearchMore() {
+  let query = window.location.search.split('=')[1]; // "?wordName=~~"에서 "="뒤 쿼리를 뜯어옴
+  const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const dispatch = useDispatch();
   const state = useSelector((state) => state.userInfoReducer);
+  const [searchMoreData, setSearchMoreData] = useState([]); // 보여질 데이터
+  const [searchMoreTitle, setSearchMoreTitle] = useState(''); // 보여질 타이틀
   const openNewContentModal = (isOpen) => {
     dispatch(setNewContentModal(isOpen));
   }; // 새로 글쓰는 모달 키는 함수(=== true값으로 만들어줌)
-  // 만약 다른곳에서 새로운 글쓰기 모달이 꺼져서 isShowNewContentModal 값이 false가 되었다면 useEffect를 통해 검색값 다시 요청해서 결과 업데이트 되도록 하기
-  // 좋아요 누르면 useEffect를 통해 검색값 다시 요청해서 결과 업데이트 되도록 하기
+
+  useEffect(() => {
+    getMoreSearch(query);
+  }, []); // 렌더 되고 바로 실행
+
+  const getMoreSearch = async () => {
+    let getResult = await axios.get(
+      `${url}/meaning?word=${query}&offset=0&limit=10`,
+      {
+        headers: { authorization: `Bearer ${state.accessToken}` },
+      }
+    );
+    if (getResult.data.accessToken) {
+      // 응답에 accessToken이 담겨있다면
+      dispatch(setAccessToken(getResult.data.accessToken));
+    }
+    // console.log(getResult.data);
+    setSearchMoreData(getResult.data.data);
+    setSearchMoreTitle(getResult.data.data[0].wordName);
+  }; // axios로 searchMoreData에서 보여질 데이터 요청하는 함수
+
+  // TODO : 만약 다른곳에서 새로운 글쓰기 모달이 꺼져서 isShowNewContentModal 값이 false가 되었다면 useEffect를 통해 검색값 다시 요청해서 결과 업데이트 되도록 하기
+  // TODO : 좋아요 누르면 useEffect를 통해 검색값 다시 요청해서 결과 업데이트 되도록 하기 + 다시 렌더 되도록 하기
+  // TODO : 스크롤 떨어지는 부분 확인해서 axios 요청 다시 가도록 만들기
   return (
     <>
       {state.isLogin ? (
@@ -213,7 +243,7 @@ function SearchMore() {
               <input type='text' />{' '}
               {/* 더보기 페이지에서 다른 단어 더보기페이지로*/}
               <button>
-                {/* <Link to={`/searchMore?wordName=${}</button>`>검색하기</Link> 로 바꿔줘야함 */}
+                {/* <Link to={`/searchMore?wordName=${입력한 단어}</button>`>검색하기</Link> 로 바꿔줘야함 */}
                 <Link to={`/searchMore`}>
                   <FontAwesomeIcon className='searchIcon' icon={faSearch} />
                 </Link>
@@ -221,7 +251,7 @@ function SearchMore() {
             </div>
           </ToDiffSearchMore>
           <SearchMoreWrap>
-            <h1>자만추</h1>
+            <h1>{searchMoreTitle}</h1>
             <SearchMoreBox>
               <div className='btnAndFilter'>
                 <button onClick={() => openNewContentModal(true)}>
@@ -233,48 +263,28 @@ function SearchMore() {
                 </select>
               </div>
               <ul>
-                <li className='wordBox'>
-                  <div className='wordBoxWrap'>
-                    <div className='topWrap'>
-                      <h3>자만추</h3>
-                      <ProfileWrap>
-                        <div className='userName'>김코딩</div>
-                        <img src={exProfileImg} />
-                      </ProfileWrap>
-                    </div>
+                {searchMoreData.map((data) => {
+                  return (
+                    <li className='wordBox' key={data.id}>
+                      <div className='topWrap'>
+                        <h3>{data.wordName}</h3>
+                        <ProfileWrap>
+                          <div className='userName'>{data.userId}</div>
+                          <img src={exProfileImg} />
+                        </ProfileWrap>
+                      </div>
 
-                    <div className='wordMean'>자연스러운 만남 추구</div>
+                      <div className='wordMean'>{data.wordMean}</div>
 
-                    <div className='bottomWrap'>
-                      <span>2021-09-17</span>
-                      <p>
+                      <div className='bottomWrap'>
+                        <span>2021-09-17</span>
+                        <p>
                         <FontAwesomeIcon icon={faThumbsUp} />
-                        6개
-                      </p>
-                    </div>
-                  </div>
-                </li>
-                <li className='wordBox'>
-                  <div className='wordBoxWrap'>
-                    <div className='topWrap'>
-                      <h3>wordTitle</h3>
-                      <ProfileWrap>
-                        <div className='userName'>김코딩</div>
-                        <img src={exProfileImg} />
-                      </ProfileWrap>
-                    </div>
-
-                    <div className='wordMean'>자연스러운 만남 추구</div>
-
-                    <div className='bottomWrap'>
-                      <span>2021-09-17</span>
-                      <p>
-                        <FontAwesomeIcon icon={faThumbsUp} />
-                        6개
-                      </p>
-                    </div>
-                  </div>
-                </li>
+                        좋아요 {data.thumbsup.length}개</p>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             </SearchMoreBox>
           </SearchMoreWrap>
