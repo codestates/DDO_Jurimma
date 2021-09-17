@@ -11,6 +11,7 @@ import { useEffect } from 'react/cjs/react.development';
 import axios from 'axios';
 import { useState } from 'react';
 import { setAccessToken } from '../actions/index';
+axios.defaults.withCredentials = true;
 
 const SearchMoreWrap = styled.div`
   width: 1200px;
@@ -275,6 +276,22 @@ function SearchMore() {
     getMoreSearch(query);
   }, []); // 렌더 되고 바로 실행
 
+  useEffect(() => {}, []); // 좋아요 업데이트를 위한 함수
+
+  const updateThumbsup = async (contentId) => {
+    let updateLike = await axios.patch(
+      `${url}/meaning/thumbsup`,
+      {
+        hearders: { authorization: `Bearer ${state.accessToken}` },
+      },
+      { contentId: contentId }
+    );
+    if (updateLike.data.accessToken) {
+      dispatch(setAccessToken(updateLike.data.accessToken));
+    }
+    console.log(updateLike);
+  };
+
   const getMoreSearch = async () => {
     let getResult = await axios.get(
       `${url}/meaning?word=${query}&offset=0&limit=10`,
@@ -343,7 +360,12 @@ function SearchMore() {
                             <HoverThumbsup className='hoverThumbsup'>
                               박해커님 외에 1명이 좋아합니다.
                             </HoverThumbsup>
-                            <div className='thumbsupWrap'>
+                            <div
+                              className='thumbsupWrap'
+                              onClick={() => {
+                                updateThumbsup(data.id);
+                              }}
+                            >
                               <FontAwesomeIcon icon={faThumbsUp} />
                               {data.thumbsup.length}개
                             </div>
