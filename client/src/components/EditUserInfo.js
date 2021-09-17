@@ -1,12 +1,23 @@
 // EditMyPage에서 유저 정보 변경하는 부분
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const profileAni = keyframes`
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+`;
+
 const EditUserInfoWrap = styled.div`
   width: 900px;
   height: 580px;
   display: flex;
   align-items: center;
-  background-color: #b4aee8;
-  border-radius: 30px;
   @media only screen and (max-width: 1399px) {
     margin: 0 auto;
     margin-top: 30px;
@@ -19,11 +30,14 @@ const OldUserName = styled.div`
   width: 100%;
   height: 60px;
   margin: 0 auto;
-  background-color: #440a67;
+  animation: ${profileAni} 10s ease infinite;
+  background: linear-gradient(-45deg, #3fc1ff, #d42aff);
+  background-size: 200% 100%;
   text-align: center;
   line-height: 60px;
   color: #fff;
   border-radius: 20px;
+  border: 2px solid #fff;
   @media only screen and (max-width: 400px) {
     font-size: 14px;
   }
@@ -55,10 +69,6 @@ const EditUserInfoBox = styled.div`
       cursor: pointer;
       transition: 0.3s;
       color: #440a67;
-      :hover {
-        background-color: #230638;
-        color: #fff;
-      }
       @media only screen and (max-width: 1000px) {
         width: 48%;
         margin-left: 4%;
@@ -66,11 +76,11 @@ const EditUserInfoBox = styled.div`
     }
     > button:nth-child(1) {
       margin-left: 0;
-      background-color: #440a67;
+      background: linear-gradient(-45deg, #3fc1ff, #d42aff);
       color: #fff;
-      transition: 0.5s;
+      border: 2px solid #fff;
       :hover {
-        background-color: #230638;
+        background: linear-gradient(-45deg, #ddd, #3fc1ff, #d42aff);
       }
     }
   }
@@ -82,17 +92,24 @@ const EditUserInfoBox = styled.div`
     background-color: transparent;
     border-bottom: 2px solid #fff;
     margin-top: 30px;
+    color: #fff;
+    padding-left: 5px;
     @media only screen and (max-width: 400px) {
       font-size: 11px;
     }
+  }
+  > input:focus::-webkit-input-placeholder {
+    color: transparent;
+  }
+  > input:hover::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: #fff;
+    transition: 0.3s;
   }
   > #rePasswordWrap {
     margin-top: 30px;
     width: 100%;
     margin: 0 auto;
-    /* display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap; */
     > input {
       display: inline-block;
       width: 48%;
@@ -103,6 +120,8 @@ const EditUserInfoBox = styled.div`
       border-bottom: 2px solid #fff;
       font-size: 15px;
       outline: none;
+      color: #fff;
+      padding-left: 5px;
       @media only screen and (max-width: 1000px) {
         width: 100%;
         margin-left: 0;
@@ -110,6 +129,14 @@ const EditUserInfoBox = styled.div`
       @media only screen and (max-width: 400px) {
         font-size: 11px;
       }
+    }
+    > input:focus::-webkit-input-placeholder {
+      color: transparent;
+    }
+    > input:hover::-webkit-input-placeholder {
+      /* Chrome/Opera/Safari */
+      color: #fff;
+      transition: 0.3s;
     }
     > input:nth-child(1) {
       margin-left: 0;
@@ -134,7 +161,7 @@ function EditUserInfo() {
 
         <div id='buttonWrap'>
           <button>저장하기</button>
-          <button>취소하기</button>
+          <button>쉬소하기</button>
         </div>
       </EditUserInfoBox>
     </EditUserInfoWrap>
