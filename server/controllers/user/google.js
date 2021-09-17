@@ -45,13 +45,23 @@ module.exports = {
     });
     // ! 없으면 가입
     if (!userUsingEmail) {
-      await user.create({
+      const userInfo = await user.create({
         email: googleEmail,
         username: googleName,
         userPic: googleUserPic,
         emailAuth: 1,
       });
-      res.status(201).json({ message: 'Signup Complete' });
+      delete userInfo.dataValues.password;
+      delete userInfo.dataValues.emailAuth;
+      delete userInfo.dataValues.createdAt;
+      delete userInfo.dataValues.updatedAt;
+      const accessToken = generateAccessToken(userInfo.dataValues);
+      const refreshToken = generateRefreshToken(userInfo.dataValues);
+      sendRefreshToken(res, refreshToken);
+      res.status(201).json({
+        accessToken,
+        userInfo,
+      });
     }
 
     // ! 있으면 로그인

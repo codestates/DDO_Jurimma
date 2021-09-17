@@ -14,6 +14,7 @@ import EditContent from './modals/EditContent';
 import Logout from './modals/Logout';
 import SignOut from './modals/SignOut';
 import swal from 'sweetalert';
+import { useHistory } from 'react-router-dom';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,6 +28,8 @@ axios.defaults.withCredentials = true;
 function App() {
   const state = useSelector((state) => state.userInfoReducer);
   const dispatch = useDispatch();
+  const history = useHistory();
+
   // local 저장할땐 stringify를 해야한다 (뺄때는 parse)
   // useredit 이런거 할때 localStorage.removeItem('키') 써서 같이 수정하게 하고
   // 회원탈퇴 할때도 localStorage.clear() 해줘야함
@@ -52,7 +55,8 @@ function App() {
     const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
     const payload = { authorizationCode };
     const socialType = localStorage.getItem('socialType');
-
+    const redirectURL =
+      process.env.REACT_APP_REDIRECT_URL || `http://localhost:3000`;
     axios
       .post(`${url}/user/${socialType}`, payload)
       .then((res) => {
@@ -61,12 +65,14 @@ function App() {
         dispatch(setAccessToken(res.data.accessToken)); // axios 응답으로 accessToken 업데이트
         dispatch(setUserInfo(res.data.userInfo)); // axios응답으로 userInfo 업데이트
         // console.log(state.userInfo); // 유저 정보 콘솔에 찍어보기
+        localStorage.removeItem('socialType');
         swal({
           title: '로그인이 완료되었습니다!',
           text: '만반잘부 😆 (만나서 반갑고 잘 부탁해)!',
           icon: 'success',
-        }); // sweet alert로 안내
-        localStorage.removeItem('socialType');
+        }).then(() => {
+          window.location.replace('/');
+        });
       })
       .catch((err) => {
         console.log(err);
