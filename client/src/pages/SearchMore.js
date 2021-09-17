@@ -10,6 +10,7 @@ import { useEffect } from 'react/cjs/react.development';
 import axios from 'axios';
 import { useState } from 'react';
 import { setAccessToken } from '../actions/index';
+axios.defaults.withCredentials = true;
 
 const SearchMoreWrap = styled.div`
   width: 1200px;
