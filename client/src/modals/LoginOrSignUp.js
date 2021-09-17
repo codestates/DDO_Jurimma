@@ -344,12 +344,24 @@ function LoginOrSignUp() {
     }
   };
 
-  const kakaoRedirectUri =
-    process.env.REACT_APP_KAKAO_REDIRECT_URI || `http://localhost:3000`;
-  const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${kakaoRedirectUri}&response_type=code`;
+  // ! google login
+  const google_client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
+  const redirect_uri =
+    process.env.REACT_APP_REDIRECT_URI || `http://localhost:3000`;
+
+  const GOOGLE_LOGIN_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${google_client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=profile email&access_type=offline`;
+
+  const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${redirect_uri}&response_type=code`;
 
   const handleKakaoLogin = () => {
+    localStorage.setItem('socialType', 'kakao');
     window.location.assign(KAKAO_LOGIN_URL);
+  };
+
+  const googleLoginHandler = () => {
+    localStorage.setItem('socialType', 'google');
+    window.location.assign(GOOGLE_LOGIN_URL);
   };
 
   const [currentTab, setCurrentTab] = useState(0);
@@ -374,7 +386,7 @@ function LoginOrSignUp() {
               카카오 로그인
             </KakaoLogin>
 
-            <GoogleLogin>
+            <GoogleLogin onClick={googleLoginHandler}>
               <FontAwesomeIcon icon={['fab', 'google']} />
               구글 로그인
             </GoogleLogin>
