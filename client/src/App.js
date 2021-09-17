@@ -14,7 +14,6 @@ import EditContent from './modals/EditContent';
 import Logout from './modals/Logout';
 import SignOut from './modals/SignOut';
 import swal from 'sweetalert';
-import { useHistory } from 'react-router-dom';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,7 +27,6 @@ axios.defaults.withCredentials = true;
 function App() {
   const state = useSelector((state) => state.userInfoReducer);
   const dispatch = useDispatch();
-  const history = useHistory();
 
   // local 저장할땐 stringify를 해야한다 (뺄때는 parse)
   // useredit 이런거 할때 localStorage.removeItem('키') 써서 같이 수정하게 하고
@@ -55,8 +53,7 @@ function App() {
     const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
     const payload = { authorizationCode };
     const socialType = localStorage.getItem('socialType');
-    const redirectURL =
-      process.env.REACT_APP_REDIRECT_URL || `http://localhost:3000`;
+
     axios
       .post(`${url}/user/${socialType}`, payload)
       .then((res) => {

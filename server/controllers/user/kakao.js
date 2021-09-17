@@ -10,7 +10,7 @@ module.exports = {
   post: async (req, res) => {
     const { authorizationCode } = req.body;
     const kakaoRedirectUri =
-      process.env.KAKAO_REDIRECT_URI || `http://localhost:3000`;
+      process.env.REDIRECT_URI || `http://localhost:3000`;
     const kakaoData = await axios({
       method: 'post',
       url: `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_REST_API}&redirect_uri=${kakaoRedirectUri}&code=${authorizationCode}`,

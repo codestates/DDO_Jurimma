@@ -17,8 +17,7 @@ module.exports = {
     // ! 유저 정보 가져오기
     const googleClientId = process.env.GOOGLE_CLIENT_ID;
     const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
-    const redirect_url =
-      process.env.CLIENT_REDIRECT_URL || `http://localhost:3000`;
+    const redirect_url = process.env.REDIRECT_URI || `http://localhost:3000`;
     const googleClient = new OAuth2Client(
       googleClientId,
       googleClientSecret,
