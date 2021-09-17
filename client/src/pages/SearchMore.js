@@ -109,7 +109,8 @@ const SearchMoreBox = styled.div`
       width: 95%;
       height: 300px;
       margin: 0 auto;
-      background-color: #ddd;
+      background-color: #230638;
+      border: 2px solid #fff;
       border-radius: 20px;
       display: flex;
       justify-content: center;
@@ -124,41 +125,49 @@ const SearchMoreBox = styled.div`
           display: flex;
           justify-content: space-between;
           > h3 {
+            width: 120px;
+            text-align: center;
+            color: #fff;
             height: 50px;
             line-height: 50px;
+            border-radius: 10px;
+            border: 2px solid #fff;
           }
         }
         > .wordMean {
           width: 100%;
           height: 150px;
           margin-top: 10px;
-          background-color: #000;
+          background-color: rgba(255, 255, 255, 0.8);
           border-radius: 20px;
-          color: #fff;
           text-align: center;
           line-height: 150px;
           font-size: 18px;
         }
         > .bottomWrap {
           display: flex;
-          height: 50px;
+          height: 40px;
           margin-top: 10px;
-          justify-content: space-between;
+          justify-content: flex-end;
           > span {
             width: 120px;
-            height: 50px;
+            height: 40px;
             text-align: center;
-            line-height: 50px;
-            background-color: green;
-            border-radius: 20px;
+            line-height: 40px;
+            background-color: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 12px;
           }
           > p {
             width: 120px;
-            height: 50px;
+            height: 40px;
             text-align: center;
-            line-height: 50px;
-            background-color: green;
-            border-radius: 20px;
+            line-height: 40px;
+            background-color: #fff;
+            margin-left: 10px;
+            border-radius: 10px;
           }
         }
       }
@@ -169,12 +178,18 @@ const SearchMoreBox = styled.div`
 const ProfileWrap = styled.div`
   height: 50px;
   display: flex;
+  align-items: center;
   > .userName {
     width: 100px;
+    height: 40px;
     text-align: center;
-    line-height: 50px;
+    line-height: 40px;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 10px;
   }
   > img {
+    margin-left: 10px;
     width: 50px;
     height: 50px;
     border-radius: 50px;
@@ -221,7 +236,7 @@ function SearchMore() {
                 <li className='wordBox'>
                   <div className='wordBoxWrap'>
                     <div className='topWrap'>
-                      <h3>wordTitle</h3>
+                      <h3>자만추</h3>
                       <ProfileWrap>
                         <div className='userName'>김코딩</div>
                         <img src={exProfileImg} />
