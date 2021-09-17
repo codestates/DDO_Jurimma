@@ -27,10 +27,8 @@ axios.defaults.withCredentials = true;
 function App() {
   const state = useSelector((state) => state.userInfoReducer);
   const dispatch = useDispatch();
+  console.log(state);
 
-  // local 저장할땐 stringify를 해야한다 (뺄때는 parse)
-  // useredit 이런거 할때 localStorage.removeItem('키') 써서 같이 수정하게 하고
-  // 회원탈퇴 할때도 localStorage.clear() 해줘야함
 
   useEffect(() => {
     // console.log(JSON.parse(localStorage.userInfo).id);

@@ -4,6 +4,7 @@ import Search from '../components/Search';
 import Chart from '../components/Chart';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 const MainWrap = styled.div`
   width: 1400px;
@@ -21,6 +22,7 @@ const MainWrap = styled.div`
 function Main() {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const [realTime, setRealTime] = useState([]);
+
   function useInterval(callback, delay) {
     const savedCallback = useRef();
 

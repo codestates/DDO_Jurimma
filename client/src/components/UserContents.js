@@ -4,7 +4,9 @@ import { useDispatch } from 'react-redux';
 import { setEditContentModal } from '../actions/index';
 
 const UserContentsWrap = styled.div`
-  width: 100%;
+  width: max(375px, 100%);
+  max-width: 1080px;
+  margin: 0 auto;
   // 콘텐츠 전체 길이 생각해서 후에 max 설정해주기
   flex: 4 1 auto;
   border: 1px solid red;
