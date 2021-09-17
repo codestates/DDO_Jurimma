@@ -29,6 +29,7 @@ function App() {
   const dispatch = useDispatch();
   console.log(state);
 
+
   useEffect(() => {
     // console.log(JSON.parse(localStorage.userInfo).id);
     if (localStorage.userInfo) {
@@ -49,19 +50,24 @@ function App() {
   const getUserInfoAndAccessToken = (authorizationCode) => {
     const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
     const payload = { authorizationCode };
+    const socialType = localStorage.getItem('socialType');
+
     axios
-      .post(`${url}/user/kakao`, payload)
+      .post(`${url}/user/${socialType}`, payload)
       .then((res) => {
         console.log(res.data);
         dispatch(setLogin(true)); // axios응답으로 redux 업데이트
         dispatch(setAccessToken(res.data.accessToken)); // axios 응답으로 accessToken 업데이트
         dispatch(setUserInfo(res.data.userInfo)); // axios응답으로 userInfo 업데이트
         // console.log(state.userInfo); // 유저 정보 콘솔에 찍어보기
+        localStorage.removeItem('socialType');
         swal({
           title: '로그인이 완료되었습니다!',
           text: '만반잘부 😆 (만나서 반갑고 잘 부탁해)!',
           icon: 'success',
-        }); // sweet alert로 안내
+        }).then(() => {
+          window.location.replace('/');
+        });
       })
       .catch((err) => {
         console.log(err);
