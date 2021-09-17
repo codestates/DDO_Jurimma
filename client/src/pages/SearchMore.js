@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setNewContentModal } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import exProfileImg from '../images/basic_profileImg.svg';
 import { useEffect } from 'react/cjs/react.development';
 import axios from 'axios';
@@ -81,31 +82,98 @@ const ToDiffSearchMore = styled.div`
 const SearchMoreBox = styled.div`
   width: 100%;
   margin-top: 50px;
-  background-color: green;
+  > .btnAndFilter {
+    display: flex;
+    justify-content: space-between;
+    > button {
+      width: 200px;
+      height: 50px;
+      @media only screen and (max-width: 550px) {
+        width: 120px;
+        height: 40px;
+      }
+    }
+    > select {
+      width: 200px;
+      height: 50px;
+      outline: none;
+      @media only screen and (max-width: 550px) {
+        width: 120px;
+        height: 40px;
+      }
+    }
+  }
   > ul {
     margin-top: 50px;
     width: 100%;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    padding: 30px 0;
     > .wordBox {
       width: 95%;
       height: 300px;
       margin: 0 auto;
-      background-color: pink;
-      > .topWrap {
-        display: flex;
-        background-color: orange;
-        justify-content: space-between;
+      background-color: #230638;
+      border: 2px solid #fff;
+      border-radius: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px;
+      :nth-child(1) {
+        margin-top: 0;
       }
-      > .wordMean {
-        width: 100%;
-        height: 150px;
-        background-color: blue;
-      }
-      > .bottomWrap {
-        display: flex;
-        height: 50px;
-        background-color: red;
-        justify-content: space-between;
+      > .wordBoxWrap {
+        width: 90%;
+        > .topWrap {
+          display: flex;
+          justify-content: space-between;
+          > h3 {
+            width: 120px;
+            text-align: center;
+            color: #fff;
+            height: 50px;
+            line-height: 50px;
+            border-radius: 10px;
+            border: 2px solid #fff;
+          }
+        }
+        > .wordMean {
+          width: 100%;
+          height: 150px;
+          margin-top: 10px;
+          background-color: rgba(255, 255, 255, 0.8);
+          border-radius: 20px;
+          text-align: center;
+          line-height: 150px;
+          font-size: 18px;
+        }
+        > .bottomWrap {
+          display: flex;
+          height: 40px;
+          margin-top: 10px;
+          justify-content: flex-end;
+          > span {
+            width: 120px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            background-color: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 12px;
+          }
+          > p {
+            width: 120px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            background-color: #fff;
+            margin-left: 10px;
+            border-radius: 10px;
+          }
+        }
       }
     }
   }
@@ -113,14 +181,22 @@ const SearchMoreBox = styled.div`
 
 const ProfileWrap = styled.div`
   height: 50px;
-  background-color: red;
   display: flex;
+  align-items: center;
   > .userName {
-    background-color: yellow;
+    width: 100px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 10px;
   }
   > img {
+    margin-left: 10px;
     width: 50px;
     height: 50px;
+    border-radius: 50px;
   }
 `;
 
@@ -186,7 +262,6 @@ function SearchMore() {
                   <option>최신순</option>
                 </select>
               </div>
-
               <ul>
                 {searchMoreData.map((data) => {
                   return (
@@ -203,7 +278,9 @@ function SearchMore() {
 
                       <div className='bottomWrap'>
                         <span>2021-09-17</span>
-                        <div>좋아요 {data.thumbsup.length}개</div>
+                        <p>
+                        <FontAwesomeIcon icon={faThumbsUp} />
+                        좋아요 {data.thumbsup.length}개</p>
                       </div>
                     </li>
                   );
