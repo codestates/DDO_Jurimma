@@ -13,10 +13,11 @@ import Quiz from './modals/Quiz';
 import EditContent from './modals/EditContent';
 import Logout from './modals/Logout';
 import SignOut from './modals/SignOut';
+import swal from 'sweetalert';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLogin } from './actions/index';
+import { setLogin, setAccessToken, setUserInfo } from './actions/index';
 import NewContent from './modals/NewContent';
 import { useEffect } from 'react';
 
@@ -37,7 +38,42 @@ function App() {
     } else {
       dispatch(setLogin(false));
     }
+
+    const authorizationCode = new URL(window.location.href).searchParams.get(
+      'code'
+    );
+    if (authorizationCode) {
+      console.log(authorizationCode);
+      getUserInfoAndAccessToken(authorizationCode);
+    }
   }, []);
+
+  const getUserInfoAndAccessToken = (authorizationCode) => {
+    const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
+    const payload = { authorizationCode };
+    axios
+      .post(`${url}/user/kakao`, payload)
+      .then((res) => {
+        console.log(res.data);
+        dispatch(setLogin(true)); // axios응답으로 redux 업데이트
+        dispatch(setAccessToken(res.data.accessToken)); // axios 응답으로 accessToken 업데이트
+        dispatch(setUserInfo(res.data.userInfo)); // axios응답으로 userInfo 업데이트
+        // console.log(state.userInfo); // 유저 정보 콘솔에 찍어보기
+        swal({
+          title: '로그인이 완료되었습니다!',
+          text: '만반잘부 😆 (만나서 반갑고 잘 부탁해)!',
+          icon: 'success',
+        }); // sweet alert로 안내
+      })
+      .catch((err) => {
+        console.log(err);
+        swal({
+          title: '로그인에 실패하였습니다',
+          text: '다시 로그인 해주세요!',
+          icon: 'warning',
+        }); // swal로 안내
+      });
+  };
 
   const {
     isShowLoginOrSignupModal,
