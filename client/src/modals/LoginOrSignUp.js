@@ -344,6 +344,14 @@ function LoginOrSignUp() {
     }
   };
 
+  // ! google login
+  const google_client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
+  const redirect_uri =
+    process.env.REACT_APP_REDIRECT_URL || `http://localhost:3000`;
+
+  const GOOGLE_LOGIN_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${google_client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=profile email&access_type=offline`;
+
   const kakaoRedirectUri =
     process.env.REACT_APP_KAKAO_REDIRECT_URI || `http://localhost:3000`;
   const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${kakaoRedirectUri}&response_type=code`;
