@@ -266,21 +266,24 @@ function SearchMore() {
                 {searchMoreData.map((data) => {
                   return (
                     <li className='wordBox' key={data.id}>
-                      <div className='topWrap'>
-                        <h3>{data.wordName}</h3>
-                        <ProfileWrap>
-                          <div className='userName'>{data.userId}</div>
-                          <img src={exProfileImg} />
-                        </ProfileWrap>
-                      </div>
+                      <div className='wordBoxWrap'>
+                        <div className='topWrap'>
+                          <h3>{data.wordName}</h3>
+                          <ProfileWrap>
+                            <div className='userName'>{data.userId}</div>
+                            <img src={exProfileImg} />
+                          </ProfileWrap>
+                        </div>
 
-                      <div className='wordMean'>{data.wordMean}</div>
+                        <div className='wordMean'>{data.wordMean}</div>
 
-                      <div className='bottomWrap'>
-                        <span>2021-09-17</span>
-                        <p>
-                        <FontAwesomeIcon icon={faThumbsUp} />
-                        좋아요 {data.thumbsup.length}개</p>
+                        <div className='bottomWrap'>
+                          <span>2021-09-17</span>
+                          <p>
+                            <FontAwesomeIcon icon={faThumbsUp} />
+                            {data.thumbsup.length}개
+                          </p>
+                        </div>
                       </div>
                     </li>
                   );
