@@ -204,6 +204,7 @@ function LoginOrSignUp() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.userInfoReducer);
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
+
   const closeLoginOrSignupModal = (isOpen) => {
     dispatch(setLoginOrSignupModal(isOpen));
   }; // 로그인 모달 닫는 함수
@@ -343,6 +344,14 @@ function LoginOrSignUp() {
     }
   };
 
+  const kakaoRedirectUri =
+    process.env.REACT_APP_KAKAO_REDIRECT_URI || `http://localhost:3000`;
+  const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${kakaoRedirectUri}&response_type=code`;
+
+  const handleKakaoLogin = () => {
+    window.location.assign(KAKAO_LOGIN_URL);
+  };
+
   const [currentTab, setCurrentTab] = useState(0);
   const selectMenuHandler = (index) => {
     setErrorMsg(''); // 탭 옮기면 에러메세지 다 사라지도록
@@ -360,7 +369,7 @@ function LoginOrSignUp() {
         <OauthLogin>
           <p>카카오와 구글 계정으로 로그인해보세요!</p>
           <div className='OauthLoginBtn'>
-            <KakaoLogin>
+            <KakaoLogin onClick={handleKakaoLogin}>
               <FontAwesomeIcon icon={faComment} />
               카카오 로그인
             </KakaoLogin>
