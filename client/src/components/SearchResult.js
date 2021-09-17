@@ -50,8 +50,6 @@ const BtnWrap = styled.div`
     transition: 0.3s;
     background-color: #fff;
     color: #440a67;
-  }
-  > .newOrSearchBtn:nth-child(2) {
     > a {
       display: block;
       width: 100%;
