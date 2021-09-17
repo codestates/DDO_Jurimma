@@ -349,7 +349,13 @@ function LoginOrSignUp() {
   const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${kakaoRedirectUri}&response_type=code`;
 
   const handleKakaoLogin = () => {
+    localStorage.setItem('socialType', 'google');
     window.location.assign(KAKAO_LOGIN_URL);
+  };
+
+  const googleLoginHandler = () => {
+    localStorage.setItem('socialType', 'google');
+    window.location.assign(GOOGLE_LOGIN_URL);
   };
 
   const [currentTab, setCurrentTab] = useState(0);
@@ -374,7 +380,7 @@ function LoginOrSignUp() {
               카카오 로그인
             </KakaoLogin>
 
-            <GoogleLogin>
+            <GoogleLogin onClick={googleLoginHandler}>
               <FontAwesomeIcon icon={['fab', 'google']} />
               구글 로그인
             </GoogleLogin>
