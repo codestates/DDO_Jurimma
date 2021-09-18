@@ -1,67 +1,66 @@
 // Mypage 안에서 유저 정보 나타날 부분
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 import basicProfile from '../images/basic_profileImg.svg';
-import diaProfile from '../images/master_profile.svg';
+import silverProfile from '../images/junior_profile.svg';
 import { useSelector } from 'react-redux';
 
-const UserInfoWrap = styled.div`
-  width: max(375px, 100%);
-  max-width: 1080px;
+const colorAni = keyframes`
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+`;
+
+const UserInfoLevel = styled.div`
+  width: 50%;
   margin: 0 auto;
-  flex: 3 1 auto;
   // 콘텐츠 전체 길이 생각해서 후에 max 설정해주기
   box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  @media only screen and (max-width: 800px) {
-    flex-direction: column;
+  position: relative;
+  top: -250px;
+  @media only screen and (max-width: 1399px) {
+    width: 80vw;
   }
-`;
-const UserInfoLevel = styled.div`
-  flex: 1 1 auto;
-  border: 1px solid blue;
-  display: flex;
-  flex-direction: column;
+  @media only screen and (max-width: 800px) {
+    top: -150px;
+  }
   > #levelProfile {
-    width: 100%;
-    height: 80%;
+    width: 450px;
+    height: 450px;
+    background: url(${silverProfile});
     margin: 0 auto;
-    background: url(${diaProfile}) center no-repeat;
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
     @media only screen and (max-width: 800px) {
-      min-height: 350px;
+      height: 300px;
+      width: 300px;
     }
     > #profileImg {
-      width: 150px;
-      height: 150px;
-      border-radius: 150px;
-      background: url(${basicProfile}) no-repeat;
-    }
-  }
-  > #levelWrap {
-    height: 20%;
-    border: 1px solid #fff;
-    color: #fff;
-    display: grid;
-    place-items: center;
-    > #levelInfo {
-      text-align: center;
-      > p {
-        color: #fff;
-        margin-bottom: 10px;
+      width: 130px;
+      height: 130px;
+      border-radius: 300px;
+      margin: 0 auto;
+      background: url(${basicProfile}); // 주림마에서 기본적으로 제공하는 img
+      background-repeat: no-repeat;
+      background-size: cover;
+      @media only screen and (max-width: 800px) {
+        width: 80px;
+        height: 80px;
       }
-    }
-    @media only screen and (max-width: 800px) {
-      min-height: 100px;
     }
   }
 `; // 유저 사진 및 레벨 정보
 const UserInfoProgress = styled.div`
-  width: 100%;
-  height: 15px;
-  background-color: #fff;
+  width: 50%;
+  height: 20px;
+  margin: 0 auto;
+  background-color: #440a67;
   border-radius: 50px;
   overflow: hidden;
   > #barStyle {
@@ -70,18 +69,72 @@ const UserInfoProgress = styled.div`
     background-color: #b4aee8;
   }
 `; // 유저 레벨 progress bar
+
+const UserInfoDataWrap = styled.div`
+  position: relative;
+  top: -250px;
+  margin: 0 auto;
+  @media only screen and (max-width: 800px) {
+    top: -150px;
+  }
+  > #levelWrap {
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 30px;
+    height: 100px;
+    color: #fff;
+    display: grid;
+    background-color: #fff;
+    place-items: center;
+    > #levelInfo {
+      width: 50%;
+      text-align: center;
+      > p {
+        color: #000;
+        margin-bottom: 10px;
+      }
+    }
+    @media only screen and (max-width: 800px) {
+      min-height: 100px;
+    }
+  }
+`;
+
 const UserInfoData = styled.div`
-  flex: 1 1 auto;
-  border: 1px solid blue;
-  display: grid;
-  place-items: center;
+  margin-top: -30px;
+  @media only screen and (max-width: 1399px) {
+    width: 100%;
+  }
   > #userInfo {
-    width: 80%;
+    width: 60%;
+    margin: 0 auto;
     text-align: center;
-    > p {
+    > #userName {
+      width: 40%;
+      margin: 0 auto;
+      height: 60px;
+      line-height: 60px;
       color: #fff;
-      padding-bottom: 10px;
-      box-sizing: border-box;
+      border-radius: 20px;
+      border: 2px solid #fff;
+      background: linear-gradient(-45deg, #5591c9, #245689);
+      animation: ${colorAni} 10s ease infinite;
+      background-size: 200% 100%;
+      @media only screen and (max-width: 800px) {
+        width: 160px;
+      }
+      > span {
+        font-size: 13px;
+        color: #fff;
+      }
+    }
+    > #userEmail {
+      height: 30px;
+      line-height: 30px;
+      width: 50%;
+      margin: 0 auto;
+      margin-top: 30px;
+      background-color: orange;
     }
     > #userInfoEditBtn {
       cursor: pointer;
@@ -89,7 +142,12 @@ const UserInfoData = styled.div`
       width: 40%;
       height: 50px;
       background-color: #fff;
+      width: 200px;
       color: #440a67;
+      margin-top: 30px;
+      @media only screen and (max-width: 800px) {
+        width: 130px;
+      }
       > a {
         display: block;
         width: 100%;
@@ -122,32 +180,37 @@ function UserInfo() {
   } // 나타낼 레벨 정하기
 
   return (
-    <UserInfoWrap>
+    <>
       <UserInfoLevel>
         <div id='levelProfile'>
           <div id='profileImg'></div>
         </div>
+      </UserInfoLevel>
+      <UserInfoDataWrap>
+        <UserInfoData>
+          <div id='userInfo'>
+            <p id='userName'>
+              {state.userInfo.username}
+              <span>님 반갑습니다!</span>
+            </p>
+            {/* <p id='userEmail'>{state.userInfo.email}</p> */}
+            <button id='userInfoEditBtn'>
+              <Link to='/mypageEdit'>내 정보 수정하기</Link>
+            </button>
+          </div>
+        </UserInfoData>
         <div id='levelWrap'>
           <div id='levelInfo'>
             <p>
-              {whatLevel} ({state.userInfo.experience}exp) 레벨 입니다.
+              Lv.{whatLevel} ({state.userInfo.experience}exp)
             </p>
             <UserInfoProgress>
               <div id='barStyle' style={barWidth}></div>
             </UserInfoProgress>
           </div>
         </div>
-      </UserInfoLevel>
-      <UserInfoData>
-        <div id='userInfo'>
-          <p>{state.userInfo.username}</p>
-          <p>{state.userInfo.email}</p>
-          <button id='userInfoEditBtn'>
-            <Link to='/mypageEdit'>수정하기</Link>
-          </button>
-        </div>
-      </UserInfoData>
-    </UserInfoWrap>
+      </UserInfoDataWrap>
+    </>
   );
 }
 

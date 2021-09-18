@@ -1,7 +1,7 @@
 // EditMyPage에서 유저 정보 변경하는 부분
 import styled, { keyframes } from 'styled-components';
 
-const profileAni = keyframes`
+const colorAni = keyframes`
     0% {
         background-position: 0% 50%;
     }
@@ -30,7 +30,7 @@ const OldUserName = styled.div`
   width: 100%;
   height: 60px;
   margin: 0 auto;
-  animation: ${profileAni} 10s ease infinite;
+  animation: ${colorAni} 10s ease infinite;
   background: linear-gradient(-45deg, #3fc1ff, #d42aff);
   background-size: 200% 100%;
   text-align: center;

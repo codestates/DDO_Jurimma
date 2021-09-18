@@ -102,7 +102,7 @@ function Signout() {
         <div id='queSignout'>정말 회원탈퇴 하실 건가요?</div>
         <ButtonWrap>
           <button>취소하기</button>
-          <button>저장하기</button>
+          <button>탈퇴하기</button>
         </ButtonWrap>
       </SignoutModal>
     </SignoutBackdrop>

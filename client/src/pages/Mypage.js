@@ -10,12 +10,21 @@ import { setAccessToken, setUserInfo } from '../actions';
 axios.defaults.withCredentials = true;
 
 const MypageWrap = styled.div`
-  height: 100vh; // 콘텐츠 전체 길이 생각해서 후에 max 설정해주기
-  border: 1px solid red;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  margin-top: 150px;
+  width: 80%; // 콘텐츠 전체 길이 생각해서 후에 max 설정해주기
+  background-color: rgba(255, 255, 255, 0.7);
+  margin: 0 auto;
+  margin-top: 300px;
+  border-radius: 20px;
+  @media only screen and (max-width: 800px) {
+    position: relative;
+    top: -100px;
+  }
+`;
+
+const MypageBox = styled.div`
+  width: 1400px;
+  background-color: #fff;
+  margin: 0 atuo;
 `;
 
 function Mypage() {
