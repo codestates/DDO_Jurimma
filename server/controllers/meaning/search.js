@@ -135,7 +135,7 @@ module.exports = {
           });
           //! 검색 결과가 아무것도 존재하지 않는 경우
           if (!coWordName) {
-            res.status(201).json({ data: [] });
+            res.status(201).json({ accessToken, data: [] });
           }
           //! 검색 결과가 존재하는 경우
           else {
