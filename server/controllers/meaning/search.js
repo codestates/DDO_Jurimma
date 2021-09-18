@@ -1,4 +1,4 @@
-const { content, word, thumbsups } = require('../../models');
+const { user, content, word, thumbsups } = require('../../models');
 const {
   generateAccessToken,
   isAuthorized,
@@ -29,27 +29,32 @@ module.exports = {
           attributes: ['id', 'wordMean', 'userId', 'wordId'],
           where: { wordId: coWordName.id },
         });
-        const contentsId = coContents.map((el) => el.dataValues);
+        const returnData = coContents.map((el) => el.dataValues);
         const thumbsupData = [];
-        for (let i = 0; i < contentsId.length; i++) {
+        for (let i = 0; i < returnData.length; i++) {
           let thumbsupContent = await thumbsups.findAll({
             attributes: ['userId', 'contentId'],
-            where: { contentId: contentsId[i].id },
+            where: { contentId: returnData[i].id },
           });
           const thumbsupResult = thumbsupContent.map((el) => el.dataValues);
           thumbsupData.push(thumbsupResult);
           // console.log('thumbsupResult : ', thumbsupResult);
         }
 
-        // console.log('contentsId : ', contentsId);
+        // console.log('returnData : ', returnData);
         // console.log('thumbsupData : ', thumbsupData);
 
-        const returnData = contentsId.map((el) => {
-          el.wordName = wordName;
-          return el;
-        });
         for (let i = 0; i < returnData.length; i++) {
-          returnData[i].thumbsup = thumbsupData[i];
+          returnData[i].wordName = wordName;
+          let userNames = [];
+          for (let j = 0; j < thumbsupData[i].length; j++) {
+            let userName = await user.findOne({
+              attributes: ['username'],
+              where: { id: thumbsupData[i][j].userId },
+            });
+            userNames.push(userName.username);
+          }
+          returnData[i].thumbsup = userNames;
         }
         // console.log('returnData : ', returnData);
         // console.log(returnData[3].thumbsups);
@@ -85,27 +90,32 @@ module.exports = {
             attributes: ['id', 'wordMean', 'userId', 'wordId'],
             where: { wordId: coWordName.id },
           });
-          const contentsId = coContents.map((el) => el.dataValues);
+          const returnData = coContents.map((el) => el.dataValues);
           const thumbsupData = [];
-          for (let i = 0; i < contentsId.length; i++) {
+          for (let i = 0; i < returnData.length; i++) {
             let thumbsupContent = await thumbsups.findAll({
               attributes: ['userId', 'contentId'],
-              where: { contentId: contentsId[i].id },
+              where: { contentId: returnData[i].id },
             });
             const thumbsupResult = thumbsupContent.map((el) => el.dataValues);
             thumbsupData.push(thumbsupResult);
             // console.log('thumbsupResult : ', thumbsupResult);
           }
 
-          // console.log('contentsId : ', contentsId);
+          // console.log('returnData : ', returnData);
           // console.log('thumbsupData : ', thumbsupData);
 
-          const returnData = contentsId.map((el) => {
-            el.wordName = wordName;
-            return el;
-          });
           for (let i = 0; i < returnData.length; i++) {
-            returnData[i].thumbsup = thumbsupData[i];
+            returnData[i].wordName = wordName;
+            let userNames = [];
+            for (let j = 0; j < thumbsupData[i].length; j++) {
+              let userName = await user.findOne({
+                attributes: ['username'],
+                where: { id: thumbsupData[i][j].userId },
+              });
+              userNames.push(userName.username);
+            }
+            returnData[i].thumbsup = userNames;
           }
           // console.log('returnData : ', returnData);
           // console.log(returnData[3].thumbsup);
@@ -134,27 +144,32 @@ module.exports = {
               attributes: ['id', 'wordMean', 'userId', 'wordId'],
               where: { wordId: coWordName.id },
             });
-            const contentsId = coContents.map((el) => el.dataValues);
+            const returnData = coContents.map((el) => el.dataValues);
             const thumbsupData = [];
-            for (let i = 0; i < contentsId.length; i++) {
+            for (let i = 0; i < returnData.length; i++) {
               let thumbsupContent = await thumbsups.findAll({
                 attributes: ['userId', 'contentId'],
-                where: { contentId: contentsId[i].id },
+                where: { contentId: returnData[i].id },
               });
               const thumbsupResult = thumbsupContent.map((el) => el.dataValues);
               thumbsupData.push(thumbsupResult);
               // console.log('thumbsupResult : ', thumbsupResult);
             }
 
-            // console.log('contentsId : ', contentsId);
+            // console.log('returnData : ', returnData);
             // console.log('thumbsupData : ', thumbsupData);
 
-            const returnData = contentsId.map((el) => {
-              el.wordName = wordName;
-              return el;
-            });
             for (let i = 0; i < returnData.length; i++) {
-              returnData[i].thumbsup = thumbsupData[i];
+              returnData[i].wordName = wordName;
+              let userNames = [];
+              for (let j = 0; j < thumbsupData[i].length; j++) {
+                let userName = await user.findOne({
+                  attributes: ['username'],
+                  where: { id: thumbsupData[i][j].userId },
+                });
+                userNames.push(userName.username);
+              }
+              returnData[i].thumbsup = userNames;
             }
             // console.log('returnData : ', returnData);
             // console.log(returnData[3].thumbsup);
