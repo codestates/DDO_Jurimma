@@ -125,13 +125,17 @@ function SearchResult({ wordResult, notSearched }) {
                   className='newOrSearchBtn'
                   onClick={state.isLogin ? null : showLogin}
                 >
-                  <Link
-                    to={`/searchMore?wordName=${encodeURIComponent(
-                      wordResult[0].wordName
-                    )}`}
-                  >
-                    더보기
-                  </Link>
+                  {state.isLogin ? (
+                    <Link
+                      to={`/searchMore?wordName=${encodeURIComponent(
+                        wordResult[0].wordName
+                      )}`}
+                    >
+                      더보기
+                    </Link>
+                  ) : (
+                    '더보기'
+                  )}
                 </button>
               </BtnWrap>
             </>

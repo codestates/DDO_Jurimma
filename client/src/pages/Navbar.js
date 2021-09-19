@@ -137,7 +137,7 @@ const NavBar2 = styled.nav`
   }
 `;
 
-function Nav({ timer }) {
+function Nav() {
   const state = useSelector((state) => state.userInfoReducer);
   const nowDate = new Date().toLocaleDateString(); // 접속한 날짜를 "2021. 9. 13."와 같은 형식으로 확인
   const dispatch = useDispatch();

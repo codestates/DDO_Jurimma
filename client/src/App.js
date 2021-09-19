@@ -29,11 +29,12 @@ function App() {
   const dispatch = useDispatch();
   console.log(state);
 
-
   useEffect(() => {
     // console.log(JSON.parse(localStorage.userInfo).id);
     if (localStorage.userInfo) {
       dispatch(setLogin(true));
+      dispatch(setUserInfo(JSON.parse(localStorage.userInfo)));
+      // setUserInfo를 하지 않으면 로그인 후에 퀴즈를 풀어도 다시 풀 수 있게 된다.
     } else {
       dispatch(setLogin(false));
     }
