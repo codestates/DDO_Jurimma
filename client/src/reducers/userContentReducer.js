@@ -15,7 +15,7 @@ const defaultUserContentInfo = {
 const userContentReducer = (state = defaultUserContentInfo, action) => {
   switch (action.type) {
     case SET_USER_CONTENT: // 유저가 쓴 글 다 받아오기
-      return { ...action.payload };
+      return { ...action.userContent };
 
     case DELETE_CONTENT: // 유저가 쓴 글 제거하는 reducer, payload로 contentId 들어옴
       let saveContents = state.data.filter(

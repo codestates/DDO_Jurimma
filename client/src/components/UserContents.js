@@ -1,9 +1,16 @@
 // Mypage에서 유저가 쓴 글 목록
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import { setEditContentModal } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import {
+  faExternalLinkAlt,
+  faThumbsUp,
+} from '@fortawesome/free-solid-svg-icons';
+import { setAccessToken, getContent } from '../actions';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 const UserContentsWrap = styled.div`
   width: 80%;
@@ -40,6 +47,12 @@ const UserContentsWrap = styled.div`
       }
       > .wordBoxWrap {
         width: 90%;
+        > .noContentMsg {
+          text-align: center;
+          > p {
+            color: #fff;
+          }
+        }
         > .topWrap {
           display: flex;
           justify-content: space-between;
@@ -189,10 +202,26 @@ const HoverThumbsup = styled.div`
 `;
 
 function UserContents() {
+  const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
+  const state = useSelector((state) => state.userContentReducer);
   const dispatch = useDispatch();
   const openEditContentModal = (isOpen) => {
     dispatch(setEditContentModal(isOpen));
   }; // 수정 모달 여는 함수
+
+  const getMyContent = async () => {
+    let contentResult = await axios.get(`${url}/meaning/me`, {
+      headers: { authorization: `Bearer ${state.accessToken}` },
+    });
+    if (contentResult.data.accessToken) {
+      dispatch(setAccessToken(contentResult.data.accessToken));
+    } // contentResult에 accessToken이 담겨오면 새로 업데이트
+    dispatch(getContent(contentResult.data));
+  }; // axios로 유저가 쓴 글 요청 및 dispatch로 redux 업데이트
+
+  useEffect(() => {
+    getMyContent();
+  }, []); // 렌더링 될때마다 유저의 글 요청
 
   return (
     <UserContentsWrap>
@@ -204,61 +233,50 @@ function UserContents() {
       </FilterWrap>
 
       <ul>
-        <li className='wordBox'>
-          <div className='wordBoxWrap'>
-            <div className='topWrap'>
-              <h3>자만추</h3>
-              <EditContent>
-                <button onClick={() => openEditContentModal(true)}>
-                  내가 쓴 글 수정하기
-                </button>
-              </EditContent>
+        {state.data.length === 0 ? (
+          <li className='wordBox'>
+            <div className='wordBoxWrap'>
+              <div className='noContentMsg'>
+                <p>아직 작성한 단어가 없습니다.</p>
+              </div>
             </div>
+          </li>
+        ) : (
+          <>
+            {state.data.map((el) => {
+              return (
+                <li className='wordBox'>
+                  <div className='wordBoxWrap'>
+                    <div className='topWrap'>
+                      <h3>{el.wordName}</h3>
+                      <EditContent>
+                        <button onClick={() => openEditContentModal(true)}>
+                          내가 쓴 글 수정하기
+                        </button>
+                      </EditContent>
+                    </div>
 
-            <div className='wordMean'>자연스러운 만남 추구</div>
+                    <div className='wordMean'>{el.wordMean}</div>
 
-            <div className='bottomWrap'>
-              <span>2021-09-17</span>
-              <p>
-                <HoverThumbsup className='hoverThumbsup'>
-                  박해커님 외에 1명이 좋아합니다.
-                </HoverThumbsup>
-                <div className='thumbsupWrap'>
-                  <FontAwesomeIcon icon={faThumbsUp} />
-                  2개
-                </div>
-              </p>
-            </div>
-          </div>
-        </li>
-
-        <li className='wordBox'>
-          <div className='wordBoxWrap'>
-            <div className='topWrap'>
-              <h3>자만추</h3>
-              <EditContent>
-                <button onClick={() => openEditContentModal(true)}>
-                  내가 쓴 글 수정하기
-                </button>
-              </EditContent>
-            </div>
-
-            <div className='wordMean'>자연스러운 만남 추구</div>
-
-            <div className='bottomWrap'>
-              <span>2021-09-17</span>
-              <p>
-                <HoverThumbsup className='hoverThumbsup'>
-                  박해커님 외에 1명이 좋아합니다.
-                </HoverThumbsup>
-                <div className='thumbsupWrap'>
-                  <FontAwesomeIcon icon={faThumbsUp} />
-                  2개
-                </div>
-              </p>
-            </div>
-          </div>
-        </li>
+                    <div className='bottomWrap'>
+                      <span>{el.updatedAt}</span>
+                      <p>
+                        <HoverThumbsup className='hoverThumbsup'>
+                          {el.thumbsup[0]}님 외에 {el.thumbsup.length - 1}명이
+                          좋아합니다.
+                        </HoverThumbsup>
+                        <div className='thumbsupWrap'>
+                          <FontAwesomeIcon icon={faThumbsUp} />
+                          {el.thumbsup.length}개
+                        </div>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </>
+        )}
       </ul>
       {/* 수정하기 버튼은 유저가 쓴 글이 mapping 된 div에 각각 들어가 있어야 함 */}
     </UserContentsWrap>

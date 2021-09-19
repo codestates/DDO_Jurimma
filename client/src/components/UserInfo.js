@@ -3,7 +3,11 @@ import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 import basicProfile from '../images/basic_profileImg.svg';
 import silverProfile from '../images/junior_profile.svg';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { setAccessToken, setUserInfo } from '../actions';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 const colorAni = keyframes`
     0% {
@@ -176,7 +180,23 @@ const UserInfoData = styled.div`
 `; // 유저 개인 정보
 
 function UserInfo() {
+  const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const state = useSelector((state) => state.userInfoReducer);
+  const dispatch = useDispatch();
+  const getMyInfo = async () => {
+    let infoResult = await axios.get(`${url}/user`, {
+      headers: { authorization: `Bearer ${state.accessToken}` },
+    }); // userinfo 받아오기
+    if (infoResult.data.accessToken) {
+      dispatch(setAccessToken(infoResult.data.accessToken));
+    }
+    dispatch(setUserInfo(infoResult.data.data));
+  }; // axios로 유저 정보 요청 및 dispatch로 redux 업데이트
+
+  useEffect(() => {
+    getMyInfo();
+  }, []); // 렌더링 될때마다 다시 유저 정보 요청
+
   const barWidth = {
     width: state.userInfo.experience + '%',
   }; // 경험치 status bar width 정하는 함수
