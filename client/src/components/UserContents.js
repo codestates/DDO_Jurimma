@@ -199,11 +199,15 @@ const HoverThumbsup = styled.div`
   border-radius: 10px;
   border: 2px solid #fff;
   display: none;
+  &.hoverThumbsupNone {
+    display: none;
+  }
 `;
 
 function UserContents() {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const state = useSelector((state) => state.userContentReducer);
+
   const dispatch = useDispatch();
   const openEditContentModal = (isOpen) => {
     dispatch(setEditContentModal(isOpen));
@@ -218,7 +222,6 @@ function UserContents() {
     } // contentResult에 accessToken이 담겨오면 새로 업데이트
     dispatch(getContent(contentResult.data));
   }; // axios로 유저가 쓴 글 요청 및 dispatch로 redux 업데이트
-
   useEffect(() => {
     getMyContent();
   }, []); // 렌더링 될때마다 유저의 글 요청
@@ -259,16 +262,24 @@ function UserContents() {
                     <div className='wordMean'>{el.wordMean}</div>
 
                     <div className='bottomWrap'>
-                      <span>{el.updatedAt}</span>
+                      <span>{el.createdAt.split('T')[0]}</span>
                       <p>
-                        <HoverThumbsup className='hoverThumbsup'>
-                          {el.thumbsup[0]}님 외에 {el.thumbsup.length - 1}명이
-                          좋아합니다.
-                        </HoverThumbsup>
-                        <div className='thumbsupWrap'>
+                        {el.thumbsup.length === 0 ? null : (
+                          <>
+                            <HoverThumbsup className='hoverThumbsup'>
+                              {el.thumbsup.length > 1
+                                ? `${el.thumbsup[0]}님 외에 ${
+                                    el.thumbsup.length - 1
+                                  }
+                              명이 좋아합니다.`
+                                : `${el.thumbsup[0]}님이 좋아요를 눌렀습니다.`}
+                            </HoverThumbsup>
+                          </>
+                        )}
+                        <span className='thumbsupWrap'>
                           <FontAwesomeIcon icon={faThumbsUp} />
                           {el.thumbsup.length}개
-                        </div>
+                        </span>
                       </p>
                     </div>
                   </div>

@@ -166,6 +166,12 @@ function NewContent() {
         headers: { authorization: `Bearer ${state.accessToken}` },
       }); //새로 유저 정보 요청하는 axios 요청
       dispatch(setUserInfo(getResult.data.data)); // axios 리턴으로 유저 정보 업데이트
+      closeNewContentModal(false); // 모달 끄기
+      swal({
+        title: '작성이 완료되었습니다!',
+        text: '작성해 주셔서 감사합니다 😆 ',
+        icon: 'success',
+      }); // sweet alert로 안내
     } catch (err) {
       console.log(err);
       // login상태 false로 변경 + localStorage에 담긴 내용 다 지우기 -> action에서 함

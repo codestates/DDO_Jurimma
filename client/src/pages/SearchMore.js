@@ -269,15 +269,17 @@ function SearchMore() {
   const state = useSelector((state) => state.userInfoReducer);
   const [searchMoreData, setSearchMoreData] = useState([]); // 보여질 데이터
   const [searchMoreTitle, setSearchMoreTitle] = useState(''); // 보여질 타이틀
+  const [update, setUpdate] = useState(0); // 좋아요 누르고 업데이트 되도록 사용하는 상태
   const openNewContentModal = (isOpen) => {
     dispatch(setNewContentModal(isOpen));
   }; // 새로 글쓰는 모달 키는 함수(=== true값으로 만들어줌)
 
   useEffect(() => {
     getMoreSearch(query);
-  }, []); // 렌더 되고 바로 실행
-
-  useEffect(() => {}, []); // 좋아요 업데이트를 위한 함수
+  }, [state.isShowNewContentModal]); // 들어오자마자 바로 실행 + 새로 글쓰기 모달 꺼지면 다시 렌더
+  useEffect(() => {
+    getMoreSearch(query);
+  }, [update]); // 들어오자마자 바로 실행 + 새로 글쓰기 모달 꺼지면 다시 렌더
 
   const updateThumbsup = async (contentId) => {
     let updateLike = await axios.patch(
@@ -290,7 +292,7 @@ function SearchMore() {
     if (updateLike.data.accessToken) {
       dispatch(setAccessToken(updateLike.data.accessToken));
     }
-    console.log(updateLike);
+    setUpdate(update + 1); // update 변경시켜서 useEffect 돌아가도록
   };
 
   const getMoreSearch = async () => {
