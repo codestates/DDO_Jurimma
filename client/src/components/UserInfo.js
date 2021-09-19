@@ -17,18 +17,33 @@ const colorAni = keyframes`
     }
 `;
 
+const UserInfoWrap = styled.div`
+  height: 500px;
+  width: 80%;
+  margin: 0 auto;
+  position: relative;
+  border-radius: 20px;
+  border: 2px solid #fff;
+  background-color: rgba(255, 255, 255, 0.5);
+  @media only screen and (max-width: 800px) {
+    top: -100px;
+    height: 450px;
+  }
+  @media only screen and (max-width: 400px) {
+    width: 300px;
+  }
+`;
+
 const UserInfoLevel = styled.div`
-  width: 50%;
+  width: 450px;
   margin: 0 auto;
   // 콘텐츠 전체 길이 생각해서 후에 max 설정해주기
   box-sizing: border-box;
   position: relative;
   top: -250px;
-  @media only screen and (max-width: 1399px) {
-    width: 80vw;
-  }
   @media only screen and (max-width: 800px) {
     top: -150px;
+    width: 300px;
   }
   > #levelProfile {
     width: 450px;
@@ -60,7 +75,7 @@ const UserInfoProgress = styled.div`
   width: 50%;
   height: 20px;
   margin: 0 auto;
-  background-color: #440a67;
+  background-color: #fff;
   border-radius: 50px;
   overflow: hidden;
   > #barStyle {
@@ -84,13 +99,12 @@ const UserInfoDataWrap = styled.div`
     height: 100px;
     color: #fff;
     display: grid;
-    background-color: #fff;
     place-items: center;
     > #levelInfo {
       width: 50%;
       text-align: center;
       > p {
-        color: #000;
+        color: #fff;
         margin-bottom: 10px;
       }
     }
@@ -180,7 +194,7 @@ function UserInfo() {
   } // 나타낼 레벨 정하기
 
   return (
-    <>
+    <UserInfoWrap>
       <UserInfoLevel>
         <div id='levelProfile'>
           <div id='profileImg'></div>
@@ -210,7 +224,7 @@ function UserInfo() {
           </div>
         </div>
       </UserInfoDataWrap>
-    </>
+    </UserInfoWrap>
   );
 }
 

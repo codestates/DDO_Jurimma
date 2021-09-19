@@ -253,10 +253,11 @@ const ProfileWrap = styled.div`
       font-size: 10px;
     }
   }
-  > img {
+  > .userPic {
     margin-left: 10px;
     width: 50px;
     height: 50px;
+    background: url(${exProfileImg});
     border-radius: 50px;
   }
 `;
@@ -348,7 +349,7 @@ function SearchMore() {
                           <h3>{data.wordName}</h3>
                           <ProfileWrap>
                             <div className='userName'>{data.userId}</div>
-                            <img src={exProfileImg} />
+                            <div className='userPic'></div>
                           </ProfileWrap>
                         </div>
 
