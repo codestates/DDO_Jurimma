@@ -5,9 +5,6 @@ import swal from 'sweetalert';
 import { setLogout, setLogoutModal } from '../actions/index';
 import axios from 'axios';
 import mainLogo from '../images/main_logo.svg';
-import { useEffect } from 'react';
-import { setLogin } from '../actions/index';
-import { useHistory } from 'react-router';
 axios.defaults.withCredentials = true;
 
 const LogoutBackdrop = styled.div`
@@ -83,7 +80,6 @@ const Logo = styled.div`
 function LogOut() {
   const state = useSelector((state) => state.userInfoReducer);
   const dispatch = useDispatch();
-  const history = useHistory();
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const closeLogoutModal = (isOpen) => {
     dispatch(setLogoutModal(isOpen));
@@ -101,10 +97,16 @@ function LogOut() {
           text: '다또봐 👋 (다음에 또 봐~)',
           icon: 'success',
         });
-        console.log(state);
+        // console.log(state);
       })
       .catch((err) => {
         console.log(err);
+        swal({
+          title: 'Internal Server Error',
+          text: '죄송합니다. 다시 로그인해주세요.',
+          icon: 'warning',
+        }); // swal로 안내
+        dispatch(setLogout());
       });
   };
 

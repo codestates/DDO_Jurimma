@@ -88,8 +88,8 @@ function Search() {
     }
   }; // 자동완성 목록 요청하는 함수
 
-  const changeWord = async (event) => {
-    await setWord(event.target.value); // 입력한 내용으로 입력창 변경
+  const changeWord = (event) => {
+    setWord(event.target.value); // 입력한 내용으로 입력창 변경
   }; // input창 입력사항 반영 함수
 
   const addClickTags = () => {

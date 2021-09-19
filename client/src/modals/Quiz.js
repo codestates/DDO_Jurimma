@@ -367,17 +367,25 @@ function Quiz() {
         headers: { authorization: `Bearer ${state.accessToken}` },
       }); //새로 유저 정보 요청하는 axios 요청
       dispatch(setUserInfo(getResult.data.data)); // axios 리턴으로 유저 정보 업데이트
-    } catch (err) {
+    } catch (error) {
       // login상태 false로 변경
       // localStorage에 담긴 내용 다 지우기
       // reducer에서 관리하는 userInfo
-      dispatch(setLogout());
-      // swal로 다시 로그인 해달라고 하기
-      swal({
-        title: '로그인이 필요합니다.',
-        text: '로그인이 만료되었습니다.',
-        icon: 'warning',
-      });
+      if (error.response.data.message === 'Send new Login Request') {
+        swal({
+          title: '로그인이 필요합니다.',
+          text: '로그인이 만료되었습니다.',
+          icon: 'warning',
+        }); // swal로 안내
+        dispatch(setLogout());
+      } else {
+        swal({
+          title: 'Internal Server Error',
+          text: '죄송합니다. 다시 로그인 후 해주세요.',
+          icon: 'warning',
+        }); // swal로 안내
+        dispatch(setLogout());
+      }
       // console.log(err);
     }
   }; // 접속한 날짜, 경험치 업데이트하는 함수

@@ -1,7 +1,7 @@
 // 로그인 / 회원가입 모달
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   setLoginOrSignupModal,
   setLogin,
@@ -202,7 +202,6 @@ const ErrorMsg = styled.div`
 
 function LoginOrSignUp() {
   const dispatch = useDispatch();
-  const state = useSelector((state) => state.userInfoReducer);
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
 
   const closeLoginOrSignupModal = (isOpen) => {
@@ -289,6 +288,12 @@ function LoginOrSignUp() {
           text: '이메일 인증이 완료되지 않았습니다. 다시 한번 확인해주세요!',
           icon: 'warning',
         }); // swal로 안내
+      } else {
+        swal({
+          title: 'Internal Server Error',
+          text: '죄송합니다. 다시 로그인해주세요.',
+          icon: 'warning',
+        }); // swal로 안내
       }
     }
   };
@@ -335,12 +340,21 @@ function LoginOrSignUp() {
       }
     } catch (error) {
       console.log(error);
-      swal({
-        title: '가입에 실패했습니다.',
-        text: '이미 가입된 사용자입니다. 이메일 정보를 다시 한번 확인해주세요!',
-        icon: 'error',
-      }); // sweet alert로 안내
-      setErrorMsg('이미 가입된 사용자입니다.');
+      if (error.response.data.message === 'Already Existed') {
+        swal({
+          title: '가입에 실패했습니다.',
+          text: '이미 가입된 사용자입니다. 이메일 정보를 다시 한번 확인해주세요!',
+          icon: 'error',
+        }); // sweet alert로 안내
+        setErrorMsg('이미 가입된 사용자입니다.');
+      } else {
+        swal({
+          title: 'Internal Server Error',
+          text: '죄송합니다. 다시 시도 해주세요.',
+          icon: 'warning',
+        }); // swal로 안내
+        setErrorMsg('Internal Server Error');
+      }
     }
   };
 
