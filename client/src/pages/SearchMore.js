@@ -222,7 +222,7 @@ const SearchMoreBox = styled.div`
   }
 `;
 
-const HoverThumbsup = styled.div`
+const HoverThumbsup = styled.span`
   width: 200px;
   height: 40px;
   position: relative;
@@ -361,7 +361,7 @@ function SearchMore() {
                             <HoverThumbsup className='hoverThumbsup'>
                               박해커님 외에 1명이 좋아합니다.
                             </HoverThumbsup>
-                            <div
+                            <span
                               className='thumbsupWrap'
                               onClick={() => {
                                 updateThumbsup(data.id);
@@ -369,7 +369,7 @@ function SearchMore() {
                             >
                               <FontAwesomeIcon icon={faThumbsUp} />
                               {data.thumbsup.length}개
-                            </div>
+                            </span>
                           </p>
                         </div>
                       </div>

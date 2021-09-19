@@ -1,8 +1,18 @@
 // 사용자가 새로운 글을 쓰는 모달
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { setNewContentModal } from '../actions/index';
+import {
+  setAccessToken,
+  setNewContentModal,
+  setUserInfo,
+  setLogout,
+} from '../actions/index';
 import mainLogo from '../images/main_logo.svg';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import swal from 'sweetalert';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 const NewContentBackdrop = styled.div`
   position: fixed;
@@ -120,10 +130,55 @@ const Logo = styled.div`
 `;
 
 function NewContent() {
+  const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
+  const state = useSelector((state) => state.userInfoReducer);
   const dispatch = useDispatch();
   const closeNewContentModal = (isOpen) => {
     dispatch(setNewContentModal(isOpen));
   }; // 새로 글쓰는 모달 닫는 함수
+
+  const [newContent, setNewContent] = useState({
+    newWordName: '',
+    newWordMean: '',
+  }); // 입력한 내용 담고있는 state
+
+  const handleContInputValue = (key) => (e) => {
+    setNewContent({ ...newContent, [key]: e.target.value });
+  }; // 입력에 따라 state 변경하는 함수
+
+  const writeNewContent = async () => {
+    try {
+      let postResult = await axios.post(
+        `${url}/meaning/me`,
+        {
+          wordName: newContent.newWordName,
+          wordMean: newContent.newWordMean,
+          experience: state.userInfo.experience + 5,
+        },
+        {
+          headers: { authorization: `Bearer ${state.accessToken}` },
+        }
+      );
+      if (postResult.data.accessToken) {
+        dispatch(setAccessToken(postResult.data.accessToken));
+      } // 답에 accessToken 담겨있으면 업데이트 하기
+      const getResult = await axios.get(`${url}/user`, {
+        headers: { authorization: `Bearer ${state.accessToken}` },
+      }); //새로 유저 정보 요청하는 axios 요청
+      dispatch(setUserInfo(getResult.data.data)); // axios 리턴으로 유저 정보 업데이트
+    } catch (err) {
+      console.log(err);
+      // login상태 false로 변경 + localStorage에 담긴 내용 다 지우기 -> action에서 함
+      // reducer에서 관리하는 userInfo
+      dispatch(setLogout());
+      // swal로 다시 로그인 해달라고 하기
+      swal({
+        title: '로그인이 필요합니다.',
+        text: '로그인이 만료되었습니다.',
+        icon: 'warning',
+      });
+    }
+  }; // 새로운 글 작성하는 axios 요청
 
   return (
     <NewContentBackdrop>
@@ -135,10 +190,19 @@ function NewContent() {
           <img src={mainLogo} />
         </Logo>
         <div id='inputWrap'>
-          <input type='text' placeholder='작성할 단어를 입력해주세요'></input>
+          <input
+            type='text'
+            placeholder='작성할 단어를 입력해주세요'
+            value={newContent.newWordName}
+            onChange={handleContInputValue('newWordName')}
+          ></input>
         </div>
-        <textarea placeholder='작성할 단어의 뜻을 입력해주세요'></textarea>
-        <button>저장하기</button>
+        <textarea
+          placeholder='작성할 단어의 뜻을 입력해주세요'
+          value={newContent.newWordMean}
+          onChange={handleContInputValue('newWordMean')}
+        ></textarea>
+        <button onClick={writeNewContent}>저장하기</button>
       </NewContentModal>
     </NewContentBackdrop>
   );

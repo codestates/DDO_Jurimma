@@ -27,8 +27,6 @@ axios.defaults.withCredentials = true;
 function App() {
   const state = useSelector((state) => state.userInfoReducer);
   const dispatch = useDispatch();
-  console.log(state);
-
 
   useEffect(() => {
     // console.log(JSON.parse(localStorage.userInfo).id);
