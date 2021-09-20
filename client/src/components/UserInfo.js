@@ -203,7 +203,7 @@ function UserInfo() {
               id='profileImg'
               style={{
                 background: `url(${state.userInfo.userPic})`,
-                'background-size': 'cover',
+                backgroundSize: 'cover',
               }}
             ></div>
           ) : (

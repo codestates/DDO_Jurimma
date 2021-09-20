@@ -233,7 +233,7 @@ const SearchMoreBox = styled.div`
   }
 `;
 
-const HoverThumbsup = styled.div`
+const HoverThumbsup = styled.span`
   width: 200px;
   height: 40px;
   position: relative;
@@ -461,11 +461,11 @@ function SearchMore() {
                               data.userPic
                                 ? {
                                     background: `url(${data.userPic})`,
-                                    'background-size': 'cover',
+                                    backgroundSize: 'cover',
                                   }
                                 : {
                                     background: `url(${exProfileImg})`,
-                                    'background-size': 'cover',
+                                    backgroundSize: 'cover',
                                   }
                             }
                           ></div>
@@ -485,7 +485,7 @@ function SearchMore() {
                             ${data.thumbsup.length - 1}
                             명이 좋아합니다.`}
                           </HoverThumbsup>
-                          <div
+                          <span
                             className='thumbsupWrap'
                             onClick={() => {
                               updateThumbsup(data.id);
@@ -493,7 +493,7 @@ function SearchMore() {
                           >
                             <FontAwesomeIcon icon={faThumbsUp} />
                             {data.thumbsup.length}개
-                          </div>
+                          </span>
                         </p>
                       </div>
                     </div>
