@@ -11,6 +11,7 @@ const AutoComp = styled.div`
   border-radius: 30px;
   background-color: #fff;
   > li {
+    width: 100%;
     height: 60px;
     line-height: 60px;
     padding-left: 30px;
