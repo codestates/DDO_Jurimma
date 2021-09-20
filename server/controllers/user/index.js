@@ -6,5 +6,6 @@ module.exports = {
   emailCheck: require('./emailCheck'),
   logout: require('./logout'),
   userInfo: require('./userInfo'),
+  image: require('./image'),
   quizExp: require('./quizExp'),
 };

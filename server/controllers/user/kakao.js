@@ -52,6 +52,7 @@ module.exports = {
         email: userData.data.kakao_account.email,
         userPic: userData.data.properties.profile_image,
         emailAuth: true,
+        isOAuth: true,
       });
       console.log('newUserData : ', newUserData);
       const userInfo = newUserData.dataValues;
