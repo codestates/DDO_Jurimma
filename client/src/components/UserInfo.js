@@ -2,8 +2,10 @@
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 import basicProfile from '../images/basic_profileImg.svg';
-import silverProfile from '../images/junior_profile.svg';
 import { useSelector } from 'react-redux';
+import silverProfile from '../images/junior_profile.svg';
+import goldProfile from '../images/senior_profile.svg';
+import diaProfile from '../images/master_profile.svg';
 
 const colorAni = keyframes`
     0% {
@@ -183,6 +185,7 @@ function UserInfo() {
   }; // 경험치 status bar width 정하는 함수
 
   let whatLevel;
+  let whatProfile;
   if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
     whatLevel = '실버';
   } else if (
