@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import basicProfile from '../images/basic_profileImg.svg';
 import { setSignOutModal } from '../actions/index';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import silverProfile from '../images/junior_profile.svg';
+import goldProfile from '../images/senior_profile.svg';
 import diaProfile from '../images/master_profile.svg';
 
 const EditUserPicWrap = styled.div`
@@ -43,20 +46,34 @@ const ProfileChange = styled.div`
     height: 300px;
     width: 300px;
   }
-  > button {
-    display: block;
-    width: 200px;
+  > #profileBtnWrap {
+    width: 300px;
     height: 50px;
-    cursor: pointer;
     margin: 0 auto;
-    border-radius: 50px;
-    background-color: transparent;
-    border: 2px solid #fff;
-    color: #fff;
-    transition: 0.3s;
-    :hover {
-      background-color: #fff;
-      color: #440a67;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -40px;
+    > button {
+      display: block;
+      width: 150px;
+      height: 40px;
+      margin: 0 auto;
+      background-color: transparent;
+      color: #fff;
+      cursor: pointer;
+      border: 2px solid #fff;
+      border-radius: 50px;
+      transition: 0.3s;
+      margin-left: 20px;
+      :hover {
+        border: 2px solid #fff;
+        background-color: #fff;
+        color: #000;
+      }
+    }
+    > button:nth-child(1) {
+      margin-left: 0;
     }
   }
 `;
@@ -65,7 +82,6 @@ const ProfileImgWrap = styled.div`
   background-color: red;
   width: 450px;
   height: 450px;
-  background: url(${diaProfile});
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -93,14 +109,41 @@ function EditUserPic() {
   const openSignoutModal = (isOpen) => {
     dispatch(setSignOutModal(isOpen));
   }; // 회원탈퇴 모달 여는 함수
+  const state = useSelector((state) => state.userInfoReducer);
+
+  let whatProfile;
+  if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
+    whatProfile = silverProfile;
+  } else if (
+    100 <= state.userInfo.experience &&
+    state.userInfo.experience < 200
+  ) {
+    whatProfile = goldProfile;
+  } else {
+    whatProfile = diaProfile;
+  } // 나타낼 레벨 정하기
 
   return (
     <EditUserPicWrap>
       <ProfileChange>
-        <ProfileImgWrap>
-          <div id='profileImg'></div>
+        <ProfileImgWrap
+          style={{
+            background: `url(${whatProfile})`,
+            backgroundSize: 'cover',
+          }}
+        >
+          <div
+            id='profileImg'
+            style={{
+              background: `url(${state.userInfo.userPic})`,
+              backgroundSize: 'cover',
+            }}
+          ></div>
         </ProfileImgWrap>
-        <button>프로필 사진 바꾸기</button>
+        <div id='profileBtnWrap'>
+          <button>프로필 바꾸기</button>
+          <button>프로필 저장하기</button>
+        </div>
       </ProfileChange>
       <button onClick={() => openSignoutModal(true)}>회원탈퇴 하기</button>
     </EditUserPicWrap>

@@ -158,7 +158,6 @@ const Myprofile = styled.div`
       width: 35px;
       height: 35px;
       margin: 0 auto;
-      background-color: pink;
       position: relative;
       top: 35px;
       border-radius: 50px;
@@ -184,7 +183,7 @@ const HoverMypageOrLogout = styled.div`
     text-decoration: none;
     border-bottom: 1px solid #440a67;
     :hover {
-      background-color: #b4aee8;
+      background-color: #230638;
       border-radius: 20px 20px 0 0;
       color: #fff;
     }
@@ -197,7 +196,7 @@ const HoverMypageOrLogout = styled.div`
     color: #440a67;
     font-family: 'NEXON Lv2 Gothic Bold';
     :hover {
-      background-color: #b4aee8;
+      background-color: #230638;
       border-radius: 0 0 20px 20px;
       color: #fff;
     }
