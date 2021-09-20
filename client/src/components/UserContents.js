@@ -1,9 +1,13 @@
 // Mypage에서 유저가 쓴 글 목록
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { setEditContentModal } from '../actions/index';
+import { setEditContentModal, setAccessToken } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 const UserContentsWrap = styled.div`
   width: 80%;
@@ -190,9 +194,25 @@ const HoverThumbsup = styled.div`
 
 function UserContents() {
   const dispatch = useDispatch();
+  const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
+  const state = useSelector((state) => state.userInfoReducer);
   const openEditContentModal = (isOpen) => {
     dispatch(setEditContentModal(isOpen));
   }; // 수정 모달 여는 함수
+
+  const getMyContent = async () => {
+    let contentResult = await axios.get(`${url}/meaning/me`, {
+      headers: { authorization: `Bearer ${state.accessToken}` },
+    });
+    if (contentResult.data.accessToken) {
+      dispatch(setAccessToken(contentResult.data.accessToken));
+    } // contentResult에 accessToken이 담겨오면 새로 업데이트
+    dispatch(getContent([...contentResult.data.data]));
+  }; // axios로 유저가 쓴 글 요청 및 dispatch로 redux 업데이트
+
+  useEffect(() => {
+    getMyContent();
+  }, []);
 
   return (
     <UserContentsWrap>
