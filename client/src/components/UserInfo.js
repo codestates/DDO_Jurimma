@@ -2,8 +2,10 @@
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 import basicProfile from '../images/basic_profileImg.svg';
-import silverProfile from '../images/junior_profile.svg';
 import { useSelector } from 'react-redux';
+import silverProfile from '../images/junior_profile.svg';
+import goldProfile from '../images/senior_profile.svg';
+import diaProfile from '../images/master_profile.svg';
 
 const colorAni = keyframes`
     0% {
@@ -48,7 +50,6 @@ const UserInfoLevel = styled.div`
   > #levelProfile {
     width: 450px;
     height: 450px;
-    background: url(${silverProfile});
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -132,7 +133,6 @@ const UserInfoData = styled.div`
       color: #fff;
       border-radius: 20px;
       border: 2px solid #fff;
-      background: linear-gradient(-45deg, #5591c9, #245689);
       animation: ${colorAni} 10s ease infinite;
       background-size: 200% 100%;
       @media only screen and (max-width: 800px) {
@@ -183,21 +183,35 @@ function UserInfo() {
   }; // 경험치 status bar width 정하는 함수
 
   let whatLevel;
+  let whatProfile;
+  let whatColor;
   if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
     whatLevel = '실버';
+    whatColor = 'linear-gradient(-45deg, #5591C9, #245689)';
+    whatProfile = silverProfile;
   } else if (
     100 <= state.userInfo.experience &&
     state.userInfo.experience < 200
   ) {
     whatLevel = '골드';
+    whatColor = 'linear-gradient(-45deg, #ffc851, #FF1515)';
+    whatProfile = goldProfile;
   } else {
     whatLevel = '다이아';
+    whatColor = 'linear-gradient(-45deg, #3FC1FF, #D42AFF)';
+    whatProfile = diaProfile;
   } // 나타낼 레벨 정하기
 
   return (
     <UserInfoWrap>
       <UserInfoLevel>
-        <div id='levelProfile'>
+        <div
+          id='levelProfile'
+          style={{
+            background: `url(${whatProfile})`,
+            backgroundSize: 'cover',
+          }}
+        >
           {state.userInfo.userPic ? (
             <div
               id='profileImg'
@@ -214,7 +228,12 @@ function UserInfo() {
       <UserInfoDataWrap>
         <UserInfoData>
           <div id='userInfo'>
-            <p id='userName'>
+            <p
+              id='userName'
+              style={{
+                background: `${whatColor}`,
+              }}
+            >
               {state.userInfo.username}
               <span>님 반갑습니다!</span>
             </p>

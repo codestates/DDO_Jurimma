@@ -34,30 +34,6 @@ const EditUserInfoWrap = styled.div`
   }
 `;
 
-const OldUserName = styled.div`
-  width: 100%;
-  height: 60px;
-  margin: 0 auto;
-  animation: ${colorAni} 10s ease infinite;
-  background: linear-gradient(-45deg, #3fc1ff, #d42aff);
-  background-size: 200% 100%;
-  text-align: center;
-  line-height: 60px;
-  color: #fff;
-  border-radius: 20px;
-  border: 2px solid #fff;
-  @media only screen and (max-width: 400px) {
-    font-size: 14px;
-  }
-  > span {
-    color: #fff;
-    font-size: 13px;
-    @media only screen and (max-width: 400px) {
-      font-size: 11px;
-    }
-  }
-`;
-
 const EditUserInfoBox = styled.div`
   width: 60%;
   margin: 0 auto;
@@ -84,19 +60,15 @@ const EditUserInfoBox = styled.div`
     }
     > button:nth-child(1) {
       margin-left: 0;
-      background: linear-gradient(-45deg, #3fc1ff, #d42aff);
       color: #fff;
       border: 2px solid #fff;
-      :hover {
-        background: linear-gradient(-45deg, #ddd, #3fc1ff, #d42aff);
-      }
     }
   }
   > input {
     width: 100%;
     height: 50px;
     outline: none;
-    font-size: 15px;
+    font-size: 12px;
     background-color: transparent;
     border-bottom: 2px solid #fff;
     margin-top: 30px;
@@ -106,12 +78,15 @@ const EditUserInfoBox = styled.div`
       font-size: 11px;
     }
   }
+  > input::-webkit-input-placeholder {
+    color: #fff;
+  }
   > input:focus::-webkit-input-placeholder {
     color: transparent;
   }
   > input:hover::-webkit-input-placeholder {
     /* Chrome/Opera/Safari */
-    color: #fff;
+    font-size: 13px;
     transition: 0.3s;
   }
   > #rePasswordWrap {
@@ -126,7 +101,7 @@ const EditUserInfoBox = styled.div`
       margin-top: 30px;
       background-color: transparent;
       border-bottom: 2px solid #fff;
-      font-size: 15px;
+      font-size: 12px;
       outline: none;
       color: #fff;
       padding-left: 5px;
@@ -138,12 +113,15 @@ const EditUserInfoBox = styled.div`
         font-size: 11px;
       }
     }
+    > input::-webkit-input-placeholder {
+      color: #fff;
+    }
     > input:focus::-webkit-input-placeholder {
       color: transparent;
     }
     > input:hover::-webkit-input-placeholder {
       /* Chrome/Opera/Safari */
-      color: #fff;
+      font-size: 13px;
       transition: 0.3s;
     }
     > input:nth-child(1) {
@@ -166,6 +144,47 @@ function EditUserInfo() {
     newPasswordRe: '',
   });
 
+  let whatColor;
+  let whatHoverColor;
+  if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
+    whatColor = 'linear-gradient(-45deg, #5591C9, #245689)';
+    whatHoverColor = 'linear-gradient(-45deg, #fff, #5591C9, #245689)';
+  } else if (
+    100 <= state.userInfo.experience &&
+    state.userInfo.experience < 200
+  ) {
+    whatColor = 'linear-gradient(-45deg, #ffc851, #FF1515)';
+    whatHoverColor = 'linear-gradient(-45deg, #fff, #ffc851, #FF1515)';
+  } else {
+    whatColor = 'linear-gradient(-45deg, #3FC1FF, #D42AFF)';
+    whatHoverColor = 'linear-gradient(-45deg, #fff, #3FC1FF, #D42AFF)';
+  }
+
+  const OldUserName = styled.div`
+    width: 100%;
+    height: 60px;
+    margin: 0 auto;
+    background: ${whatColor};
+    background-size: 200% 100%;
+    animation: ${colorAni} 5s ease infinite;
+    text-align: center;
+    line-height: 60px;
+    color: #fff;
+    border-radius: 20px;
+    border: 2px solid #fff;
+    @media only screen and (max-width: 400px) {
+      font-size: 14px;
+    }
+    > span {
+      color: #fff;
+      font-size: 13px;
+      @media only screen and (max-width: 400px) {
+        font-size: 11px;
+      }
+    }
+  `;
+  // 레벨별 그라디언트를 다르게 줘야하는데, 이 styled component가 기존의 것처럼 밖에 있으면 애니메이션 효과가 구현되지 않아, 이것만 함수 안에 넣음.
+
   const handleKeyPressEdit = (e) => {
     if (e.type === 'keypress' && e.code === 'Enter') {
       handleEdit();
@@ -175,6 +194,7 @@ function EditUserInfo() {
   const handleEditInputValue = (key) => (e) => {
     setEditUser({ ...editUser, [key]: e.target.value });
   };
+  const [isHover, setIsHover] = useState(false);
 
   const handleEdit = async () => {
     try {
@@ -316,7 +336,22 @@ function EditUserInfo() {
         </div>
 
         <div id='buttonWrap'>
-          <button onClick={handleEdit}>저장하기</button>
+          <button
+            onClick={handleEdit}
+            style={
+              isHover
+                ? {
+                    background: `${whatHoverColor}`,
+                  }
+                : {
+                    background: `${whatColor}`,
+                  }
+            }
+            onMouseOver={() => setIsHover(true)}
+            onMouseOut={() => setIsHover(false)}
+          >
+            저장하기
+          </button>
           <button onClick={handleCancel}>취소하기</button>
         </div>
       </EditUserInfoBox>

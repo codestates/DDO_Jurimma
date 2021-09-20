@@ -67,9 +67,21 @@ const ToDiffSearchMore = styled.div`
       padding-left: 5px;
       background-color: transparent;
       color: #fff;
+      font-size: 12px;
       @media only screen and (max-width: 800px) {
         width: 90%;
       }
+    }
+    > input::-webkit-input-placeholder {
+      color: #fff;
+    }
+    > input:focus::-webkit-input-placeholder {
+      color: transparent;
+    }
+    > input:hover::-webkit-input-placeholder {
+      /* Chrome/Opera/Safari */
+      font-size: 13px;
+      transition: 0.3s;
     }
     > button {
       width: 50px;

@@ -13,6 +13,9 @@ import {
   setQuizModal,
   setLogoutModal,
 } from '../actions/index';
+import silverProfile from '../images/junior_profile.svg';
+import goldProfile from '../images/senior_profile.svg';
+import diaProfile from '../images/master_profile.svg';
 
 const fadeIn = keyframes`
   0%{opacity : 0}
@@ -137,11 +140,86 @@ const NavBar2 = styled.nav`
   }
 `;
 
+const Myprofile = styled.div`
+  width: max(8vw, 120px);
+  height: 200px;
+  margin-top: 105px;
+  cursor: pointer;
+  :hover {
+    > .HoverMypageOrLogout {
+      display: block;
+    }
+  }
+  > .levelProfile {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    > div {
+      width: 35px;
+      height: 35px;
+      margin: 0 auto;
+      position: relative;
+      top: 35px;
+      border-radius: 50px;
+    }
+  }
+`;
+
+const HoverMypageOrLogout = styled.div`
+  background-color: rgba(255, 255, 255, 0.8);
+  width: max(8vw, 120px);
+  height: 90px;
+  position: relative;
+  top: 10px;
+  text-align: center;
+  line-height: 42.5px;
+  border-radius: 20px;
+  color: #440a67;
+  font-family: 'NEXON Lv2 Gothic Bold';
+  display: none;
+  > a {
+    display: block;
+    height: 45px;
+    text-decoration: none;
+    border-bottom: 1px solid #440a67;
+    :hover {
+      background-color: #230638;
+      border-radius: 20px 20px 0 0;
+      color: #fff;
+    }
+  }
+  > .logout {
+    cursor: pointer;
+    height: 45px;
+    text-decoration: none;
+    border-top: 1px solid #440a67;
+    color: #440a67;
+    font-family: 'NEXON Lv2 Gothic Bold';
+    :hover {
+      background-color: #230638;
+      border-radius: 0 0 20px 20px;
+      color: #fff;
+    }
+  }
+`;
+
 function Nav() {
   const state = useSelector((state) => state.userInfoReducer);
   const nowDate = new Date().toLocaleDateString(); // 접속한 날짜를 "2021. 9. 13."와 같은 형식으로 확인
   const dispatch = useDispatch();
   const [navBarScroll, setNavBarScroll] = useState(false); // nav bar 스크롤 했을 때
+
+  let whatProfile;
+  if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
+    whatProfile = silverProfile;
+  } else if (
+    100 <= state.userInfo.experience &&
+    state.userInfo.experience < 200
+  ) {
+    whatProfile = goldProfile;
+  } else {
+    whatProfile = diaProfile;
+  } // 나타낼 레벨 정하기
 
   const openQuizModal = (isOpen) => {
     if (state.isLogin === false) {
@@ -206,12 +284,28 @@ function Nav() {
               Quiz
             </div>
             {state.isLogin ? (
-              <div>
-                <Link to='/mypage'>mypage</Link>
-                <div className='menu' onClick={() => openLogoutModal(true)}>
-                  Logout
+              <Myprofile>
+                <div
+                  className='levelProfile'
+                  style={{
+                    background: `url(${whatProfile})`,
+                    backgroundSize: 'cover',
+                  }}
+                >
+                  <div
+                    style={{
+                      background: `url(${state.userInfo.userPic})`,
+                      backgroundSize: 'cover',
+                    }}
+                  ></div>
                 </div>
-              </div>
+                <HoverMypageOrLogout className='HoverMypageOrLogout'>
+                  <Link to='/mypage'>Mypage</Link>
+                  <div className='logout' onClick={() => openLogoutModal(true)}>
+                    Logout
+                  </div>
+                </HoverMypageOrLogout>
+              </Myprofile>
             ) : (
               <div
                 className='menu'
@@ -235,12 +329,28 @@ function Nav() {
               Quiz
             </div>
             {state.isLogin ? (
-              <div>
-                <Link to='/mypage'>mypage</Link>
-                <div className='menu' onClick={() => openLogoutModal(true)}>
-                  Logout
+              <Myprofile>
+                <div
+                  className='levelProfile'
+                  style={{
+                    background: `url(${whatProfile})`,
+                    backgroundSize: 'cover',
+                  }}
+                >
+                  <div
+                    style={{
+                      background: `url(${state.userInfo.userPic})`,
+                      backgroundSize: 'cover',
+                    }}
+                  ></div>
                 </div>
-              </div>
+                <HoverMypageOrLogout className='HoverMypageOrLogout'>
+                  <Link to='/mypage'>Mypage</Link>
+                  <div className='logout' onClick={() => openLogoutModal(true)}>
+                    Logout
+                  </div>
+                </HoverMypageOrLogout>
+              </Myprofile>
             ) : (
               <div
                 className='menu'
