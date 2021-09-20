@@ -1,7 +1,11 @@
 // Mypage에서 유저가 쓴 글 목록
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { setEditContentModal, setAccessToken } from '../actions/index';
+import {
+  setEditContentModal,
+  setAccessToken,
+  getContent,
+} from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { useEffect } from 'react';
