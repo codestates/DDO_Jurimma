@@ -15,6 +15,7 @@ export const SET_USER_INFO = 'SET_USER_INFO'; // 유저 정보 요청
 export const SET_USER_CONTENT = 'SET_USER_CONTENT'; // 유저가 쓴 글 받아오기
 export const DELETE_CONTENT = 'DELETE_CONTENT'; // 유저가 쓴 글 삭제
 export const EDIT_CONTENT = 'EDIT_CONTENT'; // 유저가 쓴 글 수정
+export const EDIT_CONTENT_NUM = 'EDIT_CONTENT_NUM'; // 수정 시 몇번째 글인지 받아오기
 
 export const setLoginOrSignupModal = (isOpen) => {
   return {
@@ -48,6 +49,13 @@ export const setEditContentModal = (isOpen) => {
   return {
     type: SET_MODAL_EDITCONTENT,
     isOpen,
+  };
+};
+
+export const setEditContentId = (userContentId) => {
+  return {
+    type: EDIT_CONTENT_NUM,
+    userContentId,
   };
 };
 

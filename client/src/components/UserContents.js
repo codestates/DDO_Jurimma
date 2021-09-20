@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { setEditContentModal } from '../actions/index';
+import { setEditContentModal, setEditContentId } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faExternalLinkAlt,
@@ -207,11 +207,11 @@ const HoverThumbsup = styled.div`
 function UserContents() {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const state = useSelector((state) => state.userContentReducer);
-
   const dispatch = useDispatch();
-  const openEditContentModal = (isOpen) => {
-    dispatch(setEditContentModal(isOpen));
-  }; // 수정 모달 여는 함수
+  const openEditContentModal = async (isOpen, openContId) => {
+    await dispatch(setEditContentModal(isOpen));
+    await dispatch(setEditContentId(openContId));
+  }; // 수정할 컨텐츠 세팅 + 수정 모달 여는 함수
 
   const getMyContent = async () => {
     let contentResult = await axios.get(`${url}/meaning/me`, {
@@ -220,11 +220,12 @@ function UserContents() {
     if (contentResult.data.accessToken) {
       dispatch(setAccessToken(contentResult.data.accessToken));
     } // contentResult에 accessToken이 담겨오면 새로 업데이트
-    dispatch(getContent(contentResult.data));
+    dispatch(getContent([...contentResult.data.data]));
   }; // axios로 유저가 쓴 글 요청 및 dispatch로 redux 업데이트
+
   useEffect(() => {
     getMyContent();
-  }, []); // 렌더링 될때마다 유저의 글 요청
+  }, [state.needEdit]); // 렌더링 될때마다 유저의 글 요청
 
   return (
     <UserContentsWrap>
@@ -248,12 +249,14 @@ function UserContents() {
           <>
             {state.data.map((el) => {
               return (
-                <li className='wordBox'>
+                <li className='wordBox' key={el.id}>
                   <div className='wordBoxWrap'>
                     <div className='topWrap'>
                       <h3>{el.wordName}</h3>
                       <EditContent>
-                        <button onClick={() => openEditContentModal(true)}>
+                        <button
+                          onClick={() => openEditContentModal(true, el.id)}
+                        >
                           내가 쓴 글 수정하기
                         </button>
                       </EditContent>
