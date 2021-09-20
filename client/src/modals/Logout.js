@@ -1,6 +1,7 @@
 // 로그아웃 모달
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
 import { setLogout, setLogoutModal } from '../actions/index';
 import axios from 'axios';
@@ -78,6 +79,7 @@ const Logo = styled.div`
 `;
 
 function LogOut() {
+  const history = useHistory();
   const state = useSelector((state) => state.userInfoReducer);
   const dispatch = useDispatch();
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
@@ -98,6 +100,7 @@ function LogOut() {
           icon: 'success',
         });
         // console.log(state);
+        history.push('/main');
       })
       .catch((err) => {
         console.log(err);
@@ -107,6 +110,7 @@ function LogOut() {
           icon: 'warning',
         }); // swal로 안내
         dispatch(setLogout());
+        history.push('/main');
       });
   };
 

@@ -2,7 +2,7 @@
 import UserInfo from '../components/UserInfo';
 import UserContents from '../components/UserContents';
 import styled from 'styled-components';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import swal from 'sweetalert';
@@ -19,6 +19,7 @@ const MypageWrap = styled.div`
 `;
 
 function Mypage() {
+  const history = useHistory();
   const state = useSelector((state) => state.userInfoReducer);
   const dispatch = useDispatch();
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
@@ -55,16 +56,18 @@ function Mypage() {
   useEffect(() => {
     getMyInfo();
   }, []); // 렌더링 될때마다 다시 개인정보 요청
+
+  // 만약 내가 쓴 글 수정하는 isShowEditContentModal상태가 꺼진 상태라면 state 업데이트 + axios로 글 수정 요청
+  // 만약 글을 삭제하면 state 업데이트 + axios로 글 없애기 요청
+
   return (
     <>
-      {state.isLogin ? (
-        <MypageWrap>
-          <UserInfo />
-          <UserContents />
-        </MypageWrap>
-      ) : (
-        <Redirect to='/main' /> // 로그인상태 X라면 메인페이지로 되돌아감
-      )}
+      (
+      <MypageWrap>
+        <UserInfo />
+        <UserContents />
+      </MypageWrap>
+      )
     </>
   );
 }

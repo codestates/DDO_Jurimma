@@ -178,7 +178,7 @@ const FilterWrap = styled.div`
   }
 `;
 
-const HoverThumbsup = styled.div`
+const HoverThumbsup = styled.span`
   width: 200px;
   height: 40px;
   position: relative;
