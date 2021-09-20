@@ -29,7 +29,6 @@ function App() {
   const dispatch = useDispatch();
   console.log(state);
 
-
   useEffect(() => {
     // console.log(JSON.parse(localStorage.userInfo).id);
     if (localStorage.userInfo) {
@@ -72,8 +71,8 @@ function App() {
       .catch((err) => {
         console.log(err);
         swal({
-          title: '로그인에 실패하였습니다',
-          text: '다시 로그인 해주세요!',
+          title: 'Internal Server Error',
+          text: '죄송합니다. 다시 로그인해주세요.',
           icon: 'warning',
         }); // swal로 안내
       });
