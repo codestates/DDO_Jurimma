@@ -124,7 +124,8 @@ const UserInfoData = styled.div`
     margin: 0 auto;
     text-align: center;
     > #userName {
-      width: 40%;
+      // 유저 이름이 길어지는 경우 span이 영역을 벗어나서 width를 40에서 100으로 수정했습니다.
+      width: 100%;
       margin: 0 auto;
       height: 60px;
       line-height: 60px;
@@ -197,7 +198,17 @@ function UserInfo() {
     <UserInfoWrap>
       <UserInfoLevel>
         <div id='levelProfile'>
-          <div id='profileImg'></div>
+          {state.userInfo.userPic ? (
+            <div
+              id='profileImg'
+              style={{
+                background: `url(${state.userInfo.userPic})`,
+                'background-size': 'cover',
+              }}
+            ></div>
+          ) : (
+            <div id='profileImg'></div>
+          )}
         </div>
       </UserInfoLevel>
       <UserInfoDataWrap>

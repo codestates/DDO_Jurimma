@@ -1,8 +1,13 @@
 // 검색결과 전체 보여지는 페이지
 import styled from 'styled-components';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setNewContentModal } from '../actions/index';
+import {
+  setNewContentModal,
+  setLogout,
+  setLogin,
+  setUserInfo,
+} from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +15,8 @@ import exProfileImg from '../images/basic_profileImg.svg';
 import { useEffect } from 'react/cjs/react.development';
 import axios from 'axios';
 import { useState } from 'react';
+import '../loadingCss.css';
+import swal from 'sweetalert';
 import { setAccessToken } from '../actions/index';
 axios.defaults.withCredentials = true;
 
@@ -69,12 +76,16 @@ const ToDiffSearchMore = styled.div`
       height: 100%;
       font-size: 20px;
       margin-left: 10px;
+      color: #fff;
       background-color: transparent;
       > a {
         > .searchIcon {
           font-size: 20px;
           color: #fff;
         }
+      }
+      :hover {
+        cursor: pointer;
       }
     }
   }
@@ -257,7 +268,6 @@ const ProfileWrap = styled.div`
     margin-left: 10px;
     width: 50px;
     height: 50px;
-    background: url(${exProfileImg});
     border-radius: 50px;
   }
 `;
@@ -266,123 +276,247 @@ function SearchMore() {
   let query = window.location.search.split('=')[1]; // "?wordName=~~"에서 "="뒤 쿼리를 뜯어옴
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const dispatch = useDispatch();
+  const history = useHistory();
   const state = useSelector((state) => state.userInfoReducer);
   const [searchMoreData, setSearchMoreData] = useState([]); // 보여질 데이터
   const [searchMoreTitle, setSearchMoreTitle] = useState(''); // 보여질 타이틀
+  const [newQuery, setNewQuery] = useState(''); // 새로 검색할 줄임말
+  const [isLoading, setIsLoading] = useState(false);
+
   const openNewContentModal = (isOpen) => {
     dispatch(setNewContentModal(isOpen));
   }; // 새로 글쓰는 모달 키는 함수(=== true값으로 만들어줌)
 
   useEffect(() => {
-    getMoreSearch(query);
-  }, []); // 렌더 되고 바로 실행
-
-  useEffect(() => {}, []); // 좋아요 업데이트를 위한 함수
-
-  const updateThumbsup = async (contentId) => {
-    let updateLike = await axios.patch(
-      `${url}/meaning/thumbsup`,
-      {
-        hearders: { authorization: `Bearer ${state.accessToken}` },
-      },
-      { contentId: contentId }
-    );
-    if (updateLike.data.accessToken) {
-      dispatch(setAccessToken(updateLike.data.accessToken));
+    console.log('state : ', state);
+    if (!localStorage.userInfo) {
+      // 유저가 로그아웃 버튼을 누른 경우
+      swal({
+        title: '로그아웃이 완료되었습니다.',
+        text: '다음에 또 만나요! 🙋',
+        icon: 'success',
+      }).then(() => {
+        window.location.replace('/main');
+      });
+    } else {
+      getMoreSearch(query);
     }
-    console.log(updateLike);
+    // getMoreSearch(query);
+  }, [state]); // 렌더 되고 바로 실행 -> 새글 추가할때마다 렌더링되게 수정
+
+  // useEffect(() => {}, []); // 좋아요 업데이트를 위한 함수
+  const updateThumbsup = async (contentId) => {
+    try {
+      let updateLike = await axios.patch(
+        `${url}/meaning/thumbsup`,
+        { contentId: contentId },
+        {
+          headers: { authorization: `Bearer ${state.accessToken}` },
+        }
+      );
+      if (updateLike.data.accessToken) {
+        dispatch(setAccessToken(updateLike.data.accessToken));
+      }
+      const getResult = await axios.get(`${url}/user`, {
+        headers: { authorization: `Bearer ${state.accessToken}` },
+      }); //새로 유저 정보 요청하는 axios 요청
+      dispatch(setUserInfo(getResult.data.data));
+    } catch (error) {
+      console.log(error);
+      swal({
+        title: '로그인이 만료되었습니다.',
+        text: '다시 로그인을 해주세요!',
+        icon: 'error',
+      }).then(() => {
+        dispatch(setLogout());
+        window.location.replace('/');
+      }); // sweet alert로 안내하고 랜딩페이지로 리다이렉트
+    }
   };
 
-  const getMoreSearch = async () => {
-    let getResult = await axios.get(
-      `${url}/meaning?word=${query}&offset=0&limit=10`,
-      {
-        headers: { authorization: `Bearer ${state.accessToken}` },
+  const getMoreSearch = async (query) => {
+    try {
+      if (!query) {
+        query = window.location.pathname.split('=')[1];
       }
-    );
-    if (getResult.data.accessToken) {
-      // 응답에 accessToken이 담겨있다면
-      dispatch(setAccessToken(getResult.data.accessToken));
+      let getResult = await axios.get(
+        `${url}/meaning?word=${query}&offset=0&limit=10`,
+        {
+          headers: { authorization: `Bearer ${state.accessToken}` },
+        }
+      );
+      console.log(getResult.data);
+      if (getResult.data.accessToken) {
+        // 응답에 accessToken이 담겨있다면
+        dispatch(setAccessToken(getResult.data.accessToken));
+      }
+      // console.log(getResult.data);
+      setSearchMoreData(getResult.data.data);
+      setSearchMoreTitle(decodeURI(query));
+      setIsLoading(true);
+    } catch (err) {
+      console.log(err);
+      console.log(err.response.data);
+
+      swal({
+        title: '로그인이 만료되었습니다.',
+        text: '다시 로그인을 해주세요!',
+        icon: 'error',
+      }).then(() => {
+        dispatch(setLogout());
+        window.location.replace('/main');
+      }); // sweet alert로 안내하고 메인페이지로 리다이렉트
     }
-    // console.log(getResult.data);
-    setSearchMoreData(getResult.data.data);
-    setSearchMoreTitle(getResult.data.data[0].wordName);
   }; // axios로 searchMoreData에서 보여질 데이터 요청하는 함수
 
+  const handleKeyPressNewQuery = (e) => {
+    if (e.type === 'keypress' && e.code === 'Enter') {
+      history.push(`/searchMore/wordName=${newQuery}`);
+      handleNewQuery();
+    }
+  }; // 더보기 페이지에서 검색 실행 시
+
+  const handleNewQueryInputValue = (key) => (e) => {
+    setNewQuery(e.target.value);
+  }; // 더보기 페이지에서 검색 실행 시 인풋 값 가져오기
+
+  const handleNewQuery = async () => {
+    try {
+      if (!newQuery || newQuery === ' ') {
+        swal({
+          title: '검색어를 입력해주세요.',
+          text: '궁금한 줄임말을 검색해주세요.',
+          icon: 'warning',
+        }).then(() => {
+          setNewQuery('');
+        });
+      } else {
+        getMoreSearch(newQuery);
+      }
+    } catch (error) {
+      console.log(error);
+      swal({
+        title: '로그인이 만료되었습니다.',
+        text: '다시 로그인을 해주세요!',
+        icon: 'error',
+      }).then(() => {
+        dispatch(setLogout());
+        window.location.replace('/main');
+      }); // sweet alert로 안내하고 메인페이지로 리다이렉트
+    }
+  };
   // TODO : 만약 다른곳에서 새로운 글쓰기 모달이 꺼져서 isShowNewContentModal 값이 false가 되었다면 useEffect를 통해 검색값 다시 요청해서 결과 업데이트 되도록 하기
   // TODO : 좋아요 누르면 useEffect를 통해 검색값 다시 요청해서 결과 업데이트 되도록 하기 + 다시 렌더 되도록 하기
   // TODO : 스크롤 떨어지는 부분 확인해서 axios 요청 다시 가도록 만들기
   return (
     <>
-      {state.isLogin ? (
-        <>
-          <ToDiffSearchMore>
-            <div id='searchMoreWrap'>
-              <input type='text' />{' '}
-              {/* 더보기 페이지에서 다른 단어 더보기페이지로*/}
-              <button>
-                {/* <Link to={`/searchMore?wordName=${입력한 단어}</button>`>검색하기</Link> 로 바꿔줘야함 */}
-                <Link to={`/searchMore`}>
-                  <FontAwesomeIcon className='searchIcon' icon={faSearch} />
-                </Link>
-              </button>
-            </div>
-          </ToDiffSearchMore>
-          <SearchMoreWrap>
-            <h1>{searchMoreTitle}</h1>
-            <SearchMoreBox>
-              <div className='btnAndFilter'>
-                <button onClick={() => openNewContentModal(true)}>
-                  새글쓰기
-                </button>
-                <select>
-                  <option>추천순</option>
-                  <option>최신순</option>
-                </select>
-              </div>
-              <ul>
-                {searchMoreData.map((data) => {
-                  return (
-                    <li className='wordBox' key={data.id}>
-                      <div className='wordBoxWrap'>
-                        <div className='topWrap'>
-                          <h3>{data.wordName}</h3>
-                          <ProfileWrap>
-                            <div className='userName'>{data.userId}</div>
-                            <div className='userPic'></div>
-                          </ProfileWrap>
-                        </div>
-
-                        <div className='wordMean'>{data.wordMean}</div>
-
-                        <div className='bottomWrap'>
-                          <span>2021-09-17</span>
-                          <p>
-                            <HoverThumbsup className='hoverThumbsup'>
-                              박해커님 외에 1명이 좋아합니다.
-                            </HoverThumbsup>
-                            <div
-                              className='thumbsupWrap'
-                              onClick={() => {
-                                updateThumbsup(data.id);
-                              }}
-                            >
-                              <FontAwesomeIcon icon={faThumbsUp} />
-                              {data.thumbsup.length}개
-                            </div>
-                          </p>
-                        </div>
+      {/* {state.isLogin ? ( */}
+      {/* <> */}
+      <ToDiffSearchMore>
+        <div id='searchMoreWrap'>
+          <input
+            type='text'
+            placeholder='다른 줄임말도 검색해보세요!'
+            value={newQuery}
+            onChange={handleNewQueryInputValue()}
+            onKeyPress={handleKeyPressNewQuery}
+          />
+          {/* 더보기 페이지에서 다른 단어 더보기페이지로*/}
+          <button>
+            {/* <Link to={`/searchMore?wordName=${입력한 단어}</button>`>검색하기</Link> 로 바꿔줘야함 */}
+            <Link
+              to={`/searchMore/wordName=${newQuery}`}
+              onClick={handleNewQuery}
+            >
+              <FontAwesomeIcon className='searchIcon' icon={faSearch} />
+            </Link>
+          </button>
+        </div>
+      </ToDiffSearchMore>
+      <SearchMoreWrap>
+        <h1>{searchMoreTitle}</h1>
+        <SearchMoreBox>
+          <div className='btnAndFilter'>
+            <button onClick={() => openNewContentModal(true)}>
+              새 줄임말 만들기
+            </button>
+            <select>
+              <option>추천순</option>
+              <option>최신순</option>
+            </select>
+          </div>
+          {isLoading ? (
+            <ul>
+              {searchMoreData.map((data) => {
+                return (
+                  <li className='wordBox' key={data.id}>
+                    <div className='wordBoxWrap'>
+                      <div className='topWrap'>
+                        <h3>{data.wordName}</h3>
+                        <ProfileWrap>
+                          <div className='userName'>{data.username}</div>
+                          <div
+                            className='userPic'
+                            style={
+                              data.userPic
+                                ? {
+                                    background: `url(${data.userPic})`,
+                                    'background-size': 'cover',
+                                  }
+                                : {
+                                    background: `url(${exProfileImg})`,
+                                    'background-size': 'cover',
+                                  }
+                            }
+                          ></div>
+                        </ProfileWrap>
                       </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            </SearchMoreBox>
-          </SearchMoreWrap>
-        </>
-      ) : (
-        <Redirect to='/main' /> // 메인페이지로 리디렉션
-      )}
+
+                      <div className='wordMean'>{data.wordMean}</div>
+
+                      <div className='bottomWrap'>
+                        <span>2021-09-17</span>
+                        <p>
+                          <HoverThumbsup className='hoverThumbsup'>
+                            {data.thumbsup.length === 0
+                              ? `아직 좋아한 사람이
+                            없습니다.`
+                              : `${data.thumbsup[0]}님 외
+                            ${data.thumbsup.length - 1}
+                            명이 좋아합니다.`}
+                          </HoverThumbsup>
+                          <div
+                            className='thumbsupWrap'
+                            onClick={() => {
+                              updateThumbsup(data.id);
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faThumbsUp} />
+                            {data.thumbsup.length}개
+                          </div>
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <ul>
+              <div id='loadingIndicator'>
+                <div className='lds-dual-ring'></div>
+              </div>
+            </ul>
+          )}
+        </SearchMoreBox>
+      </SearchMoreWrap>
+      {/* </> */}
+      {/* // ) : ( // console.log('isloginstate', state) // <Redirect to='/main' />{' '}
+      // 메인페이지로 리디렉션 // 작성 글을 조회하는 axios 요청 과정에서,
+      로그인이 만료된 경우 catch를 통해 메인페이지로 리다이렉트 하도록 변경함 //
+      새로고침을 했을 때, 더보기페이지에서 유지를 못하고 메인으로 갔던 이유는,
+      렌더링 될 때, isLogin이 false로 바뀌었다가 true로 바뀌는데 그 과정에서
+      false에서 걸려서 메인페이지로 리다이렉트 되었던 것이었음. // )} //{' '} */}
     </>
   );
 }

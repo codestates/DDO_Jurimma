@@ -38,6 +38,12 @@ module.exports = {
           });
           const thumbsupResult = thumbsupContent.map((el) => el.dataValues);
           thumbsupData.push(thumbsupResult);
+          let writeUser = await user.findOne({
+            attributes: ['username', 'userPic'],
+            where: { id: returnData[i].userId },
+          });
+          returnData[i].username = writeUser.dataValues.username;
+          returnData[i].userPic = writeUser.dataValues.userPic;
           // console.log('thumbsupResult : ', thumbsupResult);
         }
 
@@ -99,6 +105,13 @@ module.exports = {
             });
             const thumbsupResult = thumbsupContent.map((el) => el.dataValues);
             thumbsupData.push(thumbsupResult);
+            let writeUser = await user.findOne({
+              attributes: ['username', 'userPic'],
+              where: { id: returnData[i].userId },
+            });
+            returnData[i].username = writeUser.dataValues.username;
+            returnData[i].userPic = writeUser.dataValues.userPic;
+
             // console.log('thumbsupResult : ', thumbsupResult);
           }
 
@@ -153,6 +166,12 @@ module.exports = {
               });
               const thumbsupResult = thumbsupContent.map((el) => el.dataValues);
               thumbsupData.push(thumbsupResult);
+              let writeUser = await user.findOne({
+                attributes: ['username', 'userPic'],
+                where: { id: returnData[i].userId },
+              });
+              returnData[i].username = writeUser.dataValues.username;
+              returnData[i].userPic = writeUser.dataValues.userPic;
               // console.log('thumbsupResult : ', thumbsupResult);
             }
 
