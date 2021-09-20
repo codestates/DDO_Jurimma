@@ -48,7 +48,8 @@ module.exports = {
         email: googleEmail,
         username: googleName,
         userPic: googleUserPic,
-        emailAuth: 1,
+        emailAuth: true,
+        isOAuth: true,
       });
       delete userInfo.dataValues.password;
       delete userInfo.dataValues.emailAuth;

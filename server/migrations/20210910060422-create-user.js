@@ -29,6 +29,9 @@ module.exports = {
       emailAuth: {
         type: Sequelize.BOOLEAN,
       },
+      isOAuth: {
+        type: Sequelize.BOOLEAN,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
