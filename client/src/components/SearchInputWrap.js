@@ -22,6 +22,7 @@ const HeaderKeyFrame = keyframes`
 const SearchInputBox = styled.div`
   width: 100%;
   box-sizing: border-box;
+  margin-top: 40px;
   @media only screen and (max-width: 1399px) {
     width: 100%;
   }
@@ -30,7 +31,7 @@ const SearchInputBox = styled.div`
 
 const InputBox = styled.div`
   width: 100%;
-  height: 70px;
+  height: 65px;
   flex: 1 1 auto;
   background: linear-gradient(-45deg, red, #b4aee8);
   animation: ${HeaderKeyFrame} 5s ease infinite;
@@ -38,9 +39,12 @@ const InputBox = styled.div`
   border-radius: 50px;
   display: flex;
   align-items: center;
+  @media only screen and (max-width: 800px) {
+    height: 45px;
+  }
   > #searchBox {
     width: 890px;
-    height: 60px;
+    height: 55px;
     border-radius: 50px;
     border: none;
     display: flex;

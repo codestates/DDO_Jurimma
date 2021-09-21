@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { setChartModal } from '../actions/index';
-import { Doughnut } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 
 const ChartGraphdrop = styled.div`
   position: fixed;
@@ -10,15 +10,46 @@ const ChartGraphdrop = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: #000;
-  display: grid;
-  place-items: center;
+  background-color: rgba(0, 0, 0, 0.9);
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center; */
   z-index: 20;
-`;
-const ChartGraphModal = styled.div`
-  width: 50vw;
-  height: 80vh;
-  background-color: #fff;
+  > #ChartWrap {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > #barChart {
+      width: 80%;
+      border-radius: 20px;
+    }
+  }
+  > #closeBtnWrap {
+    width: 100%;
+    > .closeBtn {
+      cursor: pointer;
+      width: 50px;
+      height: 50px;
+      color: #000;
+      font-size: 50px;
+      left: 90%;
+      top: 20px;
+      position: relative;
+      color: #fff;
+      transition: 0.5s;
+      z-index: 30;
+      @media only screen and (max-width: 500px) {
+        left: 85%;
+      }
+    }
+    > .closeBtn:hover {
+      transform: rotate(-90deg);
+    }
+  }
 `;
 
 function ChartModal({ realTime }) {
@@ -28,13 +59,49 @@ function ChartModal({ realTime }) {
   }; // 로그인 모달 닫는 함수
 
   console.log('realreal', realTime);
+  const bestWordName = realTime.map((el) => el.wordName);
+  const bestCount = realTime.map((el) => el.count);
+  const chartData = {
+    labels: bestWordName,
+    datasets: [
+      {
+        label: '실시간 TOP 10',
+        data: bestCount,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.5)',
+          'rgba(255, 159, 64, 0.5)',
+          'rgba(255, 205, 86, 0.5)',
+          'rgba(75, 192, 192, 0.5)',
+          'rgba(54, 162, 235, 0.5)',
+          'rgba(153, 102, 255, 0.5)',
+          'rgba(201, 203, 207, 0.5)',
+        ],
+        borderColor: [
+          'rgb(255, 99, 132)',
+          'rgb(255, 159, 64)',
+          'rgb(255, 205, 86)',
+          'rgb(75, 192, 192)',
+          'rgb(54, 162, 235)',
+          'rgb(153, 102, 255)',
+          'rgb(201, 203, 207)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
 
   return (
     <ChartGraphdrop>
-      <ChartGraphModal>
-        <div onClick={() => closeChartGraphModal(false)}>&times;</div>
-        this is ChartModal
-      </ChartGraphModal>
+      <div id='closeBtnWrap'>
+        <div className='closeBtn' onClick={() => closeChartGraphModal(false)}>
+          &times;
+        </div>
+      </div>
+      <div id='ChartWrap'>
+        <div id='barChart'>
+          <Bar data={chartData} />
+        </div>
+      </div>
     </ChartGraphdrop>
   );
 }

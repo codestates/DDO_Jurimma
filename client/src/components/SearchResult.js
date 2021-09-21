@@ -8,14 +8,14 @@ import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import swal from 'sweetalert';
 
 const SearchResultWrap = styled.div`
-  flex: 1 1 auto; // 콘텐츠 전체 길이 생각해서 후에 수정해주기
   box-sizing: border-box;
   margin-top: 20px;
+  margin-bottom: 100px;
   display: flex;
   flex-direction: column;
   > .wordResultList {
-    flex: 4 1 auto;
     width: 100%;
+    height: 350px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -23,7 +23,7 @@ const SearchResultWrap = styled.div`
     border-radius: 30px;
     > li {
       width: 30%;
-      height: max(200px, 80%);
+      height: max(17vw, 250px);
       border-radius: 30px;
       text-align: center;
       padding: 10px;
@@ -72,6 +72,9 @@ const BtnWrap = styled.div`
     transition: 0.3s;
     background-color: #fff;
     color: #440a67;
+    @media only screen and (max-width: 800px) {
+      width: 130px;
+    }
     > a {
       display: block;
       width: 100%;

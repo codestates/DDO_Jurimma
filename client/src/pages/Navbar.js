@@ -219,9 +219,9 @@ const MiniNav2 = styled.div`
   position: fixed;
   display: flex;
   align-items: center;
-  animation: ${fadeout} 0.5s;
+  opacity: 0;
   @media only screen and (max-width: 800px) {
-    animation: ${fadeIn} 0.5s;
+    opacity: 1;
   }
   > .logo {
     flex: 1 1 auto;

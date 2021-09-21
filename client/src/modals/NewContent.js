@@ -17,7 +17,7 @@ const NewContentBackdrop = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.8);
   display: grid;
   place-items: center;
   z-index: 20;
