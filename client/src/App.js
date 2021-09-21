@@ -8,7 +8,6 @@ import LoginOrSignUp from './modals/LoginOrSignUp';
 import Mypage from './pages/Mypage';
 import MypageEdit from './pages/EditMyPage';
 import SearchMore from './pages/SearchMore';
-import ChartModal from './modals/ChartModal';
 import Quiz from './modals/Quiz';
 import EditContent from './modals/EditContent';
 import Logout from './modals/Logout';
@@ -101,7 +100,6 @@ function App() {
       <div className='App'>
         {isShowQuizModal ? <Quiz /> : null}
         {isShowLoginOrSignupModal ? <LoginOrSignUp /> : null}
-        {isShowChartModal ? <ChartModal /> : null}
         {isShowNewContentModal ? <NewContent /> : null}
         {isShowEditContentModal ? <EditContent /> : null}
         {isShowLogoutModal ? <Logout /> : null}

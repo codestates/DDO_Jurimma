@@ -2,6 +2,7 @@
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { setChartModal } from '../actions/index';
+import { Doughnut } from 'react-chartjs-2';
 
 const ChartGraphdrop = styled.div`
   position: fixed;
@@ -12,6 +13,7 @@ const ChartGraphdrop = styled.div`
   background-color: #000;
   display: grid;
   place-items: center;
+  z-index: 20;
 `;
 const ChartGraphModal = styled.div`
   width: 50vw;
@@ -19,11 +21,13 @@ const ChartGraphModal = styled.div`
   background-color: #fff;
 `;
 
-function ChartModal() {
+function ChartModal({ realTime }) {
   const dispatch = useDispatch();
   const closeChartGraphModal = (isOpen) => {
     dispatch(setChartModal(isOpen));
   }; // 로그인 모달 닫는 함수
+
+  console.log('realreal', realTime);
 
   return (
     <ChartGraphdrop>
