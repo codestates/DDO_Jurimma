@@ -9,7 +9,6 @@ import { useEffect } from 'react';
 const ChartWrap = styled.div`
   width: 400px; // 콘텐츠 전체 길이 생각해서 후에 수정해주기
   height: 80vh;
-  border: 1px solid red;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
