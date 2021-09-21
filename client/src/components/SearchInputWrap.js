@@ -120,16 +120,18 @@ function SearchInputWrap({
       1
     )
       return;
-    if (hasText) {
-      if (event.code === 'ArrowDown' && options.length - 1 > selected) {
-        setSelected(selected + 1);
+    if (word !== '') {
+      if (event.code === 'ArrowDown' && autoCompResult.length - 1 > selected) {
+        setSelected(selected + 1); // 선택된 index 변경
+        setWord(autoCompResult[selected]);
       }
       if (event.code === 'ArrowUp' && selected >= 0) {
-        setSelected(selected - 1);
+        setSelected(selected - 1); // 선택된 index 변경
+        setWord(autoCompResult[selected]);
       }
       if (event.code === 'Enter' && selected >= 0) {
-        handleDropDownClick(options[selected]);
-        setSelected(-1);
+        setSelected(-1); // 선택된 index 다시 처음값으로
+        setWord(autoCompResult[selected]);
       }
     }
   };
@@ -137,7 +139,7 @@ function SearchInputWrap({
   return (
     <SearchInputBox>
       <InputBox>
-        <div id='searchBox'>
+        <div id='searchBox' onKeyUp={handleKeyUp}>
           <input
             id='reqInput'
             onChange={(event) => setWord(event.target.value)}
@@ -145,8 +147,8 @@ function SearchInputWrap({
             value={word}
             autocomplete='off'
           ></input>
-          <div id='buttonWrap' onClick={() => setWord('')}>
-            <button>&times;</button>
+          <div id='buttonWrap'>
+            <button onClick={() => setWord('')}>&times;</button>
             <button>
               <FontAwesomeIcon icon={faMicrophone} />
             </button>
