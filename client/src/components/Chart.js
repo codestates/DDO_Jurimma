@@ -1,7 +1,7 @@
 // 실시간 순위 보여질 부분
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import BestSearch from './BestSearch';
-
+import '../App.css';
 import { useDispatch } from 'react-redux';
 import { setChartModal } from '../actions/index';
 import { useEffect } from 'react';
@@ -14,18 +14,19 @@ const ChartWrap = styled.div`
   flex-direction: column;
   @media only screen and (max-width: 1399px) {
     width: 100%;
-    background-color: blue;
   }
 `;
 
 const ChartModalWrap = styled.div`
-  flex: 1 1 auto;
   > button {
-    cursor: pointer;
     width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.7);
     border-radius: 20px;
+    height: 120px;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    font-family: 'NEXON Lv2 Gothic Bold';
+    font-size: 20px;
+    color: #fff;
   }
 `;
 
@@ -39,10 +40,7 @@ function Chart({ realTime }) {
   return (
     <ChartWrap>
       <ChartModalWrap>
-        <button onClick={() => openChartGraphModal(true)}>
-          {' '}
-          차트 모달 보기
-        </button>
+        <button onClick={() => openChartGraphModal(true)}> 실시간 차트</button>
       </ChartModalWrap>
       <BestSearch realTime={realTime} />
     </ChartWrap>
