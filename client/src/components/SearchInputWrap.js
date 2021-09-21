@@ -121,12 +121,13 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
       if (event.code === 'ArrowUp' && selected >= 0) {
         setSelected(selected - 1); // 선택된 index 변경
       }
-      if (event.code === 'Enter' && selected >= 0) {
-        searchWord(event, autoCompResult[selected]); // 검색하기
+      if (event.code === 'Enter' && selected >= -1) {
+        searchWord(event, autoCompResult[selected] || event.target.value); // 검색하기
         setSelected(-1); // 선택된 index 다시 처음값으로
       }
     }
   };
+
   // 맨 처음에 한글자만 입력하고 아래키를 누르게 되면 2번 눌린것으로 처리됨. 수정 필요
   return (
     <SearchInputBox>
@@ -135,7 +136,7 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
           <input
             id='reqInput'
             onChange={(event) => setWord(event.target.value)}
-            onKeyUp={handleKeyUp}
+            onKeyUp={(event) => handleKeyUp(event)}
             value={word}
             autoComplete='off'
           ></input>

@@ -38,7 +38,7 @@ function Search() {
 
   const searchWord = async (event, word = '') => {
     setWord(word); // 한번더 확인차
-    // console.log('searchWord안에 41번줄에 word: ', word);
+    console.log('searchWord안에 41번줄에 word: ', word);
     if (
       (event.key === 'Enter' && word !== '') ||
       (event.type === 'click' && word !== '')
