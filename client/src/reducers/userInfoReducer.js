@@ -14,6 +14,7 @@ import {
   SET_MODAL_SIGNOUT,
   SET_ACCESS_TOKEN,
   SET_USER_INFO,
+  SET_MODAL_MINIMENU,
 } from '../actions/index';
 
 const defaultUserInfo = {
@@ -28,6 +29,7 @@ const defaultUserInfo = {
   isLogin: false, //로그인 상태
   accessToken: null,
   isShowLoginOrSignupModal: false, // 로그인or회원가입 모달 상태
+  isShowMiniMenuModal: false, // 햄버거 바 클릭했을 때 모달 상태
   isShowQuizModal: false, // 퀴즈 모달 상태
   isShowSignoutModal: false, // 회원탈퇴 모달 상태
   isShowLogoutModal: false, // 로그아웃 모달 상태
@@ -49,6 +51,12 @@ const userInfoReducer = (state = defaultUserInfo, action) => {
         ...state,
         isShowLoginOrSignupModal: action.isOpen,
       }; // 로그인 회원가입 모달 상태 변경하기
+
+    case SET_MODAL_MINIMENU:
+      return {
+        ...state,
+        isShowMiniMenuModal: action.isOpen,
+      }; // window 창이 작아졌을 때 bar를 클릭하면 나오는 모달창 변경하기
 
     case SET_MODAL_SIGNOUT:
       return {

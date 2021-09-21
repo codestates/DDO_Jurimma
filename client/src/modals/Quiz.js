@@ -22,7 +22,7 @@ const QuizBackdrop = styled.div`
   background-color: rgba(0, 0, 0, 0.7);
   display: grid;
   place-items: center;
-  z-index: 10;
+  z-index: 40;
 `;
 
 const QuizModal = styled.div`

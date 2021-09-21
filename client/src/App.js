@@ -13,6 +13,7 @@ import Quiz from './modals/Quiz';
 import EditContent from './modals/EditContent';
 import Logout from './modals/Logout';
 import SignOut from './modals/SignOut';
+import MiniMenuModal from './modals/MiniMenuModal';
 import swal from 'sweetalert';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
@@ -91,6 +92,7 @@ function App() {
     isShowSignoutModal,
     isLogin,
     userInfo,
+    isShowMiniMenuModal,
   } = state;
 
   // const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
@@ -104,6 +106,7 @@ function App() {
         {isShowEditContentModal ? <EditContent /> : null}
         {isShowLogoutModal ? <Logout /> : null}
         {isShowSignoutModal ? <SignOut /> : null}
+        {isShowMiniMenuModal ? <MiniMenuModal /> : null}
         <header>
           <Switch>
             <Nav />

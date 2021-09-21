@@ -12,10 +12,13 @@ import {
   setLoginOrSignupModal,
   setQuizModal,
   setLogoutModal,
+  setMiniMenuModal,
 } from '../actions/index';
 import silverProfile from '../images/junior_profile.svg';
 import goldProfile from '../images/senior_profile.svg';
 import diaProfile from '../images/master_profile.svg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 const fadeIn = keyframes`
   0%{opacity : 0}
@@ -34,7 +37,10 @@ const NavBar1 = styled.nav`
   display: flex;
   position: fixed;
   animation: ${fadeout} 0.5s;
-  > #logo {
+  @media only screen and (max-width: 800px) {
+    display: none;
+  }
+  > .logo {
     flex: 1 1 auto;
     margin-top: 5px;
     > a {
@@ -92,7 +98,10 @@ const NavBar2 = styled.nav`
   transition: 0.3s;
   z-index: 5;
   animation: ${fadeIn} 0.8s;
-  > #logo {
+  @media only screen and (max-width: 800px) {
+    display: none;
+  }
+  > .logo {
     flex: 1 1 auto;
     margin-top: 5px;
     > a {
@@ -203,6 +212,80 @@ const HoverMypageOrLogout = styled.div`
   }
 `;
 
+const MiniNav2 = styled.div`
+  width: 100%;
+  height: 85px;
+  background-color: #fff;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  animation: ${fadeout} 0.5s;
+  @media only screen and (max-width: 800px) {
+    animation: ${fadeIn} 0.5s;
+  }
+  > .logo {
+    flex: 1 1 auto;
+    margin-top: 5px;
+    > a {
+      display: block;
+      width: 70px;
+      height: 70px;
+      margin-left: 10px;
+      background: url(${mainLogo});
+    }
+  }
+  > #hambuger {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+    cursor: pointer;
+    > .bars {
+      width: 40px;
+      height: 40px;
+      color: #440a67;
+    }
+  }
+`;
+
+const MiniNav1 = styled.div`
+  width: 100%;
+  height: 85px;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  @media only screen and (max-width: 800px) {
+    opacity: 1;
+  }
+  > .logo {
+    flex: 1 1 auto;
+    margin-top: 5px;
+    > a {
+      display: block;
+      width: 70px;
+      height: 70px;
+      margin-left: 10px;
+      background: url(${whiteLogo});
+    }
+  }
+  > #hambuger {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+    > .bars {
+      width: 40px;
+      height: 40px;
+      color: #fff;
+    }
+  }
+`;
+
 function Nav() {
   const state = useSelector((state) => state.userInfoReducer);
   const nowDate = new Date().toLocaleDateString(); // 접속한 날짜를 "2021. 9. 13."와 같은 형식으로 확인
@@ -248,6 +331,10 @@ function Nav() {
     dispatch(setLogoutModal(isOpen));
   }; // 로그아웃 모달 여는 함수
 
+  const openMiniMenuModal = (isOpen) => {
+    dispatch(setMiniMenuModal(isOpen));
+  }; // 햄버거 바 클릭했을 때 열리는 모달 함수
+
   const scrollNavChange = () => {
     if (window.scrollY >= 20) {
       setNavBarScroll(true);
@@ -272,8 +359,29 @@ function Nav() {
   return (
     <>
       {navBarScroll ? (
+        <MiniNav2>
+          <div className='navInner logo'>
+            <Link to='/'></Link>
+          </div>
+
+          <div id='hambuger' onClick={() => openMiniMenuModal(true)}>
+            <FontAwesomeIcon className='bars' icon={faBars} />
+          </div>
+        </MiniNav2>
+      ) : (
+        <MiniNav1>
+          <div className='navInner logo'>
+            <Link to='/'></Link>
+          </div>
+
+          <div id='hambuger' onClick={() => openMiniMenuModal(true)}>
+            <FontAwesomeIcon className='bars' icon={faBars} />
+          </div>
+        </MiniNav1>
+      )}
+      {navBarScroll ? (
         <NavBar2>
-          <div id='logo' className='navInner'>
+          <div className='navInner logo'>
             <Link to='/'></Link>
           </div>
           <div id='menu_container' className='navInner'>
@@ -318,7 +426,7 @@ function Nav() {
         </NavBar2>
       ) : (
         <NavBar1>
-          <div id='logo' className='navInner'>
+          <div className='navInner logo'>
             <Link to='/'></Link>
           </div>
           <div id='menu_container' className='navInner'>

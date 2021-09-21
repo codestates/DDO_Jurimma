@@ -69,7 +69,7 @@ const ProfileChange = styled.div`
       :hover {
         border: 2px solid #fff;
         background-color: #fff;
-        color: #000;
+        color: #440a67;
       }
     }
     > button:nth-child(1) {
