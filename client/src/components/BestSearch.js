@@ -5,6 +5,7 @@ import styled, { keyframes } from 'styled-components';
 const BestSearchWrap = styled.div`
   flex: 5 1 auto; // 콘텐츠 전체 길이 생각해서 후에 max 설정해주기
   box-sizing: border-box;
+  margin-top: 20px;
 `;
 const flip = keyframes`
   0% {
@@ -29,6 +30,8 @@ const BestSearchList = styled.ul`
     place-items: center;
     background-color: transparent;
     transition: all 1s;
+    border-radius: 20px;
+    margin-top: 5px;
   }
   > li.highlight {
     background-color: #b4aee8;
