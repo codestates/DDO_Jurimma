@@ -21,7 +21,7 @@ const SearchWrap = styled.div`
 
 function Search() {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
-  const initialTags = JSON.parse(localStorage.getItem('searchHistory')) || []; // ['자만추', '만반잘부', '슬세권'];
+  const initialTags = JSON.parse(localStorage.getItem('searchHistory')) || [];
   const [tags, setTags] = useState(initialTags); // 단어 검색 기록
   const [word, setWord] = useState(''); // 입력창
   const [wordResult, setWordResult] = useState([]); // 검색 결과
@@ -36,17 +36,33 @@ function Search() {
     tags.splice(0, 1);
   } // 검색내역은 6개까지
 
-  const searchWord = async (wordTarget) => {
-    let getResult = await axios.get(
-      `${url}/meaning?word=${wordTarget}&offset=0&limit=3`
-    );
-    // console.log(getResult.data.data);
-    setWordResult(getResult.data.data);
-    setWord(''); // 입력창 정리
-    if (notSearched === true) {
-      setNotSearched(false);
+  const searchWord = async (event, word = '') => {
+    setWord(word); // 한번더 확인차
+    console.log('searchWord안에 41번줄에 word: ', word);
+    if (
+      (event.key === 'Enter' && word !== '') ||
+      (event.type === 'click' && word !== '')
+    ) {
+      // console.log('들어옴!');
+      // console.log('searchWord안 word:', word);
+      // 무언가를 입력한 상태일 때 + 엔터키 또는 클릭 눌렀을 때
+      if (!tags.includes(word)) {
+        //검색기록에 없는 단어 입력했을 때
+        setTags([...tags, word]); // tags 상태 업데이트
+        localStorage.setItem('searchHistory', JSON.stringify([...tags, word]));
+      }
+      let getResult = await axios.get(
+        `${url}/meaning?word=${word}&offset=0&limit=3`
+      );
+      // console.log(getResult.data.data);
+      setWordResult(getResult.data.data);
+      if (notSearched === true) {
+        setNotSearched(false);
+      }
+      setWord(''); // 입력창 정리
+      setAutoCompResult([]); // 자동완성창 정리 및 끄기
     }
-  }; // axios로 단어 검색 및 redux 업데이트
+  }; // axios로 단어 검색
 
   const removeTags = (indexToRemove) => {
     let newTags = tags
@@ -55,26 +71,6 @@ function Search() {
     setTags(newTags); // tags 상태 업데이트
     localStorage.setItem('searchHistory', JSON.stringify([...newTags])); // localStorage 값 없데이트
   }; // 검색내역 삭제하기
-
-  const addEnterTags = (event) => {
-    // 엔터키일때만 작동
-    if (event.key === 'Enter') {
-      if (event.target.value !== '') {
-        // 무언가를 입력한 상태일 때
-        if (!tags.includes(word)) {
-          //검색기록에 없는 단어 입력했을 때
-          setTags([...tags, event.target.value]); // tags 상태 업데이트
-          localStorage.setItem(
-            'searchHistory',
-            JSON.stringify([...tags, event.target.value])
-          );
-        }
-        // 검색기록에 있는 단어라면 윗 단계 패스하고 바로 검색
-        searchWord(event.target.value); // 입력한 단어로 검색
-        setAutoCompResult([]); // 자동검색 정리
-      }
-    }
-  }; // input창 엔터키 눌렀을 때 태그 추가 함수
 
   const getAutoComp = async (word) => {
     if (
@@ -87,26 +83,6 @@ function Search() {
       // console.log(getResult.data);
     }
   }; // 자동완성 목록 요청하는 함수
-
-  const changeWord = (event) => {
-    setWord(event.target.value); // 입력한 내용으로 입력창 변경
-  }; // input창 입력사항 반영 함수
-
-  const addClickTags = () => {
-    // 무언가 입력을 했다면
-    if (word.length !== 0) {
-      console.log('검색목록에 들어가있는지 여부: ', tags.includes(word));
-      // 검색 기록에 입력한 word가 없다면
-      if (tags.includes(word) === false) {
-        setTags([...tags, word]); // 검색 기록에 추가
-        localStorage.setItem('searchHistory', JSON.stringify([...tags, word])); // 로컬 스토리지에도 추가
-      }
-      // 검색 기록에 이미 word가 존재한다면
-      searchWord(word); // 검색하기
-      setWord(''); // 검색창 정리
-      setAutoCompResult([]); // 자동검색 정리
-    }
-  }; // input창 돋보기 버튼 클릭했을때 검색 + 태그 추가 함수
 
   // Input에 입력하고 엔터키 / 버튼 클릭하게 되면 axios 요청이 가게 되고 검색결과값 state가 업데이트 됨 + localStorage에서 보관하는 searchHistory에도 추가사키기
   // 만약에 SearchResult에 결과가 아무것도 없다면 SearchResult에 글쓰기 모달 뜨는 버튼 만들기
@@ -121,12 +97,10 @@ function Search() {
         setWord={setWord}
       />
       <SearchInputWrap
-        addEnterTags={addEnterTags}
-        addClickTags={addClickTags}
-        changeWord={changeWord}
         word={word}
         setWord={setWord}
         autoCompResult={autoCompResult}
+        searchWord={searchWord}
       />
       <SearchResult
         wordResult={wordResult}

@@ -21,7 +21,6 @@ const MypageWrap = styled.div`
 function Mypage() {
   const history = useHistory();
   const state = useSelector((state) => state.userInfoReducer);
-  console.log('state뽑아오기:', state);
   const dispatch = useDispatch();
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   // /mypage로 들어가면 갖고있던 state로 userInfo 렌더해서 보여주기, userContent는 axios 요청하기(들어올때 한번만) + userContentReducer 업데이트

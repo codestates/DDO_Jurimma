@@ -83,15 +83,9 @@ const InputBox = styled.div`
   }
 `;
 
-function SearchInputWrap({
-  addEnterTags,
-  addClickTags,
-  changeWord,
-  autoCompResult,
-  setWord,
-  word,
-}) {
+function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
   const [isShowAutoComp, setIsShowAutoComp] = useState(false); // 자동 검색 여부 display 여부
+  const [selected, setSelected] = useState(-1); // 어떤걸 선택했을지 index
 
   useEffect(() => {
     if (word === '') {
@@ -102,29 +96,67 @@ function SearchInputWrap({
     }
   }, [word]); // 입력값이 변할때마다
 
+  const handleKeyUp = (event) => {
+    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState#example
+    // eslint-disable-next-line
+    if (
+      event.getModifierState('Fn') ||
+      event.getModifierState('Hyper') ||
+      event.getModifierState('OS') ||
+      event.getModifierState('Super') ||
+      event.getModifierState('Win')
+    )
+      return;
+    if (
+      event.getModifierState('Control') +
+        event.getModifierState('Alt') +
+        event.getModifierState('Meta') >
+      1
+    )
+      return;
+    if (word !== '') {
+      if (event.code === 'ArrowDown' && autoCompResult.length - 1 > selected) {
+        setSelected(selected + 1); // 선택된 index 변경
+      }
+      if (event.code === 'ArrowUp' && selected >= 0) {
+        setSelected(selected - 1); // 선택된 index 변경
+      }
+      if (event.code === 'Enter' && selected >= -1) {
+        searchWord(event, autoCompResult[selected] || event.target.value); // 검색하기
+        setSelected(-1); // 선택된 index 다시 처음값으로
+      }
+    }
+  };
+
+  // 맨 처음에 한글자만 입력하고 아래키를 누르게 되면 2번 눌린것으로 처리됨. 수정 필요
   return (
     <SearchInputBox>
       <InputBox>
         <div id='searchBox'>
           <input
             id='reqInput'
-            onChange={changeWord}
-            onKeyUp={(event) => addEnterTags(event)}
+            onChange={(event) => setWord(event.target.value)}
+            onKeyUp={(event) => handleKeyUp(event)}
             value={word}
+            autoComplete='off'
           ></input>
-          <div id='buttonWrap' onClick={() => setWord('')}>
-            <button>&times;</button>
+          <div id='buttonWrap'>
+            <button onClick={() => setWord('')}>&times;</button>
             <button>
               <FontAwesomeIcon icon={faMicrophone} />
             </button>
-            <button onClick={addClickTags}>
+            <button onClick={(event) => searchWord(event, word)}>
               <FontAwesomeIcon icon={faSearch} />
             </button>
           </div>
         </div>
       </InputBox>
       {isShowAutoComp ? (
-        <SearchAutoComp autoCompResult={autoCompResult} setWord={setWord} />
+        <SearchAutoComp
+          autoCompResult={autoCompResult}
+          selected={selected}
+          searchWord={searchWord}
+        />
       ) : null}
     </SearchInputBox>
   );

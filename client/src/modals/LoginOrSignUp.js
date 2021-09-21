@@ -237,10 +237,12 @@ function LoginOrSignUp() {
 
   const handleInputValue = (key) => (e) => {
     setLoginInfo({ ...loginInfo, [key]: e.target.value });
+    setErrorMsg('');
   }; // 로그인 창에서 input에 입력했을 때 입력값 받아오기
 
   const handleSignupInputValue = (key) => (e) => {
     setSignupInfo({ ...signupInfo, [key]: e.target.value });
+    setErrorMsg('');
   }; // 회원가입 창에서 input에 입력했을 때 입력값 받아오기
 
   const handleLogin = async () => {
@@ -347,12 +349,14 @@ function LoginOrSignUp() {
           icon: 'error',
         }); // sweet alert로 안내
         setErrorMsg('이미 가입된 사용자입니다.');
+        setIsLoading(false); // loading indicator 끄기
       } else {
         swal({
           title: 'Internal Server Error',
           text: '죄송합니다. 다시 시도 해주세요.',
           icon: 'warning',
         }); // swal로 안내
+        setIsLoading(false); // loading indicator 끄기
         setErrorMsg('Internal Server Error');
       }
     }
