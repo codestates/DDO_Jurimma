@@ -94,7 +94,7 @@ const UserContentsWrap = styled.div`
             border-radius: 10px;
             font-size: 12px;
           }
-          > p {
+          > .hoverThumbsWrap {
             width: 120px;
             height: 40px;
             text-align: center;
@@ -243,7 +243,7 @@ function UserContents() {
 
             <div className='bottomWrap'>
               <span>2021-09-17</span>
-              <p>
+              <div className='hoverThumbsWrap'>
                 <HoverThumbsup className='hoverThumbsup'>
                   박해커님 외에 1명이 좋아합니다.
                 </HoverThumbsup>
@@ -251,35 +251,7 @@ function UserContents() {
                   <FontAwesomeIcon icon={faThumbsUp} />
                   2개
                 </div>
-              </p>
-            </div>
-          </div>
-        </li>
-
-        <li className='wordBox'>
-          <div className='wordBoxWrap'>
-            <div className='topWrap'>
-              <h3>자만추</h3>
-              <EditContent>
-                <button onClick={() => openEditContentModal(true)}>
-                  내가 쓴 글 수정하기
-                </button>
-              </EditContent>
-            </div>
-
-            <div className='wordMean'>자연스러운 만남 추구</div>
-
-            <div className='bottomWrap'>
-              <span>2021-09-17</span>
-              <p>
-                <HoverThumbsup className='hoverThumbsup'>
-                  박해커님 외에 1명이 좋아합니다.
-                </HoverThumbsup>
-                <div className='thumbsupWrap'>
-                  <FontAwesomeIcon icon={faThumbsUp} />
-                  2개
-                </div>
-              </p>
+              </div>
             </div>
           </div>
         </li>

@@ -18,6 +18,8 @@ router.get('/', userController.userInfo.get);
 router.patch('/', userController.userInfo.patch);
 router.delete('/', userController.userInfo.delete);
 
+router.patch('/image', userController.image.patch);
+
 router.patch('/quiz-exp', userController.quizExp.patch);
 
 module.exports = router;

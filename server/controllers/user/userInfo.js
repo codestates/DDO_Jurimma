@@ -48,7 +48,7 @@ module.exports = {
   },
 
   patch: async (req, res) => {
-    const { userPic, username, oldPassword, newPassword } = req.body;
+    const { username, oldPassword, newPassword } = req.body;
     const accessVerify = isAuthorized(req);
 
     // accessToken 만료
@@ -67,7 +67,6 @@ module.exports = {
         } else {
           userInfo.username = username;
           userInfo.password = encryptPwd(newPassword);
-          userInfo.userPic = userPic;
           await userInfo.save();
           res.status(201).json({
             accessToken: accessToken,
@@ -91,7 +90,6 @@ module.exports = {
       } else {
         userInfo.username = username;
         userInfo.password = encryptPwd(newPassword);
-        userInfo.userPic = userPic;
         await userInfo.save();
         res.status(200).json({ message: 'ok' });
       }
