@@ -27,17 +27,13 @@ function SearchAutoComp({ autoCompResult, setWord }) {
   return (
     <SearchAutoCompWrap>
       <AutoComp>
-        {autoCompResult.length === 0 ? (
-          <li>존재하지 않는 단어입니다.</li>
-        ) : (
-          autoCompResult.map((data, index) => {
-            return (
-              <li key={index} onClick={() => setWord(data)}>
-                {data}
-              </li>
-            );
-          })
-        )}
+        {autoCompResult.map((data, index) => {
+          return (
+            <li key={index} onClick={() => setWord(data)}>
+              {data}
+            </li>
+          );
+        })}
       </AutoComp>
     </SearchAutoCompWrap>
   );

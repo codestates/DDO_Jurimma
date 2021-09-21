@@ -86,12 +86,12 @@ const InputBox = styled.div`
 function SearchInputWrap({
   addEnterTags,
   addClickTags,
-  changeWord,
   autoCompResult,
   setWord,
   word,
 }) {
   const [isShowAutoComp, setIsShowAutoComp] = useState(false); // 자동 검색 여부 display 여부
+  const [selected, setSelected] = useState(-1); // 어떤걸 선택했을지 index
 
   useEffect(() => {
     if (word === '') {
@@ -102,15 +102,48 @@ function SearchInputWrap({
     }
   }, [word]); // 입력값이 변할때마다
 
+  const handleKeyUp = (event) => {
+    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState#example
+    // eslint-disable-next-line
+    if (
+      event.getModifierState('Fn') ||
+      event.getModifierState('Hyper') ||
+      event.getModifierState('OS') ||
+      event.getModifierState('Super') ||
+      event.getModifierState('Win')
+    )
+      return;
+    if (
+      event.getModifierState('Control') +
+        event.getModifierState('Alt') +
+        event.getModifierState('Meta') >
+      1
+    )
+      return;
+    if (hasText) {
+      if (event.code === 'ArrowDown' && options.length - 1 > selected) {
+        setSelected(selected + 1);
+      }
+      if (event.code === 'ArrowUp' && selected >= 0) {
+        setSelected(selected - 1);
+      }
+      if (event.code === 'Enter' && selected >= 0) {
+        handleDropDownClick(options[selected]);
+        setSelected(-1);
+      }
+    }
+  };
+
   return (
     <SearchInputBox>
       <InputBox>
         <div id='searchBox'>
           <input
             id='reqInput'
-            onChange={changeWord}
+            onChange={(event) => setWord(event.target.value)}
             onKeyUp={(event) => addEnterTags(event)}
             value={word}
+            autocomplete='off'
           ></input>
           <div id='buttonWrap' onClick={() => setWord('')}>
             <button>&times;</button>

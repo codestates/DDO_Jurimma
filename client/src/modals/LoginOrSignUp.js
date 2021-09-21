@@ -237,6 +237,7 @@ function LoginOrSignUp() {
 
   const handleInputValue = (key) => (e) => {
     setLoginInfo({ ...loginInfo, [key]: e.target.value });
+    setErrorMsg('');
   }; // 로그인 창에서 input에 입력했을 때 입력값 받아오기
 
   const handleSignupInputValue = (key) => (e) => {

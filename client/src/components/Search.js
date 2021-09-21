@@ -88,10 +88,6 @@ function Search() {
     }
   }; // 자동완성 목록 요청하는 함수
 
-  const changeWord = (event) => {
-    setWord(event.target.value); // 입력한 내용으로 입력창 변경
-  }; // input창 입력사항 반영 함수
-
   const addClickTags = () => {
     // 무언가 입력을 했다면
     if (word.length !== 0) {
@@ -123,7 +119,6 @@ function Search() {
       <SearchInputWrap
         addEnterTags={addEnterTags}
         addClickTags={addClickTags}
-        changeWord={changeWord}
         word={word}
         setWord={setWord}
         autoCompResult={autoCompResult}
