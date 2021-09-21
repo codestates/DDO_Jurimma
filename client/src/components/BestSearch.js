@@ -1,22 +1,82 @@
 // Chart 안에 실시간 순위 보여질 부분
-import styled from 'styled-components';
+import { useEffect, useState, useRef } from 'react';
+import styled, { keyframes } from 'styled-components';
 
 const BestSearchWrap = styled.div`
   flex: 5 1 auto; // 콘텐츠 전체 길이 생각해서 후에 max 설정해주기
-  border: 1px solid red;
   box-sizing: border-box;
+`;
+const flip = keyframes`
+  0% {
+    tramsform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(180deg);
+  }
+  100% {
+    tramsform: rotateX(360deg);
+  }
+`;
+const BestSearchList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  > li {
+    flex: 1 1 auto;
+    border: 2px solid #fff;
+    color: #fff;
+    display: grid;
+    place-items: center;
+    background-color: transparent;
+    transition: all 1s;
+  }
+  > li.highlight {
+    background-color: #b4aee8;
+    animation: ${flip} 6s ease infinite;
+  }
 `;
 
 function BestSearch({ realTime }) {
-  // axios로 가장 많이 검색된 단어들 요청 전송
-  // useEffect + setInterval로 1분마다 요청 전송 가도록 만들기
-  // 받아오는 값을 담당하는 state 준비 -> 이 state 렌더링 해서 보여주기
-  // 참고 : https://velog.io/@dongdong98/React-Hook%EC%97%90%EC%84%9C-setInterval-setTimeout%EC%9D%84-%ED%98%84%EB%AA%85%ED%95%98%EA%B2%8C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95
+  const [listNum, setListNum] = useState(0);
+
+  function useInterval(callback, delay) {
+    const savedCallback = useRef();
+
+    // Remember the latest callback.
+    useEffect(() => {
+      savedCallback.current = callback;
+    }, [callback]);
+
+    // Set up the interval.
+    useEffect(() => {
+      function tick() {
+        savedCallback.current();
+      }
+      if (delay !== null) {
+        let id = setInterval(tick, delay);
+        return () => clearInterval(id);
+      }
+    }, [delay]);
+  }
+  useInterval(() => {
+    if (listNum >= realTime.length - 1) {
+      setListNum(0);
+    } else {
+      setListNum(listNum + 1);
+    }
+  }, 6000);
+
   return (
     <BestSearchWrap>
-      {realTime.map((el) => {
-        return <li key={el.id}>{el.wordName}</li>;
-      })}
+      <BestSearchList>
+        {realTime.map((el, idx) => {
+          return (
+            <li key={el.id} className={idx === listNum ? 'highlight' : ''}>
+              {el.wordName}
+            </li>
+          );
+        })}
+      </BestSearchList>
     </BestSearchWrap>
   );
 }
