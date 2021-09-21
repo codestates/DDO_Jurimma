@@ -62,12 +62,10 @@ function Mypage() {
 
   return (
     <>
-      (
       <MypageWrap>
         <UserInfo />
         <UserContents />
       </MypageWrap>
-      )
     </>
   );
 }

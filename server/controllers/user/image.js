@@ -7,6 +7,7 @@ const { refreshAuthorized } = require('../tokenFunction/refreshToken');
 
 module.exports = {
   patch: (req, res) => {
-    res.send('This is user/image');
+    const image = req.files;
+    console.log('file', image);
   },
 };
