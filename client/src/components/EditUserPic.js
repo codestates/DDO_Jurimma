@@ -143,36 +143,52 @@ function EditUserPic() {
     whatProfile = diaProfile;
   } // 나타낼 레벨 정하기
 
-  const changeProfileBtn = () => {
+  const changeProfileBtn = (event) => {
     // 로컬에서 선택한 사진 파일을 마이페이지 상에 미리보기로 띄움
-    const file = document.querySelector('input[type=file]').files;
-    console.log(file.value);
-    console.log(file);
-    // const imageSRC = URL.createObjectURL(file);
-    // const profileImg = document.querySelector('#profileImg');
-    // profileImg.style.backgroundImage = `url(${imageSRC})`;
-    // profileImg.style.backgroundSize = 'cover';
-    // setNewImg(file);
+    // const file = document.querySelector('input[type=file]').files[0];
+    // console.log(file);
+    let formData = new FormData();
+    formData.append('image', event.target.files[0]);
+
+    const imageSRC = window.URL.createObjectURL(event.target.files[0]);
+    const profileImg = document.querySelector('#profileImg');
+    profileImg.style.backgroundImage = `url(${imageSRC})`;
+    profileImg.style.backgroundSize = 'cover';
+    // file.path = imageSRC;
+    // console.log(file);
+    setNewImg(formData);
     // console.log(newImg);
   };
 
   const sendImgToServer = async () => {
     // 선택한 파일을 서버로 axios 요청을 보내 유저 db의 userPic 업데이트
-    console.log(newImg);
-    let formData = new FormData();
-    formData.append('lastModified', newImg.lastModified);
-    formData.append('lastModifiedDate', newImg.lastModifiedDate);
-    formData.append('name', newImg.name);
-    formData.append('size', newImg.size);
-    formData.append('type', newImg.type);
-    formData.append('webkitRelativePath', newImg.webkitRelativePath);
-
-    console.log(formData);
-    const imageRes = await axios.patch(`${url}/user/image`, formData, {
-      headers: { authorization: `Bearer ${state.accessToken}` },
-    });
-
-    console.log(imageRes);
+    try {
+      const imageRes = await axios.post(`${url}/user/image`, newImg, {
+        headers: { authorization: `Bearer ${state.accessToken}` },
+      });
+      if (imageRes.data.accessToken) {
+        dispatch(setAccessToken(imageRes.data.accessToken));
+      }
+      const getResult = await axios.get(`${url}/user`, {
+        headers: { authorization: `Bearer ${state.accessToken}` },
+      }); //새로 유저 정보 요청하는 axios 요청
+      dispatch(setUserInfo(getResult.data.data));
+      swal({ title: '프로필 사진이 변경되었습니다.', icon: 'success' }).then(
+        () => {
+          window.location.reload(true);
+        }
+      );
+    } catch (error) {
+      console.log(error);
+      swal({
+        title: '로그인이 만료되었습니다.',
+        text: '다시 로그인을 해주세요!',
+        icon: 'error',
+      }).then(() => {
+        dispatch(setLogout());
+        window.location.replace('/');
+      });
+    }
   };
 
   return (
@@ -191,10 +207,12 @@ function EditUserPic() {
                 ? {
                     backgroundImage: `url(${state.userInfo.userPic})`,
                     backgroundSize: 'cover',
+                    backgroundPosition: 'center',
                   }
                 : {
                     backgroundImage: `url(${basicProfile})`,
                     backgroundSize: 'cover',
+                    backgroundPosition: 'center',
                   }
             }
           ></div>
@@ -207,8 +225,7 @@ function EditUserPic() {
               id='image_uploads'
               name='image'
               accept='image/*'
-              value=''
-              onChange={() => changeProfileBtn()}
+              onChange={changeProfileBtn}
             ></input>
           </button>
 

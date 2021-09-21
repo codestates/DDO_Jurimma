@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-const upload = multer({ dest: './uploads' });
+const upload = require('../modules/multer');
 const { userController } = require('../controllers');
 
 router.post('/login', userController.login.post);
@@ -19,7 +18,7 @@ router.get('/', userController.userInfo.get);
 router.patch('/', userController.userInfo.patch);
 router.delete('/', userController.userInfo.delete);
 
-router.patch('/image', upload.single('image'), userController.image.patch);
+router.post('/image', upload.single('image'), userController.image.post);
 
 router.patch('/quiz-exp', userController.quizExp.patch);
 
