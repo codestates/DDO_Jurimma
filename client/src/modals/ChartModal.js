@@ -10,15 +10,38 @@ const ChartGraphdrop = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.5);
   display: grid;
   place-items: center;
   z-index: 20;
 `;
 const ChartGraphModal = styled.div`
-  width: 50vw;
-  height: 80vh;
+  width: max(40vw, 350px);
+  height: 600px;
   background-color: #fff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  > .closeBtn {
+    z-index: 10;
+    font-size: 50px;
+    position: absolute;
+    right: -40px;
+    top: -40px;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.5s;
+    @media screen and (max-width: 479px) {
+      right: 10px;
+      top: 5px;
+      color: #000;
+      font-size: 30px;
+    }
+  }
+  > .closeBtn:hover {
+    transform: rotate(-90deg);
+  }
 `;
 
 function ChartModal({ realTime }) {
@@ -32,7 +55,9 @@ function ChartModal({ realTime }) {
   return (
     <ChartGraphdrop>
       <ChartGraphModal>
-        <div onClick={() => closeChartGraphModal(false)}>&times;</div>
+        <div className='closeBtn' onClick={() => closeChartGraphModal(false)}>
+          &times;
+        </div>
         this is ChartModal
       </ChartGraphModal>
     </ChartGraphdrop>

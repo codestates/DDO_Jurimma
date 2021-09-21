@@ -9,7 +9,6 @@ import { useEffect } from 'react';
 const ChartWrap = styled.div`
   width: 400px; // 콘텐츠 전체 길이 생각해서 후에 수정해주기
   height: 100vh;
-  border: 1px solid red;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -21,6 +20,13 @@ const ChartWrap = styled.div`
 
 const ChartModalWrap = styled.div`
   flex: 1 1 auto;
+  > button {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+  }
 `;
 
 function Chart({ realTime }) {

@@ -11,7 +11,7 @@ axios.defaults.withCredentials = true;
 
 const SearchWrap = styled.div`
   width: 900px;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   @media only screen and (max-width: 1399px) {
