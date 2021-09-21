@@ -21,16 +21,26 @@ const AutoComp = styled.div`
       background-color: #440a67;
       color: #fff;
     }
+    &.selected {
+      border-radius: 30px;
+      background-color: #440a67;
+      color: #fff;
+    }
   }
 `;
 
-function SearchAutoComp({ autoCompResult, setWord }) {
+function SearchAutoComp({ autoCompResult, searchWord, selected }) {
   return (
     <SearchAutoCompWrap>
       <AutoComp>
         {autoCompResult.map((data, index) => {
           return (
-            <li key={index} onClick={() => setWord(data)}>
+            <li
+              key={index}
+              className={selected === index ? 'selected' : ''}
+              value={data}
+              onClick={(event) => searchWord(event, data)}
+            >
               {data}
             </li>
           );
