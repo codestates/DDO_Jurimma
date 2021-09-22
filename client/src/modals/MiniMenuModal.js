@@ -1,7 +1,8 @@
 // 사용자가 쓴 글 수정하는 모달
 import styled from 'styled-components';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import basicProfile from '../images/basic_profileImg.svg';
 import {
   setMiniMenuModal,
   setLoginOrSignupModal,
@@ -22,7 +23,7 @@ const MiniMenuWrap = styled.div`
   bottom: 0;
   left: 0;
   height: 100vh;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.95);
   z-index: 20;
   display: flex;
   flex-direction: column;
@@ -55,25 +56,44 @@ const MiniMenuProfile = styled.div`
   z-index: 30;
   > #miniMenuProfile {
     width: 300px;
-    height: 300px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: -100px;
+    > #profileImgLevel {
+      width: 350px;
+      height: 350px;
+      background-color: #ddd;
+      > #profileImg {
+        width: 110px;
+        height: 110px;
+        border-radius: 300px;
+        margin: 0 auto;
+        background-repeat: no-repeat;
+        background-size: cover;
+        margin-top: 133px;
+      }
+    }
     > .menu {
-      flex: 1 1 auto;
       width: 100%;
+      height: 50px;
+      line-height: 48px;
       border-radius: 50px;
-      line-height: 50px;
       text-align: center;
       font-size: max(1.2vw, 18px);
       font-family: 'NEXON Lv2 Gothic Bold';
-      transition: 0.5s;
-      border: 4px solid #440a67;
-      color: #440a67;
       background-color: transparent;
       cursor: pointer;
-      margin-top: 20px;
+      margin-top: 30px;
+      border: 4px solid transparent;
+      border-radius: 50px;
+      background: linear-gradient(#fff, #fff),
+        linear-gradient(-45deg, #440a67, #b4aee8);
+      background-origin: border-box;
+      background-clip: content-box, border-box;
+      color: #440a67;
+      transition: 0.5s;
       > a {
         width: 100%;
         height: 100%;
@@ -82,16 +102,71 @@ const MiniMenuProfile = styled.div`
         color: #440a67;
       }
       > a:hover {
-        color: #fff; // main 부분
+        color: #fff;
       }
     }
     > .menu:nth-child(1) {
       margin-top: 0;
     }
     > .menu:hover {
-      background-color: #440a67;
-      border: 4px solid #440a67;
-      color: #fff; // login, quiz 부분
+      background: linear-gradient(#440a67, #440a67),
+        linear-gradient(-45deg, #440a67, #b4aee8);
+      border: 4px solid #b4aee8;
+      color: #fff;
+    }
+  }
+`;
+
+const MyProfileWrap = styled.div`
+  width: 100%;
+  display: flex;
+  margin-top: -30px;
+  height: 50px;
+  > a {
+    flex: 1 1 auto;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    line-height: 48px;
+    font-size: max(1.2vw, 18px);
+    font-family: 'NEXON Lv2 Gothic Bold';
+    border: 4px solid transparent;
+    border-radius: 50px;
+    background: linear-gradient(#fff, #fff),
+      linear-gradient(-45deg, #440a67, #b4aee8);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    color: #440a67;
+    transition: 0.5s;
+    :hover {
+      background: linear-gradient(#440a67, #440a67),
+        linear-gradient(-45deg, #440a67, #b4aee8);
+      border: 4px solid #b4aee8;
+      color: #fff;
+    }
+  }
+  > .logout {
+    flex: 1 1 auto;
+    margin-left: 10px;
+    line-height: 48px;
+    color: #440a67;
+    text-align: center;
+    font-size: max(1.2vw, 18px);
+    font-family: 'NEXON Lv2 Gothic Bold';
+    transition: 0.5s;
+    cursor: pointer;
+    border: 4px solid transparent;
+    border-radius: 50px;
+    background: linear-gradient(#fff, #fff),
+      linear-gradient(-45deg, #440a67, #b4aee8);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    color: #440a67;
+    :hover {
+      background: linear-gradient(#440a67, #440a67),
+        linear-gradient(-45deg, #440a67, #b4aee8);
+      border: 4px solid #b4aee8;
+      color: #fff;
     }
   }
 `;
@@ -140,17 +215,38 @@ function MiniMenuModal() {
       : dispatch(setMiniMenuModal(false));
   };
 
+  const [isHover, setIsHover] = useState(false);
+
   let whatProfile;
+  let whatColor;
+  let whatFontColor;
   if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
     whatProfile = silverProfile;
+    whatColor =
+      'linear-gradient(#fff, #fff), linear-gradient(-45deg, #5591C9, #245689)';
+    whatFontColor = '#5591C9';
   } else if (
     100 <= state.userInfo.experience &&
     state.userInfo.experience < 200
   ) {
     whatProfile = goldProfile;
+    whatColor =
+      'linear-gradient(#fff, #fff), linear-gradient(-45deg, #ffc851, #FF1515)';
+    whatFontColor = '#ffc851';
   } else {
     whatProfile = diaProfile;
+    whatColor =
+      'linear-gradient(#fff, #fff), linear-gradient(-45deg, #3FC1FF, #D42AFF)';
+    whatFontColor = '#3FC1FF';
   } // 나타낼 레벨 정하기
+
+  let myProfileImg;
+  if (state.userInfo.userPic === null) {
+    myProfileImg = basicProfile;
+  } else {
+    myProfileImg = state.userInfo.userPic;
+  }
+  // 유저가 프로필 이미지를 가지고 있지 않을 때
 
   return (
     <MiniMenuWrap>
@@ -163,27 +259,59 @@ function MiniMenuModal() {
       <MiniMenuProfile>
         <div id='miniMenuProfile'>
           {state.isLogin ? (
-            <div>
-              <Link to='/mypage' onClick={() => closeMiniMenuModal(false)}>
-                Mypage
-              </Link>
-              <div className='logout' onClick={() => openLogoutModal(true)}>
-                Logout
+            <>
+              <div
+                id='profileImgLevel'
+                style={{
+                  background: `url(${whatProfile})`,
+                  backgroundSize: 'cover',
+                }}
+              >
+                <div
+                  id='profileImg'
+                  style={{
+                    background: `url(${myProfileImg})`,
+                    backgroundSize: 'cover',
+                  }}
+                ></div>
               </div>
-            </div>
+              <MyProfileWrap>
+                <Link to='/mypage' onClick={() => closeMiniMenuModal(false)}>
+                  Mypage
+                </Link>
+                <div className='logout' onClick={() => openLogoutModal(true)}>
+                  Logout
+                </div>
+              </MyProfileWrap>
+
+              <div className='menu'>
+                <Link to='/main' onClick={() => closeMiniMenuModal(false)}>
+                  Main
+                </Link>
+              </div>
+              <div className='menu' onClick={() => openQuizModal(true)}>
+                Quiz
+              </div>
+            </>
           ) : (
-            <div className='menu' onClick={() => openLoginOrSignupModal(true)}>
-              Login
-            </div>
+            <>
+              <div
+                className='menu'
+                onClick={() => openLoginOrSignupModal(true)}
+              >
+                Login
+              </div>
+
+              <div className='menu'>
+                <Link to='/main' onClick={() => closeMiniMenuModal(false)}>
+                  Main
+                </Link>
+              </div>
+              <div className='menu' onClick={() => openQuizModal(true)}>
+                Quiz
+              </div>
+            </>
           )}
-          <div className='menu'>
-            <Link to='/main' onClick={() => closeMiniMenuModal(false)}>
-              Main
-            </Link>
-          </div>
-          <div className='menu' onClick={() => openQuizModal(true)}>
-            Quiz
-          </div>
         </div>
       </MiniMenuProfile>
     </MiniMenuWrap>
