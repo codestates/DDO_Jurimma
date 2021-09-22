@@ -25,7 +25,8 @@ module.exports = {
         const userInfo = await user.findOne({
           where: { id: refreshVerify.id },
         });
-        let path = userInfo.dataValues.userPic.split('/')[4];
+        const decode = decodeURI(userInfo.dataValues.userPic);
+        let path = decode.split('/')[4];
         s3.deleteObject(
           {
             Bucket: 'jurimma.com',
@@ -46,9 +47,9 @@ module.exports = {
     }
     // accessToken 유효
     else {
-      console.log(req.file.key);
       const userInfo = await user.findOne({ where: { id: accessVerify.id } });
-      let path = userInfo.dataValues.userPic.split('/')[4];
+      const decode = decodeURI(userInfo.dataValues.userPic);
+      let path = decode.split('/')[4];
       // 기존에 저장되어있던 데이터 s3에서 삭제
       s3.deleteObject(
         {
