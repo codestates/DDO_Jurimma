@@ -102,6 +102,7 @@ function LogOut() {
         });
         // console.log(state);
         closeLogoutModal(false);
+        // history.push('/main');
       })
       .catch((err) => {
         console.log(err);
@@ -112,6 +113,7 @@ function LogOut() {
         }); // swal로 안내
         dispatch(setLogout());
         closeLogoutModal(false);
+        // history.push('/main');
       });
   };
 

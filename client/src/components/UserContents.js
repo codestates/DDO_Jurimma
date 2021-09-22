@@ -229,9 +229,9 @@ function UserContents() {
       </FilterWrap>
 
       <ul>
-        {userContentState.data.map((el) => {
+        {userContentState.data.map((el, idx) => {
           return (
-            <li className='wordBox'>
+            <li className='wordBox' key={idx}>
               <div className='wordBoxWrap'>
                 <div className='topWrap'>
                   <h3>{el.wordName}</h3>
