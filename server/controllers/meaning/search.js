@@ -26,7 +26,14 @@ module.exports = {
       else {
         await coWordName.increment('count');
         const coContents = await content.findAll({
-          attributes: ['id', 'wordMean', 'userId', 'wordId'],
+          attributes: [
+            'id',
+            'wordMean',
+            'userId',
+            'wordId',
+            'createdAt',
+            'updatedAt',
+          ],
           where: { wordId: coWordName.id },
         });
         const returnData = coContents.map((el) => el.dataValues);
@@ -93,7 +100,14 @@ module.exports = {
         else {
           await coWordName.increment('count');
           const coContents = await content.findAll({
-            attributes: ['id', 'wordMean', 'userId', 'wordId'],
+            attributes: [
+              'id',
+              'wordMean',
+              'userId',
+              'wordId',
+              'createdAt',
+              'updatedAt',
+            ],
             where: { wordId: coWordName.id },
           });
           const returnData = coContents.map((el) => el.dataValues);
@@ -154,7 +168,14 @@ module.exports = {
           else {
             await coWordName.increment('count');
             const coContents = await content.findAll({
-              attributes: ['id', 'wordMean', 'userId', 'wordId'],
+              attributes: [
+                'id',
+                'wordMean',
+                'userId',
+                'wordId',
+                'createdAt',
+                'updatedAt',
+              ],
               where: { wordId: coWordName.id },
             });
             const returnData = coContents.map((el) => el.dataValues);
