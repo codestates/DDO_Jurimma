@@ -151,7 +151,7 @@ const TabContent = styled.div`
         color: #ffffff;
       }
       > input::-webkit-input-placeholder {
-        font-size: 11px;
+        font-size: 12px;
         color: #fff;
       }
       > input:focus::-webkit-input-placeholder {

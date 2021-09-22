@@ -35,12 +35,12 @@ const EditUserInfoWrap = styled.div`
 `;
 
 const EditUserInfoBox = styled.div`
-  width: 60%;
+  width: max(60%, 320px);
   margin: 0 auto;
   > #buttonWrap {
     width: 430px;
     margin: 0 auto;
-    margin-top: 30px;
+    margin-top: 50px;
     @media only screen and (max-width: 1000px) {
       width: 80%;
     }
@@ -130,6 +130,22 @@ const EditUserInfoBox = styled.div`
   }
 `;
 
+const InvalidCheck = styled.div`
+  width: 430px;
+  height: 50px;
+  /* border: 2px solid #fff;
+  border-radius: 20px; */
+  margin: 0 auto;
+  margin-top: 30px;
+  color: red;
+  text-align: center;
+  line-height: 50px;
+  font-size: 12px;
+  @media only screen and (max-width: 1000px) {
+    width: 80%;
+  }
+`;
+
 function EditUserInfo() {
   // EditUserInfo에서 버튼이 눌리면 유저 정보 state 업데이트 + axios 요청
   const state = useSelector((state) => state.userInfoReducer);
@@ -143,7 +159,7 @@ function EditUserInfo() {
     newPassword: '',
     newPasswordRe: '',
   });
-  console.log(editUser);
+
   let whatColor;
   let whatHoverColor;
   if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
@@ -314,32 +330,29 @@ function EditUserInfo() {
           onChange={handleEditInputValue('username')}
           onKeyPress={handleKeyPressEdit}
           value={editUser.username}
-          placeholder='변경할 이름을 입력하세요 (한글과 영문만 가능)'
+          placeholder='변경할 이름 (영문과 한글만 입력 가능)'
         ></input>
         <input
           type='password'
           onChange={handleEditInputValue('oldPassword')}
           onKeyPress={handleKeyPressEdit}
           value={editUser.oldPassword}
-          placeholder='기존 비밀번호를 입력하세요'
+          placeholder='기존 비밀번호'
         ></input>
-        <div id='rePasswordWrap'>
-          <input
-            type='password'
-            onChange={handleEditInputValue('newPassword')}
-            onKeyPress={handleKeyPressEdit}
-            value={editUser.newPassword}
-            placeholder='변경할 비밀번호를 입력하세요 (최소 8자이상, 대문자, 특수문자 포함)'
-          ></input>
-          <input
-            type='password'
-            placeholder='변경할 비밀번호를 다시 입력하세요'
-            onChange={handleEditInputValue('newPasswordRe')}
-            onKeyPress={handleKeyPressEdit}
-            value={editUser.newPasswordRe}
-          ></input>
-        </div>
-
+        <input
+          type='password'
+          onChange={handleEditInputValue('newPassword')}
+          onKeyPress={handleKeyPressEdit}
+          value={editUser.newPassword}
+          placeholder='변경할 비밀번호 (최소 8자이상, 대문자, 특수문자 포함)'
+        ></input>
+        <input
+          type='password'
+          placeholder='변경할 비밀번호 확인'
+          onChange={handleEditInputValue('newPasswordRe')}
+          onKeyPress={handleKeyPressEdit}
+          value={editUser.newPasswordRe}
+        ></input>
         <div id='buttonWrap'>
           <button
             onClick={handleEdit}
