@@ -216,18 +216,29 @@ function UserInfo() {
         <div
           id='levelProfile'
           style={{
-            background: `url(${whatProfile})`,
+            backgroundImage: `url(${whatProfile})`,
             backgroundSize: 'cover',
           }}
         >
-          <div
-            id='profileImg'
-            style={{
-              background: `url(${myProfileImg})`,
-              backgroundSize: 'cover',
-            }}
-          ></div>
-          )
+          {state.userInfo.userPic ? (
+            <div
+              id='profileImg'
+              style={{
+                backgroundImage: `url(${state.userInfo.userPic})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            ></div>
+          ) : (
+            <div
+              id='profileImg'
+              style={{
+                backgroundImage: `url(${basicProfile})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            ></div>
+          )}
         </div>
       </UserInfoLevel>
       <UserInfoDataWrap>

@@ -413,12 +413,14 @@ function Nav() {
                   style={{
                     background: `url(${whatProfile})`,
                     backgroundSize: 'cover',
+                    backgroundPosition: 'center',
                   }}
                 >
                   <div
                     style={{
                       background: `url(${myProfileImg})`,
                       backgroundSize: 'cover',
+                      backgroundPosition: 'center',
                     }}
                   ></div>
                 </div>
@@ -458,12 +460,14 @@ function Nav() {
                   style={{
                     background: `url(${whatProfile})`,
                     backgroundSize: 'cover',
+                    backgroundPosition: 'center',
                   }}
                 >
                   <div
                     style={{
                       background: `url(${myProfileImg})`,
                       backgroundSize: 'cover',
+                      backgroundPosition: 'center',
                     }}
                   ></div>
                 </div>
