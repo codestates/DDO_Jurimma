@@ -62,9 +62,7 @@ const UserInfoLevel = styled.div`
       height: 130px;
       border-radius: 300px;
       margin: 0 auto;
-      background: url(${basicProfile}); // 주림마에서 기본적으로 제공하는 img
       background-repeat: no-repeat;
-      background-size: cover;
       @media only screen and (max-width: 800px) {
         width: 80px;
         height: 80px;
@@ -208,7 +206,7 @@ function UserInfo() {
         <div
           id='levelProfile'
           style={{
-            background: `url(${whatProfile})`,
+            backgroundImage: `url(${whatProfile})`,
             backgroundSize: 'cover',
           }}
         >
@@ -216,12 +214,20 @@ function UserInfo() {
             <div
               id='profileImg'
               style={{
-                background: `url(${state.userInfo.userPic})`,
+                backgroundImage: `url(${state.userInfo.userPic})`,
                 backgroundSize: 'cover',
+                backgroundPosition: 'center',
               }}
             ></div>
           ) : (
-            <div id='profileImg'></div>
+            <div
+              id='profileImg'
+              style={{
+                backgroundImage: `url(${basicProfile})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            ></div>
           )}
         </div>
       </UserInfoLevel>

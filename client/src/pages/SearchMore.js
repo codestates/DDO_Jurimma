@@ -474,10 +474,12 @@ function SearchMore() {
                                 ? {
                                     background: `url(${data.userPic})`,
                                     backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
                                   }
                                 : {
                                     background: `url(${exProfileImg})`,
                                     backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
                                   }
                             }
                           ></div>
