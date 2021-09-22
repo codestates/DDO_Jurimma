@@ -129,7 +129,7 @@ function EditUserPic() {
   }; // 회원탈퇴 모달 여는 함수
   const state = useSelector((state) => state.userInfoReducer);
 
-  const [newImg, setNewImg] = useState({}); // 유저가 로컬에서 업로드한 프로필 이미지
+  const [userPic, setUserPic] = useState({}); // 유저가 로컬에서 업로드한 프로필 이미지
 
   let whatProfile;
   if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
@@ -152,13 +152,13 @@ function EditUserPic() {
     const profileImg = document.querySelector('#profileImg');
     profileImg.style.backgroundImage = `url(${imageSRC})`;
     profileImg.style.backgroundSize = 'cover';
-    setNewImg(formData);
+    setUserPic(formData);
   };
 
   const sendImgToServer = async () => {
     // 선택한 파일을 서버로 axios 요청을 보내 유저 db의 userPic 업데이트
     try {
-      const imageRes = await axios.post(`${url}/user/image`, newImg, {
+      const imageRes = await axios.post(`${url}/user/image`, userPic, {
         headers: { authorization: `Bearer ${state.accessToken}` },
       });
       if (imageRes.data.accessToken) {
