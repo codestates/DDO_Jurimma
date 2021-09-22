@@ -62,9 +62,9 @@ const UserInfoLevel = styled.div`
       height: 130px;
       border-radius: 300px;
       margin: 0 auto;
-      background: url(${basicProfile}); // 주림마에서 기본적으로 제공하는 img
       background-repeat: no-repeat;
       background-size: cover;
+      margin-top: 20px;
       @media only screen and (max-width: 800px) {
         width: 80px;
         height: 80px;
@@ -202,6 +202,14 @@ function UserInfo() {
     whatProfile = diaProfile;
   } // 나타낼 레벨 정하기
 
+  let myProfileImg;
+  if (state.userInfo.userPic === null) {
+    myProfileImg = basicProfile;
+  } else {
+    myProfileImg = state.userInfo.userPic;
+  }
+  // 유저가 프로필 이미지를 가지고 있지 않을 때
+
   return (
     <UserInfoWrap>
       <UserInfoLevel>
@@ -212,17 +220,14 @@ function UserInfo() {
             backgroundSize: 'cover',
           }}
         >
-          {state.userInfo.userPic ? (
-            <div
-              id='profileImg'
-              style={{
-                background: `url(${state.userInfo.userPic})`,
-                backgroundSize: 'cover',
-              }}
-            ></div>
-          ) : (
-            <div id='profileImg'></div>
-          )}
+          <div
+            id='profileImg'
+            style={{
+              background: `url(${myProfileImg})`,
+              backgroundSize: 'cover',
+            }}
+          ></div>
+          )
         </div>
       </UserInfoLevel>
       <UserInfoDataWrap>

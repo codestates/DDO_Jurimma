@@ -17,8 +17,7 @@ import {
 import silverProfile from '../images/junior_profile.svg';
 import goldProfile from '../images/senior_profile.svg';
 import diaProfile from '../images/master_profile.svg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import basicProfile from '../images/basic_profileImg.svg';
 import hamburgerWhite from '../images/hamburgerMenu.svg';
 import hamburgerPur from '../images/hambugerMenuPur.svg';
 
@@ -155,7 +154,7 @@ const NavBar2 = styled.nav`
 const Myprofile = styled.div`
   width: max(8vw, 120px);
   height: 110px;
-  margin-top: 30px;
+  margin-top: 15px;
   cursor: pointer;
   :hover {
     > .HoverMypageOrLogout {
@@ -167,11 +166,11 @@ const Myprofile = styled.div`
     height: 100px;
     margin: 0 auto;
     > div {
-      width: 35px;
-      height: 35px;
+      width: 30px;
+      height: 30px;
       margin: 0 auto;
       position: relative;
-      top: 35px;
+      top: 39px;
       border-radius: 50px;
     }
   }
@@ -312,6 +311,14 @@ function Nav() {
     whatProfile = diaProfile;
   } // 나타낼 레벨 정하기
 
+  let myProfileImg;
+  if (state.userInfo.userPic === null) {
+    myProfileImg = basicProfile;
+  } else {
+    myProfileImg = state.userInfo.userPic;
+  }
+  // 유저가 프로필 이미지를 가지고 있지 않을 때
+
   const openQuizModal = (isOpen) => {
     if (state.isLogin === false) {
       swal({
@@ -410,7 +417,7 @@ function Nav() {
                 >
                   <div
                     style={{
-                      background: `url(${state.userInfo.userPic})`,
+                      background: `url(${myProfileImg})`,
                       backgroundSize: 'cover',
                     }}
                   ></div>
@@ -455,7 +462,7 @@ function Nav() {
                 >
                   <div
                     style={{
-                      background: `url(${state.userInfo.userPic})`,
+                      background: `url(${myProfileImg})`,
                       backgroundSize: 'cover',
                     }}
                   ></div>
