@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setNewContentModal } from '../actions/index';
 import mainLogo from '../images/main_logo.svg';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { setAccessToken, setUserInfo, setLogout } from '../actions/index';
 import axios from 'axios';
 import '../loadingCss.css';
@@ -129,19 +130,16 @@ const Logo = styled.div`
 function NewContent() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.userInfoReducer);
+  const history = useHistory();
   const closeNewContentModal = (isOpen) => {
     dispatch(setNewContentModal(isOpen));
   }; // 새로 글쓰는 모달 닫는 함수
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
-
-  const userData = JSON.parse(localStorage.getItem('userInfo'));
-  const userToken = localStorage.getItem('accessToken');
-
   const [isLoading, setIsLoading] = useState(false);
   const [newWord, setNewWord] = useState({
     wordName: '',
     wordMean: '',
-    experience: userData.experience,
+    experience: state.userInfo.experience,
   }); // 새 글 작성 모달 입력상태
 
   const handleKeyPressNewWord = (e) => {
@@ -163,6 +161,7 @@ function NewContent() {
           icon: 'warning',
         });
       } else {
+        setIsLoading(true); // loading indicator 켜기
         const newWordRes = await axios({
           method: 'post',
           url: `${url}/meaning/me`,
@@ -171,9 +170,8 @@ function NewContent() {
             wordMean: newWord.wordMean,
             experience: newWord.experience + 5,
           },
-          headers: { authorization: `Bearer ${userToken}` },
+          headers: { authorization: `Bearer ${state.accessToken}` },
         }); // axios 새글쓰기 요청
-        setIsLoading(true); // loading indicator 끄기
         if (newWordRes.data.accessToken) {
           // localstorage에 담긴 accessToken 업데이트
           // reducer에서 accessToken값 업데이트
@@ -183,14 +181,17 @@ function NewContent() {
           headers: { authorization: `Bearer ${state.accessToken}` },
         }); //새로 유저 정보 요청하는 axios 요청
         dispatch(setUserInfo(getResult.data.data)); // axios 리턴으로 유저 정보 업데이트
+        closeNewContentModal(false); // 모달 꺼짐
+        setIsLoading(false); // loading indicator 끄기
         swal({
           title: '줄임말이 등록되었습니다.',
           text: '작성한 줄임말을 확인해보세요!',
           icon: 'success',
-        }).then(() => {
-          closeNewContentModal(false);
-          setIsLoading(false); // loading indicator 끄기
-        }); // sweet alert로 안내
+        });
+        // then(() => {
+        //   closeNewContentModal(false); // 모달 꺼짐
+        //   setIsLoading(false); // loading indicator 끄기
+        // }); // sweet alert로 안내
       }
     } catch (error) {
       console.log(error);
@@ -200,7 +201,7 @@ function NewContent() {
         icon: 'error',
       }).then(() => {
         dispatch(setLogout());
-        window.location.replace('/');
+        history('/');
       }); // sweet alert로 안내하고 랜딩페이지로 리다이렉트
     }
   };

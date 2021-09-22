@@ -2,6 +2,7 @@
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSignOutModal, setLogout } from '../actions/index';
+import { useHistory } from 'react-router-dom';
 import mainLogo from '../images/main_logo.svg';
 import swal from 'sweetalert';
 import axios from 'axios';
@@ -92,7 +93,7 @@ function Signout() {
   const state = useSelector((state) => state.userInfoReducer);
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const closeEditContentModal = (isOpen) => {
     dispatch(setSignOutModal(isOpen));
   }; // 로그인 모달 닫는 함수
@@ -109,6 +110,8 @@ function Signout() {
           text: '슬빠... 😢 (슬프지만 빠이..ㅠ)',
           icon: 'success',
         });
+        closeEditContentModal(false);
+        history.push('/');
       })
       .catch((error) => {
         console.log(error);
