@@ -482,7 +482,7 @@ function SearchMore() {
                       <div className='wordMean'>{data.wordMean}</div>
 
                       <div className='bottomWrap'>
-                        <span>2021-09-17</span>
+                        <span>{data.createdAt.split('T')[0]}</span>
                         <p>
                           <HoverThumbsup className='hoverThumbsup'>
                             {data.thumbsup.length === 0
