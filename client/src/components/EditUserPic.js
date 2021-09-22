@@ -145,8 +145,6 @@ function EditUserPic() {
 
   const changeProfileBtn = (event) => {
     // 로컬에서 선택한 사진 파일을 마이페이지 상에 미리보기로 띄움
-    // const file = document.querySelector('input[type=file]').files[0];
-    // console.log(file);
     let formData = new FormData();
     formData.append('image', event.target.files[0]);
 
@@ -154,10 +152,7 @@ function EditUserPic() {
     const profileImg = document.querySelector('#profileImg');
     profileImg.style.backgroundImage = `url(${imageSRC})`;
     profileImg.style.backgroundSize = 'cover';
-    // file.path = imageSRC;
-    // console.log(file);
     setNewImg(formData);
-    // console.log(newImg);
   };
 
   const sendImgToServer = async () => {
