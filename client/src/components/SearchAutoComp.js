@@ -5,15 +5,15 @@ const SearchAutoCompWrap = styled.div``;
 
 const AutoComp = styled.div`
   width: 100%;
-  position: absolute;
   z-index: 3;
   box-sizing: border-box;
   border-radius: 30px;
   background-color: #fff;
+  margin-top: 5px;
   > li {
     width: 100%;
-    height: 60px;
-    line-height: 60px;
+    height: 50px;
+    line-height: 50px;
     padding-left: 30px;
     cursor: pointer;
     :hover {

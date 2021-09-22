@@ -2,10 +2,12 @@
 import styled, { keyframes } from 'styled-components';
 import SearchAutoComp from './SearchAutoComp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { Throttle } from 'react-throttle';
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import silverBadge from '../images/junior_badge.svg';
+import goldBadge from '../images/senior_badge.svg';
+import diaBadge from '../images/master_badge.svg';
 
 const HeaderKeyFrame = keyframes`
     0% {
@@ -23,65 +25,57 @@ const SearchInputBox = styled.div`
   width: 100%;
   box-sizing: border-box;
   margin-top: 40px;
+  position: relative;
   @media only screen and (max-width: 1399px) {
     width: 100%;
   }
-  position: relative;
+  #levelBadge {
+    position: relative;
+    margin: 0 auto;
+    @media only screen and (max-width: 800px) {
+      top: 30px;
+    }
+  }
 `;
 
-const InputBox = styled.div`
-  width: 100%;
-  height: 65px;
-  flex: 1 1 auto;
-  background: linear-gradient(-45deg, red, #b4aee8);
-  animation: ${HeaderKeyFrame} 5s ease infinite;
-  background-size: 200% 100%;
+const SearchBox = styled.div`
+  width: 890px;
+  height: 55px;
   border-radius: 50px;
+  border: none;
   display: flex;
   align-items: center;
-  @media only screen and (max-width: 800px) {
-    height: 45px;
+  margin: 0 auto;
+  outline: none;
+  padding-left: 2vw;
+  background-color: #fff;
+  line-height: 60px;
+  margin-top: -60.5px;
+  @media only screen and (max-width: 1399px) {
+    width: 98.5%;
   }
-  > #searchBox {
-    width: 890px;
-    height: 55px;
-    border-radius: 50px;
-    border: none;
-    display: flex;
-    align-items: center;
-    margin: 0 auto;
+  @media only screen and (max-width: 800px) {
+    height: 42px;
+    margin-top: -46.5px;
+  }
+  > input {
+    flex: 4 1 auto;
+    height: 30px;
+    padding-left: 10px;
     outline: none;
-    padding-left: 2vw;
-    background-color: #fff;
-    line-height: 60px;
-    @media only screen and (max-width: 1399px) {
-      width: 98.5%;
-      height: 87%;
-    }
-    > input {
-      flex: 4 1 auto;
-      height: 30px;
-      padding-left: 10px;
-      outline: none;
+  }
+  > #buttonWrap {
+    display: flex;
+    width: 80px;
+    margin-right: 20px;
+    > button {
+      width: 40px;
+      font-size: 20px;
+      color: #440a67;
+      background-color: transparent;
+      cursor: pointer;
       @media only screen and (max-width: 1399px) {
-        width: 70%;
-      }
-    }
-    > #buttonWrap {
-      display: flex;
-      flex: 1 1 auto;
-      @media only screen and (max-width: 1399px) {
-        width: 30%;
-      }
-      > button {
-        flex: 1 1 auto;
-        font-size: 20px;
-        color: #440a67;
-        background-color: transparent;
-        cursor: pointer;
-        @media only screen and (max-width: 1399px) {
-          font-size: 18px;
-        }
+        font-size: 18px;
       }
     }
   }
@@ -90,6 +84,7 @@ const InputBox = styled.div`
 function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
   const [isShowAutoComp, setIsShowAutoComp] = useState(false); // 자동 검색 여부 display 여부
   const [selected, setSelected] = useState(-1); // 어떤걸 선택했을지 index
+  const state = useSelector((state) => state.userInfoReducer);
 
   useEffect(() => {
     if (word === '') {
@@ -133,28 +128,81 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
   };
 
   // 맨 처음에 한글자만 입력하고 아래키를 누르게 되면 2번 눌린것으로 처리됨. 수정 필요
+
+  let loginColorBox;
+  let levelBadge;
+  let levelWidth;
+  let levelHeight;
+  let levelTop;
+  if (!state.isLogin) {
+    loginColorBox = 'linear-gradient(-45deg, #a239ea, #b4aee8)';
+  } else {
+    if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
+      loginColorBox = 'linear-gradient(-45deg, #185ADB, #A2DBFA)';
+      levelBadge = `${silverBadge}`;
+      levelWidth = '70px';
+      levelHeight = '70px';
+      levelTop = '37px';
+    } else if (
+      100 <= state.userInfo.experience &&
+      state.userInfo.experience < 200
+    ) {
+      loginColorBox = 'linear-gradient(-45deg, #ffc851, #FF1515)';
+      levelBadge = `${goldBadge}`;
+      levelWidth = '50px';
+      levelHeight = '50px';
+      levelTop = '30px';
+    } else {
+      loginColorBox = 'linear-gradient(-45deg, #3FC1FF, #D42AFF)';
+      levelBadge = `${diaBadge}`;
+      levelWidth = '65px';
+      levelHeight = '65px';
+      levelTop = '35px';
+    }
+  }
+
+  const InputBox = styled.div`
+    width: 100%;
+    height: 65px;
+    flex: 1 1 auto;
+    background: ${loginColorBox};
+    animation: ${HeaderKeyFrame} 4s ease infinite;
+    background-size: 200% 100%;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    @media only screen and (max-width: 800px) {
+      height: 50px;
+    }
+  `;
+
   return (
     <SearchInputBox>
-      <InputBox>
-        <div id='searchBox'>
-          <input
-            id='reqInput'
-            onChange={(event) => setWord(event.target.value)}
-            onKeyUp={(event) => handleKeyUp(event)}
-            value={word}
-            autoComplete='off'
-          ></input>
-          <div id='buttonWrap'>
-            <button onClick={() => setWord('')}>&times;</button>
-            <button>
-              <FontAwesomeIcon icon={faMicrophone} />
-            </button>
-            <button onClick={(event) => searchWord(event, word)}>
-              <FontAwesomeIcon icon={faSearch} />
-            </button>
-          </div>
+      <div
+        id='levelBadge'
+        style={{
+          backgroundImage: `url(${levelBadge})`,
+          width: `${levelWidth}`,
+          height: `${levelHeight}`,
+          top: `${levelTop}`,
+        }}
+      ></div>
+      <InputBox></InputBox>
+      <SearchBox>
+        <input
+          id='reqInput'
+          onChange={(event) => setWord(event.target.value)}
+          onKeyUp={(event) => handleKeyUp(event)}
+          value={word}
+          autoComplete='off'
+        ></input>
+        <div id='buttonWrap'>
+          <button onClick={() => setWord('')}>&times;</button>
+          <button onClick={(event) => searchWord(event, word)}>
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
         </div>
-      </InputBox>
+      </SearchBox>
       {isShowAutoComp ? (
         <SearchAutoComp
           autoCompResult={autoCompResult}
