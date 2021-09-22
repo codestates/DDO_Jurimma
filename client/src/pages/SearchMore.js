@@ -2,12 +2,7 @@
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setNewContentModal,
-  setLogout,
-  setLogin,
-  setUserInfo,
-} from '../actions/index';
+import { setNewContentModal, setLogout, setUserInfo } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
@@ -300,15 +295,14 @@ function SearchMore() {
   }; // 새로 글쓰는 모달 키는 함수(=== true값으로 만들어줌)
 
   useEffect(() => {
-    console.log('state : ', state);
-    if (!localStorage.userInfo) {
+    if (state.userInfo.id === -1) {
       // 유저가 로그아웃 버튼을 누른 경우
       swal({
         title: '로그아웃이 완료되었습니다.',
         text: '다음에 또 만나요! 🙋',
         icon: 'success',
       }).then(() => {
-        window.location.replace('/main');
+        history.push('/main');
       });
     } else {
       getMoreSearch(query);
@@ -341,7 +335,7 @@ function SearchMore() {
         icon: 'error',
       }).then(() => {
         dispatch(setLogout());
-        window.location.replace('/');
+        history.push('/');
       }); // sweet alert로 안내하고 랜딩페이지로 리다이렉트
     }
   };
@@ -369,14 +363,13 @@ function SearchMore() {
     } catch (err) {
       console.log(err);
       console.log(err.response.data);
-
       swal({
         title: '로그인이 만료되었습니다.',
         text: '다시 로그인을 해주세요!',
         icon: 'error',
       }).then(() => {
         dispatch(setLogout());
-        window.location.replace('/main');
+        history.push('/main');
       }); // sweet alert로 안내하고 메인페이지로 리다이렉트
     }
   }; // axios로 searchMoreData에서 보여질 데이터 요청하는 함수
@@ -489,7 +482,7 @@ function SearchMore() {
                       <div className='wordMean'>{data.wordMean}</div>
 
                       <div className='bottomWrap'>
-                        <span>2021-09-17</span>
+                        <span>{data.createdAt.split('T')[0]}</span>
                         <p>
                           <HoverThumbsup className='hoverThumbsup'>
                             {data.thumbsup.length === 0

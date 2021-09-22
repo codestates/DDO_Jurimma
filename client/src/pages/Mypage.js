@@ -25,6 +25,21 @@ function Mypage() {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   // /mypage로 들어가면 갖고있던 state로 userInfo 렌더해서 보여주기, userContent는 axios 요청하기(들어올때 한번만) + userContentReducer 업데이트
 
+  useEffect(() => {
+    if (state.userInfo.id === -1) {
+      // 유저가 로그아웃 버튼을 누른 경우
+      swal({
+        title: '로그아웃이 완료되었습니다.',
+        text: '다음에 또 만나요! 🙋',
+        icon: 'success',
+      }).then(() => {
+        history.push('/main');
+      });
+    } else {
+      getMyInfo();
+    }
+  }, [state.userInfo.id]); // 렌더링 될때마다 다시 개인정보 요청
+
   const getMyInfo = async () => {
     try {
       let infoResult = await axios.get(`${url}/user`, {
@@ -52,10 +67,6 @@ function Mypage() {
       }
     }
   }; // axios로 유저 정보 요청 및 dispatch로 redux 업데이트
-
-  useEffect(() => {
-    getMyInfo();
-  }, []); // 렌더링 될때마다 다시 개인정보 요청
 
   // 만약 내가 쓴 글 수정하는 isShowEditContentModal상태가 꺼진 상태라면 state 업데이트 + axios로 글 수정 요청
   // 만약 글을 삭제하면 state 업데이트 + axios로 글 없애기 요청

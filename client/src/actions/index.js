@@ -81,15 +81,12 @@ export const setLogin = (isLogin) => {
 };
 
 export const setLogout = () => {
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('userInfo');
   return {
     type: SET_LOGOUT_STATE,
   };
 };
 
 export const setAccessToken = (accessToken) => {
-  localStorage.setItem('accessToken', accessToken);
   return {
     type: SET_ACCESS_TOKEN,
     accessToken,
@@ -97,7 +94,6 @@ export const setAccessToken = (accessToken) => {
 };
 
 export const setUserInfo = (userInfo) => {
-  localStorage.setItem('userInfo', JSON.stringify(userInfo));
   return {
     type: SET_USER_INFO,
     userInfo,
