@@ -152,14 +152,17 @@ function EditUserInfo() {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const history = useHistory();
   const dispatch = useDispatch();
-
+  console.log('!!state.userInfo.isOAath: ', !!state.userInfo.isOAuth);
+  console.log(
+    'typeof (state.userInfo.isOAath): ',
+    typeof state.userInfo.isOAuth
+  );
   const [editUser, setEditUser] = useState({
     username: '',
     oldPassword: '',
     newPassword: '',
     newPasswordRe: '',
   });
-
   let whatColor;
   let whatHoverColor;
   if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
@@ -209,6 +212,14 @@ function EditUserInfo() {
 
   const handleEditInputValue = (key) => (e) => {
     setEditUser({ ...editUser, [key]: e.target.value });
+  };
+
+  const oauthEdit = () => {
+    swal({
+      title: '유저 정보를 수정할 수 없습니다',
+      text: '소셜 로그인의 경우 정보를 수정할 수 없습니다.',
+      icon: 'warning',
+    });
   };
   const [isHover, setIsHover] = useState(false);
 
@@ -331,6 +342,8 @@ function EditUserInfo() {
           onKeyPress={handleKeyPressEdit}
           value={editUser.username}
           placeholder='변경할 이름 (영문과 한글만 입력 가능)'
+          disabled={state.userInfo.isOAath ? 'true' : 'false'}
+          // disabled={true}
         ></input>
         <input
           type='password'
@@ -338,6 +351,7 @@ function EditUserInfo() {
           onKeyPress={handleKeyPressEdit}
           value={editUser.oldPassword}
           placeholder='기존 비밀번호'
+          disabled={state.userInfo.isOAath ? 'true' : 'false'}
         ></input>
         <input
           type='password'
@@ -345,6 +359,7 @@ function EditUserInfo() {
           onKeyPress={handleKeyPressEdit}
           value={editUser.newPassword}
           placeholder='변경할 비밀번호 (최소 8자이상, 대문자, 특수문자 포함)'
+          disabled={state.userInfo.isOAath ? 'true' : 'false'}
         ></input>
         <input
           type='password'
@@ -352,10 +367,11 @@ function EditUserInfo() {
           onChange={handleEditInputValue('newPasswordRe')}
           onKeyPress={handleKeyPressEdit}
           value={editUser.newPasswordRe}
+          disabled={state.userInfo.isOAath ? 'true' : 'false'}
         ></input>
         <div id='buttonWrap'>
           <button
-            onClick={handleEdit}
+            onClick={state.userInfo.isOAuth ? oauthEdit : handleEdit}
             style={
               isHover
                 ? {
