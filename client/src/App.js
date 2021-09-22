@@ -25,20 +25,22 @@ require('dotenv').config();
 axios.defaults.withCredentials = true;
 
 function App() {
-  const state = useSelector((state) => state.userInfoReducer);
+  const userInfoState = useSelector((state) => state.userInfoReducer);
+  const userModalState = useSelector((state) => state.userModalReducer);
   const dispatch = useDispatch();
-  console.log(state);
+  console.log('userInfoState: ', userInfoState);
+  console.log('userModalState: ', userModalState);
 
   useEffect(() => {
     // console.log(JSON.parse(localStorage.userInfo).id);
-    if (localStorage.userInfo) {
-      dispatch(setLogin(true));
-      dispatch(setUserInfo(JSON.parse(localStorage.userInfo)));
-      dispatch(setAccessToken(localStorage.accessToken));
-      // setUserInfo를 하지 않으면 로그인 후에 퀴즈를 풀어도 다시 풀 수 있게 된다.
-    } else {
-      dispatch(setLogin(false));
-    }
+    // if (localStorage.userInfo) {
+    //   dispatch(setLogin(true));
+    //   dispatch(setUserInfo(JSON.parse(localStorage.userInfo)));
+    //   dispatch(setAccessToken(localStorage.accessToken));
+    //   // setUserInfo를 하지 않으면 로그인 후에 퀴즈를 풀어도 다시 풀 수 있게 된다.
+    // } else {
+    //   dispatch(setLogin(false));
+    // }
 
     const authorizationCode = new URL(window.location.href).searchParams.get(
       'code'
@@ -84,15 +86,12 @@ function App() {
   const {
     isShowLoginOrSignupModal,
     isShowQuizModal,
-    isShowChartModal,
     isShowNewContentModal,
     isShowEditContentModal,
     isShowLogoutModal,
     isShowSignoutModal,
-    isLogin,
-    userInfo,
     isShowMiniMenuModal,
-  } = state;
+  } = userModalState;
 
   // const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   return (

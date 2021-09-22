@@ -80,7 +80,8 @@ const Logo = styled.div`
 
 function LogOut() {
   const history = useHistory();
-  const state = useSelector((state) => state.userInfoReducer);
+  const userInfostate = useSelector((state) => state.userInfoReducer);
+  const userModalState = useSelector((state) => state.userModalReducer);
   const dispatch = useDispatch();
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const closeLogoutModal = (isOpen) => {
@@ -90,7 +91,7 @@ function LogOut() {
   const changeToLogout = () => {
     axios
       .get(`${url}/user/logout`, {
-        headers: { authorization: `Bearer ${state.accessToken}}` },
+        headers: { authorization: `Bearer ${userInfostate.accessToken}}` },
       })
       .then(() => {
         dispatch(setLogout()); // reducer 로그아웃으로 상태 업데이트
@@ -100,7 +101,7 @@ function LogOut() {
           icon: 'success',
         });
         // console.log(state);
-        history.push('/main');
+        closeLogoutModal(false);
       })
       .catch((err) => {
         console.log(err);
@@ -110,7 +111,7 @@ function LogOut() {
           icon: 'warning',
         }); // swal로 안내
         dispatch(setLogout());
-        history.push('/main');
+        closeLogoutModal(false);
       });
   };
 

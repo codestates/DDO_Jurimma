@@ -143,7 +143,7 @@ function EditUserInfo() {
     newPassword: '',
     newPasswordRe: '',
   });
-
+  console.log(editUser);
   let whatColor;
   let whatHoverColor;
   if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
@@ -224,6 +224,7 @@ function EditUserInfo() {
           icon: 'warning',
         });
         setEditUser({
+          ...editUser,
           newPassword: '',
           newPasswordRe: '',
         });
@@ -234,11 +235,13 @@ function EditUserInfo() {
           icon: 'warning',
         });
         setEditUser({
+          ...editUser,
           newPassword: '',
           newPasswordRe: '',
         });
+        console.log('변경할 비밀번호 입력 틀림:', editUser);
       } else {
-        delete editUser.newPasswordRe;
+        // delete editUser.newPasswordRe;
         const editRes = await axios({
           url: `${url}/user`,
           method: 'patch',
@@ -257,6 +260,7 @@ function EditUserInfo() {
           headers: { authorization: `Bearer ${state.accessToken}` },
         });
         dispatch(setLogout());
+        history.push('/');
       }
     } catch (error) {
       console.log(error);
@@ -267,6 +271,7 @@ function EditUserInfo() {
           icon: 'warning',
         }); // swal로 안내
         setEditUser({
+          ...editUser,
           oldPassword: '',
         });
       } else if (error.response.data.message === 'Send new Login Request') {
