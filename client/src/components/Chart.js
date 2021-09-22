@@ -13,7 +13,7 @@ const ChartWrap = styled.div`
   display: flex;
   flex-direction: column;
   @media only screen and (max-width: 1399px) {
-    width: 80%;
+    width: 100%;
     height: 70vh;
     margin: 0 auto;
   }
@@ -29,6 +29,10 @@ const ChartModalWrap = styled.div`
     font-family: 'NEXON Lv2 Gothic Bold';
     font-size: 20px;
     color: #fff;
+    @media only screen and (max-width: 500px) {
+      height: 60px;
+      font-size: 15px;
+    }
   }
 `;
 
