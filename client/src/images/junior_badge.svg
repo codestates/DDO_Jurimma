@@ -10,16 +10,17 @@
 	.st4{fill:#245689;}
 </style>
 <g>
-	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="400" y1="457.5742" x2="400" y2="342.4258">
+	
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="400" y1="229.3469" x2="400" y2="570.6531" gradientTransform="matrix(1 0 0 -1 0 800)">
 		<stop  offset="0" style="stop-color:#EBF5FF"/>
 		<stop  offset="1" style="stop-color:#A0A0A0"/>
 	</linearGradient>
-	<circle class="st0" cx="400" cy="400" r="57.57"/>
+	<circle class="st0" cx="400" cy="400" r="170.7"/>
 	<g>
-		<path class="st1" d="M440.1,400c0-22.11-17.99-40.1-40.1-40.1c0,0,0,0,0,0V400H440.1z"/>
-		<path class="st2" d="M400,359.9c-22.11,0-40.1,17.99-40.1,40.1H400V359.9z"/>
-		<path class="st3" d="M400,400v40.1c0,0,0,0,0,0c22.11,0,40.1-17.99,40.1-40.1c0,0,0,0,0,0H400z"/>
-		<path class="st4" d="M359.9,400C359.9,400,359.9,400,359.9,400c0,22.11,17.99,40.1,40.1,40.1V400H359.9z"/>
+		<path class="st1" d="M518.9,400c0-65.5-53.3-118.9-118.9-118.9l0,0V400H518.9z"/>
+		<path class="st2" d="M400,281.1c-65.5,0-118.9,53.3-118.9,118.9H400V281.1z"/>
+		<path class="st3" d="M400,400v118.9l0,0c65.5,0,118.9-53.3,118.9-118.9l0,0H400z"/>
+		<path class="st4" d="M281.1,400L281.1,400c0,65.5,53.3,118.9,118.9,118.9V400H281.1z"/>
 	</g>
 </g>
 </svg>
