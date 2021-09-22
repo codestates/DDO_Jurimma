@@ -19,6 +19,8 @@ import goldProfile from '../images/senior_profile.svg';
 import diaProfile from '../images/master_profile.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import hamburgerWhite from '../images/hamburgerMenu.svg';
+import hamburgerPur from '../images/hambugerMenuPur.svg';
 
 const fadeIn = keyframes`
   0%{opacity : 0}
@@ -37,6 +39,7 @@ const NavBar1 = styled.nav`
   display: flex;
   position: fixed;
   animation: ${fadeout} 0.5s;
+  z-index: 5;
   @media only screen and (max-width: 800px) {
     display: none;
   }
@@ -151,8 +154,8 @@ const NavBar2 = styled.nav`
 
 const Myprofile = styled.div`
   width: max(8vw, 120px);
-  height: 200px;
-  margin-top: 105px;
+  height: 110px;
+  margin-top: 30px;
   cursor: pointer;
   :hover {
     > .HoverMypageOrLogout {
@@ -212,6 +215,45 @@ const HoverMypageOrLogout = styled.div`
   }
 `;
 
+const MiniNav1 = styled.div`
+  width: 100%;
+  height: 85px;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  z-index: 5;
+  cursor: pointer;
+  @media only screen and (max-width: 800px) {
+    opacity: 1;
+  }
+  > .logo {
+    flex: 1 1 auto;
+    margin-top: 5px;
+    > a {
+      display: block;
+      width: 70px;
+      height: 70px;
+      margin-left: 10px;
+      background: url(${whiteLogo});
+    }
+  }
+  > #hambuger {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+    > .hamburgerIcon {
+      width: 55px;
+      height: 55px;
+      color: #fff;
+      background: url(${hamburgerWhite});
+    }
+  }
+`;
+
 const MiniNav2 = styled.div`
   width: 100%;
   height: 85px;
@@ -220,6 +262,7 @@ const MiniNav2 = styled.div`
   display: flex;
   align-items: center;
   opacity: 0;
+  z-index: 5;
   @media only screen and (max-width: 800px) {
     opacity: 1;
   }
@@ -242,46 +285,11 @@ const MiniNav2 = styled.div`
     align-items: center;
     margin-right: 5px;
     cursor: pointer;
-    > .bars {
-      width: 40px;
-      height: 40px;
+    > .hamburgerIcon {
+      width: 55px;
+      height: 55px;
       color: #440a67;
-    }
-  }
-`;
-
-const MiniNav1 = styled.div`
-  width: 100%;
-  height: 85px;
-  position: fixed;
-  display: flex;
-  align-items: center;
-  opacity: 0;
-  @media only screen and (max-width: 800px) {
-    opacity: 1;
-  }
-  > .logo {
-    flex: 1 1 auto;
-    margin-top: 5px;
-    > a {
-      display: block;
-      width: 70px;
-      height: 70px;
-      margin-left: 10px;
-      background: url(${whiteLogo});
-    }
-  }
-  > #hambuger {
-    width: 60px;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 5px;
-    > .bars {
-      width: 40px;
-      height: 40px;
-      color: #fff;
+      background: url(${hamburgerPur});
     }
   }
 `;
@@ -365,7 +373,7 @@ function Nav() {
           </div>
 
           <div id='hambuger' onClick={() => openMiniMenuModal(true)}>
-            <FontAwesomeIcon className='bars' icon={faBars} />
+            <div className='hamburgerIcon'></div>
           </div>
         </MiniNav2>
       ) : (
@@ -375,7 +383,7 @@ function Nav() {
           </div>
 
           <div id='hambuger' onClick={() => openMiniMenuModal(true)}>
-            <FontAwesomeIcon className='bars' icon={faBars} />
+            <div className='hamburgerIcon'></div>
           </div>
         </MiniNav1>
       )}

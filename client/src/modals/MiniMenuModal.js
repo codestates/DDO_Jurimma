@@ -22,7 +22,7 @@ const MiniMenuWrap = styled.div`
   bottom: 0;
   left: 0;
   height: 100vh;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.95);
   z-index: 20;
   display: flex;
   flex-direction: column;
@@ -53,6 +53,7 @@ const MiniMenuWrap = styled.div`
 const MiniMenuProfile = styled.div`
   flex: 1 1 auto;
   z-index: 30;
+  background-color: red;
   > #miniMenuProfile {
     width: 300px;
     height: 300px;
@@ -60,11 +61,57 @@ const MiniMenuProfile = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    > .menu {
-      flex: 1 1 auto;
+    > #profileImg {
+      width: 200px;
+      height: 500px;
+      background-color: #ddd;
+    }
+    > #myProfileWrap {
       width: 100%;
+      display: flex;
+      background-color: pink;
+      > a {
+        flex: 1 1 auto;
+        text-decoration: none;
+        border-radius: 50px;
+        display: block;
+        border: 4px solid #440a67;
+        color: #440a67;
+        background-color: transparent;
+        text-align: center;
+        line-height: 60px;
+        font-size: max(1.2vw, 18px);
+        font-family: 'NEXON Lv2 Gothic Bold';
+        transition: 0.3s;
+        :hover {
+          color: #fff;
+          background-color: #440a67;
+        }
+      }
+      > .logout {
+        flex: 1 1 auto;
+        border-radius: 50px;
+        margin-left: 10px;
+        border: 4px solid #440a67;
+        line-height: 60px;
+        color: #440a67;
+        background-color: transparent;
+        text-align: center;
+        font-size: max(1.2vw, 18px);
+        font-family: 'NEXON Lv2 Gothic Bold';
+        transition: 0.3s;
+        cursor: pointer;
+        :hover {
+          color: #fff;
+          background-color: #440a67;
+        }
+      }
+    }
+    > .menu {
+      width: 100%;
+      height: 60px;
+      line-height: 60px;
       border-radius: 50px;
-      line-height: 50px;
       text-align: center;
       font-size: max(1.2vw, 18px);
       font-family: 'NEXON Lv2 Gothic Bold';
@@ -73,7 +120,7 @@ const MiniMenuProfile = styled.div`
       color: #440a67;
       background-color: transparent;
       cursor: pointer;
-      margin-top: 20px;
+      margin-top: 30px;
       > a {
         width: 100%;
         height: 100%;
@@ -163,14 +210,17 @@ function MiniMenuModal() {
       <MiniMenuProfile>
         <div id='miniMenuProfile'>
           {state.isLogin ? (
-            <div>
-              <Link to='/mypage' onClick={() => closeMiniMenuModal(false)}>
-                Mypage
-              </Link>
-              <div className='logout' onClick={() => openLogoutModal(true)}>
-                Logout
+            <>
+              <div id='profileImg'></div>
+              <div id='myProfileWrap'>
+                <Link to='/mypage' onClick={() => closeMiniMenuModal(false)}>
+                  Mypage
+                </Link>
+                <div className='logout' onClick={() => openLogoutModal(true)}>
+                  Logout
+                </div>
               </div>
-            </div>
+            </>
           ) : (
             <div className='menu' onClick={() => openLoginOrSignupModal(true)}>
               Login
