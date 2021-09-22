@@ -87,7 +87,6 @@ function App() {
     isShowLoginOrSignupModal,
     isShowQuizModal,
     isShowNewContentModal,
-    isShowEditContentModal,
     isShowLogoutModal,
     isShowSignoutModal,
     isShowMiniMenuModal,
@@ -100,7 +99,6 @@ function App() {
         {isShowQuizModal ? <Quiz /> : null}
         {isShowLoginOrSignupModal ? <LoginOrSignUp /> : null}
         {isShowNewContentModal ? <NewContent /> : null}
-        {isShowEditContentModal ? <EditContent /> : null}
         {isShowLogoutModal ? <Logout /> : null}
         {isShowSignoutModal ? <SignOut /> : null}
         {isShowMiniMenuModal ? <MiniMenuModal /> : null}

@@ -17,6 +17,7 @@ const defaultUserInfo = {
     userPic: null,
     experience: 0,
     quizDate: null, // 퀴즈 모달에 접속한 날짜
+    isOAuth: null, // 소셜로그인 여부
   }, // 기본 유저 정보
   isLogin: false, //로그인 상태
   accessToken: null,

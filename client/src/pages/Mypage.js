@@ -7,7 +7,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import swal from 'sweetalert';
 import axios from 'axios';
-import { setAccessToken, setUserInfo, setLogout } from '../actions';
+import { setAccessToken, setUserInfo, setLogout, getContent } from '../actions';
+import EditContent from '../modals/EditContent';
+import { useState } from 'react';
 axios.defaults.withCredentials = true;
 
 const MypageWrap = styled.div`
@@ -20,13 +22,21 @@ const MypageWrap = styled.div`
 
 function Mypage() {
   const history = useHistory();
-  const state = useSelector((state) => state.userInfoReducer);
+  const userInfoState = useSelector((state) => state.userInfoReducer);
+  const userContentState = useSelector((state) => state.userContentReducer);
+  const userModalState = useSelector((state) => state.userModalReducer);
   const dispatch = useDispatch();
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   // /mypage로 들어가면 갖고있던 state로 userInfo 렌더해서 보여주기, userContent는 axios 요청하기(들어올때 한번만) + userContentReducer 업데이트
 
+  const [editInfo, setEditInfo] = useState({
+    userEditId: -1,
+    userEditWordName: '',
+    userEditWordMean: '',
+  }); // edit모달에 보여질 유저가 작성한 내용 나타낼 state
+
   useEffect(() => {
-    if (state.userInfo.id === -1) {
+    if (userInfoState.userInfo.id === -1) {
       // 유저가 로그아웃 버튼을 누른 경우
       swal({
         title: '로그아웃이 완료되었습니다.',
@@ -38,12 +48,28 @@ function Mypage() {
     } else {
       getMyInfo();
     }
-  }, [state.userInfo.id]); // 렌더링 될때마다 다시 개인정보 요청
+  }, [userInfoState.userInfo.id]); // id가 변경될 때마다(=로그아웃) 다시 개인정보 요청
+
+  useEffect(() => {
+    if (userModalState.isShowEditContentModal === false) {
+      getMyContent();
+    }
+  }, [userModalState.isShowEditContentModal]); // 모달 여부가 false일때만 user 유저가 쓴 글 요청 -> 맨 처음 + 한번 켜서 수정하고 돌아왔을때?
+
+  const getMyContent = async () => {
+    let contentResult = await axios.get(`${url}/meaning/me`, {
+      headers: { authorization: `Bearer ${userInfoState.accessToken}` },
+    });
+    if (contentResult.data.accessToken) {
+      dispatch(setAccessToken(contentResult.data.accessToken));
+    } // contentResult에 accessToken이 담겨오면 새로 업데이트
+    dispatch(getContent([...contentResult.data.data]));
+  }; // axios로 유저가 쓴 글 요청 및 dispatch로 redux 업데이트
 
   const getMyInfo = async () => {
     try {
       let infoResult = await axios.get(`${url}/user`, {
-        headers: { authorization: `Bearer ${state.accessToken}` },
+        headers: { authorization: `Bearer ${userInfoState.accessToken}` },
       }); // userinfo 받아오기
       if (infoResult.data.accessToken) {
         dispatch(setAccessToken(infoResult.data.accessToken));
@@ -73,9 +99,16 @@ function Mypage() {
 
   return (
     <>
+      {userModalState.isShowEditContentModal ? (
+        <EditContent
+          id={editInfo.userEditId}
+          wordName={editInfo.userEditWordName}
+          wordMean={editInfo.userEditWordMean}
+        />
+      ) : null}
       <MypageWrap>
         <UserInfo />
-        <UserContents />
+        <UserContents setEditInfo={setEditInfo} />
       </MypageWrap>
     </>
   );

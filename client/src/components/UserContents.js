@@ -196,28 +196,19 @@ const HoverThumbsup = styled.span`
   display: none;
 `;
 
-function UserContents() {
+function UserContents({ setEditInfo }) {
   const dispatch = useDispatch();
-  const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
-  const userInfoState = useSelector((state) => state.userInfoReducer);
+  const userModalState = useSelector((state) => state.userModalReducer);
   const userContentState = useSelector((state) => state.userContentReducer);
-  const openEditContentModal = (isOpen) => {
-    dispatch(setEditContentModal(isOpen));
-  }; // 수정 모달 여는 함수
-
-  const getMyContent = async () => {
-    let contentResult = await axios.get(`${url}/meaning/me`, {
-      headers: { authorization: `Bearer ${userInfoState.accessToken}` },
-    });
-    if (contentResult.data.accessToken) {
-      dispatch(setAccessToken(contentResult.data.accessToken));
-    } // contentResult에 accessToken이 담겨오면 새로 업데이트
-    dispatch(getContent([...contentResult.data.data]));
-  }; // axios로 유저가 쓴 글 요청 및 dispatch로 redux 업데이트
-
-  useEffect(() => {
-    getMyContent();
-  }, []);
+  const openEditContentModal = async (
+    isOpen,
+    userEditId,
+    userEditWordName,
+    userEditWordMean
+  ) => {
+    await setEditInfo({ userEditId, userEditWordName, userEditWordMean }); // 수정 모달에서 보여질 데이터 지정
+    dispatch(setEditContentModal(isOpen)); // 수정 모달 열기
+  }; // 모달에 띄울 정보 지정 + 수정 모달 여는 함수
 
   return (
     <UserContentsWrap>
@@ -236,7 +227,16 @@ function UserContents() {
                 <div className='topWrap'>
                   <h3>{el.wordName}</h3>
                   <EditContent>
-                    <button onClick={() => openEditContentModal(true)}>
+                    <button
+                      onClick={() =>
+                        openEditContentModal(
+                          true,
+                          el.id,
+                          el.wordName,
+                          el.wordMean
+                        )
+                      }
+                    >
                       내가 쓴 글 수정하기
                     </button>
                   </EditContent>
