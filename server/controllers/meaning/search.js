@@ -10,8 +10,8 @@ module.exports = {
     const wordName = req.query.word;
     const offset = Number(req.query.offset);
     const limit = Number(req.query.limit);
-
-    console.log(wordName, offset, limit);
+    const sorted = req.query.sort;
+    console.log(wordName, offset, limit, sorted);
 
     //! 메인 페이지의 검색 Top 3
     if (limit === 3) {
@@ -51,11 +51,7 @@ module.exports = {
           });
           returnData[i].username = writeUser.dataValues.username;
           returnData[i].userPic = writeUser.dataValues.userPic;
-          // console.log('thumbsupResult : ', thumbsupResult);
         }
-
-        // console.log('returnData : ', returnData);
-        // console.log('thumbsupData : ', thumbsupData);
 
         for (let i = 0; i < returnData.length; i++) {
           returnData[i].wordName = wordName;
@@ -69,21 +65,15 @@ module.exports = {
           }
           returnData[i].thumbsup = userNames;
         }
-        // console.log('returnData : ', returnData);
-        // console.log(returnData[3].thumbsups);
         const sortedResult = returnData
           .sort((a, b) => b.thumbsup.length - a.thumbsup.length)
           .slice(0, 3);
-        // console.log('sortedResult : ', sortedResult);
-        // console.log('sortedResultThumbsup : ', sortedResult[0].thumbsup);
         res.status(200).json({ data: sortedResult });
       }
     }
 
     //! 더보기 페이지 검색 결과
     else {
-      // console.log(wordName, offset, limit);
-      // console.log(offset + limit);
       const accessTokenCheck = isAuthorized(req);
       const refreshTokenCheck = refreshAuthorized(req);
       // ! accessToken이 만료되지 않았을 경우,
@@ -125,12 +115,7 @@ module.exports = {
             });
             returnData[i].username = writeUser.dataValues.username;
             returnData[i].userPic = writeUser.dataValues.userPic;
-
-            // console.log('thumbsupResult : ', thumbsupResult);
           }
-
-          // console.log('returnData : ', returnData);
-          // console.log('thumbsupData : ', thumbsupData);
 
           for (let i = 0; i < returnData.length; i++) {
             returnData[i].wordName = wordName;
@@ -144,13 +129,21 @@ module.exports = {
             }
             returnData[i].thumbsup = userNames;
           }
-          // console.log('returnData : ', returnData);
-          // console.log(returnData[3].thumbsup);
-          const sortedResult = returnData
-            .sort((a, b) => b.thumbsup.length - a.thumbsup.length)
-            .slice(offset, offset + limit);
-          // console.log('sortedResult : ', sortedResult);
-          res.status(200).json({ data: sortedResult });
+          // ! 추천 순 조회
+          if (!sorted) {
+            const sortedResult = returnData
+              .sort((a, b) => b.thumbsup.length - a.thumbsup.length)
+              .slice(offset, offset + limit);
+            res.status(200).json({ data: sortedResult });
+          }
+
+          // ! 최신 순 조회
+          else {
+            const sortedResult = returnData
+              .sort((a, b) => b.updatedAt - a.updatedAt)
+              .slice(offset, offset + limit);
+            res.status(200).json({ data: sortedResult });
+          }
         }
       } else {
         // ! access 만료 / refresh 유효 (201)
@@ -193,11 +186,7 @@ module.exports = {
               });
               returnData[i].username = writeUser.dataValues.username;
               returnData[i].userPic = writeUser.dataValues.userPic;
-              // console.log('thumbsupResult : ', thumbsupResult);
             }
-
-            // console.log('returnData : ', returnData);
-            // console.log('thumbsupData : ', thumbsupData);
 
             for (let i = 0; i < returnData.length; i++) {
               returnData[i].wordName = wordName;
@@ -211,13 +200,20 @@ module.exports = {
               }
               returnData[i].thumbsup = userNames;
             }
-            // console.log('returnData : ', returnData);
-            // console.log(returnData[3].thumbsup);
-            const sortedResult = returnData
-              .sort((a, b) => b.thumbsup.length - a.thumbsup.length)
-              .slice(offset, offset + limit);
-            // console.log('sortedResult : ', sortedResult);
-            res.status(201).json({ accessToken, data: sortedResult });
+            // ! 추천 순 조회
+            if (!sorted) {
+              const sortedResult = returnData
+                .sort((a, b) => b.thumbsup.length - a.thumbsup.length)
+                .slice(offset, offset + limit);
+              res.status(201).json({ accessToken, data: sortedResult });
+            }
+            // ! 좋아요 순 조회
+            else {
+              const sortedResult = returnData
+                .sort((a, b) => b.updatedAt - a.updatedAt)
+                .slice(offset, offset + limit);
+              res.status(201).json({ accessToken, data: sortedResult });
+            }
           }
         }
         // ! access 만료 / refresh 만료 (401)
