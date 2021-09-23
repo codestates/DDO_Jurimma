@@ -19,7 +19,9 @@ const ChartWrap = styled.div`
   }
 `;
 
-const ChartModalWrap = styled.div`
+const ChartBar = styled.div`
+  height: 40vh;
+  border: 1px solid red;
   > button {
     width: 100%;
     border-radius: 20px;
@@ -45,9 +47,7 @@ function Chart({ setWord }) {
 
   return (
     <ChartWrap>
-      <ChartModalWrap>
-        <button onClick={() => openChartGraphModal(true)}> 실시간 차트</button>
-      </ChartModalWrap>
+      <ChartBar>{/* 이부분에 바 그래프 들어가야함 */}</ChartBar>
       <BestSearch setWord={setWord} />
     </ChartWrap>
   );
