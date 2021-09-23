@@ -2,7 +2,7 @@
 import styled, { keyframes } from 'styled-components';
 import BestSearch from './BestSearch';
 import '../App.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setChartModal } from '../actions/index';
 import { useEffect } from 'react';
 
@@ -36,7 +36,7 @@ const ChartModalWrap = styled.div`
   }
 `;
 
-function Chart({ realTime }) {
+function Chart({ setWord }) {
   const dispatch = useDispatch();
   const url = process.env.REACT_APP_API_URL || `http://localhost:3000`;
   const openChartGraphModal = (isOpen) => {
@@ -48,7 +48,7 @@ function Chart({ realTime }) {
       <ChartModalWrap>
         <button onClick={() => openChartGraphModal(true)}> 실시간 차트</button>
       </ChartModalWrap>
-      <BestSearch realTime={realTime} />
+      <BestSearch setWord={setWord} />
     </ChartWrap>
   );
 }

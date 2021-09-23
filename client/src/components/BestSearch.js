@@ -1,5 +1,6 @@
 // Chart 안에 실시간 순위 보여질 부분
 import { useEffect, useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
 
 const BestSearchWrap = styled.div`
@@ -32,6 +33,7 @@ const BestSearchList = styled.ul`
     transition: all 1s;
     border-radius: 20px;
     margin-top: 5px;
+    cursor: pointer;
   }
   > li.highlight {
     background-color: #b4aee8;
@@ -39,8 +41,9 @@ const BestSearchList = styled.ul`
   }
 `;
 
-function BestSearch({ realTime }) {
+function BestSearch({ setWord }) {
   const [listNum, setListNum] = useState(0);
+  const bestSearchState = useSelector((state) => state.bestSearchReducer);
 
   function useInterval(callback, delay) {
     const savedCallback = useRef();
@@ -62,7 +65,7 @@ function BestSearch({ realTime }) {
     }, [delay]);
   }
   useInterval(() => {
-    if (listNum >= realTime.length - 1) {
+    if (listNum >= bestSearchState.searchData.length - 1) {
       setListNum(0);
     } else {
       setListNum(listNum + 1);
@@ -72,9 +75,13 @@ function BestSearch({ realTime }) {
   return (
     <BestSearchWrap>
       <BestSearchList>
-        {realTime.map((el, idx) => {
+        {bestSearchState.searchData.map((el, idx) => {
           return (
-            <li key={el.id} className={idx === listNum ? 'highlight' : ''}>
+            <li
+              key={el.id}
+              className={idx === listNum ? 'highlight' : ''}
+              onClick={() => setWord(el.wordName)}
+            >
               {el.wordName}
             </li>
           );
