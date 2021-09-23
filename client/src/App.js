@@ -71,15 +71,25 @@ function App() {
           title: '로그인이 완료되었습니다!',
           text: '만반잘부 😆 (만나서 반갑고 잘 부탁해)!',
           icon: 'success',
+        }).then(() => {
+          window.location.replace('/');
         });
       })
       .catch((err) => {
         console.log(err);
-        swal({
-          title: 'Internal Server Error',
-          text: '죄송합니다. 다시 로그인해주세요.',
-          icon: 'warning',
-        }); // swal로 안내
+        if ((err.response.data.message = 'You Already Signed up')) {
+          swal({
+            title: '이미 JURIMMA 회원이시네요!',
+            text: 'JURIMMA 로그인으로 다시 시도해주세요. 😉',
+            icon: 'warning',
+          }); // swal로 안내
+        } else {
+          swal({
+            title: 'Internal Server Error',
+            text: '죄송합니다. 다시 로그인해주세요.',
+            icon: 'warning',
+          }); // swal로 안내
+        }
       });
   };
 

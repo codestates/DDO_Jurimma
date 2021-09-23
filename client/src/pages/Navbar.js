@@ -418,7 +418,7 @@ function Nav() {
                 >
                   <div
                     style={{
-                      background: `url(${myProfileImg})`,
+                      backgroundImage: `url(${myProfileImg})`,
                       backgroundSize: 'cover',
                       backgroundPosition: 'center',
                     }}
@@ -465,7 +465,7 @@ function Nav() {
                 >
                   <div
                     style={{
-                      background: `url(${myProfileImg})`,
+                      backgroundImage: `url(${myProfileImg})`,
                       backgroundSize: 'cover',
                       backgroundPosition: 'center',
                     }}

@@ -33,6 +33,9 @@ module.exports = {
     });
     if (userFindDB) {
       // 유저 정보가 있는 경우 = 이미 카카오를 통해 회원가입이 되어 있는 경우
+      if (!userFindDB.dataValues.isOAuth) {
+        res.status(400).json({ message: 'You Already Signed up' });
+      }
       const userInfo = userFindDB.dataValues;
       delete userInfo.password;
       delete userInfo.emailAuth;

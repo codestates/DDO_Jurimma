@@ -66,6 +66,9 @@ module.exports = {
 
     // ! 있으면 로그인
     else {
+      if (!userUsingEmail.dataValues.isOAuth) {
+        res.status(400).json({ message: 'You Already Signed up' });
+      }
       delete userUsingEmail.dataValues.password;
       delete userUsingEmail.dataValues.emailAuth;
       delete userUsingEmail.dataValues.createdAt;
