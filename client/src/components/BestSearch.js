@@ -5,11 +5,11 @@ import styled, { keyframes } from 'styled-components';
 
 const BestSearchWrap = styled.div`
   /* flex: 5 1 auto; // 콘텐츠 전체 길이 생각해서 후에 max 설정해주기 */
-  height: 40vh;
+  height: 38vh;
   box-sizing: border-box;
-  background-color: pink;
-  /* margin-top: 20px; */
-  border: 1px solid red;
+  border: 2px solid #fff;
+  border-radius: 20px;
+  padding: 20px;
   > .bestSearchTitle {
   }
   > .bestSearchList {
@@ -19,27 +19,21 @@ const BestSearchWrap = styled.div`
     height: 100%;
   }
 `;
-const flip = keyframes`
-  0% {
-    width:0%;
-  }
-  100% {
-    width:100%;
-  }
-`;
 const BestSearchList = styled.ul`
-  width: 49.5%;
+  width: 43%;
   display: flex;
   flex-direction: column;
   height: 100%;
   > li {
     flex: 1 1 auto;
     color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     /* display: grid;
     place-items: center; */
-    background-color: transparent;
     transition: all 1s;
-    margin-top: 5px;
+    margin-top: 20px;
     cursor: pointer;
     position: relative;
     > span {
@@ -65,6 +59,17 @@ const BestSearchList = styled.ul`
       width: 100%;
       height: 2px;
     }
+    > .percentage {
+      margin-right: 10px;
+      color: #ddd;
+      font-size: 12px;
+    }
+    > .ranking {
+      color: #fff;
+    }
+  }
+  > li:nth-child(1) {
+    margin-top: 0;
   }
 `;
 
@@ -101,13 +106,15 @@ function BestSearch({ setWord }) {
 
   return (
     <BestSearchWrap>
-      <div className='bestSearchTitle'>실시간 검색어 Top 10</div>
       <div className='bestSearchList'>
         <BestSearchList>
           {bestSearchState.searchData.slice(0, 5).map((el, idx) => {
             return (
               <li key={el.id} onClick={() => setWord(el.wordName)}>
-                {el.wordName}
+                <div className='ranking'>
+                  {idx + 1}. {el.wordName}
+                </div>
+                <div className='percentage'>{(el.count * 100) / 1000}%</div>
                 <span className={idx === listNum ? 'highlight' : ''}></span>
               </li>
             );
@@ -117,7 +124,10 @@ function BestSearch({ setWord }) {
           {bestSearchState.searchData.slice(5).map((el, idx) => {
             return (
               <li key={el.id} onClick={() => setWord(el.wordName)}>
-                {el.wordName}
+                <div className='ranking'>
+                  {idx + 6}. {el.wordName}
+                </div>
+                <div className='percentage'>{(el.count * 100) / 1000}%</div>
                 <span className={idx + 5 === listNum ? 'highlight' : ''}></span>
               </li>
             );
