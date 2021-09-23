@@ -71,6 +71,8 @@ function App() {
           title: '로그인이 완료되었습니다!',
           text: '만반잘부 😆 (만나서 반갑고 잘 부탁해)!',
           icon: 'success',
+        }).then(() => {
+          window.location.replace('/');
         });
       })
       .catch((err) => {

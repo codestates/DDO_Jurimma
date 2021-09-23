@@ -271,8 +271,9 @@ function LoginOrSignUp() {
           title: '로그인이 완료되었습니다!',
           text: '만반잘부 😆 (만나서 반갑고 잘 부탁해)!',
           icon: 'success',
+        }).then(() => {
+          closeLoginOrSignupModal(false); // 모달 끄기
         }); // sweet alert로 안내
-        closeLoginOrSignupModal(false); // 모달 끄기
       }
     } catch (error) {
       // console.log(error.response.data.message);
