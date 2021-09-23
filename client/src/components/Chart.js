@@ -2,7 +2,7 @@
 import styled, { keyframes } from 'styled-components';
 import BestSearch from './BestSearch';
 import '../App.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setChartModal } from '../actions/index';
 import { useEffect } from 'react';
 
@@ -19,7 +19,9 @@ const ChartWrap = styled.div`
   }
 `;
 
-const ChartModalWrap = styled.div`
+const ChartBar = styled.div`
+  height: 40vh;
+  border: 1px solid red;
   > button {
     width: 100%;
     border-radius: 20px;
@@ -36,7 +38,7 @@ const ChartModalWrap = styled.div`
   }
 `;
 
-function Chart({ realTime }) {
+function Chart({ setWord }) {
   const dispatch = useDispatch();
   const url = process.env.REACT_APP_API_URL || `http://localhost:3000`;
   const openChartGraphModal = (isOpen) => {
@@ -45,10 +47,8 @@ function Chart({ realTime }) {
 
   return (
     <ChartWrap>
-      <ChartModalWrap>
-        <button onClick={() => openChartGraphModal(true)}> 실시간 차트</button>
-      </ChartModalWrap>
-      <BestSearch realTime={realTime} />
+      <ChartBar>{/* 이부분에 바 그래프 들어가야함 */}</ChartBar>
+      <BestSearch setWord={setWord} />
     </ChartWrap>
   );
 }

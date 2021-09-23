@@ -1,6 +1,6 @@
 // 실시간 순위 그래프 나타날 모달
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setChartModal } from '../actions/index';
 import { Bar } from 'react-chartjs-2';
 
@@ -52,14 +52,15 @@ const ChartGraphdrop = styled.div`
   }
 `;
 
-function ChartModal({ realTime }) {
+function ChartModal() {
   const dispatch = useDispatch();
+  const bestSearchState = useSelector((state) => state.bestSearchReducer);
   const closeChartGraphModal = (isOpen) => {
     dispatch(setChartModal(isOpen));
   }; // 로그인 모달 닫는 함수
 
-  const bestWordName = realTime.map((el) => el.wordName);
-  const bestCount = realTime.map((el) => el.count);
+  const bestWordName = bestSearchState.searchData.map((el) => el.wordName);
+  const bestCount = bestSearchState.searchData.map((el) => el.count);
   const bestCountPercent = bestCount.map((el) => (el * 100) / 1000);
   const chartData = {
     labels: bestWordName,
