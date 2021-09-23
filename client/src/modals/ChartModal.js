@@ -58,15 +58,15 @@ function ChartModal({ realTime }) {
     dispatch(setChartModal(isOpen));
   }; // 로그인 모달 닫는 함수
 
-  console.log('realreal', realTime);
   const bestWordName = realTime.map((el) => el.wordName);
   const bestCount = realTime.map((el) => el.count);
+  const bestCountPercent = bestCount.map((el) => (el * 100) / 1000);
   const chartData = {
     labels: bestWordName,
     datasets: [
       {
-        label: '실시간 TOP 10',
-        data: bestCount,
+        label: '실시간 TOP 10 (%)',
+        data: bestCountPercent,
         backgroundColor: [
           'rgba(255, 99, 132, 0.5)',
           'rgba(255, 159, 64, 0.5)',
