@@ -342,7 +342,7 @@ function EditUserInfo() {
           onKeyPress={handleKeyPressEdit}
           value={editUser.username}
           placeholder='변경할 이름 (영문과 한글만 입력 가능)'
-          disabled={state.userInfo.isOAath ? 'true' : 'false'}
+          disabled={state.userInfo.isOAath ? 'disabled' : ''}
           // disabled={true}
         ></input>
         <input
@@ -351,7 +351,7 @@ function EditUserInfo() {
           onKeyPress={handleKeyPressEdit}
           value={editUser.oldPassword}
           placeholder='기존 비밀번호'
-          disabled={state.userInfo.isOAath ? 'true' : 'false'}
+          disabled={state.userInfo.isOAath ? 'disabled' : ''}
         ></input>
         <input
           type='password'
@@ -359,7 +359,7 @@ function EditUserInfo() {
           onKeyPress={handleKeyPressEdit}
           value={editUser.newPassword}
           placeholder='변경할 비밀번호 (최소 8자이상, 대문자, 특수문자 포함)'
-          disabled={state.userInfo.isOAath ? 'true' : 'false'}
+          disabled={state.userInfo.isOAath ? 'disabled' : ''}
         ></input>
         <input
           type='password'
@@ -367,7 +367,7 @@ function EditUserInfo() {
           onChange={handleEditInputValue('newPasswordRe')}
           onKeyPress={handleKeyPressEdit}
           value={editUser.newPasswordRe}
-          disabled={state.userInfo.isOAath ? 'true' : 'false'}
+          disabled={state.userInfo.isOAath ? 'disabled' : ''}
         ></input>
         <div id='buttonWrap'>
           <button
