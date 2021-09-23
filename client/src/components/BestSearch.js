@@ -35,7 +35,7 @@ const BestSearchList = styled.ul`
   }
   > li.highlight {
     background-color: #b4aee8;
-    animation: ${flip} 6s ease infinite;
+    animation: ${flip} 3s ease infinite;
   }
 `;
 
@@ -67,7 +67,7 @@ function BestSearch({ realTime }) {
     } else {
       setListNum(listNum + 1);
     }
-  }, 6000);
+  }, 3000);
 
   return (
     <BestSearchWrap>

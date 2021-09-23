@@ -271,8 +271,9 @@ function LoginOrSignUp() {
           title: '로그인이 완료되었습니다!',
           text: '만반잘부 😆 (만나서 반갑고 잘 부탁해)!',
           icon: 'success',
+        }).then(() => {
+          closeLoginOrSignupModal(false); // 모달 끄기
         }); // sweet alert로 안내
-        closeLoginOrSignupModal(false); // 모달 끄기
       }
     } catch (error) {
       // console.log(error.response.data.message);
@@ -288,6 +289,13 @@ function LoginOrSignUp() {
         swal({
           title: '로그인에 실패하였습니다',
           text: '이메일 인증이 완료되지 않았습니다. 다시 한번 확인해주세요!',
+          icon: 'warning',
+        }); // swal로 안내
+      } else if (error.response.data.message === 'You Already Login') {
+        // 이메일 인증이 완료되지 않은 경우
+        swal({
+          title: '로그인에 실패하였습니다',
+          text: '이미 해당 이메일로 가입한 계정이 있습니다. 다시 한번 확인해주세요!',
           icon: 'warning',
         }); // swal로 안내
       } else {
