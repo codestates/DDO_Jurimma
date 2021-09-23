@@ -19,7 +19,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLogin, setAccessToken, setUserInfo } from './actions/index';
 import NewContent from './modals/NewContent';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 require('dotenv').config();
@@ -30,8 +30,19 @@ function App() {
   const userModalState = useSelector((state) => state.userModalReducer);
   const history = useHistory();
   const dispatch = useDispatch();
-  console.log('userInfoState: ', userInfoState);
-  console.log('userModalState: ', userModalState);
+
+  const [topbutton, setTopButton] = useState(false);
+  // scroll이 지정하는 곳에 닿았을 때부터 최상위로 가는 버튼 생기게 만들어주는 역할
+
+  const scrollTopButtonChange = () => {
+    if (window.scrollY >= 1500) {
+      setTopButton(true);
+    } else {
+      setTopButton(false);
+    }
+  };
+
+  window.addEventListener('scroll', scrollTopButtonChange);
 
   useEffect(() => {
     // console.log(JSON.parse(localStorage.userInfo).id);
@@ -119,6 +130,8 @@ function App() {
         </header>
 
         <section className='mainContent'>
+          {topbutton ? <div id='topBtn'></div> : null}
+
           <Route exact path='/'>
             <LandingPage />
           </Route>

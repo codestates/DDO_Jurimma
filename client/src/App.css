@@ -82,6 +82,31 @@ body::-webkit-scrollbar {
   box-sizing: border-box;
 }
 
+#topBtn {
+  width: 80px;
+  height: 80px;
+  position: fixed;
+  top: 80%;
+  left: 90%;
+  background-image: url('./images/scrollUpBtn.svg');
+  z-index: 10;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 1000px) {
+  #topBtn {
+    left: 87%;
+  }
+}
+@media only screen and (max-width: 500px) {
+  #topBtn {
+    width: 60px;
+    height: 60px;
+    left: 86%;
+  }
+}
+
 #typingEffect {
   font-family: 'NEXON Lv2 Gothic';
   font-size: max(2.8vw, 15px);
