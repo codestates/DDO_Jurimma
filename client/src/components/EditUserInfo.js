@@ -336,39 +336,74 @@ function EditUserInfo() {
           {state.userInfo.username}
           <span>님, 수정을 원하시나요?</span>
         </OldUserName>
-        <input
-          type='text'
-          onChange={handleEditInputValue('username')}
-          onKeyPress={handleKeyPressEdit}
-          value={editUser.username}
-          placeholder='변경할 이름 (영문과 한글만 입력 가능)'
-          disabled={state.userInfo.isOAath ? 'disabled' : ''}
-          // disabled={true}
-        ></input>
-        <input
-          type='password'
-          onChange={handleEditInputValue('oldPassword')}
-          onKeyPress={handleKeyPressEdit}
-          value={editUser.oldPassword}
-          placeholder='기존 비밀번호'
-          disabled={state.userInfo.isOAath ? 'disabled' : ''}
-        ></input>
-        <input
-          type='password'
-          onChange={handleEditInputValue('newPassword')}
-          onKeyPress={handleKeyPressEdit}
-          value={editUser.newPassword}
-          placeholder='변경할 비밀번호 (최소 8자이상, 대문자, 특수문자 포함)'
-          disabled={state.userInfo.isOAath ? 'disabled' : ''}
-        ></input>
-        <input
-          type='password'
-          placeholder='변경할 비밀번호 확인'
-          onChange={handleEditInputValue('newPasswordRe')}
-          onKeyPress={handleKeyPressEdit}
-          value={editUser.newPasswordRe}
-          disabled={state.userInfo.isOAath ? 'disabled' : ''}
-        ></input>
+        {state.userInfo.isOAuth ? (
+          <>
+            <input
+              type='text'
+              onChange={handleEditInputValue('username')}
+              onKeyPress={handleKeyPressEdit}
+              value={editUser.username}
+              placeholder='변경할 이름 (영문과 한글만 입력 가능)'
+              disabled
+              // disabled={true}
+            ></input>
+            <input
+              type='password'
+              onChange={handleEditInputValue('oldPassword')}
+              onKeyPress={handleKeyPressEdit}
+              value={editUser.oldPassword}
+              placeholder='기존 비밀번호'
+              disabled
+            ></input>
+            <input
+              type='password'
+              onChange={handleEditInputValue('newPassword')}
+              onKeyPress={handleKeyPressEdit}
+              value={editUser.newPassword}
+              placeholder='변경할 비밀번호 (최소 8자이상, 대문자, 특수문자 포함)'
+              disabled
+            ></input>
+            <input
+              type='password'
+              placeholder='변경할 비밀번호 확인'
+              onChange={handleEditInputValue('newPasswordRe')}
+              onKeyPress={handleKeyPressEdit}
+              value={editUser.newPasswordRe}
+              disabled
+            ></input>
+          </>
+        ) : (
+          <>
+            <input
+              type='text'
+              onChange={handleEditInputValue('username')}
+              onKeyPress={handleKeyPressEdit}
+              value={editUser.username}
+              placeholder='변경할 이름 (영문과 한글만 입력 가능)'
+            ></input>
+            <input
+              type='password'
+              onChange={handleEditInputValue('oldPassword')}
+              onKeyPress={handleKeyPressEdit}
+              value={editUser.oldPassword}
+              placeholder='기존 비밀번호'
+            ></input>
+            <input
+              type='password'
+              onChange={handleEditInputValue('newPassword')}
+              onKeyPress={handleKeyPressEdit}
+              value={editUser.newPassword}
+              placeholder='변경할 비밀번호 (최소 8자이상, 대문자, 특수문자 포함)'
+            ></input>
+            <input
+              type='password'
+              placeholder='변경할 비밀번호 확인'
+              onChange={handleEditInputValue('newPasswordRe')}
+              onKeyPress={handleKeyPressEdit}
+              value={editUser.newPasswordRe}
+            ></input>
+          </>
+        )}
         <div id='buttonWrap'>
           <button
             onClick={state.userInfo.isOAuth ? oauthEdit : handleEdit}

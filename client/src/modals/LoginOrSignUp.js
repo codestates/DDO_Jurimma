@@ -291,6 +291,13 @@ function LoginOrSignUp() {
           text: '이메일 인증이 완료되지 않았습니다. 다시 한번 확인해주세요!',
           icon: 'warning',
         }); // swal로 안내
+      } else if (error.response.data.message === 'You Already Login') {
+        // 이메일 인증이 완료되지 않은 경우
+        swal({
+          title: '로그인에 실패하였습니다',
+          text: '이미 해당 이메일로 가입한 계정이 있습니다. 다시 한번 확인해주세요!',
+          icon: 'warning',
+        }); // swal로 안내
       } else {
         swal({
           title: 'Internal Server Error',
