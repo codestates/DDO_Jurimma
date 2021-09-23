@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLogin, setAccessToken, setUserInfo } from './actions/index';
 import NewContent from './modals/NewContent';
 import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 require('dotenv').config();
 axios.defaults.withCredentials = true;
@@ -27,6 +28,7 @@ axios.defaults.withCredentials = true;
 function App() {
   const userInfoState = useSelector((state) => state.userInfoReducer);
   const userModalState = useSelector((state) => state.userModalReducer);
+  const history = useHistory();
   const dispatch = useDispatch();
   console.log('userInfoState: ', userInfoState);
   console.log('userModalState: ', userModalState);
@@ -69,8 +71,6 @@ function App() {
           title: '로그인이 완료되었습니다!',
           text: '만반잘부 😆 (만나서 반갑고 잘 부탁해)!',
           icon: 'success',
-        }).then(() => {
-          window.location.replace('/');
         });
       })
       .catch((err) => {
