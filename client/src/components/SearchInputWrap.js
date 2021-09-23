@@ -114,16 +114,30 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
     )
       return;
     if (word !== '') {
-      if (event.code === 'ArrowDown' && autoCompResult.length - 1 > selected) {
-        setSelected(selected + 1); // 선택된 index 변경
+      if (event.code === 'ArrowDown') {
+        console.log('selected: ', selected);
+        if (autoCompResult.length - 1 > selected) {
+          console.log('여기임1');
+          setSelected(selected + 1); // 선택된 index 변경
+        } else if (selected === autoCompResult.length - 1) {
+          console.log('여기임2');
+          setSelected(0);
+        }
       }
       if (event.code === 'ArrowUp' && selected >= 0) {
         setSelected(selected - 1); // 선택된 index 변경
       }
       if (event.code === 'Enter' && selected >= -1) {
-        searchWord(event, autoCompResult[selected] || event.target.value); // 검색하기
-        setSelected(-1); // 선택된 index 다시 처음값으로
+        if (selected === -1) {
+          searchWord(event, autoCompResult[selected] || event.target.value); // 검색하기
+          setSelected(-1); // 선택된 index 다시 처음값으로
+        } else {
+          setWord(autoCompResult[selected]); // input창 변경
+          setSelected(-1); // 선택된 index 다시 처음값으로
+        }
       }
+      // 만약 selected -1이고 엔터면 바로 검색
+      // 만약 selected -1이 아니고 엔터하면 setword로 바로 변경
     }
   };
 
@@ -195,6 +209,8 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
           onKeyUp={(event) => handleKeyUp(event)}
           value={word}
           autoComplete='off'
+          onBlur={() => setIsShowAutoComp(false)}
+          onFocus={() => setIsShowAutoComp(true)}
         ></input>
         <div id='buttonWrap'>
           <button onClick={() => setWord('')}>&times;</button>
@@ -207,7 +223,7 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
         <SearchAutoComp
           autoCompResult={autoCompResult}
           selected={selected}
-          searchWord={searchWord}
+          setWord={setWord}
         />
       ) : null}
     </SearchInputBox>

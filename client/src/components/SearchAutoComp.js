@@ -20,6 +20,7 @@ const AutoComp = styled.div`
       border-radius: 30px;
       background-color: #440a67;
       color: #fff;
+      opacity: 0.3;
     }
     &.selected {
       border-radius: 30px;
@@ -29,7 +30,7 @@ const AutoComp = styled.div`
   }
 `;
 
-function SearchAutoComp({ autoCompResult, searchWord, selected }) {
+function SearchAutoComp({ autoCompResult, setWord, selected }) {
   return (
     <SearchAutoCompWrap>
       <AutoComp>
@@ -39,7 +40,7 @@ function SearchAutoComp({ autoCompResult, searchWord, selected }) {
               key={index}
               className={selected === index ? 'selected' : ''}
               value={data}
-              onClick={(event) => searchWord(event, data)}
+              onClick={() => setWord(data)}
             >
               {data}
             </li>

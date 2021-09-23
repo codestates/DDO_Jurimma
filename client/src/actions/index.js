@@ -17,6 +17,8 @@ export const SET_USER_CONTENT = 'SET_USER_CONTENT'; // 유저가 쓴 글 받아�
 export const DELETE_CONTENT = 'DELETE_CONTENT'; // 유저가 쓴 글 삭제
 export const EDIT_CONTENT = 'EDIT_CONTENT'; // 유저가 쓴 글 수정
 
+export const SET_BEST_SEAHCH = 'SET_BEST_SEAHCH'; // 실시간 검색어 보관
+
 export const setLoginOrSignupModal = (isOpen) => {
   return {
     type: SET_MODAL_LOGINORSIGNUP,
@@ -118,5 +120,12 @@ export const editContent = (contentId, wordMean) => {
     type: EDIT_CONTENT,
     contentId,
     wordMean,
+  };
+};
+
+export const setSearchList = (searchData) => {
+  return {
+    type: SET_BEST_SEAHCH,
+    searchData,
   };
 };

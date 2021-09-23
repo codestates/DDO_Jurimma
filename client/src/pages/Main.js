@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import ChartModal from '../modals/ChartModal';
 import { useDispatch, useSelector } from 'react-redux';
+import { setSearchList } from '../actions/index';
 axios.defaults.withCredentials = true;
 
 const MainWrap = styled.div`
@@ -26,9 +27,9 @@ const MainWrap = styled.div`
 
 function Main() {
   const state = useSelector((state) => state.userModalReducer);
+  const dispatch = useDispatch();
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
-  const [realTime, setRealTime] = useState([]);
-
+  const [word, setWord] = useState(''); // 입력창
   function useInterval(callback, delay) {
     const savedCallback = useRef();
 
@@ -53,7 +54,7 @@ function Main() {
     axios
       .get(`${url}/word/chart`)
       .then((res) => {
-        setRealTime(res.data.data);
+        dispatch(setSearchList(res.data.data));
       })
       .catch((err) => console.log(err));
   }, 60000);
@@ -62,17 +63,17 @@ function Main() {
     axios
       .get(`${url}/word/chart`)
       .then((res) => {
-        setRealTime(res.data.data);
+        dispatch(setSearchList(res.data.data));
       })
       .catch((err) => console.log(err));
   }, []);
 
   return (
     <>
-      {state.isShowChartModal ? <ChartModal realTime={realTime} /> : null}
+      {state.isShowChartModal ? <ChartModal /> : null}
       <MainWrap>
-        <Search />
-        <Chart realTime={realTime} />
+        <Search word={word} setWord={setWord} />
+        <Chart setWord={setWord} />
       </MainWrap>
     </>
   );

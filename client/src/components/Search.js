@@ -19,11 +19,10 @@ const SearchWrap = styled.div`
   }
 `;
 
-function Search() {
+function Search({ word, setWord }) {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const initialTags = JSON.parse(localStorage.getItem('searchHistory')) || [];
   const [tags, setTags] = useState(initialTags); // 단어 검색 기록
-  const [word, setWord] = useState(''); // 입력창
   const [wordResult, setWordResult] = useState([]); // 검색 결과
   const [autoCompResult, setAutoCompResult] = useState([]); // 자동 검색 결과
   const [notSearched, setNotSearched] = useState(true); // 검색기능 사용해 보았는지 여부
