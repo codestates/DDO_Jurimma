@@ -99,9 +99,10 @@ function LogOut() {
           title: '로그아웃 되었습니다',
           text: '다또봐 👋 (다음에 또 봐~)',
           icon: 'success',
+        }).then(() => {
+          closeLogoutModal(false);
         });
         // console.log(state);
-        closeLogoutModal(false);
         // history.push('/main');
       })
       .catch((err) => {
@@ -110,9 +111,10 @@ function LogOut() {
           title: 'Internal Server Error',
           text: '죄송합니다. 다시 로그인해주세요.',
           icon: 'warning',
+        }).then(() => {
+          dispatch(setLogout());
+          closeLogoutModal(false);
         }); // swal로 안내
-        dispatch(setLogout());
-        closeLogoutModal(false);
         // history.push('/main');
       });
   };

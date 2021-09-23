@@ -104,14 +104,15 @@ function Signout() {
         headers: { authorization: `Bearer ${state.accessToken}}` },
       })
       .then(() => {
-        dispatch(setLogout());
         swal({
           title: '회원탈퇴가 완료되었습니다.',
           text: '슬빠... 😢 (슬프지만 빠이..ㅠ)',
           icon: 'success',
+        }).then(() => {
+          closeEditContentModal(false);
+          dispatch(setLogout());
+          history.push('/');
         });
-        closeEditContentModal(false);
-        history.push('/');
       })
       .catch((error) => {
         console.log(error);
@@ -120,15 +121,17 @@ function Signout() {
             title: '회원탈퇴가 실패하였습니다.',
             text: '죄송합니다😞 회원가입 후 24시간 뒤에 탈퇴가 가능합니다.',
             icon: 'warning',
+          }).then(() => {
+            dispatch(setSignOutModal(false));
           });
-          dispatch(setSignOutModal(false));
         } else {
           swal({
             title: 'Internal Server Error',
             text: '죄송합니다. 다시 로그인 후 해주세요.',
             icon: 'warning',
+          }).then(() => {
+            dispatch(setLogout());
           }); // swal로 안내
-          dispatch(setLogout());
         }
       });
   };
