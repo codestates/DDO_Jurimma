@@ -73,14 +73,17 @@ function Search() {
   }; // 검색내역 삭제하기
 
   const getAutoComp = async (word) => {
-    if (
-      word !== '' && // 무언가가 입력되어 있고
-      !checkModule.IsValidateWordName(word) && // 입력된 값이 자음 or 모음만 있는지 여부
-      checkModule.LimitWordName(word) // 입력된 값이 5글자 이상인지 판별 (미만일때만 요청)
-    ) {
-      let getResult = await axios.get(`${url}/word?query=${word}`);
-      setAutoCompResult(getResult.data.data);
-      // console.log(getResult.data);
+    if (word !== '') {
+      if (
+        !checkModule.IsValidateWordName(word) && // 입력된 값이 자음 or 모음만 있는지 여부
+        checkModule.LimitWordName(word) // 입력된 값이 5글자 이상인지 판별 (미만일때만 요청)
+      ) {
+        let getResult = await axios.get(`${url}/word?query=${word}`);
+        setAutoCompResult(getResult.data.data);
+      }
+    } // 무언가가 입력되어 있고
+    else {
+      setAutoCompResult([]); // 자동완성창 정리 및 끄기
     }
   }; // 자동완성 목록 요청하는 함수
 
