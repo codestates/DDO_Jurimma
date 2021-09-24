@@ -108,7 +108,7 @@ function BestSearch({ setWord }) {
     .map((el) => el.count)
     .reduce((acc, cur) => {
       return acc + cur;
-    });
+    }, 0);
   const bestCountPercent = bestSearchState.searchData.map((el) =>
     ((el.count * 100) / bestWordAllCount).toFixed(2)
   );
