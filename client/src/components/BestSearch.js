@@ -104,6 +104,14 @@ function BestSearch({ setWord }) {
     }
   }, 3000);
 
+  const bestWordAllCount = bestSearchState.searchData
+    .map((el) => el.count)
+    .reduce((acc, cur) => {
+      return acc + cur;
+    });
+  const bestCountPercent = bestSearchState.searchData.map((el) =>
+    ((el.count * 100) / bestWordAllCount).toFixed(2)
+  );
   return (
     <BestSearchWrap>
       <div className='bestSearchList'>
@@ -114,7 +122,9 @@ function BestSearch({ setWord }) {
                 <div className='ranking'>
                   {idx + 1}. {el.wordName}
                 </div>
-                <div className='percentage'>{(el.count * 100) / 1000}%</div>
+                <div className='percentage'>
+                  {((el.count * 100) / bestWordAllCount).toFixed(2)}%
+                </div>
                 <span className={idx === listNum ? 'highlight' : ''}></span>
               </li>
             );
@@ -127,7 +137,9 @@ function BestSearch({ setWord }) {
                 <div className='ranking'>
                   {idx + 6}. {el.wordName}
                 </div>
-                <div className='percentage'>{(el.count * 100) / 1000}%</div>
+                <div className='percentage'>
+                  {((el.count * 100) / bestWordAllCount).toFixed(2)}%
+                </div>
                 <span className={idx + 5 === listNum ? 'highlight' : ''}></span>
               </li>
             );
