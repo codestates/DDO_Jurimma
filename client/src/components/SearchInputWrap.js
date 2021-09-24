@@ -24,7 +24,6 @@ const HeaderKeyFrame = keyframes`
 const SearchInputBox = styled.div`
   width: 100%;
   box-sizing: border-box;
-  margin-top: 40px;
   position: relative;
   @media only screen and (max-width: 1399px) {
     width: 100%;

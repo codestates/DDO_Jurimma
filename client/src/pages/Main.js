@@ -15,7 +15,7 @@ const MainWrap = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  margin-top: 200px;
+  margin-top: 120px;
   flex-wrap: wrap;
   @media only screen and (max-width: 1399px) {
     width: 80vw;
