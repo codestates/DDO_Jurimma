@@ -25,7 +25,7 @@ const ChartWrap = styled.div`
 `;
 
 const ChartBar = styled.div`
-  height: 55vh;
+  height: 45vh;
 `;
 
 function Chart({ setWord }) {
