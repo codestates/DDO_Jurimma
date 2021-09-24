@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   setNewContentModal,
   setLogout,
-  setUserInfo,
   setLogoutModal,
 } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -287,7 +286,6 @@ const ProfileWrap = styled.div`
 function SearchMore() {
   let query = window.location.search.split('=')[1]; // "?wordName=~~"에서 "="뒤 쿼리를 뜯어옴
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
-  const userInfoState = useSelector((state) => state.userInfoReducer);
   const dispatch = useDispatch();
   const history = useHistory();
   const state = useSelector((state) => state.userInfoReducer);
@@ -296,6 +294,15 @@ function SearchMore() {
   const [newQuery, setNewQuery] = useState(''); // 새로 검색할 줄임말
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingContent, setIsLoadingContent] = useState(false);
+  const [orderBy, setOrderBy] = useState('byThumbsup'); // 필터링 기준
+
+  const ordering = (value) => {
+    if (value === 'byThumbsup') {
+      setOrderBy('byThumbsup');
+    } else {
+      setOrderBy('byUpdateAt');
+    }
+  };
 
   const closeLogoutModal = (isOpen) => {
     dispatch(setLogoutModal(isOpen));
@@ -304,6 +311,7 @@ function SearchMore() {
   const openNewContentModal = (isOpen) => {
     dispatch(setNewContentModal(isOpen));
   }; // 새로 글쓰는 모달 키는 함수(=== true값으로 만들어줌)
+
   const [fetching, setFetching] = useState(false); // 추가 데이터를 로드하는지 아닌지를 담기위한 state
   const [isEnd, setIsEnd] = useState(true);
 
@@ -321,7 +329,7 @@ function SearchMore() {
     }
     // API로부터 받아온 페이징 데이터를 이용해 다음 데이터를 로드
     let getResult = await axios.get(
-      `${url}/meaning?word=${query}&offset=${searchMoreData.length}&limit=4`,
+      `${url}/meaning?word=${query}&offset=${searchMoreData.length}&limit=4&sort=${orderBy}`,
       {
         headers: { authorization: `Bearer ${state.accessToken}` },
       }
@@ -400,7 +408,7 @@ function SearchMore() {
       getMoreSearch(query);
       setIsEnd(true);
     }
-  }, [state.userInfo.experience]); // 렌더 되고 바로 실행 -> 새글 추가할때마다 렌더링되게 수정
+  }, [state.userInfo.experience, orderBy]); // 렌더 되고 바로 실행 -> 새글 추가할때마다 렌더링되게 수정
 
   const updateThumbsup = async (contentId) => {
     try {
@@ -444,7 +452,7 @@ function SearchMore() {
         query = window.location.pathname.split('=')[1];
       }
       let getResult = await axios.get(
-        `${url}/meaning?word=${query}&offset=0&limit=4`,
+        `${url}/meaning?word=${query}&offset=0&limit=4&sort=${orderBy}`,
         {
           headers: { authorization: `Bearer ${state.accessToken}` },
         }
@@ -541,9 +549,9 @@ function SearchMore() {
             <button onClick={() => openNewContentModal(true)}>
               새 줄임말 만들기
             </button>
-            <select>
-              <option>추천순</option>
-              <option>최신순</option>
+            <select value={orderBy} onChange={(e) => ordering(e.target.value)}>
+              <option value='byThumbsup'>추천순</option>
+              <option value='byUpdateAt'>최신순</option>
             </select>
           </div>
           {isLoading || isLoadingContent ? (
@@ -611,7 +619,7 @@ function SearchMore() {
                             <p
                               onClick={() => {
                                 const isLiked = data.thumbsup.filter(
-                                  (el) => el.id === userInfoState.userInfo.id
+                                  (el) => el.id === state.userInfo.id
                                 );
                                 if (isLiked.length > 0) {
                                   // 만약 내가 좋아요를 눌렀었다면 swal 처리하고 막음
