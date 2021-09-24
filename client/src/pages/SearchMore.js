@@ -287,6 +287,7 @@ const ProfileWrap = styled.div`
 function SearchMore() {
   let query = window.location.search.split('=')[1]; // "?wordName=~~"에서 "="뒤 쿼리를 뜯어옴
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
+  const userInfoState = useSelector((state) => state.userInfoReducer);
   const dispatch = useDispatch();
   const history = useHistory();
   const state = useSelector((state) => state.userInfoReducer);
@@ -302,8 +303,6 @@ function SearchMore() {
   const openNewContentModal = (isOpen) => {
     dispatch(setNewContentModal(isOpen));
   }; // 새로 글쓰는 모달 키는 함수(=== true값으로 만들어줌)
-
-  // ---------------------------------------------------
   const [fetching, setFetching] = useState(false); // 추가 데이터를 로드하는지 아닌지를 담기위한 state
   const [isEnd, setIsEnd] = useState(true);
 
@@ -573,7 +572,19 @@ function SearchMore() {
                           <span
                             className='thumbsupWrap'
                             onClick={() => {
-                              updateThumbsup(data.id);
+                              if (
+                                data.thumbsup.includes(
+                                  userInfoState.userInfo.username
+                                )
+                              ) {
+                                // 만약 내가 좋아요를 눌렀었다면 swal 처리하고 막음
+                                swal({
+                                  title: '이미 좋아요를 누른 글입니다.',
+                                  icon: 'warning',
+                                });
+                              } else {
+                                updateThumbsup(data.id);
+                              }
                             }}
                           >
                             <FontAwesomeIcon icon={faThumbsUp} />
