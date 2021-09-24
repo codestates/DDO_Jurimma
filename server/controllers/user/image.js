@@ -5,7 +5,15 @@ const {
 } = require('../tokenFunction/accessToken');
 const { refreshAuthorized } = require('../tokenFunction/refreshToken');
 const aws = require('aws-sdk');
-aws.config.loadFromPath(__dirname + '/../../config/s3.json');
+
+// aws.config.loadFromPath(__dirname + '/../../config/s3.json');
+
+aws.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_ACCESS_SECRET_KEY,
+  region: 'ap-northeast-2',
+});
+
 const s3 = new aws.S3();
 
 module.exports = {
