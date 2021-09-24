@@ -295,6 +295,7 @@ function SearchMore() {
   const [searchMoreTitle, setSearchMoreTitle] = useState(''); // 보여질 타이틀
   const [newQuery, setNewQuery] = useState(''); // 새로 검색할 줄임말
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingContent, setIsLoadingContent] = useState(false);
 
   const closeLogoutModal = (isOpen) => {
     dispatch(setLogoutModal(isOpen));
@@ -310,8 +311,15 @@ function SearchMore() {
     // 추가 데이터를 로드하는 상태로 전환
     setFetching(true);
 
+    setSearchMoreData([
+      ...searchMoreData,
+      { id: 0, createdAt: 'T', thumbsup: [] },
+    ]);
+
+    if (!window.location.search) {
+      query = window.location.pathname.split('=')[1];
+    }
     // API로부터 받아온 페이징 데이터를 이용해 다음 데이터를 로드
-    console.log('스크롤');
     let getResult = await axios.get(
       `${url}/meaning?word=${query}&offset=${searchMoreData.length}&limit=4`,
       {
@@ -322,8 +330,10 @@ function SearchMore() {
       // 응답에 accessToken이 담겨있다면
       dispatch(setAccessToken(getResult.data.accessToken));
     }
-    // console.log(getResult.data);
     if (getResult.data.data.length === 0) {
+      const loadedData = searchMoreData.slice();
+      loadedData.push({ id: 'done', createdAt: 'T', thumbsup: [] });
+      setSearchMoreData(loadedData);
       setIsEnd(false);
     } else {
       setSearchMoreData([...searchMoreData, ...getResult.data.data]);
@@ -342,6 +352,7 @@ function SearchMore() {
     //   },
     // ]);
     // 추가 데이터 로드 끝
+
     setFetching(false);
   };
 
@@ -356,7 +367,11 @@ function SearchMore() {
       isEnd === true
     ) {
       // 페이지 끝에 도달하면 추가 데이터를 받아온다
+      setIsLoadingContent(false);
       axiosMoreWordMeaning();
+      setIsLoadingContent(true);
+    } else if (isEnd === false && isLoadingContent === true) {
+      setIsLoadingContent(false);
     }
   };
 
@@ -368,6 +383,7 @@ function SearchMore() {
       window.removeEventListener('scroll', handleScroll);
     };
   });
+
   // -----------------------------------------------------------------------------------------------
   useEffect(() => {
     if (state.userInfo.id === -1) {
@@ -384,10 +400,8 @@ function SearchMore() {
       getMoreSearch(query);
       setIsEnd(true);
     }
-    // getMoreSearch(query);
-  }, [state]); // 렌더 되고 바로 실행 -> 새글 추가할때마다 렌더링되게 수정
+  }, [state.userInfo.experience]); // 렌더 되고 바로 실행 -> 새글 추가할때마다 렌더링되게 수정
 
-  // useEffect(() => {}, []); // 좋아요 업데이트를 위한 함수
   const updateThumbsup = async (contentId) => {
     try {
       let updateLike = await axios.patch(
@@ -400,10 +414,17 @@ function SearchMore() {
       if (updateLike.data.accessToken) {
         dispatch(setAccessToken(updateLike.data.accessToken));
       }
-      const getResult = await axios.get(`${url}/user`, {
-        headers: { authorization: `Bearer ${state.accessToken}` },
-      }); //새로 유저 정보 요청하는 axios 요청
-      dispatch(setUserInfo(getResult.data.data));
+      const newSearchData = searchMoreData.slice();
+      for (let i = 0; i < newSearchData.length; i++) {
+        if (newSearchData[i].id === contentId) {
+          newSearchData[i].thumbsup.push({
+            username: state.userInfo.username,
+            id: state.userInfo.id,
+          });
+          break;
+        }
+      }
+      setSearchMoreData(newSearchData);
     } catch (error) {
       console.log(error);
       swal({
@@ -433,7 +454,6 @@ function SearchMore() {
         // 응답에 accessToken이 담겨있다면
         dispatch(setAccessToken(getResult.data.accessToken));
       }
-      // console.log(getResult.data);
       setSearchMoreData(getResult.data.data);
       setSearchMoreTitle(decodeURI(query));
       setIsLoading(true);
@@ -473,6 +493,7 @@ function SearchMore() {
           setNewQuery('');
         });
       } else {
+        setIsEnd(true);
         getMoreSearch(newQuery);
       }
     } catch (error) {
@@ -492,8 +513,6 @@ function SearchMore() {
   // TODO : 스크롤 떨어지는 부분 확인해서 axios 요청 다시 가도록 만들기
   return (
     <>
-      {/* {state.isLogin ? ( */}
-      {/* <> */}
       <ToDiffSearchMore>
         <div id='searchMoreWrap'>
           <input
@@ -527,92 +546,129 @@ function SearchMore() {
               <option>최신순</option>
             </select>
           </div>
-          {isLoading ? (
+          {isLoading || isLoadingContent ? (
             <ul>
-              {searchMoreData.map((data) => {
-                return (
-                  <li className='wordBox' key={data.id}>
-                    <div className='wordBoxWrap'>
-                      <div className='topWrap'>
-                        <h3>{data.wordName}</h3>
-                        <ProfileWrap>
-                          <div className='userName'>{data.username}</div>
+              {searchMoreData.length > 0 ? (
+                searchMoreData.map((data) => {
+                  if (data.id === 0) {
+                    return (
+                      <li className='wordBox' key={data.id}>
+                        <div className='wordBoxWrap'>
+                          <div className='topWrap'></div>
+
                           <div
-                            className='userPic'
-                            style={
-                              data.userPic
-                                ? {
-                                    background: `url(${data.userPic})`,
-                                    backgroundSize: 'cover',
-                                    backgroundPosition: 'center',
-                                  }
-                                : {
-                                    background: `url(${exProfileImg})`,
-                                    backgroundSize: 'cover',
-                                    backgroundPosition: 'center',
-                                  }
-                            }
+                            className='wordMean'
+                            className='lds-dual-ring'
                           ></div>
-                        </ProfileWrap>
-                      </div>
+                        </div>
+                      </li>
+                    );
+                  } else if (data.id === 'done') {
+                    return (
+                      <li className='wordBox' key={data.id}>
+                        <div className='wordBoxWrap'>
+                          <div className='topWrap'></div>
+                          <div
+                            className='wordMean'
+                            style={{ fontWeight: 'bold' }}
+                          >
+                            줄임말을 전부 가져왔습니다! 😁
+                          </div>
+                        </div>
+                      </li>
+                    );
+                  } else {
+                    return (
+                      <li className='wordBox' key={data.id}>
+                        <div className='wordBoxWrap'>
+                          <div className='topWrap'>
+                            <h3>{data.wordName}</h3>
+                            <ProfileWrap>
+                              <div className='userName'>{data.username}</div>
+                              <div
+                                className='userPic'
+                                style={
+                                  data.userPic
+                                    ? {
+                                        background: `url(${data.userPic})`,
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                      }
+                                    : {
+                                        background: `url(${exProfileImg})`,
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                      }
+                                }
+                              ></div>
+                            </ProfileWrap>
+                          </div>
 
-                      <div className='wordMean'>{data.wordMean}</div>
+                          <div className='wordMean'>{data.wordMean}</div>
 
-                      <div className='bottomWrap'>
-                        <span>{data.createdAt.split('T')[0]}</span>
-                        <p>
-                          <HoverThumbsup className='hoverThumbsup'>
-                            {data.thumbsup.length === 0
-                              ? `아직 좋아한 사람이
+                          <div className='bottomWrap'>
+                            <span>{data.createdAt.split('T')[0]}</span>
+                            <p
+                              onClick={() => {
+                                const isLiked = data.thumbsup.filter(
+                                  (el) => el.id === userInfoState.userInfo.id
+                                );
+                                if (isLiked.length > 0) {
+                                  // 만약 내가 좋아요를 눌렀었다면 swal 처리하고 막음
+                                  swal({
+                                    title: '이미 좋아요를 누른 글입니다.',
+                                    icon: 'warning',
+                                  });
+                                } else {
+                                  updateThumbsup(data.id);
+                                }
+                              }}
+                            >
+                              <HoverThumbsup className='hoverThumbsup'>
+                                {data.thumbsup.length === 0
+                                  ? `아직 좋아한 사람이
                             없습니다.`
-                              : `${data.thumbsup[0]}님 외
+                                  : `${data.thumbsup[0].username}님 외
                             ${data.thumbsup.length - 1}
                             명이 좋아합니다.`}
-                          </HoverThumbsup>
-                          <span
-                            className='thumbsupWrap'
-                            onClick={() => {
-                              if (
-                                data.thumbsup.includes(
-                                  userInfoState.userInfo.username
-                                )
-                              ) {
-                                // 만약 내가 좋아요를 눌렀었다면 swal 처리하고 막음
-                                swal({
-                                  title: '이미 좋아요를 누른 글입니다.',
-                                  icon: 'warning',
-                                });
-                              } else {
-                                updateThumbsup(data.id);
-                              }
-                            }}
-                          >
-                            <FontAwesomeIcon icon={faThumbsUp} />
-                            {data.thumbsup.length}개
-                          </span>
-                        </p>
-                      </div>
+                              </HoverThumbsup>
+                              <span className='thumbsupWrap'>
+                                <FontAwesomeIcon icon={faThumbsUp} />
+                                {data.thumbsup.length}개
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      </li>
+                    );
+                  }
+                })
+              ) : (
+                <li className='wordBox'>
+                  <div className='wordBoxWrap'>
+                    <div className='topWrap'></div>
+                    <div className='wordMean' style={{ fontWeight: 'bold' }}>
+                      아직 이 줄임말에 뜻이 없습니다. 새로운 뜻을 만들어보세요!
+                      😁
                     </div>
-                  </li>
-                );
-              })}
+                  </div>
+                </li>
+              )}
             </ul>
           ) : (
             <ul>
-              <div id='loadingIndicator'>
+              <li className='wordBox'>
                 <div className='lds-dual-ring'></div>
-              </div>
+              </li>
             </ul>
           )}
         </SearchMoreBox>
       </SearchMoreWrap>
-      {/* </> */}
-      {/* // ) : ( // console.log('isloginstate', state) // <Redirect to='/main' />{' '}
-      // 메인페이지로 리디렉션 // 작성 글을 조회하는 axios 요청 과정에서,
+      {/* // 메인페이지로 리디렉션 // 작성 글을 조회하는 axios 요청 과정에서,
       로그인이 만료된 경우 catch를 통해 메인페이지로 리다이렉트 하도록 변경함 //
       새로고침을 했을 때, 더보기페이지에서 유지를 못하고 메인으로 갔던 이유는,
       렌더링 될 때, isLogin이 false로 바뀌었다가 true로 바뀌는데 그 과정에서
-      false에서 걸려서 메인페이지로 리다이렉트 되었던 것이었음. // )} //{' '} */}
+      false에서 걸려서 메인페이지로 리다이렉트 되었던 것이었음.  */}
     </>
   );
 }

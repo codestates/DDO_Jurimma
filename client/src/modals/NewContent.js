@@ -182,16 +182,12 @@ function NewContent() {
         }); //새로 유저 정보 요청하는 axios 요청
         dispatch(setUserInfo(getResult.data.data)); // axios 리턴으로 유저 정보 업데이트
         closeNewContentModal(false); // 모달 꺼짐
-        setIsLoading(false); // loading indicator 끄기
+        // setIsLoading(false); // loading indicator 끄기
         swal({
           title: '줄임말이 등록되었습니다.',
           text: '작성한 줄임말을 확인해보세요!',
           icon: 'success',
         });
-        // then(() => {
-        //   closeNewContentModal(false); // 모달 꺼짐
-        //   setIsLoading(false); // loading indicator 끄기
-        // }); // sweet alert로 안내
       }
     } catch (error) {
       console.log(error);
