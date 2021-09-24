@@ -5,6 +5,7 @@ import { useState } from 'react';
 const SearchHistoryWrap = styled.div`
   height: 100px;
   box-sizing: border-box;
+  display: flex;
   @media only screen and (max-width: 1399px) {
     width: 100%;
   }

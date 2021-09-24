@@ -12,20 +12,20 @@ const ChartWrap = styled.div`
   flex-direction: column;
   @media only screen and (max-width: 1399px) {
     width: 100%;
-    height: 100vh;
+    height: 78vh;
     margin: 0 auto;
   }
   > .bestSearchTitle {
     color: #fff;
-    height: 7vh;
-    line-height: 7vh;
+    height: 5vh;
+    line-height: 5vh;
     font-family: 'NEXON Lv2 Gothic Bold';
     font-size: 20px;
   }
 `;
 
 const ChartBar = styled.div`
-  height: 45vh;
+  height: 35vh;
 `;
 
 function Chart({ setWord }) {

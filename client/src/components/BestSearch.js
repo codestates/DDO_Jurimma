@@ -5,7 +5,7 @@ import styled, { keyframes } from 'styled-components';
 
 const BestSearchWrap = styled.div`
   /* flex: 5 1 auto; // 콘텐츠 전체 길이 생각해서 후에 max 설정해주기 */
-  height: 48vh;
+  height: 38vh;
   box-sizing: border-box;
   border: 2px solid #fff;
   border-radius: 20px;
