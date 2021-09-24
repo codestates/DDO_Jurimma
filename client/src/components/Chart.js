@@ -33,8 +33,13 @@ function Chart({ setWord }) {
   const url = process.env.REACT_APP_API_URL || `http://localhost:3000`;
 
   const bestWordName = bestSearchState.searchData.map((el) => el.wordName);
-  const bestCountPercent = bestSearchState.searchData.map(
-    (el) => (el.count * 100) / 1000
+  const bestWordAllCount = bestSearchState.searchData
+    .map((el) => el.count)
+    .reduce((acc, cur) => {
+      return acc + cur;
+    });
+  const bestCountPercent = bestSearchState.searchData.map((el) =>
+    ((el.count * 100) / bestWordAllCount).toFixed(2)
   );
 
   const chartData1 = {
