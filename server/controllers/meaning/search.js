@@ -122,10 +122,10 @@ module.exports = {
             let userNames = [];
             for (let j = 0; j < thumbsupData[i].length; j++) {
               let userName = await user.findOne({
-                attributes: ['username'],
+                attributes: ['username', 'id'],
                 where: { id: thumbsupData[i][j].userId },
               });
-              userNames.push(userName.username);
+              userNames.push(userName);
             }
             returnData[i].thumbsup = userNames;
           }
@@ -193,10 +193,10 @@ module.exports = {
               let userNames = [];
               for (let j = 0; j < thumbsupData[i].length; j++) {
                 let userName = await user.findOne({
-                  attributes: ['username'],
+                  attributes: ['username', 'id'],
                   where: { id: thumbsupData[i][j].userId },
                 });
-                userNames.push(userName.username);
+                userNames.push(userName);
               }
               returnData[i].thumbsup = userNames;
             }
