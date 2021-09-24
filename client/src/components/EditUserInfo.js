@@ -7,6 +7,8 @@ import { setAccessToken, setLogout } from '../actions/index';
 import checkModule from '../checkModule';
 import swal from 'sweetalert';
 import axios from 'axios';
+import nothingImg from '../images/nothing.svg';
+import '../App.css';
 axios.defaults.withCredentials = true;
 
 const colorAni = keyframes`
@@ -37,6 +39,35 @@ const EditUserInfoWrap = styled.div`
 const EditUserInfoBox = styled.div`
   width: max(60%, 320px);
   margin: 0 auto;
+  height: 83%;
+  > #nothingImg {
+    width: 300px;
+    height: 300px;
+    background: url(${nothingImg});
+    margin: 0 auto;
+    margin-top: 60px;
+    cursor: not-allowed;
+    @media only screen and (max-width: 500px) {
+      width: 250px;
+      height: 250px;
+    }
+  }
+  > #letter {
+    color: #fff;
+    width: 100%;
+    height: 60px;
+    /* border: 2px solid #fff;
+    border-radius: 20px; */
+    line-height: 60px;
+    margin: 0 auto;
+    font-size: 15px;
+    text-align: center;
+    transition: 0.3s;
+    cursor: not-allowed;
+    @media only screen and (max-width: 500px) {
+      font-size: 12px;
+    }
+  }
   > #buttonWrap {
     width: 430px;
     margin: 0 auto;
@@ -332,48 +363,23 @@ function EditUserInfo() {
   return (
     <EditUserInfoWrap>
       <EditUserInfoBox>
-        <OldUserName>
-          {state.userInfo.username}
-          <span>님, 수정을 원하시나요?</span>
-        </OldUserName>
         {state.userInfo.isOAuth ? (
           <>
-            <input
-              type='text'
-              onChange={handleEditInputValue('username')}
-              onKeyPress={handleKeyPressEdit}
-              value={editUser.username}
-              placeholder='변경할 이름 (영문과 한글만 입력 가능)'
-              disabled
-              // disabled={true}
-            ></input>
-            <input
-              type='password'
-              onChange={handleEditInputValue('oldPassword')}
-              onKeyPress={handleKeyPressEdit}
-              value={editUser.oldPassword}
-              placeholder='기존 비밀번호'
-              disabled
-            ></input>
-            <input
-              type='password'
-              onChange={handleEditInputValue('newPassword')}
-              onKeyPress={handleKeyPressEdit}
-              value={editUser.newPassword}
-              placeholder='변경할 비밀번호 (최소 8자이상, 대문자, 특수문자 포함)'
-              disabled
-            ></input>
-            <input
-              type='password'
-              placeholder='변경할 비밀번호 확인'
-              onChange={handleEditInputValue('newPasswordRe')}
-              onKeyPress={handleKeyPressEdit}
-              value={editUser.newPasswordRe}
-              disabled
-            ></input>
+            <OldUserName>
+              {state.userInfo.username}
+              <span>님, 수정을 원하시나요?</span>
+            </OldUserName>
+            <div id='nothingImg'></div>
+            <div id='letter'>
+              소셜 로그인은 프로필 이외 정보를 수정할 수 없습니다.
+            </div>
           </>
         ) : (
           <>
+            <OldUserName>
+              {state.userInfo.username}
+              <span>님, 수정을 원하시나요?</span>
+            </OldUserName>
             <input
               type='text'
               onChange={handleEditInputValue('username')}
@@ -402,27 +408,27 @@ function EditUserInfo() {
               onKeyPress={handleKeyPressEdit}
               value={editUser.newPasswordRe}
             ></input>
+            <div id='buttonWrap'>
+              <button
+                onClick={state.userInfo.isOAuth ? oauthEdit : handleEdit}
+                style={
+                  isHover
+                    ? {
+                        background: `${whatHoverColor}`,
+                      }
+                    : {
+                        background: `${whatColor}`,
+                      }
+                }
+                onMouseOver={() => setIsHover(true)}
+                onMouseOut={() => setIsHover(false)}
+              >
+                저장하기
+              </button>
+              <button onClick={handleCancel}>취소하기</button>
+            </div>
           </>
         )}
-        <div id='buttonWrap'>
-          <button
-            onClick={state.userInfo.isOAuth ? oauthEdit : handleEdit}
-            style={
-              isHover
-                ? {
-                    background: `${whatHoverColor}`,
-                  }
-                : {
-                    background: `${whatColor}`,
-                  }
-            }
-            onMouseOver={() => setIsHover(true)}
-            onMouseOut={() => setIsHover(false)}
-          >
-            저장하기
-          </button>
-          <button onClick={handleCancel}>취소하기</button>
-        </div>
       </EditUserInfoBox>
     </EditUserInfoWrap>
   );

@@ -149,6 +149,8 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
   let levelTop;
   if (!state.isLogin) {
     loginColorBox = 'linear-gradient(-45deg, #a239ea, #b4aee8)';
+    levelWidth = '70px';
+    levelHeight = '70px';
   } else {
     if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
       loginColorBox = 'linear-gradient(-45deg, #185ADB, #A2DBFA)';
