@@ -303,6 +303,73 @@ function SearchMore() {
     dispatch(setNewContentModal(isOpen));
   }; // 새로 글쓰는 모달 키는 함수(=== true값으로 만들어줌)
 
+  // ---------------------------------------------------
+  const [fetching, setFetching] = useState(false); // 추가 데이터를 로드하는지 아닌지를 담기위한 state
+  const [isEnd, setIsEnd] = useState(true);
+
+  const axiosMoreWordMeaning = async () => {
+    // 추가 데이터를 로드하는 상태로 전환
+    setFetching(true);
+
+    // API로부터 받아온 페이징 데이터를 이용해 다음 데이터를 로드
+    console.log('스크롤');
+    let getResult = await axios.get(
+      `${url}/meaning?word=${query}&offset=${searchMoreData.length}&limit=4`,
+      {
+        headers: { authorization: `Bearer ${state.accessToken}` },
+      }
+    );
+    if (getResult.data.accessToken) {
+      // 응답에 accessToken이 담겨있다면
+      dispatch(setAccessToken(getResult.data.accessToken));
+    }
+    // console.log(getResult.data);
+    if (getResult.data.data.length === 0) {
+      setIsEnd(false);
+    } else {
+      setSearchMoreData([...searchMoreData, ...getResult.data.data]);
+    }
+
+    // setSearchMoreData([
+    //   ...searchMoreData,
+    //   {
+    //     id: 10,
+    //     wordName: '테스트',
+    //     username: '테스터',
+    //     userPic: '',
+    //     wordMean: '테스트테스트',
+    //     thumbsup: [],
+    //     createdAt: '2021-09-21 10:50:10T',
+    //   },
+    // ]);
+    // 추가 데이터 로드 끝
+    setFetching(false);
+  };
+
+  // 스크롤 이벤트 핸들러
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+    if (
+      scrollTop + clientHeight >= scrollHeight &&
+      fetching === false &&
+      isEnd === true
+    ) {
+      // 페이지 끝에 도달하면 추가 데이터를 받아온다
+      axiosMoreWordMeaning();
+    }
+  };
+
+  useEffect(() => {
+    // scroll event listener 등록
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      // scroll event listener 해제
+      window.removeEventListener('scroll', handleScroll);
+    };
+  });
+  // -----------------------------------------------------------------------------------------------
   useEffect(() => {
     if (state.userInfo.id === -1) {
       // 유저가 로그아웃 버튼을 누른 경우
@@ -316,6 +383,7 @@ function SearchMore() {
       });
     } else {
       getMoreSearch(query);
+      setIsEnd(true);
     }
     // getMoreSearch(query);
   }, [state]); // 렌더 되고 바로 실행 -> 새글 추가할때마다 렌더링되게 수정
@@ -356,7 +424,7 @@ function SearchMore() {
         query = window.location.pathname.split('=')[1];
       }
       let getResult = await axios.get(
-        `${url}/meaning?word=${query}&offset=0&limit=10`,
+        `${url}/meaning?word=${query}&offset=0&limit=4`,
         {
           headers: { authorization: `Bearer ${state.accessToken}` },
         }
