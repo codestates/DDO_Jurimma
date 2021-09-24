@@ -130,7 +130,7 @@ module.exports = {
             returnData[i].thumbsup = userNames;
           }
           // ! 추천 순 조회
-          if (!sorted) {
+          if (sorted === 'byThumbsup') {
             const sortedResult = returnData
               .sort((a, b) => b.thumbsup.length - a.thumbsup.length)
               .slice(offset, offset + limit);
@@ -201,13 +201,13 @@ module.exports = {
               returnData[i].thumbsup = userNames;
             }
             // ! 추천 순 조회
-            if (!sorted) {
+            if (sorted === 'byThumbsup') {
               const sortedResult = returnData
                 .sort((a, b) => b.thumbsup.length - a.thumbsup.length)
                 .slice(offset, offset + limit);
               res.status(201).json({ accessToken, data: sortedResult });
             }
-            // ! 좋아요 순 조회
+            // ! 최신 순 조회
             else {
               const sortedResult = returnData
                 .sort((a, b) => b.updatedAt - a.updatedAt)
