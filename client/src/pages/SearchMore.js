@@ -2,7 +2,12 @@
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setNewContentModal, setLogout, setUserInfo } from '../actions/index';
+import {
+  setNewContentModal,
+  setLogout,
+  setUserInfo,
+  setLogoutModal,
+} from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
@@ -290,6 +295,10 @@ function SearchMore() {
   const [newQuery, setNewQuery] = useState(''); // 새로 검색할 줄임말
   const [isLoading, setIsLoading] = useState(false);
 
+  const closeLogoutModal = (isOpen) => {
+    dispatch(setLogoutModal(isOpen));
+  }; // 로그인 모달 닫는 함수
+
   const openNewContentModal = (isOpen) => {
     dispatch(setNewContentModal(isOpen));
   }; // 새로 글쓰는 모달 키는 함수(=== true값으로 만들어줌)
@@ -302,6 +311,7 @@ function SearchMore() {
         text: '다음에 또 만나요! 🙋',
         icon: 'success',
       }).then(() => {
+        closeLogoutModal(false);
         history.push('/main');
       });
     } else {
