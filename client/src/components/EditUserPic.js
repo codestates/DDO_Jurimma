@@ -15,6 +15,7 @@ import goldProfile from '../images/senior_profile.svg';
 import diaProfile from '../images/master_profile.svg';
 import axios from 'axios';
 import swal from 'sweetalert';
+import { useHistory } from 'react-router-dom';
 axios.defaults.withCredentials = true;
 
 const EditUserPicWrap = styled.div`
@@ -124,6 +125,7 @@ const ProfileImgWrap = styled.div`
 `;
 
 function EditUserPic() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const openSignoutModal = (isOpen) => {
@@ -177,11 +179,7 @@ function EditUserPic() {
         headers: { authorization: `Bearer ${state.accessToken}` },
       }); //새로 유저 정보 요청하는 axios 요청
       dispatch(setUserInfo(getResult.data.data));
-      swal({ title: '프로필 사진이 변경되었습니다.', icon: 'success' }).then(
-        () => {
-          window.location.reload(true);
-        }
-      );
+      swal({ title: '프로필 사진이 변경되었습니다.', icon: 'success' });
     } catch (error) {
       console.log(error);
       swal({
@@ -190,7 +188,7 @@ function EditUserPic() {
         icon: 'error',
       }).then(() => {
         dispatch(setLogout());
-        window.location.replace('/');
+        history.push('/');
       });
     }
   };
