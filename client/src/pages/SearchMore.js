@@ -300,7 +300,7 @@ function SearchMore() {
     if (value === 'byThumbsup') {
       setOrderBy('byThumbsup');
     } else {
-      setOrderBy('byUpdateAt');
+      setOrderBy('byUpdatedAt');
     }
   };
 
@@ -551,7 +551,7 @@ function SearchMore() {
             </button>
             <select value={orderBy} onChange={(e) => ordering(e.target.value)}>
               <option value='byThumbsup'>추천순</option>
-              <option value='byUpdateAt'>최신순</option>
+              <option value='byUpdatedAt'>최신순</option>
             </select>
           </div>
           {isLoading || isLoadingContent ? (
