@@ -1,14 +1,10 @@
 // Mypage에서 유저가 쓴 글 목록
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import {
-  setEditContentModal,
-  setAccessToken,
-  getContent,
-} from '../actions/index';
+import { setEditContentModal, getContent } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
@@ -198,8 +194,31 @@ const HoverThumbsup = styled.span`
 
 function UserContents({ setEditInfo }) {
   const dispatch = useDispatch();
-  const userModalState = useSelector((state) => state.userModalReducer);
   const userContentState = useSelector((state) => state.userContentReducer);
+  const [orderBy, setOrderBy] = useState('byUpdatedAt');
+
+  const ordering = (value) => {
+    if (value === 'byThumbsup') {
+      setOrderBy('byThumbsup');
+      dispatch(
+        getContent(
+          userContentState.data.sort(
+            (a, b) => b.thumbsup.length - a.thumbsup.length
+          )
+        )
+      );
+    } else {
+      setOrderBy('byUpdatedAt');
+      dispatch(
+        getContent(
+          userContentState.data.sort(
+            (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+          )
+        )
+      );
+    }
+  };
+
   const openEditContentModal = async (
     isOpen,
     userEditId,
@@ -213,9 +232,9 @@ function UserContents({ setEditInfo }) {
   return (
     <UserContentsWrap>
       <FilterWrap>
-        <select>
-          <option>추천순</option>
-          <option>최신순</option>
+        <select value={orderBy} onChange={(e) => ordering(e.target.value)}>
+          <option value='byThumbsup'>추천순</option>
+          <option value='byUpdatedAt'>최신순</option>
         </select>
       </FilterWrap>
 
