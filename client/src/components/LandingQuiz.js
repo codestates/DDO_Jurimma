@@ -4,7 +4,8 @@ import { useState } from 'react';
 import you_quiz from '../images/you_quiz.svg';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoginOrSignupModal } from '../actions/index';
 AOS.init();
 
 const SectionWrap = styled.div`
@@ -51,10 +52,19 @@ const LandingQuizScore = styled.div`
     align-items: center;
     > p:nth-child(1) {
       font-size: 1.6rem;
-      margin-bottom: 30px;
+      line-height: 1.6rem;
+      padding: 15px 0px;
     }
     > p:nth-child(2) {
       font-size: 1rem;
+      line-height: 1rem;
+      padding: 10px 0px;
+    }
+    > button {
+      cursor: pointer;
+      border-radius: 50px;
+      width: 40%;
+      height: 50px;
     }
   }
 `;
@@ -104,9 +114,7 @@ const LandingQuizChoiceButton = styled.button`
   cursor: pointer;
   transition: all 0.3s;
   :hover {
-    /* box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3); */
-    background-color: #230638;
-    color: #fff;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
   }
 `;
 
@@ -144,7 +152,8 @@ function LandingQuiz() {
       ],
     },
   ]; // 문제
-
+  const state = useSelector((state) => state.userModalReducer);
+  const dispatch = useDispatch();
   const [currentQuestion, setCurrentQuestion] = useState(0); // 현재 문제 index
   const [showScore, setShowScore] = useState(false); // 점수 화면 보임 여부
   const [score, setScore] = useState(-1); // 점수 카운트
@@ -163,6 +172,10 @@ function LandingQuiz() {
     }
   };
 
+  const openLoginOrSignupModal = (isOpen) => {
+    dispatch(setLoginOrSignupModal(isOpen));
+  };
+
   return (
     <SectionWrap>
       <LandingQuizBox
@@ -176,6 +189,9 @@ function LandingQuiz() {
             <div>
               <p>총 {score}개를 맞추셨습니다!</p>
               <p>오늘의 퀴즈는 로그인 후 이용 가능합니다.</p>
+              <button onClick={() => openLoginOrSignupModal(true)}>
+                로그인 하러가기
+              </button>
             </div>
             {/*점수 보여줌 */}
           </LandingQuizScore>
