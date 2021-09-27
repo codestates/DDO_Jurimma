@@ -161,21 +161,21 @@ const EditUserInfoBox = styled.div`
   }
 `;
 
-const InvalidCheck = styled.div`
-  width: 430px;
-  height: 50px;
-  /* border: 2px solid #fff;
-  border-radius: 20px; */
-  margin: 0 auto;
-  margin-top: 30px;
-  color: red;
-  text-align: center;
-  line-height: 50px;
-  font-size: 12px;
-  @media only screen and (max-width: 1000px) {
-    width: 80%;
-  }
-`;
+// const InvalidCheck = styled.div`
+//   width: 430px;
+//   height: 50px;
+//   /* border: 2px solid #fff;
+//   border-radius: 20px; */
+//   margin: 0 auto;
+//   margin-top: 30px;
+//   color: red;
+//   text-align: center;
+//   line-height: 50px;
+//   font-size: 12px;
+//   @media only screen and (max-width: 1000px) {
+//     width: 80%;
+//   }
+// `;
 
 function EditUserInfo() {
   // EditUserInfo에서 버튼이 눌리면 유저 정보 state 업데이트 + axios 요청
@@ -297,9 +297,7 @@ function EditUserInfo() {
           newPassword: '',
           newPasswordRe: '',
         });
-        console.log('변경할 비밀번호 입력 틀림:', editUser);
       } else {
-        // delete editUser.newPasswordRe;
         const editRes = await axios({
           url: `${url}/user`,
           method: 'patch',
@@ -321,7 +319,7 @@ function EditUserInfo() {
         history.push('/');
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       if (error.response.data.message === 'Wrong Password') {
         swal({
           title: '비밀번호가 틀렸습니다.',
@@ -337,15 +335,19 @@ function EditUserInfo() {
           title: '로그인이 필요합니다.',
           text: '로그인이 만료되었습니다.',
           icon: 'warning',
-        }); // swal로 안내
-        dispatch(setLogout());
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
       } else {
         swal({
           title: 'Internal Server Error',
-          text: '죄송합니다. 다시 로그인 후 해주세요.',
+          text: '죄송합니다. 다시 로그인해주세요.',
           icon: 'warning',
-        }); // swal로 안내
-        dispatch(setLogout());
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
       }
     }
   };
