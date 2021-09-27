@@ -10,9 +10,12 @@ AOS.init();
 
 const SectionWrap = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 800px;
   display: flex;
   align-items: center;
+  @media only screen and (max-width: 600px) {
+    height: 500px;
+  }
 `;
 
 const LandingQuizBox = styled.article`

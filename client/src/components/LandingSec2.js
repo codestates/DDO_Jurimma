@@ -21,132 +21,139 @@ const Section2Box = styled.ul`
 
 const Section2Li = styled.li`
   width: 100%;
-  @media screen and (min-width: 480px) and (max-width: 1249px) {
-    margin-top: 200px;
-  }
-  @media screen and (max-width: 479px) {
-    margin-top: 200px;
+  > #reverse {
+    text-align: right;
+    @media only screen and (max-width: 1300px) {
+      display: flex;
+      flex-direction: column-reverse;
+    }
   }
 `;
 
 const DescriptWrap = styled.div`
-  width: 70%;
-  height: 100vh;
-  margin: 0 auto;
+  width: 1200px;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  > #descbox2 {
-    text-align: right;
-    > .buttonWrap {
-      justify-content: flex-end;
-    }
+  margin: 0 auto;
+  margin-top: 200px;
+  @media only screen and (max-width: 1300px) {
+    width: 100%;
+    display: block;
+  }
+  @media only screen and (max-width: 600px) {
+    margin-top: 100px;
   }
 `;
 
 const DescripTextBox = styled.div`
-  width: 450px;
-  height: 50%;
-  flex: 1 1 auto;
-  display: flex;
+  width: 500px;
+  height: 525px;
   flex-direction: column;
-  margin-top: 50px;
-  > .buttonWrap {
-    flex: 1 1 auto;
-    display: flex;
-    align-items: center;
-    > button {
-      border-radius: 60px;
-      background-color: transparent;
-      border: 2px solid #fff;
-      color: #fff;
-      transition: 0.3s;
-      cursor: pointer;
-    }
-    > button:hover {
-      background-color: #fff;
-      color: #230638;
-      border: 2px solid #fff;
-    }
-    @media screen and (min-width: 1250px) {
-      > button {
-        width: 240px;
-        height: 60px;
-        font-size: 18px;
-      }
-    }
-    @media screen and (min-width: 480px) and (max-width: 1249px) {
-      > button {
-        width: 200px;
-        height: 50px;
-        font-size: 15px;
-      }
-    }
-    @media screen and (max-width: 479px) {
-      > button {
-        width: 160px;
-        height: 40px;
-        font-size: 12px;
-      }
-    }
+  float: left;
+  @media only screen and (max-width: 1300px) {
+    width: 500px;
+    height: 500px;
+    float: none;
+    margin: 0 auto;
+  }
+  @media only screen and (max-width: 600px) {
+    width: 320px;
+    height: 470px;
   }
 `;
 
 const DescripText = styled.div`
   width: 100%;
-  margin: 0 auto;
-  flex: 1 1 auto;
-  @media screen and (min-width: 1250px) {
-    > h3 {
-      font-size: 45px;
-      color: #fff;
-      padding: 40px 0;
-      line-height: 60px;
+  height: 450px;
+  @media only screen and (max-width: 1300px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  > h3 {
+    font-size: 45px;
+    color: #fff;
+    padding: 40px 0;
+    line-height: 60px;
+    @media only screen and (max-width: 1300px) {
+      text-align: center;
+      font-size: 40px;
     }
-    > p {
-      font-size: 33px;
-      line-height: 50px;
-      color: #fff;
+
+    @media only screen and (max-width: 600px) {
+      font-size: 30px;
+      text-align: center;
     }
   }
-  @media screen and (min-width: 480px) and (max-width: 1249px) {
-    > h3 {
-      font-size: 38px;
-      line-height: 50px;
-      padding: 40px 0;
-      color: #fff;
-    }
-    > p {
-      font-size: 26px;
-      line-height: 45px;
-      color: #fff;
-    }
-  }
-  @media screen and (max-width: 479px) {
-    > h3 {
+  > p {
+    font-size: 33px;
+    line-height: 50px;
+    color: #fff;
+    @media only screen and (max-width: 1300px) {
+      text-align: center;
       font-size: 28px;
-      line-height: 38px;
-      padding: 30px 0;
-      color: #fff;
     }
-    > p {
+    @media only screen and (max-width: 600px) {
       font-size: 20px;
-      line-height: 35px;
-      color: #fff;
+      text-align: center;
     }
+  }
+  > button {
+    border-radius: 50px;
+    height: 50px;
+    width: 240px;
+    background-color: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    transition: 0.3s;
+    cursor: pointer;
+    margin-top: 50px;
+    @media only screen and (max-width: 1300px) {
+      width: 210px;
+    }
+    @media only screen and (max-width: 600px) {
+      width: 150px;
+      height: 40px;
+    }
+  }
+  > button:hover {
+    background-color: #fff;
+    color: #230638;
+    border: 2px solid #fff;
   }
 `;
 
 const DescriptGif = styled.div`
-  width: 500px;
-  height: 50%;
-  flex: 1 1 auto;
+  width: 700px;
+  height: 525px;
   background-color: #fff;
   border-radius: 40px;
-  margin-top: 50px;
-  @media screen and (min-width: 480px) and (max-width: 1249px) {
-    height: 400px;
+  display: inline-block;
+  @media only screen and (max-width: 1300px) {
+    display: block;
+    width: 536px;
+    height: 402px;
+    margin: 0 auto;
+  }
+  @media only screen and (max-width: 600px) {
+    width: 320px;
+    height: 240px;
+    border-radius: 20px;
+  }
+`;
+
+const LevelWrap = styled.div`
+  width: 90%;
+  height: 800px;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 100px;
+
+  @media only screen and (max-width: 600px) {
+    margin-top: 30px;
+    height: 600px;
   }
 `;
 
@@ -157,11 +164,11 @@ const Levelup = styled.div`
     text-align: center;
     font-size: 45px;
     color: #fff;
-    @media screen and (min-width: 601px) and (max-width: 1249px) {
+    @media only screen and (max-width: 1300px) {
       font-size: 40px;
     }
     @media screen and (max-width: 600px) {
-      font-size: 28px;
+      font-size: 25px;
     }
   }
   > p {
@@ -169,22 +176,24 @@ const Levelup = styled.div`
     color: #fff;
     font-size: 25px;
     padding: 20px 0;
-    @media screen and (min-width: 480px) and (max-width: 1249px) {
-      font-size: 20px;
+    @media only screen and (max-width: 1300px) {
+      font-size: 18px;
     }
     @media screen and (max-width: 479px) {
-      font-size: 10px;
+      font-size: 15px;
     }
   }
   > ul {
     display: flex;
     width: 100%;
-    height: 80%;
-    @media screen and (max-width: 1249px) {
-      height: 40%;
+    height: 400px;
+    margin-top: 50px;
+    @media only screen and (max-width: 1300px) {
+      height: 300px;
     }
     @media screen and (max-width: 600px) {
-      height: 30%;
+      height: 200px;
+      margin-top: 10px;
     }
     > li {
       flex: 1 1 auto;
@@ -219,6 +228,24 @@ const Levelup = styled.div`
   }
 `;
 
+const LevelGif = styled.div`
+  width: 700px;
+  height: 525px;
+  background-color: #fff;
+  border-radius: 40px;
+  margin: 0 auto;
+  @media only screen and (max-width: 1300px) {
+    display: block;
+    width: 536px;
+    height: 402px;
+  }
+  @media only screen and (max-width: 600px) {
+    width: 320px;
+    height: 240px;
+    border-radius: 20px;
+  }
+`;
+
 function LandingSec2() {
   return (
     <SectionWrap>
@@ -243,10 +270,8 @@ function LandingSec2() {
                   <br />
                   실시간으로 알아보자!
                 </p>
-              </DescripText>
-              <div className='buttonWrap'>
                 <button>바로가기</button>
-              </div>
+              </DescripText>
             </DescripTextBox>
             <DescriptGif />
           </DescriptWrap>
@@ -257,10 +282,10 @@ function LandingSec2() {
           data-aos-duration='2000'
           data-aos-offset='300'
         >
-          <DescriptWrap>
+          <DescriptWrap id='reverse'>
             <DescriptGif />
             <DescripTextBox id='descbox2'>
-              <DescripText>
+              <DescripText id='desctext'>
                 <h3>
                   한 단어에 이렇게 많은 <br /> 뜻이 있다고?! 😯
                 </h3>
@@ -271,10 +296,8 @@ function LandingSec2() {
                   <br />
                   직접 뜻을 만들어서 공유해보자!
                 </p>
-              </DescripText>
-              <div className='buttonWrap'>
                 <button>바로가기</button>
-              </div>
+              </DescripText>
             </DescripTextBox>
           </DescriptWrap>
         </Section2Li>
@@ -311,9 +334,9 @@ function LandingSec2() {
           data-aos-duration='2000'
           data-aos-offset='300'
         >
-          <DescriptWrap>
+          <LevelWrap>
             <Levelup>
-              <h3>꾸준한 활동으로, 레벨업도 해보자! 👸</h3>
+              <h3>꾸준한 활동으로 레벨업도 해보자! 👸</h3>
               <p>퀴즈와 나만의 줄임말 뜻을 공유하면 경험치 획득 가능.</p>
               <ul>
                 <li
@@ -329,8 +352,7 @@ function LandingSec2() {
                 <li id='diaLevel' data-aos='fade-in' data-aos-delay='1500'></li>
               </ul>
             </Levelup>
-            <DescriptGif />
-          </DescriptWrap>
+          </LevelWrap>
         </Section2Li>
       </Section2Box>
     </SectionWrap>
