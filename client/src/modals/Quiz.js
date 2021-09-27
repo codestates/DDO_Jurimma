@@ -46,6 +46,10 @@ const QuizModal = styled.div`
     right: -25px;
     top: -50px;
     cursor: pointer;
+    transition: 0.5s;
+  }
+  > .closeBtn:hover {
+    transform: rotate(-90deg);
   }
 `;
 
@@ -123,7 +127,8 @@ const QuizChoiceButton = styled.button`
   cursor: pointer;
   transition: all 0.3s;
   :hover {
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    background-color: #440a67;
+    color: #fff;
   }
 `;
 
