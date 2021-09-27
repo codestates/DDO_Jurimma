@@ -159,7 +159,7 @@ function Signout() {
           });
       }
     } catch (error) {
-      console.log(error.response.data.message);
+      // console.log(error.response.data.message);
       if (error.response.data.message === 'Forbidden Request') {
         swal({
           title: '회원탈퇴가 실패하였습니다.',
