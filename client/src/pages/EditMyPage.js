@@ -27,7 +27,7 @@ function MypageEdit() {
     if (state.userInfo.id === -1) {
       history.push('/main');
     }
-  }, [state]);
+  }, [state, history]);
 
   return (
     <>

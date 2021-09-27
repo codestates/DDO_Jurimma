@@ -4,7 +4,7 @@ import { useState } from 'react';
 import you_quiz from '../images/you_quiz.svg';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setLoginOrSignupModal } from '../actions/index';
 AOS.init();
 
@@ -155,7 +155,6 @@ function LandingQuiz() {
       ],
     },
   ]; // 문제
-  const state = useSelector((state) => state.userModalReducer);
   const dispatch = useDispatch();
   const [currentQuestion, setCurrentQuestion] = useState(0); // 현재 문제 index
   const [showScore, setShowScore] = useState(false); // 점수 화면 보임 여부

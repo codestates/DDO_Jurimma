@@ -163,7 +163,7 @@ const SearchMoreBox = styled.div`
       }
       :nth-child(1) {
         margin-top: 0;
-        border: 8px solid #daa520;
+        border: 4px solid #daa520;
       }
       > .wordBoxWrap {
         width: 90%;
@@ -576,11 +576,7 @@ function SearchMore() {
                       <li className='wordBox' key={data.id}>
                         <div className='wordBoxWrap'>
                           <div className='topWrap'></div>
-
-                          <div
-                            className='wordMean'
-                            className='lds-dual-ring'
-                          ></div>
+                          <div className='lds-dual-ring'></div>
                         </div>
                       </li>
                     );

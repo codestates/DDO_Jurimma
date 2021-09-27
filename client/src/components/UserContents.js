@@ -43,7 +43,7 @@ const UserContentsWrap = styled.div`
       }
       :nth-child(1) {
         margin-top: 0;
-        border: 8px solid #daa520;
+        border: 4px solid #daa520;
       }
       > .wordBoxWrap {
         width: 90%;

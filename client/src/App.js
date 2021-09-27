@@ -19,15 +19,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLogin, setAccessToken, setUserInfo } from './actions/index';
 import NewContent from './modals/NewContent';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
 require('dotenv').config();
 axios.defaults.withCredentials = true;
 
 function App() {
-  const userInfoState = useSelector((state) => state.userInfoReducer);
   const userModalState = useSelector((state) => state.userModalReducer);
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const [btnStatus, setBtnStatus] = useState(false);
@@ -69,11 +66,9 @@ function App() {
     axios
       .post(`${url}/user/${socialType}`, payload)
       .then((res) => {
-        console.log(res.data);
         dispatch(setLogin(true)); // axios응답으로 redux 업데이트
         dispatch(setAccessToken(res.data.accessToken)); // axios 응답으로 accessToken 업데이트
         dispatch(setUserInfo(res.data.userInfo)); // axios응답으로 userInfo 업데이트
-        // console.log(state.userInfo); // 유저 정보 콘솔에 찍어보기
         localStorage.removeItem('socialType');
         swal({
           title: '로그인이 완료되었습니다!',
@@ -84,7 +79,6 @@ function App() {
         });
       })
       .catch((err) => {
-        console.log(err);
         if ((err.response.data.message = 'You Already Signed up')) {
           swal({
             title: '이미 JURIMMA 회원이시네요!',
@@ -114,7 +108,6 @@ function App() {
     isShowMiniMenuModal,
   } = userModalState;
 
-  // const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   return (
     <BrowserRouter>
       <div className='App'>
