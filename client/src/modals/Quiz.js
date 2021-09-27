@@ -386,7 +386,6 @@ function Quiz() {
         }); // swal로 안내
         dispatch(setLogout());
       }
-      // console.log(err);
     }
   }; // 접속한 날짜, 경험치 업데이트하는 함수
   const closeQuizModal = (isOpen) => {

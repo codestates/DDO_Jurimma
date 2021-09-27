@@ -1,11 +1,11 @@
 // 로그아웃 모달
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
 import { setLogout, setLogoutModal } from '../actions/index';
 import axios from 'axios';
 import mainLogo from '../images/main_logo.svg';
+import { useHistory } from 'react-router';
 axios.defaults.withCredentials = true;
 
 const LogoutBackdrop = styled.div`
@@ -79,14 +79,13 @@ const Logo = styled.div`
 `;
 
 function LogOut() {
-  const history = useHistory();
   const userInfostate = useSelector((state) => state.userInfoReducer);
-  const userModalState = useSelector((state) => state.userModalReducer);
   const dispatch = useDispatch();
+  const history = useHistory();
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const closeLogoutModal = (isOpen) => {
     dispatch(setLogoutModal(isOpen));
-  }; // 로그인 모달 닫는 함수
+  };
 
   const changeToLogout = () => {
     axios
@@ -94,16 +93,16 @@ function LogOut() {
         headers: { authorization: `Bearer ${userInfostate.accessToken}}` },
       })
       .then(() => {
-        dispatch(setLogout()); // reducer 로그아웃으로 상태 업데이트
+        dispatch(setLogout());
         swal({
-          title: '로그아웃 되었습니다',
-          text: '다또봐 👋 (다음에 또 봐~)',
+          title: '로그아웃이 완료되었습니다.',
+          text: '다음에 또 만나요! 🙋🏻 ',
           icon: 'success',
         }).then(() => {
+          dispatch(setLogout());
           closeLogoutModal(false);
+          history.push('/main');
         });
-        // console.log(state);
-        // history.push('/main');
       })
       .catch((err) => {
         console.log(err);
@@ -114,8 +113,8 @@ function LogOut() {
         }).then(() => {
           dispatch(setLogout());
           closeLogoutModal(false);
-        }); // swal로 안내
-        // history.push('/main');
+          window.location.replace('/');
+        });
       });
   };
 

@@ -1,6 +1,5 @@
 // 과거 검색결과 보관
 import styled from 'styled-components';
-import { useState } from 'react';
 
 const SearchHistoryWrap = styled.div`
   height: 100px;

@@ -1,12 +1,12 @@
 // 실시간 순위 보여질 부분
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import BestSearch from './BestSearch';
 import '../App.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { Bar, Doughnut } from 'react-chartjs-2';
+import { useSelector } from 'react-redux';
+import { Bar } from 'react-chartjs-2';
 
 const ChartWrap = styled.div`
-  width: 400px; // 콘텐츠 전체 길이 생각해서 후에 수정해주기
+  width: 400px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -30,14 +30,13 @@ const ChartBar = styled.div`
 
 function Chart({ setWord }) {
   const bestSearchState = useSelector((state) => state.bestSearchReducer);
-  const url = process.env.REACT_APP_API_URL || `http://localhost:3000`;
-
   const bestWordName = bestSearchState.searchData.map((el) => el.wordName);
   const bestWordAllCount = bestSearchState.searchData
     .map((el) => el.count)
     .reduce((acc, cur) => {
       return acc + cur;
     }, 0);
+
   const bestCountPercent = bestSearchState.searchData.map((el) =>
     ((el.count * 100) / bestWordAllCount).toFixed(2)
   );
@@ -79,7 +78,6 @@ function Chart({ setWord }) {
         <Bar
           data={chartData1}
           options={{
-            // indexAxis: 'y',
             maintainAspectRatio: false,
             scales: {
               yAxes: [
@@ -93,22 +91,6 @@ function Chart({ setWord }) {
             },
           }}
         />
-        {/* <Doughnut
-          id='doughnutChart'
-          data={chartData1}
-          options={{
-            maintainAspectRatio: false,
-            scales: {
-              yAxes: [
-                {
-                  ticks: {
-                    beginAtZero: true,
-                  },
-                },
-              ],
-            },
-          }}
-        /> */}
       </ChartBar>
       <div className='bestSearchTitle'>실시간 검색어 Top 10</div>
       <BestSearch setWord={setWord} />
