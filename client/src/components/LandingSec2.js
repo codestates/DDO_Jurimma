@@ -40,6 +40,9 @@ const DescriptWrap = styled.div`
     width: 100%;
     display: block;
   }
+  @media only screen and (max-width: 600px) {
+    margin-top: 100px;
+  }
 `;
 
 const DescripTextBox = styled.div`
@@ -49,11 +52,13 @@ const DescripTextBox = styled.div`
   float: left;
   @media only screen and (max-width: 1300px) {
     width: 500px;
+    height: 500px;
     float: none;
     margin: 0 auto;
   }
   @media only screen and (max-width: 600px) {
     width: 320px;
+    height: 470px;
   }
 `;
 
@@ -138,9 +143,22 @@ const DescriptGif = styled.div`
   }
 `;
 
+const LevelWrap = styled.div`
+  width: 90%;
+  height: 800px;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 100px;
+
+  @media only screen and (max-width: 600px) {
+    margin-top: 30px;
+    height: 600px;
+  }
+`;
+
 const Levelup = styled.div`
   width: 100%;
-  height: 525px;
   height: 60%;
   > h3 {
     text-align: center;
@@ -150,7 +168,7 @@ const Levelup = styled.div`
       font-size: 40px;
     }
     @media screen and (max-width: 600px) {
-      font-size: 28px;
+      font-size: 25px;
     }
   }
   > p {
@@ -159,21 +177,23 @@ const Levelup = styled.div`
     font-size: 25px;
     padding: 20px 0;
     @media only screen and (max-width: 1300px) {
-      font-size: 20px;
+      font-size: 18px;
     }
     @media screen and (max-width: 479px) {
-      font-size: 10px;
+      font-size: 15px;
     }
   }
   > ul {
     display: flex;
     width: 100%;
-    height: 80%;
+    height: 400px;
+    margin-top: 50px;
     @media only screen and (max-width: 1300px) {
-      height: 40%;
+      height: 300px;
     }
     @media screen and (max-width: 600px) {
-      height: 30%;
+      height: 200px;
+      margin-top: 10px;
     }
     > li {
       flex: 1 1 auto;
@@ -205,6 +225,24 @@ const Levelup = styled.div`
     @media screen and (max-width: 600px) {
       font-size: 18px;
     }
+  }
+`;
+
+const LevelGif = styled.div`
+  width: 700px;
+  height: 525px;
+  background-color: #fff;
+  border-radius: 40px;
+  margin: 0 auto;
+  @media only screen and (max-width: 1300px) {
+    display: block;
+    width: 536px;
+    height: 402px;
+  }
+  @media only screen and (max-width: 600px) {
+    width: 320px;
+    height: 240px;
+    border-radius: 20px;
   }
 `;
 
@@ -296,9 +334,9 @@ function LandingSec2() {
           data-aos-duration='2000'
           data-aos-offset='300'
         >
-          <DescriptWrap>
+          <LevelWrap>
             <Levelup>
-              <h3>꾸준한 활동으로, 레벨업도 해보자! 👸</h3>
+              <h3>꾸준한 활동으로 레벨업도 해보자! 👸</h3>
               <p>퀴즈와 나만의 줄임말 뜻을 공유하면 경험치 획득 가능.</p>
               <ul>
                 <li
@@ -314,7 +352,7 @@ function LandingSec2() {
                 <li id='diaLevel' data-aos='fade-in' data-aos-delay='1500'></li>
               </ul>
             </Levelup>
-          </DescriptWrap>
+          </LevelWrap>
         </Section2Li>
       </Section2Box>
     </SectionWrap>
