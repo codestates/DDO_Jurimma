@@ -11,7 +11,6 @@ import mainLogo from '../images/main_logo.svg';
 import '../App.css';
 import axios from 'axios';
 import swal from 'sweetalert';
-import { useHistory } from 'react-router-dom';
 
 const EditContentBackdrop = styled.div`
   position: fixed;
@@ -120,7 +119,6 @@ const EditErrorMsg = styled.div`
 
 function EditContent({ id, wordName, wordMean }) {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
-  const history = useHistory();
   const userInfoState = useSelector((state) => state.userInfoReducer);
   const dispatch = useDispatch();
   const closeEditContentModal = (isOpen) => {
@@ -166,15 +164,26 @@ function EditContent({ id, wordName, wordMean }) {
         });
       }
     } catch (error) {
-      console.log(error);
-      swal({
-        title: '로그인이 만료되었습니다.',
-        text: '다시 로그인을 해주세요!',
-        icon: 'error',
-      }).then(() => {
-        dispatch(setLogout());
-        history.push('/');
-      }); // sweet alert로 안내하고 랜딩페이지로 리다이렉트
+      // console.log(error);
+      if (error.response.data.message === 'Send new Login Request') {
+        swal({
+          title: '로그인이 필요합니다.',
+          text: '로그인이 만료되었습니다.',
+          icon: 'warning',
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
+      } else {
+        swal({
+          title: 'Internal Server Error',
+          text: '죄송합니다. 다시 로그인해주세요.',
+          icon: 'warning',
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
+      }
     }
   }; // 변경한 내용으로 axios 요청하기
 

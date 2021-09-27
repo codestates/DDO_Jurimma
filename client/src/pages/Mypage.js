@@ -4,12 +4,11 @@ import UserContents from '../components/UserContents';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import swal from 'sweetalert';
 import axios from 'axios';
 import { setAccessToken, setUserInfo, setLogout, getContent } from '../actions';
 import EditContent from '../modals/EditContent';
-import { useState } from 'react';
 axios.defaults.withCredentials = true;
 
 const MypageWrap = styled.div`
@@ -23,7 +22,6 @@ const MypageWrap = styled.div`
 function Mypage() {
   const history = useHistory();
   const userInfoState = useSelector((state) => state.userInfoReducer);
-  const userContentState = useSelector((state) => state.userContentReducer);
   const userModalState = useSelector((state) => state.userModalReducer);
   const dispatch = useDispatch();
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
@@ -37,14 +35,6 @@ function Mypage() {
 
   useEffect(() => {
     if (userInfoState.userInfo.id === -1) {
-      // 유저가 로그아웃 버튼을 누른 경우
-      // swal({
-      //   title: '로그아웃이 완료되었습니다.',
-      //   text: '다음에 또 만나요! 🙋',
-      //   icon: 'success',
-      // }).then(() => {
-      //   history.push('/main');
-      // });
       history.push('/main');
     } else {
       getMyInfo();
@@ -58,13 +48,35 @@ function Mypage() {
   }, [userModalState.isShowEditContentModal]); // 모달 여부가 false일때만 user 유저가 쓴 글 요청 -> 맨 처음 + 한번 켜서 수정하고 돌아왔을때?
 
   const getMyContent = async () => {
-    let contentResult = await axios.get(`${url}/meaning/me`, {
-      headers: { authorization: `Bearer ${userInfoState.accessToken}` },
-    });
-    if (contentResult.data.accessToken) {
-      dispatch(setAccessToken(contentResult.data.accessToken));
-    } // contentResult에 accessToken이 담겨오면 새로 업데이트
-    dispatch(getContent([...contentResult.data.data]));
+    try {
+      let contentResult = await axios.get(`${url}/meaning/me`, {
+        headers: { authorization: `Bearer ${userInfoState.accessToken}` },
+      });
+      if (contentResult.data.accessToken) {
+        dispatch(setAccessToken(contentResult.data.accessToken));
+      } // contentResult에 accessToken이 담겨오면 새로 업데이트
+      dispatch(getContent([...contentResult.data.data]));
+    } catch (error) {
+      if (error.response.data.message === 'Send new Login Request') {
+        swal({
+          title: '로그인이 필요합니다.',
+          text: '로그인이 만료되었습니다.',
+          icon: 'warning',
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
+      } else {
+        swal({
+          title: 'Internal Server Error',
+          text: '죄송합니다. 다시 로그인해주세요.',
+          icon: 'warning',
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
+      }
+    }
   }; // axios로 유저가 쓴 글 요청 및 dispatch로 redux 업데이트
 
   const getMyInfo = async () => {
@@ -82,15 +94,19 @@ function Mypage() {
           title: '로그인이 필요합니다.',
           text: '로그인이 만료되었습니다.',
           icon: 'warning',
-        }); // swal로 안내
-        dispatch(setLogout());
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
       } else {
         swal({
           title: 'Internal Server Error',
           text: '죄송합니다. 다시 로그인해주세요.',
           icon: 'warning',
-        }); // swal로 안내
-        dispatch(setLogout());
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
       }
     }
   }; // axios로 유저 정보 요청 및 dispatch로 redux 업데이트

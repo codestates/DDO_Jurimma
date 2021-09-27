@@ -8,14 +8,12 @@ import {
   setUserInfo,
 } from '../actions/index';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import silverProfile from '../images/junior_profile.svg';
 import goldProfile from '../images/senior_profile.svg';
 import diaProfile from '../images/master_profile.svg';
 import axios from 'axios';
 import swal from 'sweetalert';
-import { useHistory } from 'react-router-dom';
 axios.defaults.withCredentials = true;
 
 const EditUserPicWrap = styled.div`
@@ -125,7 +123,6 @@ const ProfileImgWrap = styled.div`
 `;
 
 function EditUserPic() {
-  const history = useHistory();
   const dispatch = useDispatch();
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const openSignoutModal = (isOpen) => {
@@ -181,15 +178,26 @@ function EditUserPic() {
       dispatch(setUserInfo(getResult.data.data));
       swal({ title: '프로필 사진이 변경되었습니다.', icon: 'success' });
     } catch (error) {
-      console.log(error);
-      swal({
-        title: '로그인이 만료되었습니다.',
-        text: '다시 로그인을 해주세요!',
-        icon: 'error',
-      }).then(() => {
-        dispatch(setLogout());
-        history.push('/');
-      });
+      // console.log(error);
+      if (error.response.data.message === 'Send new Login Request') {
+        swal({
+          title: '로그인이 필요합니다.',
+          text: '로그인이 만료되었습니다.',
+          icon: 'warning',
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
+      } else {
+        swal({
+          title: 'Internal Server Error',
+          text: '죄송합니다. 다시 로그인해주세요.',
+          icon: 'warning',
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
+      }
     }
   };
 
