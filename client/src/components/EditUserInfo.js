@@ -190,11 +190,6 @@ function EditUserInfo() {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const history = useHistory();
   const dispatch = useDispatch();
-  console.log('!!state.userInfo.isOAath: ', !!state.userInfo.isOAuth);
-  console.log(
-    'typeof (state.userInfo.isOAath): ',
-    typeof state.userInfo.isOAuth
-  );
   const [editUser, setEditUser] = useState({
     username: '',
     oldPassword: '',
@@ -350,7 +345,7 @@ function EditUserInfo() {
       <EditUserInfoBox>
         {state.userInfo.isOAuth ? (
           <>
-            <OldUserName style={{ background: whatColor }}>
+            <OldUserName style={{ backgroundImage: whatColor }}>
               {state.userInfo.username}
               <span>님, 수정을 원하시나요?</span>
             </OldUserName>
@@ -361,7 +356,7 @@ function EditUserInfo() {
           </>
         ) : (
           <>
-            <OldUserName style={{ background: whatColor }}>
+            <OldUserName style={{ backgroundImage: whatColor }}>
               {state.userInfo.username}
               <span>님, 수정을 원하시나요?</span>
             </OldUserName>
@@ -398,12 +393,8 @@ function EditUserInfo() {
                 onClick={state.userInfo.isOAuth ? oauthEdit : handleEdit}
                 style={
                   isHover
-                    ? {
-                        background: `${whatHoverColor}`,
-                      }
-                    : {
-                        background: `${whatColor}`,
-                      }
+                    ? { backgroundImage: whatHoverColor }
+                    : { backgroundImage: whatColor }
                 }
                 onMouseOver={() => setIsHover(true)}
                 onMouseOut={() => setIsHover(false)}

@@ -243,7 +243,7 @@ function UserInfo() {
             <p
               id='userName'
               style={{
-                background: `${whatColor}`,
+                backgroundImage: `${whatColor}`,
               }}
             >
               {state.userInfo.username}
