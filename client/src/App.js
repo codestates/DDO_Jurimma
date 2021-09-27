@@ -31,30 +31,28 @@ function App() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [topbutton, setTopButton] = useState(false);
+  const [btnStatus, setBtnStatus] = useState(false);
   // scroll이 지정하는 곳에 닿았을 때부터 최상위로 가는 버튼 생기게 만들어주는 역할
 
+  const handleTop = () => {
+    // 클릭하면 스크롤이 위로 올라가는 함수
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+    setBtnStatus(false); // BtnStatus의 값을 false로 바꿈 => 버튼 숨김
+  };
   const scrollTopButtonChange = () => {
-    if (window.scrollY >= 1500) {
-      setTopButton(true);
+    if (window.scrollY >= 1300) {
+      setBtnStatus(true);
     } else {
-      setTopButton(false);
+      setBtnStatus(false);
     }
   };
 
   window.addEventListener('scroll', scrollTopButtonChange);
 
   useEffect(() => {
-    // console.log(JSON.parse(localStorage.userInfo).id);
-    // if (localStorage.userInfo) {
-    //   dispatch(setLogin(true));
-    //   dispatch(setUserInfo(JSON.parse(localStorage.userInfo)));
-    //   dispatch(setAccessToken(localStorage.accessToken));
-    //   // setUserInfo를 하지 않으면 로그인 후에 퀴즈를 풀어도 다시 풀 수 있게 된다.
-    // } else {
-    //   dispatch(setLogin(false));
-    // }
-
     const authorizationCode = new URL(window.location.href).searchParams.get(
       'code'
     );
@@ -130,7 +128,7 @@ function App() {
         </header>
 
         <section className='mainContent'>
-          {topbutton ? <div id='topBtn'></div> : null}
+          {btnStatus ? <div id='topBtn' onClick={handleTop}></div> : null}
 
           <Route exact path='/'>
             <LandingPage />

@@ -178,17 +178,19 @@ const UserInfoData = styled.div`
 
 function UserInfo() {
   const state = useSelector((state) => state.userInfoReducer);
-  const barWidth = {
-    width: state.userInfo.experience + '%',
-  }; // 경험치 status bar width 정하는 함수
+  // const barWidth = {
+  //   width: state.userInfo.experience + '%',
+  // }; // 경험치 status bar width 정하는 함수
 
   let whatLevel;
   let whatProfile;
   let whatColor;
+  let barWidth;
   if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
     whatLevel = '실버';
     whatColor = 'linear-gradient(-45deg, #5591C9, #245689)';
     whatProfile = silverProfile;
+    barWidth = state.userInfo.experience + '%';
   } else if (
     100 <= state.userInfo.experience &&
     state.userInfo.experience < 200
@@ -196,10 +198,12 @@ function UserInfo() {
     whatLevel = '골드';
     whatColor = 'linear-gradient(-45deg, #ffc851, #FF1515)';
     whatProfile = goldProfile;
+    barWidth = state.userInfo.experience - 100 + '%';
   } else {
     whatLevel = '다이아';
     whatColor = 'linear-gradient(-45deg, #3FC1FF, #D42AFF)';
     whatProfile = diaProfile;
+    barWidth = state.userInfo.experience - 200 + '%';
   } // 나타낼 레벨 정하기
 
   let myProfileImg;
@@ -265,7 +269,7 @@ function UserInfo() {
               Lv.{whatLevel} ({state.userInfo.experience}exp)
             </p>
             <UserInfoProgress>
-              <div id='barStyle' style={barWidth}></div>
+              <div id='barStyle' style={{ width: barWidth }}></div>
             </UserInfoProgress>
           </div>
         </div>

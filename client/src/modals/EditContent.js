@@ -173,7 +173,7 @@ function EditContent({ id, wordName, wordMean }) {
         icon: 'error',
       }).then(() => {
         dispatch(setLogout());
-        history('/');
+        history.push('/');
       }); // sweet alert로 안내하고 랜딩페이지로 리다이렉트
     }
   }; // 변경한 내용으로 axios 요청하기
