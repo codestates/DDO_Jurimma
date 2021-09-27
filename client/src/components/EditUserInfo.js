@@ -161,22 +161,6 @@ const EditUserInfoBox = styled.div`
   }
 `;
 
-// const InvalidCheck = styled.div`
-//   width: 430px;
-//   height: 50px;
-//   /* border: 2px solid #fff;
-//   border-radius: 20px; */
-//   margin: 0 auto;
-//   margin-top: 30px;
-//   color: red;
-//   text-align: center;
-//   line-height: 50px;
-//   font-size: 12px;
-//   @media only screen and (max-width: 1000px) {
-//     width: 80%;
-//   }
-// `;
-
 function EditUserInfo() {
   // EditUserInfo에서 버튼이 눌리면 유저 정보 state 업데이트 + axios 요청
   const state = useSelector((state) => state.userInfoReducer);
@@ -319,16 +303,16 @@ function EditUserInfo() {
         history.push('/');
       }
     } catch (error) {
-      // console.log(error);
       if (error.response.data.message === 'Wrong Password') {
         swal({
           title: '비밀번호가 틀렸습니다.',
           text: '기존 비밀번호를 다시 한번 확인해주세요!',
           icon: 'warning',
-        }); // swal로 안내
-        setEditUser({
-          ...editUser,
-          oldPassword: '',
+        }).then(() => {
+          setEditUser({
+            ...editUser,
+            oldPassword: '',
+          });
         });
       } else if (error.response.data.message === 'Send new Login Request') {
         swal({

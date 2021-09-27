@@ -159,7 +159,6 @@ function Signout() {
           });
       }
     } catch (error) {
-      // console.log(error.response.data.message);
       if (error.response.data.message === 'Forbidden Request') {
         swal({
           title: '회원탈퇴가 실패하였습니다.',
@@ -177,7 +176,7 @@ function Signout() {
           dispatch(setSignOutModal(false));
           dispatch(setLogout());
           window.location.replace('/');
-        }); // swal로 안내
+        });
       }
     }
   };
