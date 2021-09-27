@@ -178,7 +178,6 @@ function EditUserPic() {
       dispatch(setUserInfo(getResult.data.data));
       swal({ title: '프로필 사진이 변경되었습니다.', icon: 'success' });
     } catch (error) {
-      // console.log(error);
       if (error.response.data.message === 'Send new Login Request') {
         swal({
           title: '로그인이 필요합니다.',
