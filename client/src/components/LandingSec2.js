@@ -154,6 +154,7 @@ const Levelup = styled.div`
   width: 100%;
   height: 60%;
   > h3 {
+    text-align: center;
     font-size: 45px;
     color: #fff;
     @media screen and (min-width: 601px) and (max-width: 1249px) {
@@ -164,6 +165,7 @@ const Levelup = styled.div`
     }
   }
   > p {
+    text-align: center;
     color: #fff;
     font-size: 25px;
     padding: 20px 0;
@@ -232,14 +234,14 @@ function LandingSec2() {
             <DescripTextBox>
               <DescripText>
                 <h3>
-                  알쏭달쏭한 줄임말을 <br /> 검색해보자!
+                  알쏭달쏭한 줄임말을 <br /> 검색해보자! 🤔
                 </h3>
                 <p>
-                  모르는 줄임말의 뜻도,
+                  모르는 줄임말의 뜻도
                   <br />
-                  인기 검색단어 top 10도,
+                  인기 검색단어 TOP 10도
                   <br />
-                  실시간으로 알아보자.
+                  실시간으로 알아보자!
                 </p>
               </DescripText>
               <div className='buttonWrap'>
@@ -260,14 +262,14 @@ function LandingSec2() {
             <DescripTextBox id='descbox2'>
               <DescripText>
                 <h3>
-                  한 단어에 이렇게 많은 <br /> 뜻이 있다고?!
+                  한 단어에 이렇게 많은 <br /> 뜻이 있다고?! 😯
                 </h3>
                 <p>
                   단어에 숨겨진 많은 의미를
                   <br />
-                  다양하게 찾아보기도 하고,
+                  다양하게 찾아보고
                   <br />
-                  직접 뜻을 입력해서 공유해보자.
+                  직접 뜻을 만들어서 공유해보자!
                 </p>
               </DescripText>
               <div className='buttonWrap'>
@@ -287,7 +289,7 @@ function LandingSec2() {
               <DescripText>
                 <h3>
                   어디서든 즐길 수 있는
-                  <br /> JURIMMA!
+                  <br /> JURIMMA! 😎
                 </h3>
                 <p>
                   컴퓨터, 태블릿, 핸드폰등
@@ -311,7 +313,7 @@ function LandingSec2() {
         >
           <DescriptWrap>
             <Levelup>
-              <h3>꾸준한 활동으로, 레벨업도 해보자!</h3>
+              <h3>꾸준한 활동으로, 레벨업도 해보자! 👸</h3>
               <p>퀴즈와 나만의 줄임말 뜻을 공유하면 경험치 획득 가능.</p>
               <ul>
                 <li
@@ -327,6 +329,7 @@ function LandingSec2() {
                 <li id='diaLevel' data-aos='fade-in' data-aos-delay='1500'></li>
               </ul>
             </Levelup>
+            <DescriptGif />
           </DescriptWrap>
         </Section2Li>
       </Section2Box>
