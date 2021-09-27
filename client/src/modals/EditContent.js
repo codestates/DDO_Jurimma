@@ -164,7 +164,6 @@ function EditContent({ id, wordName, wordMean }) {
         });
       }
     } catch (error) {
-      console.log(error);
       if (error.response.data.message === 'Send new Login Request') {
         swal({
           title: '로그인이 필요합니다.',

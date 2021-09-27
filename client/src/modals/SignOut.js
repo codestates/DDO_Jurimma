@@ -135,14 +135,14 @@ function Signout() {
     }
   };
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     try {
       if (deleteText === '') {
         setSignOutError("'회원 탈퇴'를 입력해주세요.");
       } else if (deleteText !== '회원 탈퇴') {
         setSignOutError("'회원 탈퇴'를 정확히 입력해주세요.");
       } else if (deleteText === '회원 탈퇴') {
-        axios
+        await axios
           .delete(`${url}/user`, {
             headers: { authorization: `Bearer ${state.accessToken}}` },
           })
@@ -159,7 +159,7 @@ function Signout() {
           });
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error.response.data.message);
       if (error.response.data.message === 'Forbidden Request') {
         swal({
           title: '회원탈퇴가 실패하였습니다.',
@@ -174,6 +174,7 @@ function Signout() {
           text: '죄송합니다. 다시 로그인해주세요.',
           icon: 'warning',
         }).then(() => {
+          dispatch(setSignOutModal(false));
           dispatch(setLogout());
           window.location.replace('/');
         });
