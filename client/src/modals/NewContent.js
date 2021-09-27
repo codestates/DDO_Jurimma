@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setNewContentModal } from '../actions/index';
 import mainLogo from '../images/main_logo.svg';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { setAccessToken, setUserInfo, setLogout } from '../actions/index';
 import axios from 'axios';
 import '../loadingCss.css';
@@ -130,7 +129,6 @@ const Logo = styled.div`
 function NewContent() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.userInfoReducer);
-  const history = useHistory();
   const closeNewContentModal = (isOpen) => {
     dispatch(setNewContentModal(isOpen));
   }; // 새로 글쓰는 모달 닫는 함수
@@ -161,7 +159,7 @@ function NewContent() {
           icon: 'warning',
         });
       } else {
-        setIsLoading(true); // loading indicator 켜기
+        setIsLoading(true);
         const newWordRes = await axios({
           method: 'post',
           url: `${url}/meaning/me`,
@@ -171,18 +169,15 @@ function NewContent() {
             experience: newWord.experience + 5,
           },
           headers: { authorization: `Bearer ${state.accessToken}` },
-        }); // axios 새글쓰기 요청
+        });
         if (newWordRes.data.accessToken) {
-          // localstorage에 담긴 accessToken 업데이트
-          // reducer에서 accessToken값 업데이트
           dispatch(setAccessToken(newWordRes.data.accessToken));
         }
         const getResult = await axios.get(`${url}/user`, {
           headers: { authorization: `Bearer ${state.accessToken}` },
-        }); //새로 유저 정보 요청하는 axios 요청
-        dispatch(setUserInfo(getResult.data.data)); // axios 리턴으로 유저 정보 업데이트
-        closeNewContentModal(false); // 모달 꺼짐
-        // setIsLoading(false); // loading indicator 끄기
+        });
+        dispatch(setUserInfo(getResult.data.data));
+        closeNewContentModal(false);
         swal({
           title: '줄임말이 등록되었습니다.',
           text: '작성한 줄임말을 확인해보세요!',
@@ -191,14 +186,25 @@ function NewContent() {
       }
     } catch (error) {
       console.log(error);
-      swal({
-        title: '로그인이 만료되었습니다.',
-        text: '다시 로그인을 해주세요!',
-        icon: 'error',
-      }).then(() => {
-        dispatch(setLogout());
-        history('/');
-      }); // sweet alert로 안내하고 랜딩페이지로 리다이렉트
+      if (error.response.data.message === 'Send new Login Request') {
+        swal({
+          title: '로그인이 필요합니다.',
+          text: '로그인이 만료되었습니다.',
+          icon: 'warning',
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
+      } else {
+        swal({
+          title: 'Internal Server Error',
+          text: '죄송합니다. 다시 로그인해주세요.',
+          icon: 'warning',
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
+      }
     }
   };
 
@@ -209,7 +215,7 @@ function NewContent() {
           &times;
         </div>
         <Logo>
-          <img src={mainLogo} />
+          <img src={mainLogo} alt='Logo' />
         </Logo>
         <div id='inputWrap'>
           <input

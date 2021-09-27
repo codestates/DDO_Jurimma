@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import '../App.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import levelDia from '../images/LandingLevelDia.svg';
+import levelGold from '../images/LandingLevelGold.svg';
+import levelSilver from '../images/LandingLevelSilver.svg';
 
 AOS.init();
 
@@ -19,10 +22,10 @@ const Section2Box = styled.ul`
 const Section2Li = styled.li`
   width: 100%;
   @media screen and (min-width: 480px) and (max-width: 1249px) {
-    margin-top: 300px;
+    margin-top: 200px;
   }
   @media screen and (max-width: 479px) {
-    margin-top: 300px;
+    margin-top: 200px;
   }
 `;
 
@@ -102,20 +105,20 @@ const DescripText = styled.div`
       line-height: 60px;
     }
     > p {
-      font-size: 35px;
+      font-size: 33px;
       line-height: 50px;
       color: #fff;
     }
   }
   @media screen and (min-width: 480px) and (max-width: 1249px) {
     > h3 {
-      font-size: 40px;
+      font-size: 38px;
       line-height: 50px;
       padding: 40px 0;
       color: #fff;
     }
     > p {
-      font-size: 30px;
+      font-size: 26px;
       line-height: 45px;
       color: #fff;
     }
@@ -128,7 +131,7 @@ const DescripText = styled.div`
       color: #fff;
     }
     > p {
-      font-size: 23px;
+      font-size: 20px;
       line-height: 35px;
       color: #fff;
     }
@@ -148,9 +151,70 @@ const DescriptGif = styled.div`
 `;
 
 const Levelup = styled.div`
-  width: 80%;
+  width: 100%;
   height: 60%;
-  background-color: white;
+  > h3 {
+    font-size: 45px;
+    color: #fff;
+    @media screen and (min-width: 601px) and (max-width: 1249px) {
+      font-size: 40px;
+    }
+    @media screen and (max-width: 600px) {
+      font-size: 28px;
+    }
+  }
+  > p {
+    color: #fff;
+    font-size: 25px;
+    padding: 20px 0;
+    @media screen and (min-width: 480px) and (max-width: 1249px) {
+      font-size: 20px;
+    }
+    @media screen and (max-width: 479px) {
+      font-size: 10px;
+    }
+  }
+  > ul {
+    display: flex;
+    width: 100%;
+    height: 80%;
+    @media screen and (max-width: 1249px) {
+      height: 40%;
+    }
+    @media screen and (max-width: 600px) {
+      height: 30%;
+    }
+    > li {
+      flex: 1 1 auto;
+      height: 80%;
+      margin-left: 5px;
+    }
+    > #silverLevel {
+      background: url(${levelSilver});
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    > #goldLevel {
+      background: url(${levelGold});
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    > #diaLevel {
+      background: url(${levelDia});
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+  > #descLevel {
+    height: 20%;
+    width: 100%;
+    color: #fff;
+    font-size: 30px;
+    text-align: center;
+    @media screen and (max-width: 600px) {
+      font-size: 18px;
+    }
+  }
 `;
 
 function LandingSec2() {
@@ -168,14 +232,14 @@ function LandingSec2() {
             <DescripTextBox>
               <DescripText>
                 <h3>
-                  다양한 줄임말의 뜻을 <br /> 검색해보자!
+                  알쏭달쏭한 줄임말을 <br /> 검색해보자!
                 </h3>
                 <p>
-                  가나다라마바사아
+                  모르는 줄임말의 뜻도,
                   <br />
-                  가나다라마바사
+                  인기 검색단어 top 10도,
                   <br />
-                  가나다라마바사아자
+                  실시간으로 알아보자.
                 </p>
               </DescripText>
               <div className='buttonWrap'>
@@ -196,14 +260,14 @@ function LandingSec2() {
             <DescripTextBox id='descbox2'>
               <DescripText>
                 <h3>
-                  다양한 줄임말의 뜻을 <br /> 검색해보자!
+                  한 단어에 이렇게 많은 <br /> 뜻이 있다고?!
                 </h3>
                 <p>
-                  가나다라마바사아
+                  단어에 숨겨진 많은 의미를
                   <br />
-                  가나다라마바사
+                  다양하게 찾아보기도 하고,
                   <br />
-                  가나다라마바사아자
+                  직접 뜻을 입력해서 공유해보자.
                 </p>
               </DescripText>
               <div className='buttonWrap'>
@@ -222,19 +286,18 @@ function LandingSec2() {
             <DescripTextBox>
               <DescripText>
                 <h3>
-                  다양한 줄임말의 뜻을 <br /> 검색해보자!
+                  어디서든 즐길 수 있는
+                  <br /> JURIMMA!
                 </h3>
                 <p>
-                  가나다라마바사아
+                  컴퓨터, 태블릿, 핸드폰등
                   <br />
-                  가나다라마바사
+                  다양한 화면에서 지원가능!
                   <br />
-                  가나다라마바사아자
+                  <br />
+                  JURIMMA에 오신것을 환영합니다!
                 </p>
               </DescripText>
-              <div className='buttonWrap'>
-                <button>바로가기</button>
-              </div>
             </DescripTextBox>
             <DescriptGif />
           </DescriptWrap>
@@ -247,7 +310,23 @@ function LandingSec2() {
           data-aos-offset='300'
         >
           <DescriptWrap>
-            <Levelup></Levelup>
+            <Levelup>
+              <h3>꾸준한 활동으로, 레벨업도 해보자!</h3>
+              <p>퀴즈와 나만의 줄임말 뜻을 공유하면 경험치 획득 가능.</p>
+              <ul>
+                <li
+                  id='silverLevel'
+                  data-aos='fade-in'
+                  data-aos-delay='500'
+                ></li>
+                <li
+                  id='goldLevel'
+                  data-aos='fade-in'
+                  data-aos-delay='1000'
+                ></li>
+                <li id='diaLevel' data-aos='fade-in' data-aos-delay='1500'></li>
+              </ul>
+            </Levelup>
           </DescriptWrap>
         </Section2Li>
       </Section2Box>

@@ -11,7 +11,6 @@ AOS.init();
 const SectionWrap = styled.div`
   width: 100%;
   height: 100vh;
-  margin-top: 200px;
   display: flex;
   align-items: center;
 `;

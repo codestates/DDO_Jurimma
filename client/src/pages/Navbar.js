@@ -295,9 +295,9 @@ const MiniNav2 = styled.div`
 
 function Nav() {
   const state = useSelector((state) => state.userInfoReducer);
-  const nowDate = new Date().toLocaleDateString(); // 접속한 날짜를 "2021. 9. 13."와 같은 형식으로 확인
+  const nowDate = new Date().toLocaleDateString();
   const dispatch = useDispatch();
-  const [navBarScroll, setNavBarScroll] = useState(false); // nav bar 스크롤 했을 때
+  const [navBarScroll, setNavBarScroll] = useState(false);
 
   let whatProfile;
   if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
@@ -309,7 +309,7 @@ function Nav() {
     whatProfile = goldProfile;
   } else {
     whatProfile = diaProfile;
-  } // 나타낼 레벨 정하기
+  }
 
   let myProfileImg;
   if (state.userInfo.userPic === null) {
@@ -317,7 +317,6 @@ function Nav() {
   } else {
     myProfileImg = state.userInfo.userPic;
   }
-  // 유저가 프로필 이미지를 가지고 있지 않을 때
 
   const openQuizModal = (isOpen) => {
     if (state.isLogin === false) {
@@ -336,19 +335,19 @@ function Nav() {
       // 로그인 되어있고 최근 퀴즈를 푼 날짜가 오늘 날짜와 다를때만 실행
       dispatch(setQuizModal(isOpen));
     }
-  }; // 퀴즈 모달 여는 함수
+  };
 
   const openLoginOrSignupModal = (isOpen) => {
     dispatch(setLoginOrSignupModal(isOpen));
-  }; // 로그인 모달 여는 함수
+  };
 
   const openLogoutModal = (isOpen) => {
     dispatch(setLogoutModal(isOpen));
-  }; // 로그아웃 모달 여는 함수
+  };
 
   const openMiniMenuModal = (isOpen) => {
     dispatch(setMiniMenuModal(isOpen));
-  }; // 햄버거 바 클릭했을 때 열리는 모달 함수
+  };
 
   const scrollNavChange = () => {
     if (window.scrollY >= 20) {
@@ -356,19 +355,8 @@ function Nav() {
     } else {
       setNavBarScroll(false);
     }
-  }; // 지정된 스크롤에 닿았을 때 nav bar 변경
+  };
 
-  // const clearTimer = (timer) => {
-  //   // console.log('멈춰!');
-  //   clearInterval(timer);
-  // };
-  // const workTimer = () => {
-  //   console.log('들어옴!');
-  //   timer = setInterval(function () {
-  //     console.log('작동중!');
-  //   }, 3000);
-  //   console.log('작동함!');
-  // };
   window.addEventListener('scroll', scrollNavChange);
 
   return (
@@ -411,7 +399,7 @@ function Nav() {
                 <div
                   className='levelProfile'
                   style={{
-                    background: `url(${whatProfile})`,
+                    backgroundImage: `url(${whatProfile})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                   }}
@@ -458,7 +446,7 @@ function Nav() {
                 <div
                   className='levelProfile'
                   style={{
-                    background: `url(${whatProfile})`,
+                    backgroundImage: `url(${whatProfile})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                   }}
