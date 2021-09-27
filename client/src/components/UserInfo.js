@@ -45,7 +45,7 @@ const UserInfoLevel = styled.div`
   top: -250px;
   @media only screen and (max-width: 800px) {
     top: -150px;
-    width: 300px;
+    width: 250px;
   }
   > #levelProfile {
     width: 450px;
@@ -54,8 +54,9 @@ const UserInfoLevel = styled.div`
     display: flex;
     align-items: center;
     @media only screen and (max-width: 800px) {
-      height: 300px;
-      width: 300px;
+      height: 250px;
+      width: 250px;
+      margin: 0 auto;
     }
     > #profileImg {
       width: 130px;
@@ -91,7 +92,7 @@ const UserInfoDataWrap = styled.div`
   top: -250px;
   margin: 0 auto;
   @media only screen and (max-width: 800px) {
-    top: -150px;
+    top: -120px;
   }
   > #levelWrap {
     width: 100%;
