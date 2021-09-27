@@ -135,14 +135,14 @@ function Signout() {
     }
   };
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     try {
       if (deleteText === '') {
         setSignOutError("'회원 탈퇴'를 입력해주세요.");
       } else if (deleteText !== '회원 탈퇴') {
         setSignOutError("'회원 탈퇴'를 정확히 입력해주세요.");
       } else if (deleteText === '회원 탈퇴') {
-        axios
+        await axios
           .delete(`${url}/user`, {
             headers: { authorization: `Bearer ${state.accessToken}}` },
           })
