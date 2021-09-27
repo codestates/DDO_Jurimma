@@ -1,12 +1,11 @@
-// main 페이지 (검색 및 검색결과 보기 페이지)
 import styled from 'styled-components';
 import Search from '../components/Search';
 import Chart from '../components/Chart';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import ChartModal from '../modals/ChartModal';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSearchList } from '../actions/index';
+import { useDispatch } from 'react-redux';
+import { setSearchList, setLogout } from '../actions/index';
+import swal from 'sweetalert';
 axios.defaults.withCredentials = true;
 
 const MainWrap = styled.div`
@@ -23,13 +22,12 @@ const MainWrap = styled.div`
   @media only screen and (max-width: 800px) {
     margin-top: 120px;
   }
-`; // 현재 3:1비율로 한꺼번에 보이는데, 크기가 작아질 경우 상단에 검색창 + 하단에 검색어 차트가 보이게 수정 필요
+`;
 
 function Main() {
-  const state = useSelector((state) => state.userModalReducer);
   const dispatch = useDispatch();
-  const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
-  const [word, setWord] = useState(''); // 입력창
+  let url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
+  const [word, setWord] = useState('');
   function useInterval(callback, delay) {
     const savedCallback = useRef();
 
@@ -60,17 +58,26 @@ function Main() {
   }, 60000);
 
   useEffect(() => {
+    let url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
     axios
       .get(`${url}/word/chart`)
       .then((res) => {
         dispatch(setSearchList(res.data.data));
       })
-      .catch((err) => console.log(err));
-  }, []);
+      .catch((err) => {
+        console.log(err);
+        swal({
+          title: 'Internal Server Error',
+          text: '죄송합니다. 다시 로그인 후 해주세요.',
+          icon: 'warning',
+        });
+        dispatch(setLogout());
+        window.location.replace('/');
+      });
+  }, [dispatch]);
 
   return (
     <>
-      {state.isShowChartModal ? <ChartModal /> : null}
       <MainWrap>
         <Search word={word} setWord={setWord} />
         <Chart setWord={setWord} />

@@ -163,7 +163,7 @@ function NewContent() {
           icon: 'warning',
         });
       } else {
-        setIsLoading(true); // loading indicator 켜기
+        setIsLoading(true);
         const newWordRes = await axios({
           method: 'post',
           url: `${url}/meaning/me`,
@@ -173,16 +173,15 @@ function NewContent() {
             experience: newWord.experience + 5,
           },
           headers: { authorization: `Bearer ${state.accessToken}` },
-        }); // axios 새글쓰기 요청
+        });
         if (newWordRes.data.accessToken) {
-          // reducer에서 accessToken값 업데이트
           dispatch(setAccessToken(newWordRes.data.accessToken));
         }
         const getResult = await axios.get(`${url}/user`, {
           headers: { authorization: `Bearer ${state.accessToken}` },
-        }); //새로 유저 정보 요청하는 axios 요청
-        dispatch(setUserInfo(getResult.data.data)); // axios 리턴으로 유저 정보 업데이트
-        closeNewContentModal(false); // 모달 꺼짐
+        });
+        dispatch(setUserInfo(getResult.data.data));
+        closeNewContentModal(false);
         swal({
           title: '줄임말이 등록되었습니다.',
           text: '작성한 줄임말을 확인해보세요!',
@@ -198,7 +197,7 @@ function NewContent() {
         }).then(() => {
           dispatch(setLogout());
           window.location.replace('/');
-        }); // sweet alert로 안내하고 랜딩페이지로 리다이렉트
+        });
       } else {
         swal({
           title: 'Internal Server Error',
@@ -219,7 +218,7 @@ function NewContent() {
           &times;
         </div>
         <Logo>
-          <img src={mainLogo} />
+          <img src={mainLogo} alt='Logo' />
         </Logo>
         <div id='inputWrap'>
           <input

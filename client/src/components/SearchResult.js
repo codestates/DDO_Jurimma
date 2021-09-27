@@ -1,4 +1,3 @@
-// Search에서 검색 후 좋아요 순으로 3개만 보여지는 부분
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -152,7 +151,6 @@ function SearchResult({ wordResult, notSearched }) {
               </ul>
 
               <BtnWrap>
-                {/*search의 검색결과가 0일때만 아래 새글쓰기 버튼이 보이도록 지정해줘야 함*/}
                 <button
                   className='newOrSearchBtn'
                   onClick={() => openNewContentModal(true)}

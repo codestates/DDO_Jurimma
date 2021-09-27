@@ -9,7 +9,6 @@ import Mypage from './pages/Mypage';
 import MypageEdit from './pages/EditMyPage';
 import SearchMore from './pages/SearchMore';
 import Quiz from './modals/Quiz';
-import EditContent from './modals/EditContent';
 import Logout from './modals/Logout';
 import SignOut from './modals/SignOut';
 import MiniMenuModal from './modals/MiniMenuModal';

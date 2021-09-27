@@ -11,7 +11,6 @@ AOS.init();
 const SectionWrap = styled.div`
   width: 100%;
   height: 100vh;
-  margin-top: 200px;
   display: flex;
   align-items: center;
 `;
@@ -62,6 +61,9 @@ const LandingQuizScore = styled.div`
     }
     > button {
       cursor: pointer;
+      margin-top: 10px;
+      background-color: #440a67;
+      color: #fff;
       border-radius: 50px;
       width: 40%;
       height: 50px;
@@ -112,9 +114,10 @@ const LandingQuizChoiceButton = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.5s;
   :hover {
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    background-color: #440a67;
+    color: #fff;
   }
 `;
 
