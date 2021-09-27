@@ -1,4 +1,3 @@
-// Search에서 검색창 부분
 import styled, { keyframes } from 'styled-components';
 import SearchAutoComp from './SearchAutoComp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

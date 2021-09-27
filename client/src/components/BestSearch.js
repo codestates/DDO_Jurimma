@@ -1,4 +1,3 @@
-// Chart 안에 실시간 순위 보여질 부분
 import { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';

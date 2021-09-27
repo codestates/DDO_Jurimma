@@ -1,4 +1,3 @@
-// 실시간 순위 보여질 부분
 import styled from 'styled-components';
 import BestSearch from './BestSearch';
 import '../App.css';

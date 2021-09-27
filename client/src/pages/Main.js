@@ -1,10 +1,9 @@
-// main 페이지 (검색 및 검색결과 보기 페이지)
 import styled from 'styled-components';
 import Search from '../components/Search';
 import Chart from '../components/Chart';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setSearchList, setLogout } from '../actions/index';
 import swal from 'sweetalert';
 axios.defaults.withCredentials = true;
@@ -26,10 +25,9 @@ const MainWrap = styled.div`
 `;
 
 function Main() {
-  const state = useSelector((state) => state.userModalReducer);
   const dispatch = useDispatch();
   let url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
-  const [word, setWord] = useState(''); // 입력창
+  const [word, setWord] = useState('');
   function useInterval(callback, delay) {
     const savedCallback = useRef();
 

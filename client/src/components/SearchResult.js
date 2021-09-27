@@ -1,4 +1,3 @@
-// Search에서 검색 후 좋아요 순으로 3개만 보여지는 부분
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';

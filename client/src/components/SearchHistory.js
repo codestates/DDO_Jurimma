@@ -1,4 +1,3 @@
-// 과거 검색결과 보관
 import styled from 'styled-components';
 
 const SearchHistoryWrap = styled.div`

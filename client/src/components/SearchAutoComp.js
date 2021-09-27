@@ -1,4 +1,3 @@
-// Search에서 자동완성 창
 import styled from 'styled-components';
 
 const SearchAutoCompWrap = styled.div``;
