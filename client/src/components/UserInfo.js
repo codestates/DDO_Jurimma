@@ -206,14 +206,6 @@ function UserInfo() {
     barWidth = state.userInfo.experience - 200 + '%';
   } // 나타낼 레벨 정하기
 
-  let myProfileImg;
-  if (state.userInfo.userPic === null) {
-    myProfileImg = basicProfile;
-  } else {
-    myProfileImg = state.userInfo.userPic;
-  }
-  // 유저가 프로필 이미지를 가지고 있지 않을 때
-
   return (
     <UserInfoWrap>
       <UserInfoLevel>

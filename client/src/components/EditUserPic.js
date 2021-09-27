@@ -144,12 +144,6 @@ function EditUserPic() {
     whatProfile = diaProfile;
   } // 나타낼 레벨 정하기
 
-  let myProfileImg;
-  if (state.userInfo.userPic === null) {
-    myProfileImg = basicProfile;
-  } else {
-    myProfileImg = state.userInfo.userPic;
-  }
   // 유저가 프로필 이미지를 가지고 있지 않을 때
   const changeProfileBtn = (event) => {
     // 로컬에서 선택한 사진 파일을 마이페이지 상에 미리보기로 띄움

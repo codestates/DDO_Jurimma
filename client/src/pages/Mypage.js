@@ -39,7 +39,7 @@ function Mypage() {
     } else {
       getMyInfo();
     }
-  }, [userInfoState.userInfo.id]); // id가 변경될 때마다(=로그아웃) 다시 개인정보 요청
+  }, [userInfoState.userInfo.id, history]); // id가 변경될 때마다(=로그아웃) 다시 개인정보 요청
 
   useEffect(() => {
     if (userModalState.isShowEditContentModal === false) {
