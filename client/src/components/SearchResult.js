@@ -115,7 +115,7 @@ function SearchResult({ wordResult, notSearched }) {
                       <div className='wordThumbsup'>
                         <p>
                           <FontAwesomeIcon icon={faThumbsUp} />
-                          {res.thumbsup.length}
+                          &nbsp;{res.thumbsup.length}
                         </p>
                       </div>
                     </li>

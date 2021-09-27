@@ -102,7 +102,6 @@ module.exports = {
       console.log('emailAuth : ', isAuth.emailAuth);
       await isAuth.save();
       // ! 유저 테이블의 emailAuth를 true로 바꾸고 랜딩페이지로 리디렉트한다.
-      // res.redirect(URL).json({ emailAuth: isAuth.emailAuth });
       res.send(
         `<script>
         alert('회원가입이 완료되었습니다.');location.href='${URL}';</script>`
@@ -112,8 +111,6 @@ module.exports = {
       res.send(
         `<script>alert('이메일 인증 시간을 초과했습니다.');location.href='${URL}';</script>`
       );
-      // res.redirect(URL);
-      // window.alert('이메일 인증 시간을 초과했습니다.');
     }
   },
 };

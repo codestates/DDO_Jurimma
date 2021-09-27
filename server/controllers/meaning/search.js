@@ -11,7 +11,6 @@ module.exports = {
     const offset = Number(req.query.offset);
     const limit = Number(req.query.limit);
     const sorted = req.query.sort;
-    console.log(wordName, offset, limit, sorted);
 
     //! 메인 페이지의 검색 Top 3
     if (limit === 3) {
