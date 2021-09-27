@@ -42,13 +42,8 @@ module.exports = {
               where: { id: returnData[i].wordId },
             });
             wordNameRes.push(coWordName.dataValues.wordName);
-            // console.log('coWordName : ', coWordName);
-            // console.log('thumbsupResult : ', thumbsupResult);
           }
 
-          // console.log('returnData : ', returnData);
-          // console.log('thumbsupData : ', thumbsupData);
-          // console.log('wordNameRes : ', wordNameRes);
           for (let i = 0; i < returnData.length; i++) {
             returnData[i].wordName = wordNameRes[i];
             let userNames = [];
@@ -61,8 +56,6 @@ module.exports = {
             }
             returnData[i].thumbsup = userNames;
           }
-          // console.log('returnData : ', returnData);
-          // console.log(returnData[3].thumbsup);
           returnData.sort((a, b) => b.updatedAt - a.updatedAt);
           res.status(201).json({ accessToken, data: returnData });
         }
@@ -94,13 +87,8 @@ module.exports = {
             where: { id: returnData[i].wordId },
           });
           wordNameRes.push(coWordName.dataValues.wordName);
-          // console.log('coWordName : ', coWordName);
-          // console.log('thumbsupResult : ', thumbsupResult);
         }
 
-        // console.log('returnData : ', returnData);
-        // console.log('thumbsupData : ', thumbsupData);
-        // console.log('wordNameRes : ', wordNameRes);
         for (let i = 0; i < returnData.length; i++) {
           returnData[i].wordName = wordNameRes[i];
           let userNames = [];
@@ -113,8 +101,6 @@ module.exports = {
           }
           returnData[i].thumbsup = userNames;
         }
-        // console.log('returnData : ', returnData);
-        // console.log(returnData[3].thumbsup);
         returnData.sort((a, b) => b.updatedAt - a.updatedAt);
         res.status(200).json({ data: returnData });
       }
@@ -188,7 +174,6 @@ module.exports = {
       const oldContent = await content.findOne({
         where: { id: contentId },
       });
-      // console.log('oldContent : ', oldContent);
       oldContent.wordMean = wordMean;
       await oldContent.save();
       res.status(200).json({ message: 'ok' });
