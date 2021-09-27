@@ -123,21 +123,21 @@ function EditContent({ id, wordName, wordMean }) {
   const dispatch = useDispatch();
   const closeEditContentModal = (isOpen) => {
     dispatch(setEditContentModal(isOpen));
-  }; // 수정 모달 닫는 함수
+  };
 
   const [editContent, setEditContent] = useState(wordMean);
   const [editError, setEditError] = useState('');
 
   const handleEditInputValue = (e) => {
-    setEditContent(e.target.value); // 입력하는대로 입력 text 반영
-    setEditError(''); // 입력하면 에러 메세지 사라짐
-  }; // 글자 입력 + 에러메세지 없애기
+    setEditContent(e.target.value);
+    setEditError('');
+  };
 
   const handleKeyPressEdit = (e) => {
     if (e.type === 'keypress' && e.code === 'Enter') {
       editMyContent();
     }
-  }; // 엔터로도 axios 요청 가능하도록
+  };
 
   const editMyContent = async () => {
     try {
@@ -155,8 +155,8 @@ function EditContent({ id, wordName, wordMean }) {
         );
         if (editResult.data.accessToken) {
           dispatch(setAccessToken(editResult.data.accessToken));
-        } // response에 accessToken 담겨있으면 accessToken 업데이트
-        closeEditContentModal(false); // 모달 끄기
+        }
+        closeEditContentModal(false);
         swal({
           title: '줄임말이 변경되었습니다.',
           text: '작성한 줄임말을 확인해보세요!',
@@ -164,7 +164,6 @@ function EditContent({ id, wordName, wordMean }) {
         });
       }
     } catch (error) {
-      // console.log(error);
       if (error.response.data.message === 'Send new Login Request') {
         swal({
           title: '로그인이 필요합니다.',
@@ -185,7 +184,7 @@ function EditContent({ id, wordName, wordMean }) {
         });
       }
     }
-  }; // 변경한 내용으로 axios 요청하기
+  };
 
   return (
     <EditContentBackdrop>
@@ -194,7 +193,7 @@ function EditContent({ id, wordName, wordMean }) {
           &times;
         </div>
         <Logo>
-          <img src={mainLogo} />
+          <img src={mainLogo} alt='Logo' />
         </Logo>
         <div id='wordName'>{wordName}</div>
         <textarea

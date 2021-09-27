@@ -121,13 +121,13 @@ function Signout() {
   const closeEditContentModal = (isOpen) => {
     dispatch(setSignOutModal(isOpen));
   }; // 로그인 모달 닫는 함수
-  const [deleteText, setDeleteText] = useState(''); // input창 value
-  const [SignOutError, setSignOutError] = useState(''); // 에러메세지
+  const [deleteText, setDeleteText] = useState('');
+  const [SignOutError, setSignOutError] = useState('');
 
   const handleSignOutInput = (event) => {
     setDeleteText(event.target.value);
     setSignOutError('');
-  }; // 입력 사항 반영 + 에러메세지 리셋
+  };
 
   const handleKeyPressSignout = (e) => {
     if (e.type === 'keypress' && e.code === 'Enter') {
@@ -154,7 +154,7 @@ function Signout() {
             }).then(() => {
               closeEditContentModal(false);
               dispatch(setLogout());
-              history.push('/');
+              window.location.replace('/');
             });
           });
       }
@@ -171,13 +171,13 @@ function Signout() {
       } else {
         swal({
           title: 'Internal Server Error',
-          text: '죄송합니다. 다시 로그인 후 해주세요.',
+          text: '죄송합니다. 다시 로그인해주세요.',
           icon: 'warning',
         }).then(() => {
           dispatch(setSignOutModal(false));
           dispatch(setLogout());
           window.location.replace('/');
-        }); // swal로 안내
+        });
       }
     }
   };

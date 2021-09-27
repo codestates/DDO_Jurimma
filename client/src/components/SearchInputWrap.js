@@ -1,10 +1,9 @@
-// Search에서 검색창 부분
 import styled, { keyframes } from 'styled-components';
 import SearchAutoComp from './SearchAutoComp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import silverBadge from '../images/junior_badge.svg';
 import goldBadge from '../images/senior_badge.svg';
 import diaBadge from '../images/master_badge.svg';
@@ -80,23 +79,34 @@ const SearchBox = styled.div`
   }
 `;
 
+const InputBox = styled.div`
+  width: 100%;
+  height: 65px;
+  flex: 1 1 auto;
+  animation: ${HeaderKeyFrame} 4s ease infinite;
+  background-size: 200% 100%;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  @media only screen and (max-width: 800px) {
+    height: 50px;
+  }
+`;
+
 function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
-  const [isShowAutoComp, setIsShowAutoComp] = useState(false); // 자동 검색 여부 display 여부
-  const [selected, setSelected] = useState(-1); // 어떤걸 선택했을지 index
+  const [isShowAutoComp, setIsShowAutoComp] = useState(false);
+  const [selected, setSelected] = useState(-1);
   const state = useSelector((state) => state.userInfoReducer);
 
   useEffect(() => {
     if (word === '') {
-      // 만약 입력값이 아무것도 입력되지 않은 상태라면
-      setIsShowAutoComp(false); // 자동 검색 안보이게
+      setIsShowAutoComp(false);
     } else {
-      setIsShowAutoComp(true); // 자동 검색 보이게
+      setIsShowAutoComp(true);
     }
-  }, [word]); // 입력값이 변할때마다
+  }, [word]);
 
   const handleKeyUp = (event) => {
-    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState#example
-    // eslint-disable-next-line
     if (
       event.getModifierState('Fn') ||
       event.getModifierState('Hyper') ||
@@ -114,33 +124,26 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
       return;
     if (word !== '') {
       if (event.code === 'ArrowDown') {
-        console.log('selected: ', selected);
         if (autoCompResult.length - 1 > selected) {
-          console.log('여기임1');
-          setSelected(selected + 1); // 선택된 index 변경
+          setSelected(selected + 1);
         } else if (selected === autoCompResult.length - 1) {
-          console.log('여기임2');
           setSelected(0);
         }
       }
       if (event.code === 'ArrowUp' && selected >= 0) {
-        setSelected(selected - 1); // 선택된 index 변경
+        setSelected(selected - 1);
       }
       if (event.code === 'Enter' && selected >= -1) {
         if (selected === -1) {
-          searchWord(event, autoCompResult[selected] || event.target.value); // 검색하기
-          setSelected(-1); // 선택된 index 다시 처음값으로
+          searchWord(event, autoCompResult[selected] || event.target.value);
+          setSelected(-1);
         } else {
-          setWord(autoCompResult[selected]); // input창 변경
-          setSelected(-1); // 선택된 index 다시 처음값으로
+          setWord(autoCompResult[selected]);
+          setSelected(-1);
         }
       }
-      // 만약 selected -1이고 엔터면 바로 검색
-      // 만약 selected -1이 아니고 엔터하면 setword로 바로 변경
     }
   };
-
-  // 맨 처음에 한글자만 입력하고 아래키를 누르게 되면 2번 눌린것으로 처리됨. 수정 필요
 
   let loginColorBox;
   let levelBadge;
@@ -176,21 +179,6 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
     }
   }
 
-  const InputBox = styled.div`
-    width: 100%;
-    height: 65px;
-    flex: 1 1 auto;
-    background: ${loginColorBox};
-    animation: ${HeaderKeyFrame} 4s ease infinite;
-    background-size: 200% 100%;
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    @media only screen and (max-width: 800px) {
-      height: 50px;
-    }
-  `;
-
   return (
     <SearchInputBox>
       <div
@@ -202,7 +190,7 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
           top: `${levelTop}`,
         }}
       ></div>
-      <InputBox></InputBox>
+      <InputBox style={{ background: loginColorBox }}></InputBox>
       <SearchBox>
         <input
           id='reqInput'

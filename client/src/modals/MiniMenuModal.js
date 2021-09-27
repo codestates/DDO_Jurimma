@@ -1,6 +1,6 @@
 // 사용자가 쓴 글 수정하는 모달
 import styled from 'styled-components';
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import basicProfile from '../images/basic_profileImg.svg';
 import {
@@ -189,24 +189,23 @@ function MiniMenuModal() {
         icon: 'warning',
       });
     } else {
-      // 로그인 되어있고 최근 퀴즈를 푼 날짜가 오늘 날짜와 다를때만 실행
       dispatch(setQuizModal(isOpen));
       dispatch(setMiniMenuModal(false));
     }
-  }; // 퀴즈 모달 열면서 Mini Modal을 끄는 함수
+  };
 
   const openLoginOrSignupModal = (isOpen) => {
     dispatch(setLoginOrSignupModal(isOpen));
     dispatch(setMiniMenuModal(false));
-  }; // 로그인 모달 열면서 Mini Modal을 끄는 함수
+  };
 
   const openLogoutModal = (isOpen) => {
     dispatch(setLogoutModal(isOpen));
     dispatch(setMiniMenuModal(false));
-  }; // 로그아웃 모달 열면서 Mini Modal을 끄는 함수
+  };
   const closeMiniMenuModal = (isOpen) => {
     dispatch(setMiniMenuModal(isOpen));
-  }; // mini Modal 모달 닫는 함수
+  };
 
   window.onresize = function () {
     var innerWidth = window.innerWidth;
@@ -215,30 +214,17 @@ function MiniMenuModal() {
       : dispatch(setMiniMenuModal(false));
   };
 
-  const [isHover, setIsHover] = useState(false);
-
   let whatProfile;
-  let whatColor;
-  let whatFontColor;
   if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
     whatProfile = silverProfile;
-    whatColor =
-      'linear-gradient(#fff, #fff), linear-gradient(-45deg, #5591C9, #245689)';
-    whatFontColor = '#5591C9';
   } else if (
     100 <= state.userInfo.experience &&
     state.userInfo.experience < 200
   ) {
     whatProfile = goldProfile;
-    whatColor =
-      'linear-gradient(#fff, #fff), linear-gradient(-45deg, #ffc851, #FF1515)';
-    whatFontColor = '#ffc851';
   } else {
     whatProfile = diaProfile;
-    whatColor =
-      'linear-gradient(#fff, #fff), linear-gradient(-45deg, #3FC1FF, #D42AFF)';
-    whatFontColor = '#3FC1FF';
-  } // 나타낼 레벨 정하기
+  }
 
   let myProfileImg;
   if (state.userInfo.userPic === null) {
@@ -246,7 +232,6 @@ function MiniMenuModal() {
   } else {
     myProfileImg = state.userInfo.userPic;
   }
-  // 유저가 프로필 이미지를 가지고 있지 않을 때
 
   return (
     <MiniMenuWrap>
