@@ -149,7 +149,8 @@ const SearchMoreBox = styled.div`
     padding: 30px 0;
     > .wordBox {
       width: 95%;
-      height: 300px;
+      min-height: 300px;
+      height: auto;
       margin: 0 auto;
       background-color: #230638;
       border: 2px solid #fff;
@@ -158,6 +159,8 @@ const SearchMoreBox = styled.div`
       justify-content: center;
       align-items: center;
       margin-top: 30px;
+      padding: 10px 0px;
+      box-sizing: border-box;
       :nth-child(2n) {
         background-color: #2b055a;
       }
@@ -189,13 +192,16 @@ const SearchMoreBox = styled.div`
         }
         > .wordMean {
           width: 100%;
-          height: 150px;
+          min-height: 150px;
+          height: auto;
           margin-top: 10px;
           background-color: rgba(255, 255, 255, 0.8);
           border-radius: 20px;
-          text-align: center;
-          line-height: 150px;
           font-size: 18px;
+          display: grid;
+          place-items: center;
+          padding: 10px;
+          box-sizing: border-box;
         }
         > .bottomWrap {
           display: flex;
@@ -274,9 +280,15 @@ const ProfileWrap = styled.div`
     color: #fff;
     border: 2px solid #fff;
     border-radius: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     @media only screen and (max-width: 550px) {
       width: 50px;
-      font-size: 10px;
+      min-height: 50px;
+      line-height: 50px;
+      font-size: 12px;
+      padding: 0px 5px;
     }
   }
   > .userPic {

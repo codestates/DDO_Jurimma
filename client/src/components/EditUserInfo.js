@@ -201,6 +201,7 @@ function EditUserInfo() {
     newPassword: '',
     newPasswordRe: '',
   });
+
   let whatColor;
   let whatHoverColor;
   if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {

@@ -14,7 +14,8 @@ const SearchResultWrap = styled.div`
   flex-direction: column;
   > .wordResultList {
     width: 100%;
-    height: 350px;
+    min-height: 350px;
+    height: auto;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
