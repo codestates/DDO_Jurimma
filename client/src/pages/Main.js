@@ -4,7 +4,6 @@ import Search from '../components/Search';
 import Chart from '../components/Chart';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import ChartModal from '../modals/ChartModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchList, setLogout } from '../actions/index';
 import swal from 'sweetalert';
@@ -81,7 +80,6 @@ function Main() {
 
   return (
     <>
-      {state.isShowChartModal ? <ChartModal /> : null}
       <MainWrap>
         <Search word={word} setWord={setWord} />
         <Chart setWord={setWord} />
