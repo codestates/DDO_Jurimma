@@ -36,6 +36,7 @@ function Mypage() {
   useEffect(() => {
     if (userInfoState.userInfo.id === -1) {
       history.push('/main');
+      window.scrollTo(0, 0);
     } else {
       getMyInfo();
     }
