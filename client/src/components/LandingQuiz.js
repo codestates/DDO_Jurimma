@@ -19,7 +19,7 @@ const SectionWrap = styled.div`
 `;
 
 const LandingQuizBox = styled.article`
-  width: max(340px, 50vw);
+  width: max(260px, 50vw);
   max-width: 500px;
   height: max(420px, 50vh);
   margin: auto;
@@ -83,6 +83,10 @@ const LandingQuizQuestion = styled.div`
     width: 300px;
     height: 300px;
     margin: auto;
+    @media only screen and (max-width: 320px) {
+      width: 150px;
+      height: 150px;
+    }
   }
 `;
 
@@ -118,6 +122,9 @@ const LandingQuizChoiceButton = styled.button`
   align-items: center;
   cursor: pointer;
   transition: all 0.5s;
+  @media only screen and (max-width: 600px) {
+    height: 50px;
+  }
   :hover {
     background-color: #440a67;
     color: #fff;

@@ -13,10 +13,12 @@ axios.defaults.withCredentials = true;
 const SearchWrap = styled.div`
   width: 900px;
   height: 100%;
+  padding-top: 100px;
   display: flex;
   flex-direction: column;
   @media only screen and (max-width: 1399px) {
     width: 100%;
+    padding-top: 10px;
   }
 `;
 

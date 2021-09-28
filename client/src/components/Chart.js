@@ -11,7 +11,6 @@ const ChartWrap = styled.div`
   flex-direction: column;
   @media only screen and (max-width: 1399px) {
     width: 100%;
-    height: 78vh;
     margin: 0 auto;
   }
   > .bestSearchTitle {

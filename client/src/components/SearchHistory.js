@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 const SearchHistoryWrap = styled.div`
-  height: 100px;
   box-sizing: border-box;
   display: flex;
   @media only screen and (max-width: 1399px) {
@@ -14,7 +13,6 @@ export const SearchHistoryBox = styled.div`
   align-items: center;
   > ul {
     width: 100%;
-    height: 60%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

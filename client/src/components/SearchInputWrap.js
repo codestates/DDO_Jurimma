@@ -57,23 +57,27 @@ const SearchBox = styled.div`
     margin-top: -46.5px;
   }
   > input {
-    flex: 4 1 auto;
+    width: 88%;
     height: 30px;
     padding-left: 10px;
     outline: none;
   }
   > #buttonWrap {
     display: flex;
-    width: 80px;
+    width: 12%;
     margin-right: 20px;
     > button {
-      width: 40px;
+      width: 50%;
       font-size: 20px;
       color: #440a67;
       background-color: transparent;
       cursor: pointer;
+      margin-left: 7px;
       @media only screen and (max-width: 1399px) {
         font-size: 18px;
+      }
+      @media only screen and (max-width: 400px) {
+        font-size: 15px;
       }
     }
   }
