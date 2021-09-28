@@ -93,7 +93,6 @@ function LogOut() {
         headers: { authorization: `Bearer ${userInfostate.accessToken}}` },
       })
       .then(() => {
-        dispatch(setLogout());
         swal({
           title: '로그아웃이 완료되었습니다.',
           text: '다음에 또 만나요! 🙋🏻 ',
@@ -101,11 +100,9 @@ function LogOut() {
         }).then(() => {
           dispatch(setLogout());
           closeLogoutModal(false);
-          history.push('/main');
         });
       })
       .catch((err) => {
-        console.log(err);
         swal({
           title: 'Internal Server Error',
           text: '죄송합니다. 다시 로그인해주세요.',
