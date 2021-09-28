@@ -18,8 +18,8 @@ const UserContentsWrap = styled.div`
   @media only screen and (max-width: 800px) {
     margin-top: 0;
   }
-  @media only screen and (max-width: 400px) {
-    width: 300px;
+  @media only screen and (max-width: 550px) {
+    width: 100%;
   }
   > ul {
     margin-top: 30px;
@@ -83,6 +83,9 @@ const UserContentsWrap = styled.div`
           place-items: center;
           padding: 10px;
           box-sizing: border-box;
+          @media only screen and (max-width: 550px) {
+            font-size: 14px;
+          }
         }
         > .bottomWrap {
           display: flex;

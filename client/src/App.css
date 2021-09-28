@@ -77,6 +77,7 @@ body::-webkit-scrollbar {
 }
 
 .mainContent {
+  min-width: 280px;
   min-height: 467px;
   border: 1px solid transparent;
   box-sizing: border-box;
