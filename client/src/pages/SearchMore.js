@@ -400,6 +400,7 @@ function SearchMore() {
     if (state.userInfo.id === -1) {
       // 유저가 로그아웃 버튼을 누른 경우
       history.push('/main');
+      window.scrollTo(0, 0);
     } else {
       getMoreSearch(query);
       setIsEnd(true);
