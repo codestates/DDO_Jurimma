@@ -10,12 +10,13 @@ const LandingPageWrap = styled.div`
 `;
 
 function LandingPage() {
+  let location = document.querySelector('quizSec');
   return (
     <>
       <LandingPageWrap>
         <LandingSec1 />
-        <LandingSec2 />
-        <LandingQuiz />
+        <LandingSec2 location={location} />
+        <LandingQuiz id='quizSec' />
       </LandingPageWrap>
     </>
   );

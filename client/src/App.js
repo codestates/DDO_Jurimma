@@ -39,7 +39,7 @@ function App() {
     setBtnStatus(false); // BtnStatus의 값을 false로 바꿈 => 버튼 숨김
   };
   const scrollTopButtonChange = () => {
-    if (window.scrollY >= 1300) {
+    if (window.scrollY >= 20) {
       setBtnStatus(true);
     } else {
       setBtnStatus(false);
@@ -127,7 +127,24 @@ function App() {
         </header>
 
         <section className='mainContent'>
-          {btnStatus ? <div id='topBtn' onClick={handleTop}></div> : null}
+          {btnStatus ? (
+            <div
+              id='topBtn'
+              style={{
+                opacity: 1,
+              }}
+              onClick={handleTop}
+            ></div>
+          ) : (
+            <div
+              id='topBtn'
+              style={{
+                opacity: 0,
+                cursor: 'grab',
+              }}
+              onClick={handleTop}
+            ></div>
+          )}
 
           <Route exact path='/'>
             <LandingPage />
