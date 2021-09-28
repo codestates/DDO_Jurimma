@@ -47,7 +47,7 @@ JURIMMA는 여러분의 답답함을 해소시켜줄 수 있는 신세대 줄임
 
 ### 4. 줄임말 검색 / 실시간 검색어 차트
 
-![메인페이지](https://cdn.discordapp.com/attachments/892308009194258502/892313044955312159/lan2.gif)
+![메인페이지](https://cdn.discordapp.com/attachments/892308009194258502/892308076118568960/landing1.gif)
 
 ### 5. 무한 스크롤 / 새 글 작성
 
