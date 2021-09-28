@@ -128,7 +128,6 @@ const DescripText = styled.div`
 const DescriptGif = styled.div`
   width: 688px;
   height: 387px;
-  background-color: #fff;
   border-radius: 40px;
   display: inline-block;
   @media only screen and (max-width: 1300px) {
@@ -266,6 +265,10 @@ const LevelGif = styled.div`
 `;
 
 function LandingSec2() {
+  const goToMain = () => {
+    window.location.replace('/main');
+  };
+
   return (
     <SectionWrap>
       <Section2Box>
@@ -289,10 +292,18 @@ function LandingSec2() {
                   <br />
                   실시간으로 알아보자!
                 </p>
-                <button>바로가기</button>
+
+                <button onClick={goToMain}>바로가기</button>
               </DescripText>
             </DescripTextBox>
-            <DescriptGif />
+            <DescriptGif
+              style={{
+                backgroundImage: `url(https://cdn.discordapp.com/attachments/892308009194258502/892308076118568960/landing1.gif)`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                boxShadow: '0px 0px 15px 0px ',
+              }}
+            />
           </DescriptWrap>
         </Section2Li>
         {/* 더보기 페이지 설명 */}
@@ -302,7 +313,14 @@ function LandingSec2() {
           data-aos-offset='300'
         >
           <DescriptWrap id='reverse'>
-            <DescriptGif />
+            <DescriptGif
+              style={{
+                backgroundImage: `url(https://cdn.discordapp.com/attachments/892308009194258502/892313202753437696/landing22.gif)`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                boxShadow: '0px 0px 20px 0px',
+              }}
+            />
             <DescripTextBox id='descbox2'>
               <DescripText id='desctext'>
                 <h3>
@@ -343,7 +361,14 @@ function LandingSec2() {
                 </p>
               </DescripText>
             </DescripTextBox>
-            <DescriptGif />
+            <DescriptGif
+              style={{
+                backgroundImage: `url(https://cdn.discordapp.com/attachments/892308009194258502/892311601011630171/Artboard_1.png)`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                boxShadow: '0px 0px 20px 0px',
+              }}
+            />
           </DescriptWrap>
         </Section2Li>
 
@@ -356,7 +381,7 @@ function LandingSec2() {
           <LevelWrap>
             <Levelup>
               <h3>꾸준한 활동으로 레벨업도 해보자! 👸</h3>
-              <p>퀴즈와 나만의 줄임말 뜻을 공유하면 경험치 획득 가능.</p>
+              <p>퀴즈도 풀고,힙한 줄임말 뜻을 공유하면 경험치 획득!</p>
               <div id='levelStairs'></div>
               {/* <ul>
                 <li

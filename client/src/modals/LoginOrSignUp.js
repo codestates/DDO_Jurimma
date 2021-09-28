@@ -397,12 +397,12 @@ function LoginOrSignUp() {
           <div className='OauthLoginBtn'>
             <KakaoLogin onClick={handleKakaoLogin}>
               <FontAwesomeIcon icon={faComment} />
-              카카오 로그인
+              &nbsp;카카오 로그인
             </KakaoLogin>
 
             <GoogleLogin onClick={googleLoginHandler}>
               <FontAwesomeIcon icon={['fab', 'google']} />
-              구글 로그인
+              &nbsp;구글 로그인
             </GoogleLogin>
           </div>
         </OauthLogin>
