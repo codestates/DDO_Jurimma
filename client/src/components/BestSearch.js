@@ -4,7 +4,8 @@ import styled from 'styled-components';
 
 const BestSearchWrap = styled.div`
   /* flex: 5 1 auto; // 콘텐츠 전체 길이 생각해서 후에 max 설정해주기 */
-  height: 38vh;
+  min-height: 38vh;
+  height: auto;
   box-sizing: border-box;
   border: 2px solid #fff;
   border-radius: 20px;
@@ -16,6 +17,9 @@ const BestSearchWrap = styled.div`
     justify-content: space-between;
     width: 100%;
     height: 100%;
+    @media only screen and (max-width: 400px) {
+      flex-direction: column;
+    }
   }
 `;
 const BestSearchList = styled.ul`
@@ -32,7 +36,7 @@ const BestSearchList = styled.ul`
     /* display: grid;
     place-items: center; */
     transition: all 1s;
-    margin-top: 20px;
+    padding: 10px 0;
     cursor: pointer;
     position: relative;
     > span {
@@ -69,6 +73,9 @@ const BestSearchList = styled.ul`
   }
   > li:nth-child(1) {
     margin-top: 0;
+  }
+  @media only screen and (max-width: 400px) {
+    width: 100%;
   }
 `;
 
