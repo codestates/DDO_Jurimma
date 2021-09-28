@@ -202,6 +202,9 @@ const SearchMoreBox = styled.div`
           place-items: center;
           padding: 10px;
           box-sizing: border-box;
+          @media only screen and (max-width: 550px) {
+            font-size: 14px;
+          }
         }
         > .bottomWrap {
           display: flex;

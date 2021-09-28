@@ -31,32 +31,42 @@ const UserInfoWrap = styled.div`
     top: -100px;
     height: 450px;
   }
-  @media only screen and (max-width: 400px) {
+  /* @media only screen and (max-width: 400px) {
     width: 300px;
-  }
+    background-color: red;
+  } */
 `;
 
 const UserInfoLevel = styled.div`
   width: 450px;
   margin: 0 auto;
-  // 콘텐츠 전체 길이 생각해서 후에 max 설정해주기
   box-sizing: border-box;
   position: relative;
   top: -250px;
   @media only screen and (max-width: 800px) {
     top: -150px;
-    width: 250px;
+    height: 255px;
+    width: 255px;
+  }
+  @media only screen and (max-width: 400px) {
+    top: -100px;
+    width: 175px;
+    height: 175px;
   }
   > #levelProfile {
     width: 450px;
     height: 450px;
     margin: 0 auto;
     display: flex;
+    justify-content: center;
     align-items: center;
     @media only screen and (max-width: 800px) {
-      height: 250px;
-      width: 250px;
-      margin: 0 auto;
+      height: 255px;
+      width: 255px;
+    }
+    @media only screen and (max-width: 400px) {
+      height: 175px;
+      width: 175px;
     }
     > #profileImg {
       width: 130px;
@@ -70,13 +80,17 @@ const UserInfoLevel = styled.div`
         width: 80px;
         height: 80px;
       }
+      @media only screen and (max-width: 400px) {
+        width: 60px;
+        height: 60px;
+      }
     }
   }
 `; // 유저 사진 및 레벨 정보
+
 const UserInfoProgress = styled.div`
-  width: 50%;
+  width: max(50%, 100px);
   height: 20px;
-  margin: 0 auto;
   background-color: #fff;
   border-radius: 50px;
   overflow: hidden;
@@ -92,11 +106,13 @@ const UserInfoDataWrap = styled.div`
   top: -250px;
   margin: 0 auto;
   @media only screen and (max-width: 800px) {
-    top: -120px;
+    top: -100px;
+  }
+  @media only screen and (max-width: 400px) {
+    top: -50px;
   }
   > #levelWrap {
     width: 100%;
-    margin: 0 auto;
     margin-top: 30px;
     height: 100px;
     color: #fff;
@@ -105,6 +121,8 @@ const UserInfoDataWrap = styled.div`
     > #levelInfo {
       width: 50%;
       text-align: center;
+      display: grid;
+      place-items: center;
       > p {
         color: #fff;
         margin-bottom: 10px;
@@ -122,7 +140,7 @@ const UserInfoData = styled.div`
     width: 100%;
   }
   > #userInfo {
-    width: 70%;
+    width: 80%;
     margin: 0 auto;
     text-align: center;
     > #userName {
