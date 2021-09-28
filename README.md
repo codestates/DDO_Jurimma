@@ -8,16 +8,9 @@
 
 온라인 세상 속 무수한 줄임말들 때문에 답답하셨죠?
 
-JURIMMA는 여러분의 답답함을 해소시켜줄 수 있는 신세대 줄임말 단어 검색 서비스 입니다!
+**JURIMMA**는 여러분의 답답함을 해소시켜줄 수 있는 **신세대 줄임말 단어 검색 서비스** 입니다!
 
 줄임말을 검색하고, 새로운 줄임말도 만들어보고, 퀴즈도 풀면서 줄임말 마스터가 되어보세요!
-
-(수정 예정 \_ Why? 부분)
-
-### **우리 서비스를 통해 ~할 수 있습니다! 😎**
-
-우리 서비스의 핵심 기능 설명
-(What? 부분)
 
 ### **지금 바로 궁금한 줄임말을 검색해보세요! 🔍**
 
@@ -39,7 +32,13 @@ JURIMMA는 여러분의 답답함을 해소시켜줄 수 있는 신세대 줄임
 
 ### 2. 로그인
 
-![자체로그인 및 소셜로그인]()
+(1) Kakao Login
+<br />
+![소셜로그인_Kakao](https://media.discordapp.net/attachments/885202056355397686/892389674088288287/Kakao_Login_Changed.gif?width=1100&height=549)
+<br />
+(2) Google Login
+<br />
+![소셜로그인_Google](https://media.discordapp.net/attachments/885202056355397686/892389697152765993/Google_Login_Changed.gif?width=1100&height=549)
 
 ### 3. 프로필 이미지 변경
 
@@ -59,13 +58,13 @@ JURIMMA는 여러분의 답답함을 해소시켜줄 수 있는 신세대 줄임
 
 ### 7. 유저 레벨에 따라 다른 UI 적용
 
-![레벨별 UI]()
+![레벨별 UI](https://media.discordapp.net/attachments/878131777485565993/892345348268376094/levelStair2.png?width=1098&height=549)
 
 # 👫 Team HomeLudens
 
 |  이름  |   직책   |   역할    |                                                                                                  GitHub                                                                                                   |     담당 영역      |
 | :----: | :------: | :-------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------: |
 | 김민재 | **팀장** | Back-End  |        <a href="https://github.com/minjman2659"><img src="https://img.shields.io/badge/minjman2659-181717?style=flat-square&logo=github&logoColor=white&link=https://github.com/minjman2659"/></a>        |   **API Manage**   |
-| 강영서 |   팀원   | Front-End | <a href="https://github.com/Youngseo-kangg"><img src="https://img.shields.io/badge/Youngseo%2D%2Dkangg-181717?style=flat-square&logo=github&logoColor=white&link=https://github.com/Youngseo-kangg"/></a> | **Component Flow** |
-| 이나은 |   팀원   | Front-End |    <a href="https://github.com/Lee-Na-eun"><img src="https://img.shields.io/badge/Lee%2D%2DNa%2D%2Deun-181717?style=flat-square&logo=github&logoColor=white&link=https://github.com/Lee-Na-eun"/></a>     | **UI / UX Design** |
-| 배윤수 |   팀원   | Back-End  |            <a href="https://github.com/mniYUNSU"><img src="https://img.shields.io/badge/mniYUNSU-181717?style=flat-square&logo=github&logoColor=white&link=https://github.com/mniYUNSU"/></a>             |     **Deploy**     |
+| 강영서 |   팀원   | Front-End | <a href="https://github.com/Youngseo-kangg"><img src="https://img.shields.io/badge/Youngseo%2D%2Dkangg-F5792A?style=flat-square&logo=github&logoColor=white&link=https://github.com/Youngseo-kangg"/></a> | **Component Flow** |
+| 이나은 |   팀원   | Front-End |    <a href="https://github.com/Lee-Na-eun"><img src="https://img.shields.io/badge/Lee%2D%2DNa%2D%2Deun-EA4AAA?style=flat-square&logo=github&logoColor=white&link=https://github.com/Lee-Na-eun"/></a>     | **UI / UX Design** |
+| 배윤수 |   팀원   | Back-End  |            <a href="https://github.com/mniYUNSU"><img src="https://img.shields.io/badge/mniYUNSU-512BD4?style=flat-square&logo=github&logoColor=white&link=https://github.com/mniYUNSU"/></a>             |     **Deploy**     |
