@@ -6,6 +6,7 @@ import {
   setNewContentModal,
   setLogout,
   setLogoutModal,
+  setAccessToken,
 } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -16,7 +17,6 @@ import axios from 'axios';
 import { useState } from 'react';
 import '../loadingCss.css';
 import swal from 'sweetalert';
-import { setAccessToken } from '../actions/index';
 axios.defaults.withCredentials = true;
 
 const SearchMoreWrap = styled.div`
@@ -144,12 +144,13 @@ const SearchMoreBox = styled.div`
   > ul {
     margin-top: 30px;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.3);
     border-radius: 20px;
     padding: 30px 0;
     > .wordBox {
       width: 95%;
-      height: 300px;
+      min-height: 300px;
+      height: auto;
       margin: 0 auto;
       background-color: #230638;
       border: 2px solid #fff;
@@ -158,8 +159,14 @@ const SearchMoreBox = styled.div`
       justify-content: center;
       align-items: center;
       margin-top: 30px;
+      padding: 10px 0px;
+      box-sizing: border-box;
+      :nth-child(2n) {
+        background-color: #2b055a;
+      }
       :nth-child(1) {
         margin-top: 0;
+        border: 4px solid #daa520;
       }
       > .wordBoxWrap {
         width: 90%;
@@ -185,13 +192,16 @@ const SearchMoreBox = styled.div`
         }
         > .wordMean {
           width: 100%;
-          height: 150px;
+          min-height: 150px;
+          height: auto;
           margin-top: 10px;
           background-color: rgba(255, 255, 255, 0.8);
           border-radius: 20px;
-          text-align: center;
-          line-height: 150px;
           font-size: 18px;
+          display: grid;
+          place-items: center;
+          padding: 10px;
+          box-sizing: border-box;
         }
         > .bottomWrap {
           display: flex;
@@ -270,9 +280,15 @@ const ProfileWrap = styled.div`
     color: #fff;
     border: 2px solid #fff;
     border-radius: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     @media only screen and (max-width: 550px) {
       width: 50px;
-      font-size: 10px;
+      min-height: 50px;
+      line-height: 50px;
+      font-size: 12px;
+      padding: 0px 5px;
     }
   }
   > .userPic {
@@ -346,21 +362,6 @@ function SearchMore() {
     } else {
       setSearchMoreData([...searchMoreData, ...getResult.data.data]);
     }
-
-    // setSearchMoreData([
-    //   ...searchMoreData,
-    //   {
-    //     id: 10,
-    //     wordName: '테스트',
-    //     username: '테스터',
-    //     userPic: '',
-    //     wordMean: '테스트테스트',
-    //     thumbsup: [],
-    //     createdAt: '2021-09-21 10:50:10T',
-    //   },
-    // ]);
-    // 추가 데이터 로드 끝
-
     setFetching(false);
   };
 
@@ -392,7 +393,6 @@ function SearchMore() {
     };
   });
 
-  // -----------------------------------------------------------------------------------------------
   useEffect(() => {
     if (state.userInfo.id === -1) {
       // 유저가 로그아웃 버튼을 누른 경우
@@ -408,7 +408,7 @@ function SearchMore() {
       getMoreSearch(query);
       setIsEnd(true);
     }
-  }, [state.userInfo.experience, orderBy]); // 렌더 되고 바로 실행 -> 새글 추가할때마다 렌더링되게 수정
+  }, [state.userInfo.experience, orderBy]);
 
   const updateThumbsup = async (contentId) => {
     try {
@@ -433,16 +433,26 @@ function SearchMore() {
         }
       }
       setSearchMoreData(newSearchData);
-    } catch (error) {
-      console.log(error);
-      swal({
-        title: '로그인이 만료되었습니다.',
-        text: '다시 로그인을 해주세요!',
-        icon: 'error',
-      }).then(() => {
-        dispatch(setLogout());
-        history.push('/');
-      }); // sweet alert로 안내하고 랜딩페이지로 리다이렉트
+    } catch (err) {
+      if (err.response.data.message === 'Send new Login Request') {
+        swal({
+          title: '로그인이 필요합니다.',
+          text: '로그인이 만료되었습니다.',
+          icon: 'warning',
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        }); // sweet alert로 안내하고 랜딩페이지로 리다이렉트
+      } else {
+        swal({
+          title: 'Internal Server Error',
+          text: '죄송합니다. 다시 로그인해주세요.',
+          icon: 'warning',
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
+      }
     }
   };
 
@@ -457,7 +467,6 @@ function SearchMore() {
           headers: { authorization: `Bearer ${state.accessToken}` },
         }
       );
-      console.log(getResult.data);
       if (getResult.data.accessToken) {
         // 응답에 accessToken이 담겨있다면
         dispatch(setAccessToken(getResult.data.accessToken));
@@ -466,16 +475,25 @@ function SearchMore() {
       setSearchMoreTitle(decodeURI(query));
       setIsLoading(true);
     } catch (err) {
-      console.log(err);
-      console.log(err.response.data);
-      swal({
-        title: '로그인이 만료되었습니다.',
-        text: '다시 로그인을 해주세요!',
-        icon: 'error',
-      }).then(() => {
-        dispatch(setLogout());
-        history.push('/main');
-      }); // sweet alert로 안내하고 메인페이지로 리다이렉트
+      if (err.response.data.message === 'Send new Login Request') {
+        swal({
+          title: '로그인이 필요합니다.',
+          text: '로그인이 만료되었습니다.',
+          icon: 'warning',
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        }); // sweet alert로 안내하고 랜딩페이지로 리다이렉트
+      } else {
+        swal({
+          title: 'Internal Server Error',
+          text: '죄송합니다. 다시 로그인해주세요.',
+          icon: 'warning',
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
+      }
     }
   }; // axios로 searchMoreData에서 보여질 데이터 요청하는 함수
 
@@ -486,7 +504,7 @@ function SearchMore() {
     }
   }; // 더보기 페이지에서 검색 실행 시
 
-  const handleNewQueryInputValue = (key) => (e) => {
+  const handleNewQueryInputValue = () => (e) => {
     setNewQuery(e.target.value);
   }; // 더보기 페이지에서 검색 실행 시 인풋 값 가져오기
 
@@ -504,21 +522,29 @@ function SearchMore() {
         setIsEnd(true);
         getMoreSearch(newQuery);
       }
-    } catch (error) {
-      console.log(error);
-      swal({
-        title: '로그인이 만료되었습니다.',
-        text: '다시 로그인을 해주세요!',
-        icon: 'error',
-      }).then(() => {
-        dispatch(setLogout());
-        window.location.replace('/main');
-      }); // sweet alert로 안내하고 메인페이지로 리다이렉트
+    } catch (err) {
+      if (err.response.data.message === 'Send new Login Request') {
+        swal({
+          title: '로그인이 필요합니다.',
+          text: '로그인이 만료되었습니다.',
+          icon: 'warning',
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        }); // sweet alert로 안내하고 랜딩페이지로 리다이렉트
+      } else {
+        swal({
+          title: 'Internal Server Error',
+          text: '죄송합니다. 다시 로그인해주세요.',
+          icon: 'warning',
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
+      }
     }
   };
-  // TODO : 만약 다른곳에서 새로운 글쓰기 모달이 꺼져서 isShowNewContentModal 값이 false가 되었다면 useEffect를 통해 검색값 다시 요청해서 결과 업데이트 되도록 하기
-  // TODO : 좋아요 누르면 useEffect를 통해 검색값 다시 요청해서 결과 업데이트 되도록 하기 + 다시 렌더 되도록 하기
-  // TODO : 스크롤 떨어지는 부분 확인해서 axios 요청 다시 가도록 만들기
+
   return (
     <>
       <ToDiffSearchMore>
@@ -532,7 +558,6 @@ function SearchMore() {
           />
           {/* 더보기 페이지에서 다른 단어 더보기페이지로*/}
           <button>
-            {/* <Link to={`/searchMore?wordName=${입력한 단어}</button>`>검색하기</Link> 로 바꿔줘야함 */}
             <Link
               to={`/searchMore/wordName=${newQuery}`}
               onClick={handleNewQuery}
@@ -557,17 +582,13 @@ function SearchMore() {
           {isLoading || isLoadingContent ? (
             <ul>
               {searchMoreData.length > 0 ? (
-                searchMoreData.map((data) => {
+                searchMoreData.map((data, idx) => {
                   if (data.id === 0) {
                     return (
                       <li className='wordBox' key={data.id}>
                         <div className='wordBoxWrap'>
                           <div className='topWrap'></div>
-
-                          <div
-                            className='wordMean'
-                            className='lds-dual-ring'
-                          ></div>
+                          <div className='lds-dual-ring'></div>
                         </div>
                       </li>
                     );
@@ -642,7 +663,7 @@ function SearchMore() {
                               </HoverThumbsup>
                               <span className='thumbsupWrap'>
                                 <FontAwesomeIcon icon={faThumbsUp} />
-                                {data.thumbsup.length}개
+                                &nbsp;&nbsp;{data.thumbsup.length}개
                               </span>
                             </p>
                           </div>
@@ -672,11 +693,6 @@ function SearchMore() {
           )}
         </SearchMoreBox>
       </SearchMoreWrap>
-      {/* // 메인페이지로 리디렉션 // 작성 글을 조회하는 axios 요청 과정에서,
-      로그인이 만료된 경우 catch를 통해 메인페이지로 리다이렉트 하도록 변경함 //
-      새로고침을 했을 때, 더보기페이지에서 유지를 못하고 메인으로 갔던 이유는,
-      렌더링 될 때, isLogin이 false로 바뀌었다가 true로 바뀌는데 그 과정에서
-      false에서 걸려서 메인페이지로 리다이렉트 되었던 것이었음.  */}
     </>
   );
 }

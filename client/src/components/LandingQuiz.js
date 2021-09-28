@@ -4,15 +4,18 @@ import { useState } from 'react';
 import you_quiz from '../images/you_quiz.svg';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setLoginOrSignupModal } from '../actions/index';
 AOS.init();
 
 const SectionWrap = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 800px;
   display: flex;
   align-items: center;
+  @media only screen and (max-width: 600px) {
+    height: 500px;
+  }
 `;
 
 const LandingQuizBox = styled.article`
@@ -155,7 +158,6 @@ function LandingQuiz() {
       ],
     },
   ]; // 문제
-  const state = useSelector((state) => state.userModalReducer);
   const dispatch = useDispatch();
   const [currentQuestion, setCurrentQuestion] = useState(0); // 현재 문제 index
   const [showScore, setShowScore] = useState(false); // 점수 화면 보임 여부

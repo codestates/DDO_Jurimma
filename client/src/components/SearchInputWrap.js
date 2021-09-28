@@ -151,12 +151,12 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
   let levelHeight;
   let levelTop;
   if (!state.isLogin) {
-    loginColorBox = 'linear-gradient(-45deg, #a239ea, #b4aee8)';
+    loginColorBox = `linear-gradient(-45deg, #a239ea, #b4aee8)`;
     levelWidth = '70px';
     levelHeight = '70px';
   } else {
     if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
-      loginColorBox = 'linear-gradient(-45deg, #185ADB, #A2DBFA)';
+      loginColorBox = `linear-gradient(-45deg, #185ADB, #A2DBFA)`;
       levelBadge = `${silverBadge}`;
       levelWidth = '70px';
       levelHeight = '70px';
@@ -165,13 +165,13 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
       100 <= state.userInfo.experience &&
       state.userInfo.experience < 200
     ) {
-      loginColorBox = 'linear-gradient(-45deg, #ffc851, #FF1515)';
+      loginColorBox = `linear-gradient(-45deg, #ffc851, #FF1515)`;
       levelBadge = `${goldBadge}`;
       levelWidth = '50px';
       levelHeight = '50px';
       levelTop = '30px';
     } else {
-      loginColorBox = 'linear-gradient(-45deg, #3FC1FF, #D42AFF)';
+      loginColorBox = `linear-gradient(-45deg, #3FC1FF, #D42AFF)`;
       levelBadge = `${diaBadge}`;
       levelWidth = '65px';
       levelHeight = '65px';
@@ -190,7 +190,7 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
           top: `${levelTop}`,
         }}
       ></div>
-      <InputBox style={{ background: loginColorBox }}></InputBox>
+      <InputBox style={{ backgroundImage: loginColorBox }}></InputBox>
       <SearchBox>
         <input
           id='reqInput'

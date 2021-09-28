@@ -103,8 +103,6 @@ module.exports = {
     });
     const userCreatedDate = userFind.createdAt.toLocaleDateString();
     const nowDate = new Date().toLocaleDateString();
-    console.log(userCreatedDate);
-    console.log(nowDate);
     if (userCreatedDate === nowDate) {
       res.status(403).json({ message: 'Forbidden Request' });
     } else {

@@ -24,7 +24,7 @@ const UserContentsWrap = styled.div`
   > ul {
     margin-top: 30px;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.3);
     border-radius: 20px;
     padding: 30px 0;
     > .wordBox {
@@ -38,8 +38,12 @@ const UserContentsWrap = styled.div`
       justify-content: center;
       align-items: center;
       margin-top: 30px;
+      :nth-child(2n) {
+        background-color: #2b055a;
+      }
       :nth-child(1) {
         margin-top: 0;
+        border: 4px solid #daa520;
       }
       > .wordBoxWrap {
         width: 90%;
@@ -275,7 +279,7 @@ function UserContents({ setEditInfo }) {
                     </HoverThumbsup>
                     <div className='thumbsupWrap'>
                       <FontAwesomeIcon icon={faThumbsUp} />
-                      {el.thumbsup.length}개
+                      &nbsp;&nbsp;{el.thumbsup.length}개
                     </div>
                   </div>
                 </div>

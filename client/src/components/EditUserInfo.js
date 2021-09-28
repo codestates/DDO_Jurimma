@@ -160,6 +160,29 @@ const EditUserInfoBox = styled.div`
     }
   }
 `;
+const OldUserName = styled.div`
+  width: 100%;
+  height: 60px;
+  margin: 0 auto;
+  background-size: 200% 100%;
+  animation: ${colorAni} 5s ease infinite;
+  text-align: center;
+  line-height: 60px;
+  color: #fff;
+  border-radius: 20px;
+  border: 2px solid #fff;
+  @media only screen and (max-width: 400px) {
+    font-size: 14px;
+  }
+  > span {
+    color: #fff;
+    font-size: 13px;
+    @media only screen and (max-width: 400px) {
+      font-size: 11px;
+    }
+  }
+`;
+// 레벨별 그라디언트를 다르게 줘야하는데, 이 styled component가 기존의 것처럼 밖에 있으면 애니메이션 효과가 구현되지 않아, 이것만 함수 안에 넣음.
 
 function EditUserInfo() {
   // EditUserInfo에서 버튼이 눌리면 유저 정보 state 업데이트 + axios 요청
@@ -167,17 +190,13 @@ function EditUserInfo() {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const history = useHistory();
   const dispatch = useDispatch();
-  console.log('!!state.userInfo.isOAath: ', !!state.userInfo.isOAuth);
-  console.log(
-    'typeof (state.userInfo.isOAath): ',
-    typeof state.userInfo.isOAuth
-  );
   const [editUser, setEditUser] = useState({
     username: '',
     oldPassword: '',
     newPassword: '',
     newPasswordRe: '',
   });
+
   let whatColor;
   let whatHoverColor;
   if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
@@ -193,31 +212,6 @@ function EditUserInfo() {
     whatColor = 'linear-gradient(-45deg, #3FC1FF, #D42AFF)';
     whatHoverColor = 'linear-gradient(-45deg, #fff, #3FC1FF, #D42AFF)';
   }
-
-  const OldUserName = styled.div`
-    width: 100%;
-    height: 60px;
-    margin: 0 auto;
-    background: ${whatColor};
-    background-size: 200% 100%;
-    animation: ${colorAni} 5s ease infinite;
-    text-align: center;
-    line-height: 60px;
-    color: #fff;
-    border-radius: 20px;
-    border: 2px solid #fff;
-    @media only screen and (max-width: 400px) {
-      font-size: 14px;
-    }
-    > span {
-      color: #fff;
-      font-size: 13px;
-      @media only screen and (max-width: 400px) {
-        font-size: 11px;
-      }
-    }
-  `;
-  // 레벨별 그라디언트를 다르게 줘야하는데, 이 styled component가 기존의 것처럼 밖에 있으면 애니메이션 효과가 구현되지 않아, 이것만 함수 안에 넣음.
 
   const handleKeyPressEdit = (e) => {
     if (e.type === 'keypress' && e.code === 'Enter') {
@@ -351,7 +345,7 @@ function EditUserInfo() {
       <EditUserInfoBox>
         {state.userInfo.isOAuth ? (
           <>
-            <OldUserName>
+            <OldUserName style={{ backgroundImage: whatColor }}>
               {state.userInfo.username}
               <span>님, 수정을 원하시나요?</span>
             </OldUserName>
@@ -362,7 +356,7 @@ function EditUserInfo() {
           </>
         ) : (
           <>
-            <OldUserName>
+            <OldUserName style={{ backgroundImage: whatColor }}>
               {state.userInfo.username}
               <span>님, 수정을 원하시나요?</span>
             </OldUserName>
@@ -399,12 +393,8 @@ function EditUserInfo() {
                 onClick={state.userInfo.isOAuth ? oauthEdit : handleEdit}
                 style={
                   isHover
-                    ? {
-                        background: `${whatHoverColor}`,
-                      }
-                    : {
-                        background: `${whatColor}`,
-                      }
+                    ? { backgroundImage: whatHoverColor }
+                    : { backgroundImage: whatColor }
                 }
                 onMouseOver={() => setIsHover(true)}
                 onMouseOut={() => setIsHover(false)}

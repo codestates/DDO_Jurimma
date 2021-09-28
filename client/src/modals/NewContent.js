@@ -1,10 +1,14 @@
 // 사용자가 새로운 글을 쓰는 모달
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { setNewContentModal } from '../actions/index';
+import {
+  setNewContentModal,
+  setAccessToken,
+  setUserInfo,
+  setLogout,
+} from '../actions/index';
 import mainLogo from '../images/main_logo.svg';
 import { useState } from 'react';
-import { setAccessToken, setUserInfo, setLogout } from '../actions/index';
 import axios from 'axios';
 import '../loadingCss.css';
 import swal from 'sweetalert';
@@ -184,9 +188,8 @@ function NewContent() {
           icon: 'success',
         });
       }
-    } catch (error) {
-      console.log(error);
-      if (error.response.data.message === 'Send new Login Request') {
+    } catch (err) {
+      if (err.response.data.message === 'Send new Login Request') {
         swal({
           title: '로그인이 필요합니다.',
           text: '로그인이 만료되었습니다.',

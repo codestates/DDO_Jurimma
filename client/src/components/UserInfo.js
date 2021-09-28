@@ -45,7 +45,7 @@ const UserInfoLevel = styled.div`
   top: -250px;
   @media only screen and (max-width: 800px) {
     top: -150px;
-    width: 300px;
+    width: 250px;
   }
   > #levelProfile {
     width: 450px;
@@ -54,8 +54,9 @@ const UserInfoLevel = styled.div`
     display: flex;
     align-items: center;
     @media only screen and (max-width: 800px) {
-      height: 300px;
-      width: 300px;
+      height: 250px;
+      width: 250px;
+      margin: 0 auto;
     }
     > #profileImg {
       width: 130px;
@@ -91,7 +92,7 @@ const UserInfoDataWrap = styled.div`
   top: -250px;
   margin: 0 auto;
   @media only screen and (max-width: 800px) {
-    top: -150px;
+    top: -120px;
   }
   > #levelWrap {
     width: 100%;
@@ -206,14 +207,6 @@ function UserInfo() {
     barWidth = state.userInfo.experience - 200 + '%';
   } // 나타낼 레벨 정하기
 
-  let myProfileImg;
-  if (state.userInfo.userPic === null) {
-    myProfileImg = basicProfile;
-  } else {
-    myProfileImg = state.userInfo.userPic;
-  }
-  // 유저가 프로필 이미지를 가지고 있지 않을 때
-
   return (
     <UserInfoWrap>
       <UserInfoLevel>
@@ -251,7 +244,7 @@ function UserInfo() {
             <p
               id='userName'
               style={{
-                background: `${whatColor}`,
+                backgroundImage: `${whatColor}`,
               }}
             >
               {state.userInfo.username}
