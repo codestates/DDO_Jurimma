@@ -122,7 +122,7 @@ const UserInfoData = styled.div`
     width: 100%;
   }
   > #userInfo {
-    width: 60%;
+    width: 70%;
     margin: 0 auto;
     text-align: center;
     > #userName {
@@ -136,9 +136,6 @@ const UserInfoData = styled.div`
       border: 2px solid #fff;
       animation: ${colorAni} 10s ease infinite;
       background-size: 200% 100%;
-      @media only screen and (max-width: 800px) {
-        width: 160px;
-      }
       > span {
         font-size: 13px;
         color: #fff;
