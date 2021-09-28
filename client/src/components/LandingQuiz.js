@@ -11,10 +11,17 @@ AOS.init();
 const SectionWrap = styled.div`
   width: 100%;
   height: 800px;
-  display: flex;
   align-items: center;
   @media only screen and (max-width: 600px) {
     height: 500px;
+  }
+  > h3 {
+    width: 100%;
+    margin: 0 auto;
+    height: 50px;
+    text-align: center;
+    font-size: 50px;
+    color: #fff;
   }
 `;
 
@@ -83,7 +90,7 @@ const LandingQuizQuestion = styled.div`
     width: 300px;
     height: 300px;
     margin: auto;
-    @media only screen and (max-width: 320px) {
+    @media only screen and (max-width: 375px) {
       width: 150px;
       height: 150px;
     }
@@ -190,6 +197,7 @@ function LandingQuiz() {
 
   return (
     <SectionWrap>
+      <h3>웰컴 퀴즈를 풀어보세요! 💁</h3>
       <LandingQuizBox
         data-aos='zoom-in'
         data-aos-duration='2000'

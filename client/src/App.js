@@ -56,9 +56,9 @@ function App() {
       console.log(authorizationCode);
       getUserInfoAndAccessToken(authorizationCode);
     }
-    // window.onbeforeunload = function pushRefresh() {
-    //   window.scrollTo(0, 0);
-    // };
+    window.onbeforeunload = function pushRefresh() {
+      window.scrollTo(0, 0);
+    };
   }, []);
 
   const getUserInfoAndAccessToken = (authorizationCode) => {

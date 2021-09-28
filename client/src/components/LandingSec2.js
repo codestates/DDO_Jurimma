@@ -6,6 +6,7 @@ import levelDia from '../images/LandingLevelDia.svg';
 import levelGold from '../images/LandingLevelGold.svg';
 import levelSilver from '../images/LandingLevelSilver.svg';
 import leverStairs from '../images/levelStair2.png';
+import { useHistory } from 'react-router-dom';
 
 AOS.init();
 
@@ -97,6 +98,10 @@ const DescripText = styled.div`
     @media only screen and (max-width: 700px) {
       font-size: 20px;
       text-align: center;
+    }
+    @media only screen and (max-width: 300px) {
+      text-align: center;
+      font-size: 17px;
     }
   }
   > button {
@@ -265,8 +270,10 @@ const LevelGif = styled.div`
 `;
 
 function LandingSec2() {
+  const history = useHistory();
   const goToMain = () => {
-    window.location.replace('/main');
+    history.push('/main');
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -290,7 +297,7 @@ function LandingSec2() {
                   <br />
                   인기 검색단어 TOP 10도
                   <br />
-                  실시간으로 알아보자!
+                  실시간으로 알아보세요!
                 </p>
 
                 <button onClick={goToMain}>바로가기</button>
@@ -331,9 +338,8 @@ function LandingSec2() {
                   <br />
                   다양하게 찾아보고
                   <br />
-                  직접 뜻을 만들어서 공유해보자!
+                  직접 뜻을 만들어서 공유해보세요!
                 </p>
-                <button>바로가기</button>
               </DescripText>
             </DescripTextBox>
           </DescriptWrap>
@@ -354,10 +360,7 @@ function LandingSec2() {
                 <p>
                   컴퓨터, 태블릿, 핸드폰등
                   <br />
-                  다양한 화면에서 지원가능!
-                  <br />
-                  <br />
-                  JURIMMA에 오신것을 환영합니다!
+                  다양한 화면에서 이용해보세요!
                 </p>
               </DescripText>
             </DescripTextBox>
@@ -381,8 +384,53 @@ function LandingSec2() {
           <LevelWrap>
             <Levelup>
               <h3>꾸준한 활동으로 레벨업도 해보자! 👸</h3>
-              <p>퀴즈도 풀고,힙한 줄임말 뜻을 공유하면 경험치 획득!</p>
+              <p>
+                퀴즈도 풀고, 나만의 멋진 줄임말을 공유하여 경험치를 쌓아보세요.
+              </p>
+              <p>
+                새로운 줄임말을 작성하면 5exp, 퀴즈를 풀면 최대 10exp를 획득할
+                수 있어요!
+              </p>
               <div id='levelStairs'></div>
+              {/* <ul>
+                <li
+                  id='silverLevel'
+                  data-aos='fade-in'
+                  data-aos-delay='500'
+                ></li>
+                <li
+                  id='goldLevel'
+                  data-aos='fade-in'
+                  data-aos-delay='1000'
+                ></li>
+                <li id='diaLevel' data-aos='fade-in' data-aos-delay='1500'></li>
+              </ul> */}
+            </Levelup>
+          </LevelWrap>
+        </Section2Li>
+        <Section2Li
+          data-aos='fade-up'
+          data-aos-duration='2000'
+          data-aos-offset='300'
+        >
+          <LevelWrap>
+            <Levelup>
+              <h3>매일 달라지는 오늘의 퀴즈를 풀어보자! 💯</h3>
+              <p>
+                모두 맞추면 10exp, 하나를 맞추면 5exp, 모두 못 맞추면 0exp을
+                획득할 수 있어요!
+              </p>
+              <br />
+              <br />
+              <DescriptGif
+                style={{
+                  backgroundImage: `url(https://media.discordapp.net/attachments/885202056355397686/892300356795658300/Quiz_Changed.gif?width=1098&height=549)`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  boxShadow: '0px 0px 20px 0px',
+                }}
+              />
+
               {/* <ul>
                 <li
                   id='silverLevel'
