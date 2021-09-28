@@ -26,7 +26,6 @@ function MypageEdit() {
   useEffect(() => {
     if (state.userInfo.id === -1) {
       history.push('/main');
-      window.scrollTo(0, 0);
     }
   }, [state, history]);
 
