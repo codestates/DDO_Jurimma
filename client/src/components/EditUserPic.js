@@ -20,15 +20,18 @@ const EditUserPicWrap = styled.div`
   width: 450px; // 콘텐츠 전체 길이 생각해서 후에 수정해주기
   height: 100%;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   @media only screen and (max-width: 1399px) {
     width: 100%;
+    height: 500px;
   }
   > button {
     display: block;
     width: 150px;
     height: 40px;
     margin: 0 auto;
-    margin-top: 90px;
     background-color: transparent;
     color: #b61919;
     cursor: pointer;
@@ -39,9 +42,6 @@ const EditUserPicWrap = styled.div`
       border: 2px solid #b61919;
       background-color: #b61919;
       color: #fff;
-    }
-    @media only screen and (max-width: 1399px) {
-      margin-top: 70px;
     }
   }
 `;
@@ -54,50 +54,56 @@ const ProfileChange = styled.div`
     height: 300px;
     width: 300px;
   }
-  > #profileBtnWrap {
-    width: 300px;
-    height: 50px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: -40px;
-    > button {
-      display: block;
+  @media only screen and (max-width: 400px) {
+    height: 225px;
+    width: 225px;
+  }
+`;
+
+const ProfileBtnWrap = styled.div`
+  width: 100%;
+  max-width: 500px;
+  min-height: 50px;
+  height: auto;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  > button {
+    display: block;
+    width: 150px;
+    height: 40px;
+    background-color: transparent;
+    color: #fff;
+    cursor: pointer;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    transition: 0.3s;
+    :hover {
+      border: 2px solid #fff;
+      background-color: #fff;
+      color: #440a67;
+    }
+    > input {
+      opacity: 0;
       width: 150px;
       height: 40px;
-      margin: 0 auto;
-      background-color: transparent;
-      color: #fff;
-      cursor: pointer;
-      border: 2px solid #fff;
-      border-radius: 50px;
-      transition: 0.3s;
-      margin-left: 20px;
-      :hover {
-        border: 2px solid #fff;
-        background-color: #fff;
-        color: #440a67;
-      }
-      > input {
-        opacity: 0;
-        width: 150px;
-        height: 40px;
-        position: absolute;
-        background-color: #000;
-        margin-left: -110px;
-        margin-top: -12px;
-      }
+      position: absolute;
+      background-color: #000;
+      margin-left: -110px;
+      margin-top: -12px;
     }
-
-    > button:nth-child(1) {
-      margin-left: 0;
-    }
+  }
+  > button:nth-child(1) {
+    margin-left: 0;
+  }
+  @media only screen and (max-width: 400px) {
+    height: 110px;
   }
 `;
 
 const ProfileImgWrap = styled.div`
-  background-color: red;
   width: 450px;
   height: 450px;
   margin: 0 auto;
@@ -106,6 +112,10 @@ const ProfileImgWrap = styled.div`
   @media only screen and (max-width: 1399px) {
     height: 300px;
     width: 300px;
+  }
+  @media only screen and (max-width: 400px) {
+    height: 225px;
+    width: 225px;
   }
   > #profileImg {
     width: 130px;
@@ -220,21 +230,21 @@ function EditUserPic() {
             }
           ></div>
         </ProfileImgWrap>
-        <div id='profileBtnWrap'>
-          <button>
-            프로필 바꾸기
-            <input
-              type='file'
-              id='image_uploads'
-              name='image'
-              accept='image/*'
-              onChange={changeProfileBtn}
-            ></input>
-          </button>
-
-          <button onClick={() => sendImgToServer()}>프로필 저장하기</button>
-        </div>
       </ProfileChange>
+      <ProfileBtnWrap>
+        <button>
+          프로필 바꾸기
+          <input
+            type='file'
+            id='image_uploads'
+            name='image'
+            accept='image/*'
+            onChange={changeProfileBtn}
+          ></input>
+        </button>
+
+        <button onClick={() => sendImgToServer()}>프로필 저장하기</button>
+      </ProfileBtnWrap>
       <button onClick={() => openSignoutModal(true)}>회원탈퇴 하기</button>
     </EditUserPicWrap>
   );
