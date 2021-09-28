@@ -252,7 +252,7 @@ function LandingQuiz() {
       data-aos-offset='300'
     >
       <h3>웰컴 퀴즈를 풀어보세요! 💁</h3>
-      <p>웰컴 퀴즈는 exp에 반영되지 않으니 유의하세요.</p>
+      <p>웰컴 퀴즈는 exp에 반영되지 않으니 유의해주세요.</p>
       <LandingQuizBox>
         {showScore ? ( // 점수 화면 보임 여부가 true라면
           <LandingQuizScore>

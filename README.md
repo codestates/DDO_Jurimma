@@ -58,7 +58,7 @@
 
 ### 7. 유저 레벨에 따라 다른 UI 적용
 
-![레벨별 UI](https://media.discordapp.net/attachments/885202056355397686/892393265310093362/unknown.png?width=1065&height=548)
+![레벨별 UI](https://media.discordapp.net/attachments/885202056355397686/892438871411933204/unknown.png)
 
 # 👫 Team HomeLudens
 

@@ -397,11 +397,11 @@ function LandingSec2({ location }) {
                   한 단어에 이렇게 많은 <br /> 뜻이 있다고?! 😯
                 </h3>
                 <p>
-                  단어에 숨겨진 많은 의미를
+                  단어가 가진 여러 의미들을
                   <br />
-                  다양하게 찾아보고
+                  손쉽게 찾아보고,
                   <br />
-                  직접 뜻을 만들어서 공유해보세요!
+                  직접 뜻을 만들어 공유해보세요!
                 </p>
               </DescripText>
             </DescripTextBox>
@@ -463,7 +463,7 @@ function LandingSec2({ location }) {
                   <br /> JURIMMA! 😎
                 </h3>
                 <p>
-                  컴퓨터, 태블릿, 핸드폰등
+                  컴퓨터, 태블릿, 핸드폰 등
                   <br />
                   언제 어디서나
                   <br />
@@ -483,11 +483,9 @@ function LandingSec2({ location }) {
           <LevelWrap>
             <Levelup>
               <h3>꾸준한 활동으로 레벨업 해보자! 👸</h3>
+              <p>퀴즈도 풀고, 나만의 줄임말을 공유하여 경험치를 쌓아보세요.</p>
               <p>
-                퀴즈도 풀고, 나만의 멋진 줄임말을 공유하여 경험치를 쌓아보세요.
-              </p>
-              <p>
-                새 글 작성시 5exp, 퀴즈를 도전시 최대 10exp를 획득할 수 있어요!
+                새 글 작성시 5exp, 퀴즈를 통해 최대 10exp를 획득할 수 있어요!
               </p>
               <div id='levelStairs'></div>
               {/* <ul>
