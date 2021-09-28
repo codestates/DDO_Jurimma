@@ -143,6 +143,9 @@ const UserInfoData = styled.div`
     width: 80%;
     margin: 0 auto;
     text-align: center;
+    @media only screen and (max-width: 400px) {
+      width: 90%;
+    }
     > #userName {
       // 유저 이름이 길어지는 경우 span이 영역을 벗어나서 width를 40에서 100으로 수정했습니다.
       width: 100%;
@@ -262,7 +265,9 @@ function UserInfo() {
                 backgroundImage: `${whatColor}`,
               }}
             >
-              {state.userInfo.username}
+              {state.userInfo.username.length > 5
+                ? `${state.userInfo.username.slice(0, 4)}...`
+                : state.userInfo.username}
               <span>님 반갑습니다!</span>
             </p>
             {/* <p id='userEmail'>{state.userInfo.email}</p> */}
