@@ -103,7 +103,12 @@ body::-webkit-scrollbar {
   #topBtn {
     width: 60px;
     height: 60px;
-    left: 86%;
+    left: 84%;
+  }
+}
+@media only screen and (max-width: 350px) {
+  #topBtn {
+    left: 80%;
   }
 }
 

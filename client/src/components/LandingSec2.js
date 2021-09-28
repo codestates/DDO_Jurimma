@@ -5,6 +5,7 @@ import 'aos/dist/aos.css';
 import levelDia from '../images/LandingLevelDia.svg';
 import levelGold from '../images/LandingLevelGold.svg';
 import levelSilver from '../images/LandingLevelSilver.svg';
+import leverStairs from '../images/levelStair2.png';
 
 AOS.init();
 
@@ -33,21 +34,20 @@ const Section2Li = styled.li`
 const DescriptWrap = styled.div`
   width: 1200px;
   display: flex;
-  align-items: center;
   margin: 0 auto;
   margin-top: 200px;
   @media only screen and (max-width: 1300px) {
     width: 100%;
     display: block;
   }
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 700px) {
     margin-top: 100px;
   }
 `;
 
 const DescripTextBox = styled.div`
-  width: 500px;
-  height: 525px;
+  width: 512px;
+  height: 387px;
   flex-direction: column;
   float: left;
   @media only screen and (max-width: 1300px) {
@@ -56,15 +56,15 @@ const DescripTextBox = styled.div`
     float: none;
     margin: 0 auto;
   }
-  @media only screen and (max-width: 600px) {
-    width: 320px;
-    height: 470px;
+  @media only screen and (max-width: 700px) {
+    width: 100%;
+    height: 400px;
   }
 `;
 
 const DescripText = styled.div`
   width: 100%;
-  height: 450px;
+  height: 387px;
   @media only screen and (max-width: 1300px) {
     display: flex;
     flex-direction: column;
@@ -74,14 +74,14 @@ const DescripText = styled.div`
   > h3 {
     font-size: 45px;
     color: #fff;
-    padding: 40px 0;
+    padding: 5px 0;
     line-height: 60px;
     @media only screen and (max-width: 1300px) {
       text-align: center;
       font-size: 40px;
     }
 
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 700px) {
       font-size: 30px;
       text-align: center;
     }
@@ -94,7 +94,7 @@ const DescripText = styled.div`
       text-align: center;
       font-size: 28px;
     }
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 700px) {
       font-size: 20px;
       text-align: center;
     }
@@ -108,11 +108,12 @@ const DescripText = styled.div`
     color: #fff;
     transition: 0.3s;
     cursor: pointer;
-    margin-top: 50px;
+    margin-top: 30px;
     @media only screen and (max-width: 1300px) {
       width: 210px;
+      height: 50px;
     }
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 700px) {
       width: 150px;
       height: 40px;
     }
@@ -125,21 +126,29 @@ const DescripText = styled.div`
 `;
 
 const DescriptGif = styled.div`
-  width: 700px;
-  height: 525px;
+  width: 688px;
+  height: 387px;
   background-color: #fff;
   border-radius: 40px;
   display: inline-block;
   @media only screen and (max-width: 1300px) {
     display: block;
-    width: 536px;
-    height: 402px;
+    width: 544px;
+    height: 306px;
     margin: 0 auto;
   }
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 700px) {
     width: 320px;
-    height: 240px;
+    height: 180px;
     border-radius: 20px;
+  }
+  @media only screen and (max-width: 320px) {
+    width: 304px;
+    height: 171px;
+  }
+  @media only screen and (max-width: 280px) {
+    width: 256px;
+    height: 144px;
   }
 `;
 
@@ -151,7 +160,7 @@ const LevelWrap = styled.div`
   margin: 0 auto;
   margin-top: 100px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 700px) {
     margin-top: 30px;
     height: 600px;
   }
@@ -167,7 +176,7 @@ const Levelup = styled.div`
     @media only screen and (max-width: 1300px) {
       font-size: 40px;
     }
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 700px) {
       font-size: 25px;
     }
   }
@@ -183,17 +192,27 @@ const Levelup = styled.div`
       font-size: 15px;
     }
   }
-  > ul {
+  > #levelStairs {
     display: flex;
-    width: 100%;
+    width: 800px;
     height: 400px;
     margin-top: 50px;
-    @media only screen and (max-width: 1300px) {
+    background: url(${leverStairs});
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0 auto;
+    @media only screen and (max-width: 900px) {
+      width: 600px;
       height: 300px;
     }
-    @media screen and (max-width: 600px) {
-      height: 200px;
+    @media screen and (max-width: 700px) {
+      width: 300px;
+      height: 150px;
       margin-top: 10px;
+    }
+    @media only screen and (max-width: 350px) {
+      width: 200px;
+      height: 100px;
     }
     > li {
       flex: 1 1 auto;
@@ -222,7 +241,7 @@ const Levelup = styled.div`
     color: #fff;
     font-size: 30px;
     text-align: center;
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 700px) {
       font-size: 18px;
     }
   }
@@ -239,7 +258,7 @@ const LevelGif = styled.div`
     width: 536px;
     height: 402px;
   }
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 700px) {
     width: 320px;
     height: 240px;
     border-radius: 20px;
@@ -338,7 +357,8 @@ function LandingSec2() {
             <Levelup>
               <h3>꾸준한 활동으로 레벨업도 해보자! 👸</h3>
               <p>퀴즈와 나만의 줄임말 뜻을 공유하면 경험치 획득 가능.</p>
-              <ul>
+              <div id='levelStairs'></div>
+              {/* <ul>
                 <li
                   id='silverLevel'
                   data-aos='fade-in'
@@ -350,7 +370,7 @@ function LandingSec2() {
                   data-aos-delay='1000'
                 ></li>
                 <li id='diaLevel' data-aos='fade-in' data-aos-delay='1500'></li>
-              </ul>
+              </ul> */}
             </Levelup>
           </LevelWrap>
         </Section2Li>

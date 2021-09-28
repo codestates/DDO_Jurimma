@@ -5,6 +5,7 @@ import { setNewContentModal } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import swal from 'sweetalert';
+import nothingImg from '../images/nothing.svg';
 
 const SearchResultWrap = styled.div`
   box-sizing: border-box;
@@ -24,6 +25,31 @@ const SearchResultWrap = styled.div`
     @media only screen and (max-width: 800px) {
       flex-direction: column;
       padding: 20px 0px;
+    }
+    > #nothingWrap {
+      width: 250px;
+      height: 250px;
+      @media only screen and (max-width: 600px) {
+        width: 200px;
+        height: 200px;
+      }
+      > #nothingImg {
+        margin: 0 auto;
+        width: 200px;
+        height: 200px;
+        background: url(${nothingImg});
+        @media only screen and (max-width: 600px) {
+          width: 150px;
+          height: 150px;
+        }
+      }
+      > #nothingText {
+        height: 50px;
+        text-align: center;
+        @media only screen and (max-width: 600px) {
+          font-size: 12px;
+        }
+      }
     }
     > li {
       flex: none;
@@ -186,10 +212,13 @@ function SearchResult({ wordResult, notSearched }) {
           ) : (
             <>
               <ul className='wordResultList'>
-                <li>
-                  아직 뜻이 없네요! <br />
-                  새로 작성하시겠어요?
-                </li>
+                <div id='nothingWrap'>
+                  <div id='nothingImg'></div>
+                  <div id='nothingText'>
+                    아직 뜻이 없네요! <br />
+                    새로 작성하시겠어요?
+                  </div>
+                </div>
               </ul>
 
               <BtnWrap>
