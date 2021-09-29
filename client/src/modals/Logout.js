@@ -5,7 +5,6 @@ import swal from 'sweetalert';
 import { setLogout, setLogoutModal } from '../actions/index';
 import axios from 'axios';
 import mainLogo from '../images/main_logo.svg';
-import { useHistory } from 'react-router';
 axios.defaults.withCredentials = true;
 
 const LogoutBackdrop = styled.div`
@@ -81,7 +80,6 @@ const Logo = styled.div`
 function LogOut() {
   const userInfostate = useSelector((state) => state.userInfoReducer);
   const dispatch = useDispatch();
-  const history = useHistory();
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const closeLogoutModal = (isOpen) => {
     dispatch(setLogoutModal(isOpen));

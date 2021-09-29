@@ -311,24 +311,6 @@ const Levelup = styled.div`
   }
 `;
 
-const LevelGif = styled.div`
-  width: 700px;
-  height: 525px;
-  background-color: #fff;
-  border-radius: 40px;
-  margin: 0 auto;
-  @media only screen and (max-width: 1300px) {
-    display: block;
-    width: 536px;
-    height: 402px;
-  }
-  @media only screen and (max-width: 700px) {
-    width: 320px;
-    height: 240px;
-    border-radius: 20px;
-  }
-`;
-
 function LandingSec2({ location }) {
   const history = useHistory();
   const goToMain = () => {

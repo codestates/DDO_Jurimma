@@ -2,10 +2,12 @@
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { setEditContentModal, getContent } from '../actions/index';
+import { setAccessToken, setLogout } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import axios from 'axios';
+import swal from 'sweetalert';
 axios.defaults.withCredentials = true;
 
 const UserContentsWrap = styled.div`
@@ -139,18 +141,24 @@ const UserContentsWrap = styled.div`
 `;
 
 const EditContent = styled.div`
+  width: 200px;
   height: 50px;
   display: flex;
   align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+  @media only screen and (max-width: 550px) {
+    width: 100px;
+  }
   > button {
-    width: 120px;
+    width: 90px;
     height: 40px;
     border-radius: 10px;
     font-size: 12px;
     cursor: pointer;
     transition: 0.3s;
     @media only screen and (max-width: 550px) {
-      width: 100px;
+      width: 45px;
     }
     :hover {
       background-color: #440a67;
@@ -204,8 +212,10 @@ const HoverThumbsup = styled.span`
   display: none;
 `;
 
-function UserContents({ setEditInfo }) {
+function UserContents({ setEditInfo, setUserContentsLength }) {
+  const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const dispatch = useDispatch();
+  const userInfoState = useSelector((state) => state.userInfoReducer);
   const userContentState = useSelector((state) => state.userContentReducer);
   const [orderBy, setOrderBy] = useState('byUpdatedAt');
 
@@ -241,6 +251,55 @@ function UserContents({ setEditInfo }) {
     dispatch(setEditContentModal(isOpen)); // 수정 모달 열기
   }; // 모달에 띄울 정보 지정 + 수정 모달 여는 함수
 
+  const deleteContent = (contentId) => {
+    swal({
+      title: '삭제 하시겠습니까?',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        try {
+          let delContent = await axios.delete(
+            `${url}/meaning/me?content-id=${contentId}`,
+            {
+              headers: { authorization: `Bearer ${userInfoState.accessToken}` },
+            }
+          );
+          if (delContent.data.accessToken) {
+            dispatch(setAccessToken(delContent.data.accessToken));
+          }
+          setUserContentsLength(userContentState.data.length - 1);
+          swal('삭제가 완료되었습니다', {
+            icon: 'success',
+          });
+        } catch (error) {
+          if (error.response.data.message === 'Send new Login Request') {
+            swal({
+              title: '로그인이 필요합니다.',
+              text: '로그인이 만료되었습니다.',
+              icon: 'warning',
+            }).then(() => {
+              dispatch(setLogout());
+              window.location.replace('/');
+            });
+          } else {
+            swal({
+              title: 'Internal Server Error',
+              text: '죄송합니다. 다시 로그인해주세요.',
+              icon: 'warning',
+            }).then(() => {
+              dispatch(setLogout());
+              window.location.replace('/');
+            });
+          }
+        }
+      } else {
+        return;
+      }
+    });
+  };
+
   return (
     <UserContentsWrap>
       <FilterWrap>
@@ -258,6 +317,9 @@ function UserContents({ setEditInfo }) {
                 <div className='topWrap'>
                   <h3>{el.wordName}</h3>
                   <EditContent>
+                    <button onClick={() => deleteContent(el.id)}>
+                      삭제하기
+                    </button>
                     <button
                       onClick={() =>
                         openEditContentModal(
