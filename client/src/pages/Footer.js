@@ -11,34 +11,23 @@ const FooterBarWrap = styled.footer`
   margin-top: 150px;
 `;
 
-const FooterBar = styled.ul`
+const FooterBar = styled.div`
   width: 90%;
   height: 200px;
   margin: 0 auto;
   display: flex;
-  > li {
+  > .footerMenu {
     flex: 1 1 auto;
     margin-left: 10px;
     color: #fff;
     font-family: 'NEXON Lv2 Gothic Bold';
-    text-align: center;
     padding-top: 50px;
-    :nth-child(1) {
-      margin-left: 0;
-      flex: 0.07 1 auto;
-      padding-top: 30px;
-    }
-    > #footerLogo {
-      width: 90px;
-      height: 90px;
-      background: url(${whiteLogo});
-    }
-    > h3 {
-      width: 100px;
-      text-align: center;
-      color: #fff;
-      font-family: 'NEXON Lv2 Gothic Bold';
-      padding-top: 10px;
+    > li {
+      > a {
+        text-align: left;
+        text-decoration: none;
+        color: #fff;
+      }
     }
   }
 `;
@@ -47,12 +36,31 @@ function Footer() {
   return (
     <FooterBarWrap>
       <FooterBar>
-        <li>
-          <div id='footerLogo'></div>
-          <h3>JURIMMA</h3>
-        </li>
-        <li>ABOUT US</li>
-        <li>CONTACT</li>
+        <div className='footerMenu'>
+          ABOUT US
+          <li>
+            <a href='https://github.com/codestates/DDO_Jurimma'>HOME</a>
+          </li>
+          <li>
+            <a href='https://github.com/codestates/DDO_Jurimma/wiki'>WIKI</a>
+          </li>
+        </div>
+        <div className='footerMenu'>
+          CONTACT
+          <li>
+            <a href='https://github.com/Youngseo-kangg'>FRONT - 강영서</a>
+          </li>
+          <li>
+            <a href='https://github.com/minjman2659'>BACK - 김민재</a>
+          </li>
+          <li>
+            <a href='https://github.com/mniYUNSU'>BACK - 배윤수</a>
+          </li>
+          <li>
+            <a href='https://github.com/Lee-Na-eun'>FRONT - 이나은</a>
+          </li>
+        </div>
+        <div className='footerMenu'>ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</div>
       </FooterBar>
     </FooterBarWrap>
   );
