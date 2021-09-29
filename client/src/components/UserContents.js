@@ -212,7 +212,7 @@ const HoverThumbsup = styled.span`
   display: none;
 `;
 
-function UserContents({ setEditInfo, setUserContentsLength }) {
+function UserContents({ setEditInfo, setStateCheck }) {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const dispatch = useDispatch();
   const userInfoState = useSelector((state) => state.userInfoReducer);
@@ -269,9 +269,10 @@ function UserContents({ setEditInfo, setUserContentsLength }) {
           if (delContent.data.accessToken) {
             dispatch(setAccessToken(delContent.data.accessToken));
           }
-          setUserContentsLength(userContentState.data.length - 1);
           swal('삭제가 완료되었습니다', {
             icon: 'success',
+          }).then(() => {
+            setStateCheck(true);
           });
         } catch (error) {
           if (error.response.data.message === 'Send new Login Request') {
