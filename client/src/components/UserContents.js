@@ -269,7 +269,14 @@ function UserContents({ setEditInfo, setUserContentsLength }) {
           if (delContent.data.accessToken) {
             dispatch(setAccessToken(delContent.data.accessToken));
           }
-          await setUserContentsLength(userContentState.data.length - 1);
+          // await setUserContentsLength(userContentState.data.length - 1);
+          await dispatch(
+            getContent(
+              userContentState.data.sort(
+                (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+              )
+            )
+          );
           await swal('삭제가 완료되었습니다', {
             icon: 'success',
           });
