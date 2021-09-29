@@ -139,18 +139,24 @@ const UserContentsWrap = styled.div`
 `;
 
 const EditContent = styled.div`
+  width: 200px;
   height: 50px;
   display: flex;
   align-items: center;
+  display: flex;
+  justify-content: space-between;
+  @media only screen and (max-width: 550px) {
+    width: 100px;
+  }
   > button {
-    width: 120px;
+    width: 90px;
     height: 40px;
     border-radius: 10px;
     font-size: 12px;
     cursor: pointer;
     transition: 0.3s;
     @media only screen and (max-width: 550px) {
-      width: 100px;
+      width: 45px;
     }
     :hover {
       background-color: #440a67;
@@ -258,6 +264,7 @@ function UserContents({ setEditInfo }) {
                 <div className='topWrap'>
                   <h3>{el.wordName}</h3>
                   <EditContent>
+                    <button>삭제하기</button>
                     <button
                       onClick={() =>
                         openEditContentModal(
