@@ -19,10 +19,10 @@ const QuizBackdrop = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.8);
   display: grid;
   place-items: center;
-  z-index: 10;
+  z-index: 40;
 `;
 
 const QuizModal = styled.div`
@@ -46,6 +46,10 @@ const QuizModal = styled.div`
     right: -25px;
     top: -50px;
     cursor: pointer;
+    transition: 0.5s;
+  }
+  > .closeBtn:hover {
+    transform: rotate(-90deg);
   }
 `;
 
@@ -123,7 +127,8 @@ const QuizChoiceButton = styled.button`
   cursor: pointer;
   transition: all 0.3s;
   :hover {
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    background-color: #440a67;
+    color: #fff;
   }
 `;
 
@@ -367,18 +372,25 @@ function Quiz() {
         headers: { authorization: `Bearer ${state.accessToken}` },
       }); //새로 유저 정보 요청하는 axios 요청
       dispatch(setUserInfo(getResult.data.data)); // axios 리턴으로 유저 정보 업데이트
-    } catch (err) {
+    } catch (error) {
       // login상태 false로 변경
       // localStorage에 담긴 내용 다 지우기
       // reducer에서 관리하는 userInfo
-      dispatch(setLogout());
-      // swal로 다시 로그인 해달라고 하기
-      swal({
-        title: '로그인이 필요합니다.',
-        text: '로그인이 만료되었습니다.',
-        icon: 'warning',
-      });
-      // console.log(err);
+      if (error.response.data.message === 'Send new Login Request') {
+        swal({
+          title: '로그인이 필요합니다.',
+          text: '로그인이 만료되었습니다.',
+          icon: 'warning',
+        }); // swal로 안내
+        dispatch(setLogout());
+      } else {
+        swal({
+          title: 'Internal Server Error',
+          text: '죄송합니다. 다시 로그인 후 해주세요.',
+          icon: 'warning',
+        }); // swal로 안내
+        dispatch(setLogout());
+      }
     }
   }; // 접속한 날짜, 경험치 업데이트하는 함수
   const closeQuizModal = (isOpen) => {

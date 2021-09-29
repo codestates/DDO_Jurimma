@@ -12,7 +12,14 @@ import {
   setLoginOrSignupModal,
   setQuizModal,
   setLogoutModal,
+  setMiniMenuModal,
 } from '../actions/index';
+import silverProfile from '../images/junior_profile.svg';
+import goldProfile from '../images/senior_profile.svg';
+import diaProfile from '../images/master_profile.svg';
+import basicProfile from '../images/basic_profileImg.svg';
+import hamburgerWhite from '../images/hamburgerMenu.svg';
+import hamburgerPur from '../images/hambugerMenuPur.svg';
 
 const fadeIn = keyframes`
   0%{opacity : 0}
@@ -31,7 +38,11 @@ const NavBar1 = styled.nav`
   display: flex;
   position: fixed;
   animation: ${fadeout} 0.5s;
-  > #logo {
+  z-index: 5;
+  @media only screen and (max-width: 800px) {
+    display: none;
+  }
+  > .logo {
     flex: 1 1 auto;
     margin-top: 5px;
     > a {
@@ -89,7 +100,10 @@ const NavBar2 = styled.nav`
   transition: 0.3s;
   z-index: 5;
   animation: ${fadeIn} 0.8s;
-  > #logo {
+  @media only screen and (max-width: 800px) {
+    display: none;
+  }
+  > .logo {
     flex: 1 1 auto;
     margin-top: 5px;
     > a {
@@ -137,11 +151,172 @@ const NavBar2 = styled.nav`
   }
 `;
 
-function Nav({ timer }) {
+const Myprofile = styled.div`
+  width: max(8vw, 120px);
+  height: 110px;
+  margin-top: 15px;
+  cursor: pointer;
+  :hover {
+    > .HoverMypageOrLogout {
+      display: block;
+    }
+  }
+  > .levelProfile {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    > div {
+      width: 30px;
+      height: 30px;
+      margin: 0 auto;
+      position: relative;
+      top: 39px;
+      border-radius: 50px;
+    }
+  }
+`;
+
+const HoverMypageOrLogout = styled.div`
+  background-color: rgba(255, 255, 255, 0.8);
+  width: max(8vw, 120px);
+  height: 90px;
+  position: relative;
+  top: 10px;
+  text-align: center;
+  line-height: 42.5px;
+  border-radius: 20px;
+  color: #440a67;
+  font-family: 'NEXON Lv2 Gothic Bold';
+  display: none;
+  > a {
+    display: block;
+    height: 45px;
+    text-decoration: none;
+    border-bottom: 1px solid #440a67;
+    :hover {
+      background-color: #230638;
+      border-radius: 20px 20px 0 0;
+      color: #fff;
+    }
+  }
+  > .logout {
+    cursor: pointer;
+    height: 45px;
+    text-decoration: none;
+    border-top: 1px solid #440a67;
+    color: #440a67;
+    font-family: 'NEXON Lv2 Gothic Bold';
+    :hover {
+      background-color: #230638;
+      border-radius: 0 0 20px 20px;
+      color: #fff;
+    }
+  }
+`;
+
+const MiniNav1 = styled.div`
+  width: 100%;
+  height: 85px;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  z-index: 5;
+  cursor: pointer;
+  @media only screen and (max-width: 800px) {
+    opacity: 1;
+  }
+  > .logo {
+    flex: 1 1 auto;
+    margin-top: 5px;
+    > a {
+      display: block;
+      width: 70px;
+      height: 70px;
+      margin-left: 10px;
+      background: url(${whiteLogo});
+    }
+  }
+  > #hambuger {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+    > .hamburgerIcon {
+      width: 55px;
+      height: 55px;
+      color: #fff;
+      background: url(${hamburgerWhite});
+    }
+  }
+`;
+
+const MiniNav2 = styled.div`
+  width: 100%;
+  height: 85px;
+  background-color: #fff;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  z-index: 5;
+  @media only screen and (max-width: 800px) {
+    opacity: 1;
+  }
+  > .logo {
+    flex: 1 1 auto;
+    margin-top: 5px;
+    > a {
+      display: block;
+      width: 70px;
+      height: 70px;
+      margin-left: 10px;
+      background: url(${mainLogo});
+    }
+  }
+  > #hambuger {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+    cursor: pointer;
+    > .hamburgerIcon {
+      width: 55px;
+      height: 55px;
+      color: #440a67;
+      background: url(${hamburgerPur});
+    }
+  }
+`;
+
+function Nav() {
   const state = useSelector((state) => state.userInfoReducer);
-  const nowDate = new Date().toLocaleDateString(); // 접속한 날짜를 "2021. 9. 13."와 같은 형식으로 확인
+  const nowDate = new Date().toLocaleDateString();
   const dispatch = useDispatch();
-  const [navBarScroll, setNavBarScroll] = useState(false); // nav bar 스크롤 했을 때
+  const [navBarScroll, setNavBarScroll] = useState(false);
+
+  let whatProfile;
+  if (0 <= state.userInfo.experience && state.userInfo.experience < 100) {
+    whatProfile = silverProfile;
+  } else if (
+    100 <= state.userInfo.experience &&
+    state.userInfo.experience < 200
+  ) {
+    whatProfile = goldProfile;
+  } else {
+    whatProfile = diaProfile;
+  }
+
+  let myProfileImg;
+  if (state.userInfo.userPic === null) {
+    myProfileImg = basicProfile;
+  } else {
+    myProfileImg = state.userInfo.userPic;
+  }
 
   const openQuizModal = (isOpen) => {
     if (state.isLogin === false) {
@@ -160,42 +335,56 @@ function Nav({ timer }) {
       // 로그인 되어있고 최근 퀴즈를 푼 날짜가 오늘 날짜와 다를때만 실행
       dispatch(setQuizModal(isOpen));
     }
-  }; // 퀴즈 모달 여는 함수
+  };
 
   const openLoginOrSignupModal = (isOpen) => {
     dispatch(setLoginOrSignupModal(isOpen));
-  }; // 로그인 모달 여는 함수
+  };
 
   const openLogoutModal = (isOpen) => {
     dispatch(setLogoutModal(isOpen));
-  }; // 로그아웃 모달 여는 함수
+  };
+
+  const openMiniMenuModal = (isOpen) => {
+    dispatch(setMiniMenuModal(isOpen));
+  };
 
   const scrollNavChange = () => {
-    if (window.scrollY >= 100) {
+    if (window.scrollY >= 20) {
       setNavBarScroll(true);
     } else {
       setNavBarScroll(false);
     }
-  }; // 지정된 스크롤에 닿았을 때 nav bar 변경
+  };
 
-  // const clearTimer = (timer) => {
-  //   // console.log('멈춰!');
-  //   clearInterval(timer);
-  // };
-  // const workTimer = () => {
-  //   console.log('들어옴!');
-  //   timer = setInterval(function () {
-  //     console.log('작동중!');
-  //   }, 3000);
-  //   console.log('작동함!');
-  // };
   window.addEventListener('scroll', scrollNavChange);
 
   return (
     <>
       {navBarScroll ? (
+        <MiniNav2>
+          <div className='navInner logo'>
+            <Link to='/'></Link>
+          </div>
+
+          <div id='hambuger' onClick={() => openMiniMenuModal(true)}>
+            <div className='hamburgerIcon'></div>
+          </div>
+        </MiniNav2>
+      ) : (
+        <MiniNav1>
+          <div className='navInner logo'>
+            <Link to='/'></Link>
+          </div>
+
+          <div id='hambuger' onClick={() => openMiniMenuModal(true)}>
+            <div className='hamburgerIcon'></div>
+          </div>
+        </MiniNav1>
+      )}
+      {navBarScroll ? (
         <NavBar2>
-          <div id='logo' className='navInner'>
+          <div className='navInner logo'>
             <Link to='/'></Link>
           </div>
           <div id='menu_container' className='navInner'>
@@ -206,12 +395,30 @@ function Nav({ timer }) {
               Quiz
             </div>
             {state.isLogin ? (
-              <div>
-                <Link to='/mypage'>mypage</Link>
-                <div className='menu' onClick={() => openLogoutModal(true)}>
-                  Logout
+              <Myprofile>
+                <div
+                  className='levelProfile'
+                  style={{
+                    backgroundImage: `url(${whatProfile})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                  }}
+                >
+                  <div
+                    style={{
+                      backgroundImage: `url(${myProfileImg})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                    }}
+                  ></div>
                 </div>
-              </div>
+                <HoverMypageOrLogout className='HoverMypageOrLogout'>
+                  <Link to='/mypage'>Mypage</Link>
+                  <div className='logout' onClick={() => openLogoutModal(true)}>
+                    Logout
+                  </div>
+                </HoverMypageOrLogout>
+              </Myprofile>
             ) : (
               <div
                 className='menu'
@@ -224,7 +431,7 @@ function Nav({ timer }) {
         </NavBar2>
       ) : (
         <NavBar1>
-          <div id='logo' className='navInner'>
+          <div className='navInner logo'>
             <Link to='/'></Link>
           </div>
           <div id='menu_container' className='navInner'>
@@ -235,12 +442,30 @@ function Nav({ timer }) {
               Quiz
             </div>
             {state.isLogin ? (
-              <div>
-                <Link to='/mypage'>mypage</Link>
-                <div className='menu' onClick={() => openLogoutModal(true)}>
-                  Logout
+              <Myprofile>
+                <div
+                  className='levelProfile'
+                  style={{
+                    backgroundImage: `url(${whatProfile})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                  }}
+                >
+                  <div
+                    style={{
+                      backgroundImage: `url(${myProfileImg})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                    }}
+                  ></div>
                 </div>
-              </div>
+                <HoverMypageOrLogout className='HoverMypageOrLogout'>
+                  <Link to='/mypage'>Mypage</Link>
+                  <div className='logout' onClick={() => openLogoutModal(true)}>
+                    Logout
+                  </div>
+                </HoverMypageOrLogout>
+              </Myprofile>
             ) : (
               <div
                 className='menu'

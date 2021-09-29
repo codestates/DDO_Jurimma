@@ -3,7 +3,10 @@ const {
   isAuthorized,
   generateAccessToken,
 } = require('../tokenFunction/accessToken');
-const { refreshAuthorized } = require('../tokenFunction/refreshToken');
+const {
+  refreshAuthorized,
+  sendRefreshToken,
+} = require('../tokenFunction/refreshToken');
 const { encryptPwd, decryptPwd } = require('../hashing/hashingPwd');
 
 module.exports = {
@@ -45,7 +48,7 @@ module.exports = {
   },
 
   patch: async (req, res) => {
-    const { userPic, username, oldPassword, newPassword } = req.body;
+    const { username, oldPassword, newPassword } = req.body;
     const accessVerify = isAuthorized(req);
 
     // accessToken 만료
@@ -64,7 +67,6 @@ module.exports = {
         } else {
           userInfo.username = username;
           userInfo.password = encryptPwd(newPassword);
-          userInfo.userPic = userPic;
           await userInfo.save();
           res.status(201).json({
             accessToken: accessToken,
@@ -88,7 +90,6 @@ module.exports = {
       } else {
         userInfo.username = username;
         userInfo.password = encryptPwd(newPassword);
-        userInfo.userPic = userPic;
         await userInfo.save();
         res.status(200).json({ message: 'ok' });
       }
@@ -97,16 +98,26 @@ module.exports = {
 
   delete: async (req, res) => {
     const userData = refreshAuthorized(req);
-    // user 테이블의 해당 유저의 id로 저장된 레코드 삭제
-    await user.destroy({ where: { id: userData.id }, force: true });
-    // content 테이블의 해당 유저의 id로 저장된 레코드 삭제
-    await content.destroy({ where: { userId: userData.id }, force: true });
-    // user_contents 테이블의 해당 유저의 id로 저장된 레코드 삭제
-    await thumbsups.destroy({
-      where: { userId: userData.id },
-      force: true,
+    const userFind = await user.findOne({
+      where: { id: userData.id },
     });
-    res.status(200).json({ message: 'ok' });
+    const userCreatedDate = userFind.createdAt.toLocaleDateString();
+    const nowDate = new Date().toLocaleDateString();
+    if (userCreatedDate === nowDate) {
+      res.status(403).json({ message: 'Forbidden Request' });
+    } else {
+      // user 테이블의 해당 유저의 id로 저장된 레코드 삭제
+      await user.destroy({ where: { id: userData.id }, force: true });
+      // content 테이블의 해당 유저의 id로 저장된 레코드 삭제
+      await content.destroy({ where: { userId: userData.id }, force: true });
+      // user_contents 테이블의 해당 유저의 id로 저장된 레코드 삭제
+      await thumbsups.destroy({
+        where: { userId: userData.id },
+        force: true,
+      });
+      sendRefreshToken(res, null);
+      res.status(200).json({ message: 'ok' });
+    }
     // word 테이블은 wordName과 count만 있음.
     // content의 wordId에 해당하는 레코드를 지우면, 다른 유저가 쓴 같은 뜻도 사라지게 되므로 word 테이블은 건들지 않음.
   },

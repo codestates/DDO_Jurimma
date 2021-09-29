@@ -1,7 +1,7 @@
 // 로그인 / 회원가입 모달
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   setLoginOrSignupModal,
   setLogin,
@@ -26,7 +26,7 @@ const LoginOrSignupBackdrop = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -151,7 +151,7 @@ const TabContent = styled.div`
         color: #ffffff;
       }
       > input::-webkit-input-placeholder {
-        font-size: 11px;
+        font-size: 12px;
         color: #fff;
       }
       > input:focus::-webkit-input-placeholder {
@@ -197,21 +197,20 @@ const ErrorMsg = styled.div`
   text-align: center;
   line-height: 30px;
   font-size: max(0.8vw, 10px);
-  /* display: none; */
 `;
 
 function LoginOrSignUp() {
   const dispatch = useDispatch();
-  const state = useSelector((state) => state.userInfoReducer);
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
+
   const closeLoginOrSignupModal = (isOpen) => {
     dispatch(setLoginOrSignupModal(isOpen));
-  }; // 로그인 모달 닫는 함수
+  };
   const [isLoading, setIsLoading] = useState(false); // 회원가입 진행 상태
   const [loginInfo, setLoginInfo] = useState({
     loginEmail: '',
     loginPassword: '',
-  }); // 로그인창 입력 상태
+  });
 
   const [signupInfo, setSignupInfo] = useState({
     signupUsername: '',
@@ -219,7 +218,7 @@ function LoginOrSignUp() {
     signupPhone: '',
     signupPassword: '',
     signupRePassword: '',
-  }); // 회원가입창 입력 상태
+  });
 
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -227,21 +226,23 @@ function LoginOrSignUp() {
     if (e.type === 'keypress' && e.code === 'Enter') {
       handleLogin();
     }
-  }; // 로그인 창에서 엔터나 버튼 클릭했을때
+  };
 
   const handleKeyPressSignup = (e) => {
     if (e.type === 'keypress' && e.code === 'Enter') {
       handleSignup();
     }
-  }; // 회원가입 창에서 엔터나 버튼 클릭했을때
+  };
 
   const handleInputValue = (key) => (e) => {
     setLoginInfo({ ...loginInfo, [key]: e.target.value });
-  }; // 로그인 창에서 input에 입력했을 때 입력값 받아오기
+    setErrorMsg('');
+  };
 
   const handleSignupInputValue = (key) => (e) => {
     setSignupInfo({ ...signupInfo, [key]: e.target.value });
-  }; // 회원가입 창에서 input에 입력했을 때 입력값 받아오기
+    setErrorMsg('');
+  };
 
   const handleLogin = async () => {
     try {
@@ -258,36 +259,39 @@ function LoginOrSignUp() {
         let result = await axios.post(`${url}/user/login`, {
           email: loginInfo.loginEmail,
           password: loginInfo.loginPassword,
-        }); // axios 요청 전송
-        // console.log(result.data);
+        });
 
         dispatch(setLogin(true)); // axios응답으로 redux 업데이트
         dispatch(setAccessToken(result.data.accessToken)); // axios 응답으로 accessToken 업데이트
         dispatch(setUserInfo(result.data.userInfo)); // axios응답으로 userInfo 업데이트
-        // console.log(state.userInfo); // 유저 정보 콘솔에 찍어보기
+
         swal({
           title: '로그인이 완료되었습니다!',
           text: '만반잘부 😆 (만나서 반갑고 잘 부탁해)!',
           icon: 'success',
-        }); // sweet alert로 안내
-        closeLoginOrSignupModal(false); // 모달 끄기
+        }).then(() => {
+          closeLoginOrSignupModal(false);
+        });
       }
     } catch (error) {
-      // console.log(error.response.data.message);
       if (error.response.data.message === 'Invalid User') {
-        // 제대로 입력하지 않은 경우
         swal({
           title: '로그인에 실패하였습니다',
           text: '이메일과 비밀번호를 다시 한번 확인해주세요!',
           icon: 'warning',
-        }); // swal로 안내
+        });
       } else if (error.response.data.message === 'Not Authorized Email') {
-        // 이메일 인증이 완료되지 않은 경우
         swal({
           title: '로그인에 실패하였습니다',
           text: '이메일 인증이 완료되지 않았습니다. 다시 한번 확인해주세요!',
           icon: 'warning',
-        }); // swal로 안내
+        });
+      } else {
+        swal({
+          title: 'Internal Server Error',
+          text: '죄송합니다. 다시 로그인해주세요.',
+          icon: 'warning',
+        });
       }
     }
   };
@@ -314,38 +318,69 @@ function LoginOrSignUp() {
       } else if (checkModule.OnlyKorEng(signupInfo.signupUsername) === false) {
         setErrorMsg('유효하지 않은 이름입니다.');
       } else {
-        setErrorMsg(''); // 에러메세지 리셋
-        setIsLoading(true); // loading indicator 보여주기
+        setErrorMsg('');
+        setIsLoading(true);
         await axios.get(
           `${url}/user/email-check?email=${signupInfo.signupEmail}`
-        ); // axios 이메일 중복 확인 요청 전송 -> 시간이 좀 걸림..
+        );
         await axios.post(`${url}/user/signup`, {
           username: signupInfo.signupUsername,
           email: signupInfo.signupEmail,
           password: signupInfo.signupPassword,
-        }); // axios 회원 가입 요청 전송
-        setIsLoading(false); // loading indicator 끄기
+        });
+        setIsLoading(false);
         swal({
           title: '이메일 인증을 해주세요!',
           text: '2분 이내에 이메일 인증을 하지 않을시 회원가입이 취소됩니다.',
           icon: 'success',
-        }); // sweet alert로 안내
-        closeLoginOrSignupModal(false); // 모달 끄기
+        });
+        closeLoginOrSignupModal(false);
       }
     } catch (error) {
       console.log(error);
-      swal({
-        title: '가입에 실패했습니다.',
-        text: '이미 가입된 사용자입니다. 이메일 정보를 다시 한번 확인해주세요!',
-        icon: 'error',
-      }); // sweet alert로 안내
-      setErrorMsg('이미 가입된 사용자입니다.');
+      if (error.response.data.message === 'Already Existed') {
+        swal({
+          title: '가입에 실패했습니다.',
+          text: '이미 가입된 사용자입니다. 이메일 정보를 다시 한번 확인해주세요!',
+          icon: 'error',
+        });
+        setErrorMsg('이미 가입된 사용자입니다.');
+        setIsLoading(false);
+      } else {
+        swal({
+          title: 'Internal Server Error',
+          text: '죄송합니다. 다시 시도 해주세요.',
+          icon: 'warning',
+        });
+        setIsLoading(false);
+        setErrorMsg('Internal Server Error');
+      }
     }
+  };
+
+  // ! google login
+  const google_client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
+  const redirect_uri =
+    process.env.REACT_APP_REDIRECT_URI || `http://localhost:3000`;
+
+  const GOOGLE_LOGIN_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${google_client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=profile email&access_type=offline`;
+
+  const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${redirect_uri}&response_type=code`;
+
+  const handleKakaoLogin = () => {
+    localStorage.setItem('socialType', 'kakao');
+    window.location.assign(KAKAO_LOGIN_URL);
+  };
+
+  const googleLoginHandler = () => {
+    localStorage.setItem('socialType', 'google');
+    window.location.assign(GOOGLE_LOGIN_URL);
   };
 
   const [currentTab, setCurrentTab] = useState(0);
   const selectMenuHandler = (index) => {
-    setErrorMsg(''); // 탭 옮기면 에러메세지 다 사라지도록
+    setErrorMsg('');
     setCurrentTab(index);
   };
   return (
@@ -360,14 +395,14 @@ function LoginOrSignUp() {
         <OauthLogin>
           <p>카카오와 구글 계정으로 로그인해보세요!</p>
           <div className='OauthLoginBtn'>
-            <KakaoLogin>
+            <KakaoLogin onClick={handleKakaoLogin}>
               <FontAwesomeIcon icon={faComment} />
-              카카오 로그인
+              &nbsp;카카오 로그인
             </KakaoLogin>
 
-            <GoogleLogin>
+            <GoogleLogin onClick={googleLoginHandler}>
               <FontAwesomeIcon icon={['fab', 'google']} />
-              구글 로그인
+              &nbsp;구글 로그인
             </GoogleLogin>
           </div>
         </OauthLogin>

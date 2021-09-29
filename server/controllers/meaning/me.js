@@ -27,41 +27,35 @@ module.exports = {
         }
         //! 내가 쓴 글이 존재하는 경우
         else {
-          const contentsId = myData.map((el) => el.dataValues);
+          const returnData = myData.map((el) => el.dataValues);
           const thumbsupData = [];
           const wordNameRes = [];
-          for (let i = 0; i < contentsId.length; i++) {
+          for (let i = 0; i < returnData.length; i++) {
             let thumbsupContent = await thumbsups.findAll({
               attributes: ['userId', 'contentId'],
-              where: { contentId: contentsId[i].id },
+              where: { contentId: returnData[i].id },
             });
             const thumbsupResult = thumbsupContent.map((el) => el.dataValues);
             thumbsupData.push(thumbsupResult);
             const coWordName = await word.findOne({
               attributes: ['wordName'],
-              where: { id: contentsId[i].wordId },
+              where: { id: returnData[i].wordId },
             });
-            wordNameRes.push(coWordName);
-            // console.log('coWordName : ', coWordName);
-            // console.log('thumbsupResult : ', thumbsupResult);
+            wordNameRes.push(coWordName.dataValues.wordName);
           }
 
-          // console.log('contentsId : ', contentsId);
-          // console.log('thumbsupData : ', thumbsupData);
-          // console.log('wordNameRes : ', wordNameRes);
-
-          const returnData = contentsId.map((el) => {
-            el.wordName = '';
-            return el;
-          });
           for (let i = 0; i < returnData.length; i++) {
             returnData[i].wordName = wordNameRes[i];
+            let userNames = [];
+            for (let j = 0; j < thumbsupData[i].length; j++) {
+              let userName = await user.findOne({
+                attributes: ['username'],
+                where: { id: thumbsupData[i][j].userId },
+              });
+              userNames.push(userName.username);
+            }
+            returnData[i].thumbsup = userNames;
           }
-          for (let i = 0; i < returnData.length; i++) {
-            returnData[i].thumbsup = thumbsupData[i];
-          }
-          // console.log('returnData : ', returnData);
-          // console.log(returnData[3].thumbsup);
           returnData.sort((a, b) => b.updatedAt - a.updatedAt);
           res.status(201).json({ accessToken, data: returnData });
         }
@@ -78,41 +72,35 @@ module.exports = {
       }
       //! 내가 쓴 글이 존재하는 경우
       else {
-        const contentsId = myData.map((el) => el.dataValues);
+        const returnData = myData.map((el) => el.dataValues);
         const thumbsupData = [];
         const wordNameRes = [];
-        for (let i = 0; i < contentsId.length; i++) {
+        for (let i = 0; i < returnData.length; i++) {
           let thumbsupContent = await thumbsups.findAll({
             attributes: ['userId', 'contentId'],
-            where: { contentId: contentsId[i].id },
+            where: { contentId: returnData[i].id },
           });
           const thumbsupResult = thumbsupContent.map((el) => el.dataValues);
           thumbsupData.push(thumbsupResult);
           const coWordName = await word.findOne({
             attributes: ['wordName'],
-            where: { id: contentsId[i].wordId },
+            where: { id: returnData[i].wordId },
           });
           wordNameRes.push(coWordName.dataValues.wordName);
-          // console.log('coWordName : ', coWordName);
-          // console.log('thumbsupResult : ', thumbsupResult);
         }
 
-        // console.log('contentsId : ', contentsId);
-        // console.log('thumbsupData : ', thumbsupData);
-        // console.log('wordNameRes : ', wordNameRes);
-
-        const returnData = contentsId.map((el) => {
-          el.wordName = '';
-          return el;
-        });
         for (let i = 0; i < returnData.length; i++) {
           returnData[i].wordName = wordNameRes[i];
+          let userNames = [];
+          for (let j = 0; j < thumbsupData[i].length; j++) {
+            let userName = await user.findOne({
+              attributes: ['username'],
+              where: { id: thumbsupData[i][j].userId },
+            });
+            userNames.push(userName.username);
+          }
+          returnData[i].thumbsup = userNames;
         }
-        for (let i = 0; i < returnData.length; i++) {
-          returnData[i].thumbsup = thumbsupData[i];
-        }
-        // console.log('returnData : ', returnData);
-        // console.log(returnData[3].thumbsup);
         returnData.sort((a, b) => b.updatedAt - a.updatedAt);
         res.status(200).json({ data: returnData });
       }
@@ -186,7 +174,6 @@ module.exports = {
       const oldContent = await content.findOne({
         where: { id: contentId },
       });
-      // console.log('oldContent : ', oldContent);
       oldContent.wordMean = wordMean;
       await oldContent.save();
       res.status(200).json({ message: 'ok' });

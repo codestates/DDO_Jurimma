@@ -1,22 +1,18 @@
-// 과거 검색결과 보관
 import styled from 'styled-components';
-import { useState } from 'react';
 
 const SearchHistoryWrap = styled.div`
-  flex: 1 1 auto; // 콘텐츠 전체 길이 생각해서 후에 수정해주기
   box-sizing: border-box;
+  display: flex;
   @media only screen and (max-width: 1399px) {
     width: 100%;
   }
 `;
 export const SearchHistoryBox = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   > ul {
     width: 100%;
-    height: 60%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -74,7 +70,7 @@ export const SearchHistoryBox = styled.div`
   }
 `;
 
-function SearchHistory({ removeTags, tags }) {
+function SearchHistory({ removeTags, tags, setWord }) {
   return (
     <SearchHistoryWrap>
       <SearchHistoryBox>
@@ -82,7 +78,9 @@ function SearchHistory({ removeTags, tags }) {
           {tags.map((tag, index) => {
             return (
               <li key={index} className='tag'>
-                <span className='tagTitle'>{tag}</span>
+                <span className='tagTitle' onClick={() => setWord(tag)}>
+                  {tag}
+                </span>
                 <span className='closeTag' onClick={() => removeTags(index)}>
                   &times;
                 </span>

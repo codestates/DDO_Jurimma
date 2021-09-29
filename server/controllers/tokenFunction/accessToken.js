@@ -12,7 +12,6 @@ module.exports = {
       return false;
     }
     const token = req.headers.authorization.split(' ')[1];
-    console.log(token);
     if (!token) {
       return false;
     } else {

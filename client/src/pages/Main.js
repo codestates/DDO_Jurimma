@@ -1,11 +1,12 @@
-// main 페이지 (검색 및 검색결과 보기 페이지)
 import styled from 'styled-components';
 import Search from '../components/Search';
 import Chart from '../components/Chart';
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { setLogin } from '../actions/index';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setSearchList, setLogout } from '../actions/index';
+import swal from 'sweetalert';
+axios.defaults.withCredentials = true;
 
 const MainWrap = styled.div`
   width: 1400px;
@@ -13,16 +14,20 @@ const MainWrap = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  margin-top: 200px;
+  margin-top: 120px;
   flex-wrap: wrap;
   @media only screen and (max-width: 1399px) {
     width: 80vw;
   }
-`; // 현재 3:1비율로 한꺼번에 보이는데, 크기가 작아질 경우 상단에 검색창 + 하단에 검색어 차트가 보이게 수정 필요
+  @media only screen and (max-width: 800px) {
+    margin-top: 120px;
+  }
+`;
 
 function Main() {
-  const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
-  const [realTime, setRealTime] = useState([]);
+  const dispatch = useDispatch();
+  let url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
+  const [word, setWord] = useState('');
   function useInterval(callback, delay) {
     const savedCallback = useRef();
 
@@ -47,25 +52,37 @@ function Main() {
     axios
       .get(`${url}/word/chart`)
       .then((res) => {
-        setRealTime(res.data.data);
+        dispatch(setSearchList(res.data.data));
       })
       .catch((err) => console.log(err));
   }, 60000);
 
   useEffect(() => {
+    let url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
     axios
       .get(`${url}/word/chart`)
       .then((res) => {
-        setRealTime(res.data.data);
+        dispatch(setSearchList(res.data.data));
       })
-      .catch((err) => console.log(err));
-  }, []);
+      .catch((err) => {
+        console.log(err);
+        swal({
+          title: 'Internal Server Error',
+          text: '죄송합니다. 다시 로그인 후 해주세요.',
+          icon: 'warning',
+        });
+        dispatch(setLogout());
+        window.location.replace('/');
+      });
+  }, [dispatch]);
 
   return (
-    <MainWrap>
-      <Search />
-      <Chart realTime={realTime} />
-    </MainWrap>
+    <>
+      <MainWrap>
+        <Search word={word} setWord={setWord} />
+        <Chart setWord={setWord} />
+      </MainWrap>
+    </>
   );
 }
 

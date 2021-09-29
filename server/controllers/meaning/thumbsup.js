@@ -1,4 +1,4 @@
-const { content, thumbsups } = require('../../models');
+const { thumbsups } = require('../../models');
 const {
   generateAccessToken,
   isAuthorized,

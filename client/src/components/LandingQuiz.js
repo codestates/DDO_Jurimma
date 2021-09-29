@@ -4,22 +4,70 @@ import { useState } from 'react';
 import you_quiz from '../images/you_quiz.svg';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
+import { useDispatch } from 'react-redux';
+import { setLoginOrSignupModal } from '../actions/index';
 AOS.init();
 
 const SectionWrap = styled.div`
   width: 100%;
-  height: 100vh;
-  margin-top: 200px;
-  display: flex;
   align-items: center;
+  margin-top: 350px;
+  @media only screen and (max-width: 900px) {
+    margin-top: 300px;
+  }
+  @media only screen and (max-width: 700px) {
+    margin-top: 200px;
+  }
+  > h3 {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 45px;
+    color: #fff;
+    padding-bottom: 30px;
+    @media only screen and (max-width: 1300px) {
+      text-align: center;
+      font-size: 40px;
+    }
+
+    @media only screen and (max-width: 700px) {
+      font-size: 30px;
+      text-align: center;
+    }
+    @media screen and (max-width: 400px) {
+      font-size: 23px;
+      padding-bottom: 10px;
+    }
+    @media screen and (max-width: 320px) {
+      font-size: 18px;
+    }
+  }
+  > p {
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    font-size: 22px;
+    @media only screen and (max-width: 1300px) {
+      font-size: 18px;
+    }
+    @media screen and (max-width: 700px) {
+      font-size: 14px;
+    }
+    @media screen and (max-width: 400px) {
+      font-size: 10px;
+      padding-top: 0;
+    }
+    @media screen and (max-width: 280px) {
+      font-size: 8px;
+    }
+  }
 `;
 
 const LandingQuizBox = styled.article`
-  width: max(340px, 50vw);
-  max-width: 500px;
-  height: max(420px, 50vh);
+  width: 500px;
+  height: 500px;
   margin: auto;
+  margin-top: 50px;
   border-radius: 15px;
   padding: 20px;
   box-sizing: border-box;
@@ -28,6 +76,13 @@ const LandingQuizBox = styled.article`
   justify-content: center;
   align-items: center;
   background-color: #b4aee8;
+  @media screen and (max-width: 700px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 400px) {
+    width: 90%;
+    height: 400px;
+  }
 `;
 
 const LandingQuizScore = styled.div`
@@ -50,11 +105,28 @@ const LandingQuizScore = styled.div`
     justify-content: center;
     align-items: center;
     > p:nth-child(1) {
-      font-size: 1.6rem;
-      margin-bottom: 30px;
+      font-size: 17px;
+      line-height: 17px;
+      padding: 15px 0px;
     }
     > p:nth-child(2) {
-      font-size: 1rem;
+      font-size: 12px;
+      line-height: 14px;
+      padding: 10px 0px;
+    }
+    > button {
+      cursor: pointer;
+      margin-top: 10px;
+      background-color: #440a67;
+      color: #fff;
+      border-radius: 50px;
+      width: 40%;
+      height: 50px;
+      font-size: 12px;
+      @media only screen and (max-width: 400px) {
+        height: 30px;
+        font-size: 10px;
+      }
     }
   }
 `;
@@ -68,6 +140,10 @@ const LandingQuizQuestion = styled.div`
     width: 300px;
     height: 300px;
     margin: auto;
+    @media only screen and (max-width: 400px) {
+      width: 200px;
+      height: 200px;
+    }
   }
 `;
 
@@ -87,13 +163,13 @@ const LandingQuizCount = styled.div`
 
 const LandingQuizText = styled.div`
   width: 100%;
-  font-size: 2rem;
+  font-size: 20px;
 `;
 
 const LandingQuizChoiceButton = styled.button`
   width: 100%;
   height: 70px;
-  font-size: 16px;
+  font-size: 14px;
   background-color: #fff;
   border-radius: 80px;
   display: flex;
@@ -102,10 +178,12 @@ const LandingQuizChoiceButton = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.5s;
+  @media only screen and (max-width: 600px) {
+    height: 50px;
+  }
   :hover {
-    /* box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3); */
-    background-color: #230638;
+    background-color: #440a67;
     color: #fff;
   }
 `;
@@ -144,7 +222,7 @@ function LandingQuiz() {
       ],
     },
   ]; // 문제
-
+  const dispatch = useDispatch();
   const [currentQuestion, setCurrentQuestion] = useState(0); // 현재 문제 index
   const [showScore, setShowScore] = useState(false); // 점수 화면 보임 여부
   const [score, setScore] = useState(-1); // 점수 카운트
@@ -163,19 +241,28 @@ function LandingQuiz() {
     }
   };
 
+  const openLoginOrSignupModal = (isOpen) => {
+    dispatch(setLoginOrSignupModal(isOpen));
+  };
+
   return (
-    <SectionWrap>
-      <LandingQuizBox
-        data-aos='zoom-in'
-        data-aos-duration='2000'
-        data-aos-offset='300'
-      >
+    <SectionWrap
+      data-aos='zoom-in'
+      data-aos-duration='2000'
+      data-aos-offset='300'
+    >
+      <h3>웰컴 퀴즈를 풀어보세요! 💁</h3>
+      <p>웰컴 퀴즈는 exp에 반영되지 않으니 유의해주세요.</p>
+      <LandingQuizBox>
         {showScore ? ( // 점수 화면 보임 여부가 true라면
           <LandingQuizScore>
             <img src={you_quiz} alt='You Quiz?' />
             <div>
               <p>총 {score}개를 맞추셨습니다!</p>
               <p>오늘의 퀴즈는 로그인 후 이용 가능합니다.</p>
+              <button onClick={() => openLoginOrSignupModal(true)}>
+                로그인 하러가기
+              </button>
             </div>
             {/*점수 보여줌 */}
           </LandingQuizScore>

@@ -1,31 +1,41 @@
 // 개인정보 변경 페이지
-import { Redirect } from 'react-router';
 import styled from 'styled-components';
 import EditUserInfo from '../components/EditUserInfo';
 import EditUserPic from '../components/EditUserPic';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react/cjs/react.development';
+import { useHistory } from 'react-router-dom';
 
 const MypageEditWrap = styled.div`
-  height: 70vh; // 콘텐츠 전체 길이 생각해서 후에 max 설정해주기
-  border: 1px solid red;
-  box-sizing: border-box;
+  width: 1400px;
+  margin: 0 auto;
   display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  margin-top: 150px;
+  @media only screen and (max-width: 1399px) {
+    width: 80vw;
+  }
 `;
 
 function MypageEdit() {
   const state = useSelector((state) => state.userInfoReducer);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (state.userInfo.id === -1) {
+      history.push('/main');
+      window.scrollTo(0, 0);
+    }
+  }, [state, history]);
+
   return (
     <>
-      {state.isLogin ? (
-        <MypageEditWrap>
-          {/*this is mypageEdit*/}
-          <EditUserInfo />{' '}
-          {/* EditUserInfo에서 버튼이 눌리면 state 업데이트 +
-          axios 요청*/}
-        </MypageEditWrap>
-      ) : (
-        <Redirect to='/'></Redirect>
-      )}
+      <MypageEditWrap>
+        <EditUserPic />
+        <EditUserInfo />{' '}
+      </MypageEditWrap>
     </>
   );
 }

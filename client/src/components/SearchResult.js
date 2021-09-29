@@ -1,38 +1,238 @@
-// Search에서 검색 후 좋아요 순으로 3개만 보여지는 부분
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setNewContentModal } from '../actions/index';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import swal from 'sweetalert';
+import nothingImg from '../images/nothing.svg';
 
 const SearchResultWrap = styled.div`
-  flex: 1 1 auto; // 콘텐츠 전체 길이 생각해서 후에 수정해주기
-  border: 1px solid red;
   box-sizing: border-box;
+  margin-top: 20px;
+  margin-bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  > .wordResultList {
+    width: 100%;
+    min-height: 250px;
+    height: auto;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 30px;
+    @media only screen and (max-width: 800px) {
+      flex-direction: column;
+      padding: 20px 0px;
+    }
+    > #nothingWrap {
+      width: 250px;
+      height: 250px;
+      @media only screen and (max-width: 600px) {
+        width: 200px;
+        height: 200px;
+      }
+      > #nothingImg {
+        margin: 0 auto;
+        width: 200px;
+        height: 200px;
+        background: url(${nothingImg});
+        @media only screen and (max-width: 600px) {
+          width: 150px;
+          height: 150px;
+        }
+      }
+      > #nothingText {
+        height: 50px;
+        text-align: center;
+        @media only screen and (max-width: 600px) {
+          font-size: 12px;
+        }
+      }
+    }
+    > li {
+      flex: none;
+      width: 30%;
+      height: 230px;
+      border-radius: 30px;
+      text-align: center;
+      padding: 10px;
+      box-sizing: border-box;
+      background-color: #230638;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      border: 2px solid #fff;
+      color: #fff;
+      margin-right: 10px;
+      > p {
+        color: #fff;
+        @media only screen and (max-width: 800px) {
+          display: grid;
+          place-items: center;
+        }
+      }
+      @media only screen and (max-width: 800px) {
+        /* flex: 1 0 auto; */
+        font-size: 14px;
+        width: 80%;
+        height: 150px;
+        flex-direction: row;
+        margin-right: 0;
+        margin-bottom: 20px;
+        justify-content: space-around;
+        > p:nth-child(1) {
+          width: max(50px, 15%);
+        }
+        > p:nth-child(2) {
+          width: max(150px, 70%);
+          font-size: 12px;
+        }
+      }
+      > .wordThumbsup {
+        > div {
+          background-color: #fff;
+          width: max(35px, 5vh);
+          height: max(35px, 5vh);
+          border-radius: max(35px, 5vh);
+          margin: 0 auto;
+          display: grid;
+          place-items: center;
+          > p {
+            color: #230638;
+          }
+        }
+        @media only screen and (max-width: 800px) {
+          width: max(50px, 15%);
+          display: grid;
+          place-items: center;
+        }
+      }
+    }
+    > li:last-child {
+      margin-right: 0px;
+      @media only screen and (max-width: 800px) {
+        margin-bottom: 0px;
+      }
+    }
+  }
 `;
 
-function SearchResult({ wordResult }) {
+const BtnWrap = styled.div`
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  justify-content: space-evenly;
+  width: 50%;
+  margin: 0 auto;
+  > .newOrSearchBtn {
+    cursor: pointer;
+    margin-top: 40px;
+    border-radius: 50px;
+    width: 40%;
+    height: 50px;
+    transition: 0.3s;
+    background-color: #fff;
+    color: #440a67;
+    @media only screen and (max-width: 800px) {
+      width: 130px;
+    }
+    > a {
+      display: block;
+      width: 100%;
+      height: 50px;
+      text-decoration: none;
+      text-align: center;
+      line-height: 50px;
+      color: #440a67;
+    }
+  }
+`;
+
+function SearchResult({ wordResult, notSearched }) {
+  const state = useSelector((state) => state.userInfoReducer);
   const dispatch = useDispatch();
   const openNewContentModal = (isOpen) => {
     dispatch(setNewContentModal(isOpen));
   };
+  const showLogin = () => {
+    swal({
+      title: '로그인이 필요합니다.',
+      text: '로그인 후 더보기 페이지를 이용할 수 있습니다.',
+      icon: 'warning',
+    });
+  };
 
   return (
     <SearchResultWrap>
-      <ul>
-        {wordResult.map((res) => {
-          return (
-            <li key={res.id}>
-              {res.wordName}, {res.wordMean}, {res.thumbsup.length}
-            </li>
-          );
-        })}
-      </ul>
-      {/*search의 검색결과가 0일때만 아래 새글쓰기 버튼이 보이도록 지정해줘야 함*/}
-      <button onClick={() => openNewContentModal(true)}>새글쓰기</button>
-      <button>
-        {/* <Link to={`/searchMore?wordName=${}</button>`>검색하기</Link>로 바꿔줘야함 */}
-        <Link to='/searchMore'>더보기</Link> {/* 더보기 페이지로 이동 */}
-      </button>
+      {notSearched ? null : (
+        <>
+          {wordResult.length !== 0 ? (
+            <>
+              <ul className='wordResultList'>
+                {wordResult.map((res) => {
+                  return (
+                    <li key={res.id} className='wordResultData'>
+                      <p>{res.wordName}</p>
+                      <p>
+                        {res.wordMean.length > 50
+                          ? `${res.wordMean.slice(0, 50)}...`
+                          : res.wordMean}
+                      </p>
+                      <div className='wordThumbsup'>
+                        <div>
+                          <FontAwesomeIcon icon={faThumbsUp} />
+                          <p>{res.thumbsup.length}</p>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+              <BtnWrap>
+                <button
+                  className='newOrSearchBtn'
+                  onClick={state.isLogin ? null : showLogin}
+                >
+                  {state.isLogin ? (
+                    <Link
+                      to={`/searchMore?wordName=${encodeURIComponent(
+                        wordResult[0].wordName
+                      )}`}
+                    >
+                      더보기
+                    </Link>
+                  ) : (
+                    '더보기'
+                  )}
+                </button>
+              </BtnWrap>
+            </>
+          ) : (
+            <>
+              <ul className='wordResultList'>
+                <div id='nothingWrap'>
+                  <div id='nothingImg'></div>
+                  <div id='nothingText'>
+                    아직 뜻이 없네요! <br />
+                    새로 작성하시겠어요?
+                  </div>
+                </div>
+              </ul>
+
+              <BtnWrap>
+                <button
+                  className='newOrSearchBtn'
+                  onClick={() => openNewContentModal(true)}
+                >
+                  새글쓰기
+                </button>
+              </BtnWrap>
+            </>
+          )}
+        </>
+      )}
     </SearchResultWrap>
   );
 }

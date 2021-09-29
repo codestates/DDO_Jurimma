@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const upload = require('../modules/multer');
 const { userController } = require('../controllers');
 
 router.post('/login', userController.login.post);
@@ -17,6 +17,8 @@ router.get('/logout', userController.logout.get);
 router.get('/', userController.userInfo.get);
 router.patch('/', userController.userInfo.patch);
 router.delete('/', userController.userInfo.delete);
+
+router.post('/image', upload.single('image'), userController.image.post);
 
 router.patch('/quiz-exp', userController.quizExp.patch);
 
