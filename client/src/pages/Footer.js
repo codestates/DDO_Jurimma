@@ -113,10 +113,22 @@ function Footer() {
           <h3>ABOUT US</h3>
           <ul>
             <li>
-              <a href='https://github.com/codestates/DDO_Jurimma'>HOME</a>
+              <a
+                target='_blank'
+                rel='noreferrer'
+                href='https://github.com/codestates/DDO_Jurimma'
+              >
+                HOME
+              </a>
             </li>
             <li>
-              <a href='https://github.com/codestates/DDO_Jurimma/wiki'>WIKI</a>
+              <a
+                target='_blank'
+                rel='noreferrer'
+                href='https://github.com/codestates/DDO_Jurimma/wiki'
+              >
+                WIKI
+              </a>
             </li>
           </ul>
         </div>
