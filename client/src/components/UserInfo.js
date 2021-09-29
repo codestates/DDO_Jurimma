@@ -157,9 +157,15 @@ const UserInfoData = styled.div`
       border: 2px solid #fff;
       animation: ${colorAni} 10s ease infinite;
       background-size: 200% 100%;
+      font-size: 14px;
       > span {
-        font-size: 13px;
+        font-size: 12px;
         color: #fff;
+      }
+      @media only screen and (max-width: 400px) {
+        display: grid;
+        place-items: center;
+        line-height: 0;
       }
     }
     > #userEmail {
@@ -265,10 +271,11 @@ function UserInfo() {
                 backgroundImage: `${whatColor}`,
               }}
             >
-              {state.userInfo.username.length > 5
-                ? `${state.userInfo.username.slice(0, 4)}...`
-                : state.userInfo.username}
-              <span>님 반갑습니다!</span>
+              {state.userInfo.username.length > 10
+                ? `${state.userInfo.username.slice(0, 10)}...님`
+                : `${state.userInfo.username}님`}
+              &nbsp;
+              <span>반갑습니다!</span>
             </p>
             {/* <p id='userEmail'>{state.userInfo.email}</p> */}
             <button id='userInfoEditBtn'>
