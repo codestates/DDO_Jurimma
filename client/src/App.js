@@ -53,7 +53,7 @@ function App() {
       'code'
     );
     if (authorizationCode) {
-      console.log(authorizationCode);
+      // console.log(authorizationCode);
       getUserInfoAndAccessToken(authorizationCode);
     }
     window.onbeforeunload = function pushRefresh() {
