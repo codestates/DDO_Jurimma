@@ -269,8 +269,8 @@ function UserContents({ setEditInfo, setUserContentsLength }) {
           if (delContent.data.accessToken) {
             dispatch(setAccessToken(delContent.data.accessToken));
           }
-          setUserContentsLength(userContentState.data.length - 1);
-          swal('삭제가 완료되었습니다', {
+          await setUserContentsLength(userContentState.data.length - 1);
+          await swal('삭제가 완료되었습니다', {
             icon: 'success',
           });
         } catch (error) {
