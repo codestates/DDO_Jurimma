@@ -17,6 +17,9 @@ const MypageEditWrap = styled.div`
   @media only screen and (max-width: 1399px) {
     width: 80vw;
   }
+  @media only screen and (max-width: 400px) {
+    margin-top: 40px;
+  }
 `;
 
 function MypageEdit() {
