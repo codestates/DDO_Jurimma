@@ -158,7 +158,7 @@ const EditContent = styled.div`
     cursor: pointer;
     transition: 0.3s;
     @media only screen and (max-width: 550px) {
-      width: 45px;
+      width: 47px;
     }
     :hover {
       background-color: #440a67;
