@@ -19,7 +19,7 @@ app.use(logger('dev'));
 
 app.use(
   cors({
-    origin: true,
+    origin: ['https://jurimma.com'],
     credentials: true,
   })
 );
