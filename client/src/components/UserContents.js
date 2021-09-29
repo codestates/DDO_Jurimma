@@ -6,6 +6,7 @@ import { setAccessToken, setLogout } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
+import nothing from '../images/nothing.svg';
 import axios from 'axios';
 import swal from 'sweetalert';
 axios.defaults.withCredentials = true;
@@ -29,6 +30,15 @@ const UserContentsWrap = styled.div`
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 20px;
     padding: 30px 0;
+    > .noContent {
+      > img {
+        width: 220px;
+        height: 220px;
+      }
+      color: #fff;
+      display: grid;
+      place-items: center;
+    }
     > .wordBox {
       width: 95%;
       min-height: 300px;
@@ -158,7 +168,7 @@ const EditContent = styled.div`
     cursor: pointer;
     transition: 0.3s;
     @media only screen and (max-width: 550px) {
-      width: 45px;
+      width: 47px;
     }
     :hover {
       background-color: #440a67;
@@ -212,7 +222,7 @@ const HoverThumbsup = styled.span`
   display: none;
 `;
 
-function UserContents({ setEditInfo, setUserContentsLength }) {
+function UserContents({ setEditInfo, setStateCheck }) {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const dispatch = useDispatch();
   const userInfoState = useSelector((state) => state.userInfoReducer);
@@ -269,16 +279,10 @@ function UserContents({ setEditInfo, setUserContentsLength }) {
           if (delContent.data.accessToken) {
             dispatch(setAccessToken(delContent.data.accessToken));
           }
-          // await setUserContentsLength(userContentState.data.length - 1);
-          await dispatch(
-            getContent(
-              userContentState.data.sort(
-                (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-              )
-            )
-          );
-          await swal('삭제가 완료되었습니다', {
+          swal('삭제가 완료되었습니다', {
             icon: 'success',
+          }).then(() => {
+            setStateCheck(true);
           });
         } catch (error) {
           if (error.response.data.message === 'Send new Login Request') {
@@ -317,54 +321,63 @@ function UserContents({ setEditInfo, setUserContentsLength }) {
       </FilterWrap>
 
       <ul>
-        {userContentState.data.map((el, idx) => {
-          return (
-            <li className='wordBox' key={idx}>
-              <div className='wordBoxWrap'>
-                <div className='topWrap'>
-                  <h3>{el.wordName}</h3>
-                  <EditContent>
-                    <button onClick={() => deleteContent(el.id)}>
-                      삭제하기
-                    </button>
-                    <button
-                      onClick={() =>
-                        openEditContentModal(
-                          true,
-                          el.id,
-                          el.wordName,
-                          el.wordMean
-                        )
-                      }
-                    >
-                      수정하기
-                    </button>
-                  </EditContent>
-                </div>
+        {userContentState.data.length > 0 ? (
+          <>
+            {userContentState.data.map((el, idx) => {
+              return (
+                <li className='wordBox' key={idx}>
+                  <div className='wordBoxWrap'>
+                    <div className='topWrap'>
+                      <h3>{el.wordName}</h3>
+                      <EditContent>
+                        <button onClick={() => deleteContent(el.id)}>
+                          삭제하기
+                        </button>
+                        <button
+                          onClick={() =>
+                            openEditContentModal(
+                              true,
+                              el.id,
+                              el.wordName,
+                              el.wordMean
+                            )
+                          }
+                        >
+                          수정하기
+                        </button>
+                      </EditContent>
+                    </div>
 
-                <div className='wordMean'>{el.wordMean}</div>
+                    <div className='wordMean'>{el.wordMean}</div>
 
-                <div className='bottomWrap'>
-                  <span>{el.updatedAt.split('T')[0]}</span>
-                  <div className='hoverThumbsWrap'>
-                    <HoverThumbsup className='hoverThumbsup'>
-                      {el.thumbsup.length === 0
-                        ? `아직 좋아한 사람이
-                            없습니다.`
-                        : `${el.thumbsup[0]}님 외
-                            ${el.thumbsup.length - 1}
-                            명이 좋아합니다.`}
-                    </HoverThumbsup>
-                    <div className='thumbsupWrap'>
-                      <FontAwesomeIcon icon={faThumbsUp} />
-                      &nbsp;&nbsp;{el.thumbsup.length}개
+                    <div className='bottomWrap'>
+                      <span>{el.updatedAt.split('T')[0]}</span>
+                      <div className='hoverThumbsWrap'>
+                        <HoverThumbsup className='hoverThumbsup'>
+                          {el.thumbsup.length === 0
+                            ? `아직 좋아한 사람이
+                              없습니다.`
+                            : `${el.thumbsup[0]}님 외
+                              ${el.thumbsup.length - 1}
+                              명이 좋아합니다.`}
+                        </HoverThumbsup>
+                        <div className='thumbsupWrap'>
+                          <FontAwesomeIcon icon={faThumbsUp} />
+                          &nbsp;&nbsp;{el.thumbsup.length}개
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </li>
-          );
-        })}
+                </li>
+              );
+            })}
+          </>
+        ) : (
+          <li className='noContent'>
+            <img src={nothing} />
+            아직 작성된 글이 없습니다.
+          </li>
+        )}
       </ul>
     </UserContentsWrap>
   );
