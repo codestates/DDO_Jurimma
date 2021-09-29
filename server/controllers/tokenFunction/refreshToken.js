@@ -7,11 +7,17 @@ module.exports = {
   },
   sendRefreshToken: (res, refreshToken) => {
     // JWT 토큰을 쿠키로 전달합니다.
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      // secure: true,
-      // sameSite: "none",
-    });
+    if (process.env.CLIENT_URL) {
+      res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+      });
+    } else {
+      res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+      });
+    }
   },
   refreshAuthorized: (req) => {
     // JWT 토큰 정보를 받아서 검증합니다.
