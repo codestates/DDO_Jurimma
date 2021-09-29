@@ -19,7 +19,7 @@ app.use(logger('dev'));
 
 app.use(
   cors({
-    origin: ['https://jurimma.com'],
+    origin: [process.env.CLIENT_URL, 'http://localhost:3000'],
     credentials: true,
   })
 );
