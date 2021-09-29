@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   setNewContentModal,
   setLogout,
-  setLogoutModal,
   setAccessToken,
 } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -321,10 +320,6 @@ function SearchMore() {
       setOrderBy('byUpdatedAt');
     }
   };
-
-  const closeLogoutModal = (isOpen) => {
-    dispatch(setLogoutModal(isOpen));
-  }; // 로그인 모달 닫는 함수
 
   const openNewContentModal = (isOpen) => {
     dispatch(setNewContentModal(isOpen));

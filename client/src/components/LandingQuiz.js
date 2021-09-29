@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import you_quiz from '../images/you_quiz.svg';
 import AOS from 'aos';
+import swal from 'sweetalert';
 import 'aos/dist/aos.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLoginOrSignupModal } from '../actions/index';
 AOS.init();
 
@@ -203,14 +204,6 @@ function LandingQuiz() {
       ],
     },
     {
-      questionText: '오저치고의 뜻으로 올바른 것은?',
-      answerOptions: [
-        { answerText: '오 저녀석 치고는 많이 고쳐서 냈다', isCorrect: false },
-        { answerText: '오늘 저녁 치킨 고?', isCorrect: true },
-        { answerText: '오금이 저리고 치통으로 고통받는다', isCorrect: false },
-      ],
-    },
-    {
       questionText: '갑통알의 뜻으로 올바른 것은?',
       answerOptions: [
         { answerText: '갑자기 통장을 보니 알바를 해야겠다', isCorrect: true },
@@ -223,6 +216,7 @@ function LandingQuiz() {
     },
   ]; // 문제
   const dispatch = useDispatch();
+  const userInfoState = useSelector((state) => state.userInfoReducer);
   const [currentQuestion, setCurrentQuestion] = useState(0); // 현재 문제 index
   const [showScore, setShowScore] = useState(false); // 점수 화면 보임 여부
   const [score, setScore] = useState(-1); // 점수 카운트
@@ -242,7 +236,14 @@ function LandingQuiz() {
   };
 
   const openLoginOrSignupModal = (isOpen) => {
-    dispatch(setLoginOrSignupModal(isOpen));
+    if (!userInfoState.isLogin) {
+      dispatch(setLoginOrSignupModal(isOpen));
+    } else {
+      swal({
+        title: '이미 로그인 된 상태입니다.',
+        icon: 'warning',
+      });
+    }
   };
 
   return (

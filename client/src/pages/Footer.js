@@ -124,16 +124,40 @@ function Footer() {
           <h3>CONTACT</h3>
           <ul>
             <li>
-              <a href='https://github.com/Youngseo-kangg'>FRONT - 강영서</a>
+              <a
+                target='_blank'
+                rel='noreferrer'
+                href='https://github.com/Youngseo-kangg'
+              >
+                FRONT - 강영서
+              </a>
             </li>
             <li>
-              <a href='https://github.com/minjman2659'>BACK - 김민재</a>
+              <a
+                target='_blank'
+                rel='noreferrer'
+                href='https://github.com/minjman2659'
+              >
+                BACK - 김민재
+              </a>
             </li>
             <li>
-              <a href='https://github.com/mniYUNSU'>BACK - 배윤수</a>
+              <a
+                target='_blank'
+                rel='noreferrer'
+                href='https://github.com/mniYUNSU'
+              >
+                BACK - 배윤수
+              </a>
             </li>
             <li>
-              <a href='https://github.com/Lee-Na-eun'>FRONT - 이나은</a>
+              <a
+                target='_blank'
+                rel='noreferrer'
+                href='https://github.com/Lee-Na-eun'
+              >
+                FRONT - 이나은
+              </a>
             </li>
           </ul>
         </div>
@@ -141,12 +165,21 @@ function Footer() {
           <h3>Social Media</h3>
           <ul id='socialMediaList'>
             <li>
-              <a href='#' onClick={(event) => clickInsta(event)}>
+              <a
+                href='#!'
+                target='_blank'
+                rel='noreferrer'
+                onClick={(event) => clickInsta(event)}
+              >
                 <FontAwesomeIcon icon={faInstagram} />
               </a>
             </li>
             <li>
-              <a href='https://github.com/codestates/DDO_Jurimma'>
+              <a
+                target='_blank'
+                rel='noreferrer'
+                href='https://github.com/codestates/DDO_Jurimma'
+              >
                 <FontAwesomeIcon icon={faGithub} />
               </a>
             </li>
