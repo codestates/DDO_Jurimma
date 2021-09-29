@@ -27,6 +27,9 @@ const EditUserPicWrap = styled.div`
     width: 100%;
     height: 500px;
   }
+  @media only screen and (max-width: 400px) {
+    height: 400px;
+  }
   > button {
     display: block;
     width: 150px;
@@ -38,6 +41,11 @@ const EditUserPicWrap = styled.div`
     border: 2px solid #b61919;
     border-radius: 50px;
     transition: 0.3s;
+    @media only screen and (max-width: 400px) {
+      width: 120px;
+      height: 30px;
+      font-size: 12px;
+    }
     :hover {
       border: 2px solid #b61919;
       background-color: #b61919;
@@ -63,13 +71,13 @@ const ProfileChange = styled.div`
 const ProfileBtnWrap = styled.div`
   width: 100%;
   max-width: 500px;
-  min-height: 50px;
-  height: auto;
+  height: 100px;
   margin: 0 auto;
   display: flex;
   justify-content: space-evenly;
-  align-items: center;
   flex-wrap: wrap;
+  margin-top: -50px;
+
   > button {
     display: block;
     width: 150px;
@@ -80,6 +88,10 @@ const ProfileBtnWrap = styled.div`
     border: 2px solid #fff;
     border-radius: 50px;
     transition: 0.3s;
+    @media only screen and (max-width: 400px) {
+      width: 130px;
+      font-size: 12px;
+    }
     :hover {
       border: 2px solid #fff;
       background-color: #fff;
@@ -99,7 +111,7 @@ const ProfileBtnWrap = styled.div`
     margin-left: 0;
   }
   @media only screen and (max-width: 400px) {
-    height: 110px;
+    height: 50px;
   }
 `;
 
