@@ -55,16 +55,18 @@ const MiniMenuProfile = styled.div`
   flex: 1 1 auto;
   z-index: 30;
   > #miniMenuProfile {
-    width: 300px;
+    width: 280px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: -100px;
     > #profileImgLevel {
-      width: 350px;
-      height: 350px;
+      width: 280px;
+      height: 280px;
       background-color: #ddd;
+      display: grid;
+      place-items: center;
       > #profileImg {
         width: 110px;
         height: 110px;
@@ -72,7 +74,8 @@ const MiniMenuProfile = styled.div`
         margin: 0 auto;
         background-repeat: no-repeat;
         background-size: cover;
-        margin-top: 133px;
+        margin-top: 20px;
+        /* margin-top: 133px; */
       }
     }
     > .menu {
