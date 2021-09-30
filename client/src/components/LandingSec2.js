@@ -98,7 +98,7 @@ const DescripText = styled.div`
     justify-content: center;
     align-items: center;
   }
-  > h3 {
+  > .descripTextTitle {
     font-size: 45px;
     color: #fff;
     padding: 5px 0;
@@ -218,7 +218,7 @@ const LevelWrap = styled.div`
 const Levelup = styled.div`
   width: 100%;
   height: 60%;
-  > h3 {
+  > .descripTextTitle {
     text-align: center;
     font-size: 45px;
     color: #fff;
@@ -334,9 +334,9 @@ function LandingSec2({ location }) {
           <DescriptWrap id='firstWrap'>
             <DescripTextBox>
               <DescripText>
-                <h3>
+                <div className='descripTextTitle'>
                   알쏭달쏭한 줄임말을 <br /> 검색해보자! 🤔
-                </h3>
+                </div>
                 <p>
                   모르는 줄임말의 뜻도
                   <br />
@@ -367,7 +367,7 @@ function LandingSec2({ location }) {
           <DescriptWrap className='reverse'>
             <DescriptGif
               style={{
-                backgroundImage: `url(https://cdn.discordapp.com/attachments/892308009194258502/892313202753437696/landing22.gif)`,
+                backgroundImage: `url(https://cdn.discordapp.com/attachments/878131777485565993/893014196793511956/landing22.gif)`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 boxShadow: '0px 0px 20px 0px',
@@ -375,9 +375,9 @@ function LandingSec2({ location }) {
             />
             <DescripTextBox className='notbtn'>
               <DescripText className='desctext'>
-                <h3>
+                <div className='descripTextTitle'>
                   한 단어에 이렇게 많은 <br /> 뜻이 있다고?! 😯
-                </h3>
+                </div>
                 <p>
                   단어가 가진 여러 의미들을
                   <br />
@@ -398,10 +398,10 @@ function LandingSec2({ location }) {
           <DescriptWrap>
             <DescripTextBox>
               <DescripText>
-                <h3>
+                <div className='descripTextTitle'>
                   매일 달라지는 오늘의 <br />
                   퀴즈를 풀어보자! 💯
-                </h3>
+                </div>
                 <p>
                   모두 맞추면 10exp, <br />
                   하나를 맞추면 5exp를
@@ -440,10 +440,10 @@ function LandingSec2({ location }) {
             />
             <DescripTextBox className='notbtn'>
               <DescripText className='desctext'>
-                <h3>
+                <div className='descripTextTitle'>
                   어디서든 즐길 수 있는
                   <br /> JURIMMA! 😎
-                </h3>
+                </div>
                 <p>
                   컴퓨터, 태블릿, 핸드폰 등
                   <br />
@@ -464,7 +464,9 @@ function LandingSec2({ location }) {
         >
           <LevelWrap>
             <Levelup>
-              <h3>꾸준한 활동으로 레벨업 해보자! 👸</h3>
+              <div className='descripTextTitle'>
+                꾸준한 활동으로 레벨업 해보자! 👸
+              </div>
               <p>퀴즈도 풀고, 나만의 줄임말을 공유하여 경험치를 쌓아보세요.</p>
               <p>
                 새 글 작성시 5exp, 퀴즈를 통해 최대 10exp를 획득할 수 있어요!

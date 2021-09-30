@@ -19,7 +19,7 @@ const SectionWrap = styled.div`
   @media only screen and (max-width: 700px) {
     margin-top: 200px;
   }
-  > h3 {
+  > .descripTextTitle {
     width: 100%;
     margin: 0 auto;
     text-align: center;
@@ -260,7 +260,7 @@ function LandingQuiz() {
       data-aos-duration='2000'
       data-aos-offset='300'
     >
-      <h3>웰컴 퀴즈를 풀어보세요! 💁</h3>
+      <div className='descripTextTitle'>웰컴 퀴즈를 풀어보세요! 💁</div>
       <p>웰컴 퀴즈는 exp에 반영되지 않으니 유의해주세요.</p>
       <LandingQuizBox>
         {showScore ? ( // 점수 화면 보임 여부가 true라면
