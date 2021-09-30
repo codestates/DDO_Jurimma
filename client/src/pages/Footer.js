@@ -36,8 +36,9 @@ const FooterBar = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: start;
-    > h3 {
+    > .footerTitle {
       color: #fff;
+      font-family: 'NEXON Lv2 Gothic Bold';
       padding-bottom: 10px;
     }
     > ul {
@@ -110,7 +111,7 @@ function Footer() {
     <FooterBarWrap>
       <FooterBar>
         <div className='footerMenu'>
-          <h3>ABOUT US</h3>
+          <div className='footerTitle'>ABOUT US</div>
           <ul>
             <li>
               <a
@@ -133,7 +134,7 @@ function Footer() {
           </ul>
         </div>
         <div className='footerMenu'>
-          <h3>CONTACT</h3>
+          <div className='footerTitle'>CONTACT</div>
           <ul>
             <li>
               <a
@@ -174,7 +175,7 @@ function Footer() {
           </ul>
         </div>
         <div className='footerMenu'>
-          <h3>Social Media</h3>
+          <div className='footerTitle'>Social Media</div>
           <ul id='socialMediaList'>
             <li>
               <a
