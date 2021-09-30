@@ -9,6 +9,9 @@ module.exports = {
   get: async (req, res) => {
     const accessTokenCheck = isAuthorized(req);
     const refreshTokenCheck = refreshAuthorized(req);
+    const offset = Number(req.query.offset);
+    const limit = Number(req.query.limit);
+    const sort = req.query.sort;
     if (!accessTokenCheck) {
       // accessToken 만료 / refreshToken 만료
       if (!refreshTokenCheck) {
@@ -56,8 +59,17 @@ module.exports = {
             }
             returnData[i].thumbsup = userNames;
           }
-          returnData.sort((a, b) => b.updatedAt - a.updatedAt);
-          res.status(201).json({ accessToken, data: returnData });
+          if (sort === 'byUpdatedAt') {
+            const sortedResult = returnData
+              .sort((a, b) => b.updatedAt - a.updatedAt)
+              .slice(offset, offset + limit);
+            res.status(201).json({ accessToken, data: sortedResult });
+          } else {
+            const sortedResult = returnData
+              .sort((a, b) => b.thumbsup.length - a.thumbsup.length)
+              .slice(offset, offset + limit);
+            res.status(201).json({ accessToken, data: sortedResult });
+          }
         }
       }
     }
@@ -101,8 +113,17 @@ module.exports = {
           }
           returnData[i].thumbsup = userNames;
         }
-        returnData.sort((a, b) => b.updatedAt - a.updatedAt);
-        res.status(200).json({ data: returnData });
+        if (sort === 'byUpdatedAt') {
+          const sortedResult = returnData
+            .sort((a, b) => b.updatedAt - a.updatedAt)
+            .slice(offset, offset + limit);
+          res.status(200).json({ data: sortedResult });
+        } else {
+          const sortedResult = returnData
+            .sort((a, b) => b.thumbsup.length - a.thumbsup.length)
+            .slice(offset, offset + limit);
+          res.status(200).json({ data: sortedResult });
+        }
       }
     }
   },

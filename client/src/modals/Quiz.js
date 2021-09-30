@@ -381,15 +381,19 @@ function Quiz() {
           title: '로그인이 필요합니다.',
           text: '로그인이 만료되었습니다.',
           icon: 'warning',
-        }); // swal로 안내
-        dispatch(setLogout());
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
       } else {
         swal({
           title: 'Internal Server Error',
           text: '죄송합니다. 다시 로그인 후 해주세요.',
           icon: 'warning',
-        }); // swal로 안내
-        dispatch(setLogout());
+        }).then(() => {
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
       }
     }
   }; // 접속한 날짜, 경험치 업데이트하는 함수
