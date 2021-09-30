@@ -224,7 +224,16 @@ function SearchResult({ wordResult, notSearched }) {
               <BtnWrap>
                 <button
                   className='newOrSearchBtn'
-                  onClick={() => openNewContentModal(true)}
+                  onClick={
+                    state.isLogin
+                      ? () => openNewContentModal(true)
+                      : () =>
+                          swal({
+                            title: '로그인이 필요합니다.',
+                            text: '로그인 후 새글쓰기가 가능합니다.',
+                            icon: 'warning',
+                          })
+                  }
                 >
                   새글쓰기
                 </button>
