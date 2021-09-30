@@ -24,6 +24,10 @@
 
 <img width="700" alt="DDO_Jurimma Stack" src="https://media.discordapp.net/attachments/878131722296918017/892270332168269864/cf.png?width=858&height=549">
 
+# 🗽 Lighthouse 검사 결과
+
+![](https://cdn.discordapp.com/attachments/878131777485565993/893024808567181332/2021-09-30_3.41.42.png)
+
 # ✅ 기능 소개
 
 ### 1. 회원가입 이메일 인증
