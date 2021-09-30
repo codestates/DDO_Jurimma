@@ -283,6 +283,7 @@ function UserContents({ setEditInfo, setStateCheck }) {
             icon: 'success',
           }).then(() => {
             setStateCheck(true);
+            setOrderBy('byUpdatedAt');
           });
         } catch (error) {
           if (error.response.data.message === 'Send new Login Request') {
