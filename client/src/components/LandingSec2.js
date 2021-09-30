@@ -311,7 +311,7 @@ const Levelup = styled.div`
   }
 `;
 
-function LandingSec2({ location }) {
+function LandingSec2({ scrollToQuiz }) {
   const history = useHistory();
   const goToMain = () => {
     history.push('/main');
@@ -409,7 +409,7 @@ function LandingSec2({ location }) {
                   획득할 수 있어요!
                 </p>
 
-                <button onClick={moveQuizSec}>웰컴퀴즈 풀기</button>
+                <button onClick={scrollToQuiz}>웰컴퀴즈 풀기</button>
               </DescripText>
             </DescripTextBox>
             <DescriptGif

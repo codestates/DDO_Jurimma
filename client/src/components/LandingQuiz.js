@@ -7,6 +7,7 @@ import swal from 'sweetalert';
 import 'aos/dist/aos.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoginOrSignupModal } from '../actions/index';
+import { useRef } from 'react';
 AOS.init();
 
 const SectionWrap = styled.div`
@@ -189,7 +190,7 @@ const LandingQuizChoiceButton = styled.button`
   }
 `;
 
-function LandingQuiz() {
+function LandingQuiz({ scrollFocus }) {
   const questions = [
     {
       questionText: '',
@@ -259,6 +260,7 @@ function LandingQuiz() {
       data-aos='zoom-in'
       data-aos-duration='2000'
       data-aos-offset='300'
+      ref={scrollFocus}
     >
       <div className='descripTextTitle'>웰컴 퀴즈를 풀어보세요! 💁</div>
       <p>웰컴 퀴즈는 exp에 반영되지 않으니 유의해주세요.</p>

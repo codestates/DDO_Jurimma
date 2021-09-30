@@ -2,6 +2,7 @@ import styled, { keyframes } from 'styled-components';
 import SearchAutoComp from './SearchAutoComp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import silverBadge from '../images/junior_badge.svg';
@@ -57,26 +58,32 @@ const SearchBox = styled.div`
     margin-top: -46.5px;
   }
   > input {
-    width: 88%;
+    width: 84%;
     height: 30px;
     padding-left: 10px;
     outline: none;
+    @media only screen and (max-width: 450px) {
+      width: 75%;
+    }
   }
   > #buttonWrap {
     display: flex;
-    width: 12%;
+    width: 16%;
     margin-right: 20px;
+    @media only screen and (max-width: 450px) {
+      width: 25%;
+    }
     > button {
-      width: 50%;
+      width: 33.33%;
       font-size: 20px;
       color: #440a67;
       background-color: transparent;
       cursor: pointer;
-      margin-left: 7px;
+      margin-left: 10px;
       @media only screen and (max-width: 1399px) {
         font-size: 18px;
       }
-      @media only screen and (max-width: 400px) {
+      @media only screen and (max-width: 450px) {
         font-size: 15px;
       }
     }
@@ -207,6 +214,9 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
         ></input>
         <div id='buttonWrap'>
           <button onClick={() => setWord('')}>&times;</button>
+          <button>
+            <FontAwesomeIcon icon={faMicrophone} />
+          </button>
           <button onClick={(event) => searchWord(event, word)}>
             <FontAwesomeIcon icon={faSearch} />
           </button>
