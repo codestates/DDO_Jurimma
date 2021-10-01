@@ -120,7 +120,7 @@ const EditErrorMsg = styled.div`
   font-size: max(0.8vw, 10px);
 `;
 
-function EditContent({ id, wordName, wordMean, setStateCheck }) {
+function EditContent({ id, wordName, wordMean, setStateCheck, stateCheck }) {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const userInfoState = useSelector((state) => state.userInfoReducer);
   const dispatch = useDispatch();
@@ -159,13 +159,13 @@ function EditContent({ id, wordName, wordMean, setStateCheck }) {
         if (editResult.data.accessToken) {
           dispatch(setAccessToken(editResult.data.accessToken));
         }
+        setStateCheck(!stateCheck); //상태 뒤집어줘서 useEffect 작동되게
         swal({
           title: '줄임말이 변경되었습니다.',
           text: '작성한 줄임말을 확인해보세요!',
           icon: 'success',
         }).then(() => {
           closeEditContentModal(false);
-          setStateCheck(true);
         });
       }
     } catch (error) {

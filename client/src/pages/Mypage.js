@@ -83,6 +83,7 @@ function Mypage() {
           id={editInfo.userEditId}
           wordName={editInfo.userEditWordName}
           wordMean={editInfo.userEditWordMean}
+          stateCheck={stateCheck}
           setStateCheck={setStateCheck}
         />
       ) : null}

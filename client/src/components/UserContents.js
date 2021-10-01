@@ -221,17 +221,18 @@ const HoverThumbsup = styled.span`
   border: 2px solid #fff;
   display: none;
 `;
-
 function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
+  // function UserContents({ setEditInfo }) {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const dispatch = useDispatch();
   const userInfoState = useSelector((state) => state.userInfoReducer);
   const [orderBy, setOrderBy] = useState('byUpdatedAt');
   const [myContentData, setmyContentData] = useState([]); // 보여질 데이터
-  const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingContent, setIsLoadingContent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // 로딩 여부
+  const [isLoadingContent, setIsLoadingContent] = useState(false); // 유저 컨텐츠 로딩 여부
   const [fetching, setFetching] = useState(false); // 추가 데이터를 로드하는지 아닌지를 담기위한 state
-  const [isEnd, setIsEnd] = useState(true);
+  const [isEnd, setIsEnd] = useState(true); // 유저 컨텐츠 다 가져왔는지 확인
+  // const [editOrDelState, setEditOrDelState] = useState(0); // 상태 기억하기
 
   // 스크롤 이벤트 핸들러
   const handleScroll = () => {
@@ -245,7 +246,7 @@ function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
     ) {
       // 페이지 끝에 도달하면 추가 데이터를 받아온다
       setIsLoadingContent(false);
-      axiosMyContent();
+      axiosMyContent(); // 3개 이후 데이터 요청
       setIsLoadingContent(true);
     } else if (isEnd === false && isLoadingContent === true) {
       setIsLoadingContent(false);
@@ -260,12 +261,12 @@ function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
   });
 
   const axiosMyContent = async () => {
-    setFetching(true);
+    setFetching(true); // 추가데이터 로딩중
 
     setmyContentData([
       ...myContentData,
       { id: 0, createdAt: 'T', thumbsup: [] },
-    ]);
+    ]); // 원래있던 myContentData 에다가 id=0인 요소 추가
 
     let getResult = await axios.get(
       `${url}/meaning/me?offset=${myContentData.length}&limit=3&sort=${orderBy}`,
@@ -276,33 +277,31 @@ function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
     if (getResult.data.accessToken) {
       dispatch(setAccessToken(getResult.data.accessToken));
     }
+    // 받아온 4번~이후 데이터 length가 0이라면(=더 가져올게 없으면)
     if (getResult.data.data.length === 0) {
       const loadedData = myContentData.slice();
       loadedData.push({ id: 'done', createdAt: 'T', thumbsup: [] });
       setmyContentData(loadedData);
-      setIsEnd(false);
+      setIsEnd(false); // 더 가져올거 없다고 표시해주기
     } else {
+      // 받아온 4번~이후 데이터를 더 가져올게 있으면 추가해줌
       setmyContentData([...myContentData, ...getResult.data.data]);
     }
-    setFetching(false);
+    setFetching(false); // 추가데이터 로딩 완료
   };
 
   useEffect(() => {
-    if (stateCheck === true) {
-      getMyContent();
-      setStateCheck(false);
-      setIsEnd(true);
-      window.scrollTo(0, 600);
-    }
-  }, [stateCheck]);
+    getMyContent(); // 0~3 요청
+    setFetching(false); // 다시 handleScroll 사용할 수 있도록 상태 변경해주기
+    setIsEnd(true); // 다시 handleScroll 사용할 수 있도록 상태 변경해주기
+    window.scrollTo(0, 600); // 위쪽으로 올려주기
+  }, [orderBy, stateCheck]); // 로딩 되자마자, 필터 바꿀때마다 0~3 요청
 
   const ordering = (value) => {
     if (value === 'byThumbsup') {
       setOrderBy('byThumbsup');
-      setStateCheck(true);
     } else {
       setOrderBy('byUpdatedAt');
-      setStateCheck(true);
     }
   };
 
@@ -314,6 +313,7 @@ function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
   ) => {
     await setEditInfo({ userEditId, userEditWordName, userEditWordMean }); // 수정 모달에서 보여질 데이터 지정
     dispatch(setEditContentModal(isOpen)); // 수정 모달 열기
+    // setEditOrDelState(false); // 모달 기억 상태 true로 만들기
   }; // 모달에 띄울 정보 지정 + 수정 모달 여는 함수
 
   const deleteContent = (contentId) => {
@@ -337,7 +337,7 @@ function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
           swal('삭제가 완료되었습니다', {
             icon: 'success',
           }).then(() => {
-            setStateCheck(true);
+            setStateCheck(!stateCheck); //상태 뒤집어줘서 useEffect 작동되게
           });
         } catch (error) {
           if (error.response.data.message === 'Send new Login Request') {
