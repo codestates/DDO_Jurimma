@@ -222,7 +222,7 @@ const HoverThumbsup = styled.span`
   display: none;
 `;
 
-function UserContents({ setEditInfo }) {
+function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const dispatch = useDispatch();
   const userInfoState = useSelector((state) => state.userInfoReducer);
@@ -234,7 +234,6 @@ function UserContents({ setEditInfo }) {
   const [isLoadingContent, setIsLoadingContent] = useState(false);
   const [fetching, setFetching] = useState(false); // 추가 데이터를 로드하는지 아닌지를 담기위한 state
   const [isEnd, setIsEnd] = useState(true);
-  const [stateCheck, setStateCheck] = useState(false);
 
   // 스크롤 이벤트 핸들러
   const handleScroll = () => {
@@ -293,25 +292,23 @@ function UserContents({ setEditInfo }) {
   };
 
   useEffect(() => {
-    if (
-      userModalState.isShowEditContentModal === false ||
-      stateCheck === true
-    ) {
-      setOrderBy('byUpdatedAt');
-      // getMyContent(); // orderBy가 변경되면 307 useEffect 실행됨. 여기서 필요 x
+    if (stateCheck === true) {
+      getMyContent(); // orderBy가 변경되면 307 useEffect 실행됨. 여기서 필요 x
       setStateCheck(false);
-      // setIsEnd(true); // 307 useEffect에서 같이 해줘서 빼줘도 될듯
+      setIsEnd(true); // 307 useEffect에서 같이 해줘서 빼줘도 될듯
+      window.scrollTo(0, 600);
     }
-  }, [userModalState.isShowEditContentModal, stateCheck]); // 모달 여부가 false일때만 user 유저가 쓴 글 요청 -> 맨 처음 + 한번 켜서 수정하고 돌아왔을때?
+  }, [stateCheck]); // 모달 여부가 false일때만 user 유저가 쓴 글 요청 -> 맨 처음 + 한번 켜서 수정하고 돌아왔을때?
 
-  useEffect(() => {
-    getMyContent();
-    setIsEnd(true);
-  }, [orderBy]); // 들어오자마자 0~3개 요청
+  // useEffect(() => {
+  //   getMyContent();
+  //   setIsEnd(true);
+  // }, [orderBy]); // 들어오자마자 0~3개 요청
 
   const ordering = (value) => {
     if (value === 'byThumbsup') {
       setOrderBy('byThumbsup');
+      setStateCheck(true);
       // dispatch(
       //   getContent(
       //     userContentState.data.sort(
@@ -321,6 +318,7 @@ function UserContents({ setEditInfo }) {
       // );
     } else {
       setOrderBy('byUpdatedAt');
+      setStateCheck(true);
       // dispatch(
       //   getContent(
       //     userContentState.data.sort(
@@ -363,7 +361,6 @@ function UserContents({ setEditInfo }) {
             icon: 'success',
           }).then(() => {
             setStateCheck(true);
-            setOrderBy('byUpdatedAt');
           });
         } catch (error) {
           if (error.response.data.message === 'Send new Login Request') {
@@ -468,7 +465,7 @@ function UserContents({ setEditInfo }) {
                   <div className='wordBoxWrap'>
                     <div className='topWrap'>
                       <h3>{data.wordName}</h3>
-                      <EditContent>
+                      <EditContent setStateCheck={setStateCheck}>
                         <button onClick={() => deleteContent(data.id)}>
                           삭제하기
                         </button>
