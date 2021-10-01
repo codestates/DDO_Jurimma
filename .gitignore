@@ -10,3 +10,33 @@ server/node_modules
 
 # package-lock
 package-lock.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride

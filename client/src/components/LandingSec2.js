@@ -350,7 +350,7 @@ function LandingSec2({ scrollToQuiz }) {
             </DescripTextBox>
             <DescriptGif
               style={{
-                backgroundImage: `url(https://cdn.discordapp.com/attachments/892308009194258502/893403666554421308/land1.gif)`,
+                backgroundImage: `url(https://cdn.discordapp.com/attachments/892308009194258502/893449285033680946/mainsearch.gif)`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 boxShadow: '0px 0px 15px 0px ',
