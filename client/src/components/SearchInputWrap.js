@@ -58,8 +58,25 @@ const SearchBox = styled.div`
     height: 42px;
     margin-top: -46.5px;
   }
+  > #micBtn {
+    width: 7%;
+    margin-left: -10px;
+    text-align: center;
+    > #markMic {
+    }
+    > button {
+      height: 30px;
+      font-size: 20px;
+      @media only screen and (max-width: 1399px) {
+        font-size: 18px;
+      }
+      @media only screen and (max-width: 450px) {
+        font-size: 15px;
+      }
+    }
+  }
   > input {
-    width: 84%;
+    width: 79%;
     height: 30px;
     padding-left: 10px;
     outline: none;
@@ -69,13 +86,13 @@ const SearchBox = styled.div`
   }
   > #buttonWrap {
     display: flex;
-    width: 16%;
-    margin-right: 20px;
+    width: 14%;
+    height: 30px;
     @media only screen and (max-width: 450px) {
       width: 25%;
     }
     > button {
-      width: 33.33%;
+      width: 50%;
       font-size: 20px;
       color: #440a67;
       background-color: transparent;
@@ -212,6 +229,12 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
       ></div>
       <InputBox style={{ backgroundImage: loginColorBox }}></InputBox>
       <SearchBox>
+        <div id='micBtn'>
+          <button onMouseDown={listen} onMouseUp={stop}>
+            <FontAwesomeIcon icon={faMicrophone} />
+          </button>
+          {listening && <div id='markMic'>a</div>}
+        </div>
         <input
           id='reqInput'
           onChange={(event) => setWord(event.target.value)}
@@ -223,10 +246,6 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
         ></input>
         <div id='buttonWrap'>
           <button onClick={() => setWord('')}>&times;</button>
-          <button onMouseDown={listen} onMouseUp={stop}>
-            <FontAwesomeIcon icon={faMicrophone} />
-          </button>
-          {listening && <div>음성인식 활성화 중</div>}
           <button onClick={(event) => searchWord(event, word)}>
             <FontAwesomeIcon icon={faSearch} />
           </button>
