@@ -111,6 +111,12 @@ _" 아만보, 오저치고, 알잘딱깔센 ..._ <br>_이게 도대체 무슨 �
 
 <br>
 
+### 📱 **반응형 웹 페이지 구현**
+
+![반응형 웹 페이지](https://cdn.discordapp.com/attachments/892308009194258502/893594405343207434/responsive.gif)
+
+<br>
+
 # 👫 **Team HomeLudens**
 
 |  이름  |   직책   |   역할    |                                                                                                  GitHub                                                                                                   |     담당 영역      |
