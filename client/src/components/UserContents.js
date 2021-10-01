@@ -312,7 +312,6 @@ function UserContents({ setEditInfo }) {
   const ordering = (value) => {
     if (value === 'byThumbsup') {
       setOrderBy('byThumbsup');
-      getMyContent();
       // dispatch(
       //   getContent(
       //     userContentState.data.sort(
@@ -322,7 +321,6 @@ function UserContents({ setEditInfo }) {
       // );
     } else {
       setOrderBy('byUpdatedAt');
-      getMyContent();
       // dispatch(
       //   getContent(
       //     userContentState.data.sort(
@@ -396,6 +394,7 @@ function UserContents({ setEditInfo }) {
 
   const getMyContent = async () => {
     try {
+      console.log('orderBy: ', orderBy);
       let contentResult = await axios.get(
         `${url}/meaning/me?offset=0&limit=3&sort=${orderBy}`,
         {
