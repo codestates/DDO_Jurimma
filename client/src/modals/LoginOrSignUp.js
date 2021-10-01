@@ -35,13 +35,16 @@ const LoginOrSignupBackdrop = styled.div`
 `;
 
 const LoginOrSignupModal = styled.article`
-  width: max(30vw, 350px);
+  width: 500px;
   height: 600px;
   background-color: #fff;
   position: relative;
   display: flex;
   flex-direction: column;
   border-radius: 20px;
+  @media screen and (max-width: 600px) {
+    width: 94%;
+  }
   > .closeBtn {
     z-index: 10;
     font-size: 50px;
@@ -51,7 +54,7 @@ const LoginOrSignupModal = styled.article`
     color: #fff;
     cursor: pointer;
     transition: 0.5s;
-    @media screen and (max-width: 479px) {
+    @media screen and (max-width: 700px) {
       right: 10px;
       top: 5px;
       color: #000;

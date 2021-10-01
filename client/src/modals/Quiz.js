@@ -26,8 +26,7 @@ const QuizBackdrop = styled.div`
 `;
 
 const QuizModal = styled.div`
-  width: max(340px, 50vw);
-  max-width: 500px;
+  width: 500px;
   height: max(420px, 50vh);
   margin: auto;
   border-radius: 15px;
@@ -39,6 +38,9 @@ const QuizModal = styled.div`
   align-items: center;
   background-color: #b4aee8;
   position: relative;
+  @media screen and (max-width: 600px) {
+    width: 94%;
+  }
   > .closeBtn {
     font-size: 3rem;
     color: #fff;
@@ -47,6 +49,12 @@ const QuizModal = styled.div`
     top: -50px;
     cursor: pointer;
     transition: 0.5s;
+    @media screen and (max-width: 700px) {
+      right: 10px;
+      top: 5px;
+      color: #000;
+      font-size: 30px;
+    }
   }
   > .closeBtn:hover {
     transform: rotate(-90deg);
@@ -91,6 +99,10 @@ const QuizQuestion = styled.div`
     width: 300px;
     height: 300px;
     margin: auto;
+    @media screen and (max-width: 375px) {
+      width: 200px;
+      height: 200px;
+    }
   }
 `;
 
