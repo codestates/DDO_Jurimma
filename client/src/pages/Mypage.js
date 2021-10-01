@@ -25,15 +25,11 @@ function Mypage() {
   const userModalState = useSelector((state) => state.userModalReducer);
   const dispatch = useDispatch();
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
-  // /mypage로 들어가면 갖고있던 state로 userInfo 렌더해서 보여주기, userContent는 axios 요청하기(들어올때 한번만) + userContentReducer 업데이트
-
   const [editInfo, setEditInfo] = useState({
     userEditId: -1,
     userEditWordName: '',
     userEditWordMean: '',
   }); // edit모달에 보여질 유저가 작성한 내용 나타낼 state
-
-  const [stateCheck, setStateCheck] = useState(false);
 
   useEffect(() => {
     if (userInfoState.userInfo.id === -1) {
@@ -43,48 +39,6 @@ function Mypage() {
       getMyInfo();
     }
   }, [userInfoState.userInfo.id, history]); // id가 변경될 때마다(=로그아웃) 다시 개인정보 요청
-
-  useEffect(() => {
-    if (
-      userModalState.isShowEditContentModal === false ||
-      stateCheck === true
-    ) {
-      getMyContent();
-      setStateCheck(false);
-    }
-  }, [userModalState.isShowEditContentModal, stateCheck]); // 모달 여부가 false일때만 user 유저가 쓴 글 요청 -> 맨 처음 + 한번 켜서 수정하고 돌아왔을때?
-
-  const getMyContent = async () => {
-    try {
-      let contentResult = await axios.get(`${url}/meaning/me`, {
-        headers: { authorization: `Bearer ${userInfoState.accessToken}` },
-      });
-      if (contentResult.data.accessToken) {
-        dispatch(setAccessToken(contentResult.data.accessToken));
-      } // contentResult에 accessToken이 담겨오면 새로 업데이트
-      dispatch(getContent([...contentResult.data.data]));
-    } catch (error) {
-      if (error.response.data.message === 'Send new Login Request') {
-        swal({
-          title: '로그인이 필요합니다.',
-          text: '로그인이 만료되었습니다.',
-          icon: 'warning',
-        }).then(() => {
-          dispatch(setLogout());
-          window.location.replace('/');
-        });
-      } else {
-        swal({
-          title: 'Internal Server Error',
-          text: '죄송합니다. 다시 로그인해주세요.',
-          icon: 'warning',
-        }).then(() => {
-          dispatch(setLogout());
-          window.location.replace('/');
-        });
-      }
-    }
-  }; // axios로 유저가 쓴 글 요청 및 dispatch로 redux 업데이트
 
   const getMyInfo = async () => {
     try {
@@ -132,7 +86,7 @@ function Mypage() {
       ) : null}
       <MypageWrap>
         <UserInfo />
-        <UserContents setEditInfo={setEditInfo} setStateCheck={setStateCheck} />
+        <UserContents setEditInfo={setEditInfo} />
       </MypageWrap>
     </>
   );

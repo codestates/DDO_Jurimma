@@ -318,9 +318,9 @@ function LandingSec2({ scrollToQuiz }) {
     window.scrollTo(0, 0);
   };
 
-  const moveQuizSec = () => {
-    window.scrollTo({ top: 5200, behavior: 'smooth' });
-  };
+  // const moveQuizSec = () => {
+  //   window.scrollTo({ top: 5200, behavior: 'smooth' });
+  // };
   return (
     <SectionWrap>
       <Section2Box>
