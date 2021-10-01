@@ -8,7 +8,6 @@ import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import swal from 'sweetalert';
-import { useMemo } from 'react';
 axios.defaults.withCredentials = true;
 
 const UserContentsWrap = styled.div`
@@ -227,7 +226,6 @@ function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const dispatch = useDispatch();
   const userInfoState = useSelector((state) => state.userInfoReducer);
-  const userModalState = useSelector((state) => state.userModalReducer);
   const [orderBy, setOrderBy] = useState('byUpdatedAt');
   const [myContentData, setmyContentData] = useState([]); // 보여질 데이터
   const [isLoading, setIsLoading] = useState(false); // 로딩 여부
