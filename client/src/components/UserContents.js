@@ -298,9 +298,9 @@ function UserContents({ setEditInfo }) {
       stateCheck === true
     ) {
       setOrderBy('byUpdatedAt');
-      getMyContent();
+      // getMyContent(); // orderBy가 변경되면 307 useEffect 실행됨. 여기서 필요 x
       setStateCheck(false);
-      setIsEnd(true);
+      // setIsEnd(true); // 307 useEffect에서 같이 해줘서 빼줘도 될듯
     }
   }, [userModalState.isShowEditContentModal, stateCheck]); // 모달 여부가 false일때만 user 유저가 쓴 글 요청 -> 맨 처음 + 한번 켜서 수정하고 돌아왔을때?
 
