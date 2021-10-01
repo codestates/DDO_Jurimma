@@ -31,7 +31,7 @@ function Mypage() {
     userEditWordMean: '',
   }); // edit모달에 보여질 유저가 작성한 내용 나타낼 state
   const [stateCheck, setStateCheck] = useState(false);
-
+  console.log('Mypage에서 stateCheck: ', stateCheck);
   useEffect(() => {
     if (userInfoState.userInfo.id === -1) {
       history.push('/main');
@@ -83,6 +83,7 @@ function Mypage() {
           id={editInfo.userEditId}
           wordName={editInfo.userEditWordName}
           wordMean={editInfo.userEditWordMean}
+          stateCheck={stateCheck}
           setStateCheck={setStateCheck}
         />
       ) : null}
