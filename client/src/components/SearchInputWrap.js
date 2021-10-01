@@ -3,6 +3,7 @@ import SearchAutoComp from './SearchAutoComp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import silverBadge from '../images/junior_badge.svg';
@@ -20,6 +21,18 @@ const HeaderKeyFrame = keyframes`
     100% {
         background-position: 0% 50%;
     }
+`;
+
+const onMicKeyFrame = keyframes`
+  0%{
+    color: #a239ea;
+  }
+  50%{
+    color: #FF95C5;
+  }
+  100%{
+    color:#a239ea;
+  }
 `;
 
 const SearchInputBox = styled.div`
@@ -59,10 +72,33 @@ const SearchBox = styled.div`
     margin-top: -46.5px;
   }
   > #micBtn {
-    width: 7%;
-    margin-left: -10px;
+    height: 55px;
     text-align: center;
+    justify-content: center;
+    flex: 0.2 1 auto;
+    margin-left: 5px;
+    > button {
+      cursor: pointer;
+    }
     > #markMic {
+      position: relative;
+      top: -60px;
+      height: 55px;
+      font-size: 20px;
+      background-color: #fff;
+      cursor: pointer;
+      animation: ${onMicKeyFrame} 4s ease infinite;
+      @media only screen and (max-width: 1399px) {
+        font-size: 18px;
+      }
+      @media only screen and (max-width: 800px) {
+        height: 34px;
+        line-height: 34px;
+        top: -48px;
+      }
+      @media only screen and (max-width: 450px) {
+        font-size: 15px;
+      }
     }
     > button {
       height: 30px;
@@ -76,28 +112,26 @@ const SearchBox = styled.div`
     }
   }
   > input {
-    width: 79%;
     height: 30px;
     padding-left: 10px;
     outline: none;
+    flex: 3 1 auto;
     @media only screen and (max-width: 450px) {
       width: 75%;
     }
   }
   > #buttonWrap {
+    flex: 1 1 auto;
     display: flex;
-    width: 14%;
     height: 30px;
-    @media only screen and (max-width: 450px) {
-      width: 25%;
-    }
+    justify-content: space-evenly;
     > button {
-      width: 50%;
       font-size: 20px;
       color: #440a67;
+      padding-right: 5px;
       background-color: transparent;
       cursor: pointer;
-      margin-left: 10px;
+      margin-right: 5px;
       @media only screen and (max-width: 1399px) {
         font-size: 18px;
       }
@@ -177,7 +211,6 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
   const { listen, listening, stop } = useSpeechRecognition({
     onResult: (result) => {
       // 음성인식 결과가 value 상태값으로 할당됩니다.
-      console.log('result : ', result);
       setWord(result);
     },
   });
@@ -230,11 +263,16 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
       <InputBox style={{ backgroundImage: loginColorBox }}></InputBox>
       <SearchBox>
         <div id='micBtn'>
-          <button onMouseDown={listen} onMouseUp={stop}>
+          <button onMouseDown={listen}>
             <FontAwesomeIcon icon={faMicrophone} />
           </button>
-          {listening && <div id='markMic'>a</div>}
+          {listening && (
+            <div id='markMic' onMouseDown={stop}>
+              <FontAwesomeIcon icon={faVolumeUp} />
+            </div>
+          )}
         </div>
+
         <input
           id='reqInput'
           onChange={(event) => setWord(event.target.value)}
