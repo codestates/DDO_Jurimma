@@ -375,7 +375,7 @@ function UserContents({ setEditInfo, setStateCheck }) {
           </>
         ) : (
           <li className='noContent'>
-            <img src={nothing} />
+            <img src={nothing} alt='Nothing!' />
             아직 작성된 글이 없습니다.
           </li>
         )}
