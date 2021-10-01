@@ -262,7 +262,6 @@ function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
   });
 
   const axiosMyContent = async () => {
-    // 추가 데이터를 로드하는 상태로 전환
     setFetching(true);
 
     setmyContentData([
@@ -279,7 +278,6 @@ function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
     if (getResult.data.accessToken) {
       dispatch(setAccessToken(getResult.data.accessToken));
     }
-    // console.log(getResult.data.data);
     if (getResult.data.data.length === 0) {
       const loadedData = myContentData.slice();
       loadedData.push({ id: 'done', createdAt: 'T', thumbsup: [] });
@@ -293,39 +291,20 @@ function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
 
   useEffect(() => {
     if (stateCheck === true) {
-      getMyContent(); // orderBy가 변경되면 307 useEffect 실행됨. 여기서 필요 x
+      getMyContent();
       setStateCheck(false);
-      setIsEnd(true); // 307 useEffect에서 같이 해줘서 빼줘도 될듯
+      setIsEnd(true);
       window.scrollTo(0, 600);
     }
-  }, [stateCheck]); // 모달 여부가 false일때만 user 유저가 쓴 글 요청 -> 맨 처음 + 한번 켜서 수정하고 돌아왔을때?
-
-  // useEffect(() => {
-  //   getMyContent();
-  //   setIsEnd(true);
-  // }, [orderBy]); // 들어오자마자 0~3개 요청
+  }, [stateCheck]);
 
   const ordering = (value) => {
     if (value === 'byThumbsup') {
       setOrderBy('byThumbsup');
       setStateCheck(true);
-      // dispatch(
-      //   getContent(
-      //     userContentState.data.sort(
-      //       (a, b) => b.thumbsup.length - a.thumbsup.length
-      //     )
-      //   )
-      // );
     } else {
       setOrderBy('byUpdatedAt');
       setStateCheck(true);
-      // dispatch(
-      //   getContent(
-      //     userContentState.data.sort(
-      //       (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-      //     )
-      //   )
-      // );
     }
   };
 
@@ -391,7 +370,6 @@ function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
 
   const getMyContent = async () => {
     try {
-      console.log('orderBy: ', orderBy);
       let contentResult = await axios.get(
         `${url}/meaning/me?offset=0&limit=3&sort=${orderBy}`,
         {
@@ -401,7 +379,6 @@ function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
       if (contentResult.data.accessToken) {
         dispatch(setAccessToken(contentResult.data.accessToken));
       }
-      // dispatch(getContent([...contentResult.data.data]));
       setmyContentData([...contentResult.data.data]);
       setIsLoading(true);
     } catch (error) {
@@ -516,65 +493,6 @@ function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
           </ul>
         )}
       </ul>
-      {/* <ul>
-        {userContentState.data.length > 0 ? (
-          <>
-            {userContentState.data.map((el, idx) => {
-              return (
-                <li className='wordBox' key={idx}>
-                  <div className='wordBoxWrap'>
-                    <div className='topWrap'>
-                      <h3>{el.wordName}</h3>
-                      <EditContent>
-                        <button onClick={() => deleteContent(el.id)}>
-                          삭제하기
-                        </button>
-                        <button
-                          onClick={() =>
-                            openEditContentModal(
-                              true,
-                              el.id,
-                              el.wordName,
-                              el.wordMean
-                            )
-                          }
-                        >
-                          수정하기
-                        </button>
-                      </EditContent>
-                    </div>
-
-                    <div className='wordMean'>{el.wordMean}</div>
-
-                    <div className='bottomWrap'>
-                      <span>{el.updatedAt.split('T')[0]}</span>
-                      <div className='hoverThumbsWrap'>
-                        <HoverThumbsup className='hoverThumbsup'>
-                          {el.thumbsup.length === 0
-                            ? `아직 좋아한 사람이
-                              없습니다.`
-                            : `${el.thumbsup[0]}님 외
-                              ${el.thumbsup.length - 1}
-                              명이 좋아합니다.`}
-                        </HoverThumbsup>
-                        <div className='thumbsupWrap'>
-                          <FontAwesomeIcon icon={faThumbsUp} />
-                          &nbsp;&nbsp;{el.thumbsup.length}개
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              );
-            })}
-          </>
-        ) : (
-          <li className='noContent'>
-            <img src={nothing} alt='Nothing!' />
-            아직 작성된 글이 없습니다.
-          </li>
-        )}
-      </ul> */}
     </UserContentsWrap>
   );
 }
