@@ -1,7 +1,7 @@
 // Mypage에서 유저가 쓴 글 목록
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { setEditContentModal, getContent } from '../actions/index';
+import { setEditContentModal } from '../actions/index';
 import { setAccessToken, setLogout } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
@@ -226,8 +226,6 @@ function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const dispatch = useDispatch();
   const userInfoState = useSelector((state) => state.userInfoReducer);
-  const userModalState = useSelector((state) => state.userModalReducer);
-  const userContentState = useSelector((state) => state.userContentReducer);
   const [orderBy, setOrderBy] = useState('byUpdatedAt');
   const [myContentData, setmyContentData] = useState([]); // 보여질 데이터
   const [isLoading, setIsLoading] = useState(false);

@@ -78,6 +78,7 @@ const SearchBox = styled.div`
     flex: 0.2 1 auto;
     margin-left: 5px;
     > button {
+      background-color: #fff;
       cursor: pointer;
     }
     > #markMic {
@@ -119,6 +120,9 @@ const SearchBox = styled.div`
     @media only screen and (max-width: 450px) {
       width: 75%;
     }
+  }
+  > input:focus::-webkit-input-placeholder {
+    color: transparent;
   }
   > #buttonWrap {
     flex: 1 1 auto;
@@ -281,6 +285,7 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
           autoComplete='off'
           onBlur={() => setIsShowAutoComp(false)}
           onFocus={() => setIsShowAutoComp(true)}
+          placeholder='궁금한 줄임말을 검색해보세요!'
         ></input>
         <div id='buttonWrap'>
           <button onClick={() => setWord('')}>&times;</button>
