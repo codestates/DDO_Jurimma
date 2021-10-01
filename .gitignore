@@ -1,6 +1,12 @@
+# 환경 변수
 .env
+
+# 빌드 파일
 .build
+
+# 노드 모듈
 client/node_modules
 server/node_modules
+
+# package-lock
 package-lock.json
-config/
