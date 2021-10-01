@@ -221,8 +221,13 @@ const HoverThumbsup = styled.span`
   border: 2px solid #fff;
   display: none;
 `;
-function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
-  // function UserContents({ setEditInfo }) {
+function UserContents({
+  setEditInfo,
+  setStateCheck,
+  stateCheck,
+  editAndDelState,
+  setEditAndDelState,
+}) {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const dispatch = useDispatch();
   const userInfoState = useSelector((state) => state.userInfoReducer);
@@ -232,7 +237,6 @@ function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
   const [isLoadingContent, setIsLoadingContent] = useState(false); // 유저 컨텐츠 로딩 여부
   const [fetching, setFetching] = useState(false); // 추가 데이터를 로드하는지 아닌지를 담기위한 state
   const [isEnd, setIsEnd] = useState(true); // 유저 컨텐츠 다 가져왔는지 확인
-  // const [editOrDelState, setEditOrDelState] = useState(0); // 상태 기억하기
 
   // 스크롤 이벤트 핸들러
   const handleScroll = () => {
@@ -291,17 +295,21 @@ function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
   };
 
   useEffect(() => {
-    getMyContent(); // 0~3 요청
-    setFetching(false); // 다시 handleScroll 사용할 수 있도록 상태 변경해주기
-    setIsEnd(true); // 다시 handleScroll 사용할 수 있도록 상태 변경해주기
-    window.scrollTo(0, 600); // 위쪽으로 올려주기
-  }, [orderBy, stateCheck]); // 로딩 되자마자, 필터 바꿀때마다 0~3 요청
+    getMyContent();
+    setIsEnd(true);
+    if (editAndDelState === true) {
+      window.scrollTo(0, 600);
+      setEditAndDelState(false);
+    }
+  }, [stateCheck]);
 
   const ordering = (value) => {
     if (value === 'byThumbsup') {
       setOrderBy('byThumbsup');
+      setStateCheck(!stateCheck);
     } else {
       setOrderBy('byUpdatedAt');
+      setStateCheck(!stateCheck);
     }
   };
 
@@ -337,6 +345,7 @@ function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
           swal('삭제가 완료되었습니다', {
             icon: 'success',
           }).then(() => {
+            setEditAndDelState(true);
             setStateCheck(!stateCheck); //상태 뒤집어줘서 useEffect 작동되게
           });
         } catch (error) {
