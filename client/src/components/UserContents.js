@@ -442,7 +442,7 @@ function UserContents({ setEditInfo, setStateCheck, stateCheck }) {
                   <div className='wordBoxWrap'>
                     <div className='topWrap'>
                       <h3>{data.wordName}</h3>
-                      <EditContent setStateCheck={setStateCheck}>
+                      <EditContent>
                         <button onClick={() => deleteContent(data.id)}>
                           삭제하기
                         </button>
