@@ -31,6 +31,7 @@ function Mypage() {
     userEditWordMean: '',
   }); // edit모달에 보여질 유저가 작성한 내용 나타낼 state
   const [stateCheck, setStateCheck] = useState(false);
+  const [editAndDelState, setEditAndDelState] = useState(false);
 
   useEffect(() => {
     if (userInfoState.userInfo.id === -1) {
@@ -85,6 +86,7 @@ function Mypage() {
           wordMean={editInfo.userEditWordMean}
           stateCheck={stateCheck}
           setStateCheck={setStateCheck}
+          setEditAndDelState={setEditAndDelState}
         />
       ) : null}
       <MypageWrap>
@@ -93,6 +95,8 @@ function Mypage() {
           setEditInfo={setEditInfo}
           stateCheck={stateCheck}
           setStateCheck={setStateCheck}
+          editAndDelState={editAndDelState}
+          setEditAndDelState={setEditAndDelState}
         />
       </MypageWrap>
     </>
