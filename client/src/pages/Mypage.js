@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import swal from 'sweetalert';
 import axios from 'axios';
-import { setAccessToken, setUserInfo, setLogout, getContent } from '../actions';
+import { setAccessToken, setUserInfo, setLogout } from '../actions';
 import EditContent from '../modals/EditContent';
 axios.defaults.withCredentials = true;
 

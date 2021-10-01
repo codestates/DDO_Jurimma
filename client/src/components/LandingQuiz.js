@@ -7,7 +7,6 @@ import swal from 'sweetalert';
 import 'aos/dist/aos.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoginOrSignupModal } from '../actions/index';
-import { useRef } from 'react';
 AOS.init();
 
 const SectionWrap = styled.div`
