@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import LandingSec1 from '../components/LandingSec1';
 import LandingSec2 from '../components/LandingSec2';
 import LandingQuiz from '../components/LandingQuiz';
-import { useRef } from 'react/cjs/react.development';
+import { useRef } from 'react';
 
 const LandingPageWrap = styled.div`
   height: 100%; // 콘텐츠 전체 길이 생각해서 후에 max 설정해주기
@@ -11,9 +11,12 @@ const LandingPageWrap = styled.div`
 `;
 
 function LandingPage() {
-  let scrollFocus = useRef(null);
+  const scrollFocus = useRef();
   const scrollToQuiz = () => {
-    scrollFocus.current.scrollIntoView({ block: 'end', behavior: 'smooth' });
+    scrollFocus.current.scrollIntoView({
+      block: 'end',
+      behavior: 'smooth',
+    });
   };
 
   return (
