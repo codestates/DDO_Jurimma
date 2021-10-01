@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import silverBadge from '../images/junior_badge.svg';
 import goldBadge from '../images/senior_badge.svg';
 import diaBadge from '../images/master_badge.svg';
+import { useSpeechRecognition } from 'react-speech-kit';
 
 const HeaderKeyFrame = keyframes`
     0% {
@@ -105,9 +106,9 @@ const InputBox = styled.div`
 `;
 
 function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
+  const state = useSelector((state) => state.userInfoReducer);
   const [isShowAutoComp, setIsShowAutoComp] = useState(false);
   const [selected, setSelected] = useState(-1);
-  const state = useSelector((state) => state.userInfoReducer);
 
   useEffect(() => {
     if (word === '') {
@@ -155,6 +156,14 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
       }
     }
   };
+
+  const { listen, listening, stop } = useSpeechRecognition({
+    onResult: (result) => {
+      // 음성인식 결과가 value 상태값으로 할당됩니다.
+      console.log('result : ', result);
+      setWord(result);
+    },
+  });
 
   let loginColorBox;
   let levelBadge;
@@ -214,9 +223,10 @@ function SearchInputWrap({ autoCompResult, setWord, word, searchWord }) {
         ></input>
         <div id='buttonWrap'>
           <button onClick={() => setWord('')}>&times;</button>
-          <button>
+          <button onMouseDown={listen} onMouseUp={stop}>
             <FontAwesomeIcon icon={faMicrophone} />
           </button>
+          {listening && <div>음성인식 활성화 중</div>}
           <button onClick={(event) => searchWord(event, word)}>
             <FontAwesomeIcon icon={faSearch} />
           </button>
