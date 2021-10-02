@@ -236,6 +236,10 @@ function MiniMenuModal() {
     myProfileImg = state.userInfo.userPic;
   }
 
+  const goToTop = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <MiniMenuWrap>
       <div className='closeBtnWrap'>
@@ -264,7 +268,13 @@ function MiniMenuModal() {
                 ></div>
               </div>
               <MyProfileWrap>
-                <Link to='/mypage' onClick={() => closeMiniMenuModal(false)}>
+                <Link
+                  to='/mypage'
+                  onClick={() => {
+                    goToTop();
+                    closeMiniMenuModal(false);
+                  }}
+                >
                   Mypage
                 </Link>
                 <div className='logout' onClick={() => openLogoutModal(true)}>
@@ -273,7 +283,13 @@ function MiniMenuModal() {
               </MyProfileWrap>
 
               <div className='menu'>
-                <Link to='/main' onClick={() => closeMiniMenuModal(false)}>
+                <Link
+                  to='/main'
+                  onClick={() => {
+                    goToTop();
+                    closeMiniMenuModal(false);
+                  }}
+                >
                   Main
                 </Link>
               </div>
@@ -291,7 +307,13 @@ function MiniMenuModal() {
               </div>
 
               <div className='menu'>
-                <Link to='/main' onClick={() => closeMiniMenuModal(false)}>
+                <Link
+                  to='/main'
+                  onClick={() => {
+                    goToTop();
+                    closeMiniMenuModal(false);
+                  }}
+                >
                   Main
                 </Link>
               </div>
