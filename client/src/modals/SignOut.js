@@ -72,6 +72,7 @@ const SignoutModal = styled.div`
       font-size: 14px;
       > span {
         color: red;
+        font-weight: bold;
       }
     }
   }
