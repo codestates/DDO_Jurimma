@@ -51,6 +51,10 @@ const EditUserInfoBox = styled.div`
       width: 250px;
       height: 250px;
     }
+    @media only screen and (max-width: 350px) {
+      width: 200px;
+      height: 200px;
+    }
   }
   > #letter {
     color: #fff;
@@ -66,6 +70,7 @@ const EditUserInfoBox = styled.div`
     cursor: not-allowed;
     @media only screen and (max-width: 500px) {
       font-size: 12px;
+      line-height: 20px;
     }
   }
   > #buttonWrap {

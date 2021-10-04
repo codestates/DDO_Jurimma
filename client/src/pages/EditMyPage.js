@@ -37,7 +37,7 @@ function MypageEdit() {
     <>
       <MypageEditWrap>
         <EditUserPic />
-        <EditUserInfo />{' '}
+        <EditUserInfo />
       </MypageEditWrap>
     </>
   );

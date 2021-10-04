@@ -81,7 +81,7 @@ const MiniMenuProfile = styled.div`
     > .menu {
       width: 100%;
       height: 50px;
-      line-height: 48px;
+      line-height: 45px;
       border-radius: 50px;
       text-align: center;
       font-size: max(1.2vw, 18px);
@@ -130,7 +130,7 @@ const MyProfileWrap = styled.div`
     text-decoration: none;
     display: block;
     text-align: center;
-    line-height: 48px;
+    line-height: 45px;
     font-size: max(1.2vw, 18px);
     font-family: 'NEXON Lv2 Gothic Bold';
     border: 4px solid transparent;
@@ -151,7 +151,7 @@ const MyProfileWrap = styled.div`
   > .logout {
     flex: 1 1 auto;
     margin-left: 10px;
-    line-height: 48px;
+    line-height: 45px;
     color: #440a67;
     text-align: center;
     font-size: max(1.2vw, 18px);
