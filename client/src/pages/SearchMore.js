@@ -274,22 +274,23 @@ const ProfileWrap = styled.div`
   display: flex;
   align-items: center;
   > .userName {
-    width: 120px;
+    width: 150px;
     height: 40px;
     text-align: center;
     line-height: 40px;
     color: #fff;
     border: 2px solid #fff;
     border-radius: 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 14px;
     @media only screen and (max-width: 550px) {
       width: 50px;
       min-height: 50px;
       line-height: 50px;
       font-size: 12px;
       padding: 0px 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   > .userPic {
@@ -604,7 +605,12 @@ function SearchMore() {
                           <div className='topWrap'>
                             <h3>{data.wordName}</h3>
                             <ProfileWrap>
-                              <div className='userName'>{data.username}</div>
+                              <div className='userName'>
+                                {data.username.length > 10
+                                  ? `${data.username.slice(0, 10)}...`
+                                  : data.username}
+                                &nbsp;
+                              </div>
                               <div
                                 className='userPic'
                                 style={
@@ -645,12 +651,22 @@ function SearchMore() {
                               }}
                             >
                               <HoverThumbsup className='hoverThumbsup'>
-                                {data.thumbsup.length === 0
-                                  ? `아직 좋아한 사람이
-                            없습니다.`
-                                  : `${data.thumbsup[0].username}님 외
-                            ${data.thumbsup.length - 1}
-                            명이 좋아합니다.`}
+                                {data.thumbsup.length === 0 ? (
+                                  `아직 좋아한 사람이 없습니다.`
+                                ) : (
+                                  <>
+                                    {data.thumbsup[0].username.length > 10
+                                      ? `${data.thumbsup[0].username.slice(
+                                          0,
+                                          5
+                                        )}...님 외 ${
+                                          data.thumbsup.length - 1
+                                        }명이 좋아합니다.`
+                                      : `${data.thumbsup[0].username}님 외 ${
+                                          data.thumbsup.length - 1
+                                        }명이 좋아합니다.`}
+                                  </>
+                                )}
                               </HoverThumbsup>
                               <span className='thumbsupWrap'>
                                 <FontAwesomeIcon icon={faThumbsUp} />

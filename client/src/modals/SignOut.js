@@ -70,6 +70,10 @@ const SignoutModal = styled.div`
     font-size: max(1.2vw, 16px);
     > #desc {
       font-size: 14px;
+      > span {
+        color: red;
+        font-weight: bold;
+      }
     }
   }
 `;
@@ -194,7 +198,9 @@ function Signout() {
         <Logo></Logo>
         <div id='queSignout'>
           정말 회원탈퇴 하실 건가요?{' '}
-          <div id='desc'>탈퇴하시려면 아래에 "회원 탈퇴"라고 입력해주세요.</div>
+          <div id='desc'>
+            탈퇴하시려면 아래에 <span>"회원 탈퇴"</span>라고 입력해주세요.
+          </div>
         </div>
         <input
           type='text'
