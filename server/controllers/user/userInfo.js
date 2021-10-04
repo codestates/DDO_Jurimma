@@ -47,7 +47,7 @@ module.exports = {
     }
   },
 
-  patch: async (req, res) => {
+  put: async (req, res) => {
     const { username, oldPassword, newPassword } = req.body;
     const accessVerify = isAuthorized(req);
 

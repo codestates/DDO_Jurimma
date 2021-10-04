@@ -15,7 +15,7 @@ aws.config.update({
 const s3 = new aws.S3();
 
 module.exports = {
-  post: async (req, res) => {
+  patch: async (req, res) => {
     const accessVerify = isAuthorized(req);
     // accessToken 만료
     if (!accessVerify) {

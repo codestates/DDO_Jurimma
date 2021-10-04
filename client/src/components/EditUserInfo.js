@@ -282,8 +282,8 @@ function EditUserInfo() {
         });
       } else {
         const editRes = await axios({
-          url: `${url}/user`,
-          method: 'patch',
+          url: `${url}/user/${state.userInfo.id}`,
+          method: 'put',
           headers: { authorization: `Bearer ${state.accessToken}` },
           data: editUser,
         });

@@ -44,9 +44,12 @@ function Mypage() {
 
   const getMyInfo = async () => {
     try {
-      let infoResult = await axios.get(`${url}/user`, {
-        headers: { authorization: `Bearer ${userInfoState.accessToken}` },
-      }); // userinfo 받아오기
+      let infoResult = await axios.get(
+        `${url}/user/${userInfoState.userInfo.id}`,
+        {
+          headers: { authorization: `Bearer ${userInfoState.accessToken}` },
+        }
+      ); // userinfo 받아오기
       if (infoResult.data.accessToken) {
         dispatch(setAccessToken(infoResult.data.accessToken));
       }
