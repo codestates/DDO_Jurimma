@@ -63,7 +63,7 @@ module.exports = {
       border-radius:30px;
       background-color: rgba(255, 255, 255, 0.8);
       font-weight: bold;'>
-      <a href='${URL}/user/verification?email=${email}'>인증하기</a></div></div>`,
+      <a href='${URL}/user/${email}/verification'>인증하기</a></div></div>`,
     };
 
     // ! 메일이 보내진 후의 콜백함수

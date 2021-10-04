@@ -9,9 +9,8 @@ router.post('/google', userController.google.post);
 
 router.post('/signup', userController.signup.post);
 
-router.get('/verification', userController.verification.get);
-
-router.get('/email-check', userController.emailCheck.get);
+router.get('/:email/verification', userController.verification.get);
+router.get('/:email/check', userController.emailCheck.get);
 
 router.get('/logout', userController.logout.get);
 

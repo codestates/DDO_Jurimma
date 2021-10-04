@@ -299,7 +299,6 @@ function EditUserInfo() {
           headers: { authorization: `Bearer ${state.accessToken}` },
         });
         dispatch(setLogout());
-        history.push('/');
       }
     } catch (error) {
       if (error.response.data.message === 'Wrong Password') {

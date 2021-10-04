@@ -2,7 +2,6 @@
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSignOutModal, setLogout } from '../actions/index';
-import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import mainLogo from '../images/main_logo.svg';
 import swal from 'sweetalert';
@@ -124,7 +123,6 @@ const SignOutErrorMsg = styled.div`
 `;
 
 function Signout() {
-  const history = useHistory();
   const state = useSelector((state) => state.userInfoReducer);
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const dispatch = useDispatch();
@@ -164,7 +162,6 @@ function Signout() {
             }).then(() => {
               closeEditContentModal(false);
               dispatch(setLogout());
-              history.push('/');
             });
           });
       }

@@ -5,7 +5,7 @@ module.exports = {
   // ! 이메일의 인증하기 버튼을 누르면 발생하는 코드
   get: async (req, res) => {
     const URL = process.env.CLIENT_URL || 'http://localhost:3000';
-    const { email } = req.query;
+    const { email } = req.params;
     const isAuth = await user.findOne({ where: { email: email } });
     if (isAuth) {
       isAuth.emailAuth = true;
