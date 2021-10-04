@@ -116,10 +116,11 @@ function Search({ word, setWord }) {
             title: 'Internal Server Error',
             text: '죄송합니다. 다시 로그인 후 해주세요.',
             icon: 'warning',
-          }); // swal로 안내
-          dispatch(setLogout());
-          window.location.replace('/');
-        } // swal로 안내
+          }).then(() => {
+            dispatch(setLogout());
+            window.location.replace('/');
+          });
+        }
       }
     };
     getAutoComp(word);

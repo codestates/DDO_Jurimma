@@ -21,7 +21,7 @@ const SignoutBackdrop = styled.div`
 `;
 
 const SignoutModal = styled.div`
-  width: max(30vw, 350px);
+  width: 500px;
   height: 400px;
   background-color: #fff;
   position: relative;
@@ -29,6 +29,9 @@ const SignoutModal = styled.div`
   flex-direction: column;
   justify-content: center;
   border-radius: 20px;
+  @media screen and (max-width: 600px) {
+    width: 94%;
+  }
   > .closeBtn {
     z-index: 10;
     font-size: 50px;
@@ -38,7 +41,7 @@ const SignoutModal = styled.div`
     color: #fff;
     cursor: pointer;
     transition: 0.5s;
-    @media screen and (max-width: 479px) {
+    @media screen and (max-width: 700px) {
       right: 10px;
       top: 5px;
       color: #000;
@@ -94,6 +97,9 @@ const ButtonWrap = styled.div`
     margin-left: 10px;
     transition: 0.3s;
     font-size: max(0.85vw, 12px);
+    @media screen and (max-width: 600px) {
+      width: 94%;
+    }
   }
   > button:nth-child(1) {
     margin-left: 0;

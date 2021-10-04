@@ -356,6 +356,9 @@ function Nav() {
       setNavBarScroll(false);
     }
   };
+  const goToTop = () => {
+    window.scrollTo(0, 0);
+  };
 
   window.addEventListener('scroll', scrollNavChange);
 
@@ -363,7 +366,7 @@ function Nav() {
     <>
       {navBarScroll ? (
         <MiniNav2>
-          <div className='navInner logo'>
+          <div className='navInner logo' onClick={goToTop}>
             <Link to='/'></Link>
           </div>
 
@@ -373,7 +376,7 @@ function Nav() {
         </MiniNav2>
       ) : (
         <MiniNav1>
-          <div className='navInner logo'>
+          <div className='navInner logo' onClick={goToTop}>
             <Link to='/'></Link>
           </div>
 
@@ -384,11 +387,11 @@ function Nav() {
       )}
       {navBarScroll ? (
         <NavBar2>
-          <div className='navInner logo'>
+          <div className='navInner logo' onClick={goToTop}>
             <Link to='/'></Link>
           </div>
           <div id='menu_container' className='navInner'>
-            <div className='menu'>
+            <div className='menu' onClick={goToTop}>
               <Link to='/main'>Main</Link>
             </div>
             <div className='menu' onClick={() => openQuizModal(true)}>
@@ -413,7 +416,9 @@ function Nav() {
                   ></div>
                 </div>
                 <HoverMypageOrLogout className='HoverMypageOrLogout'>
-                  <Link to='/mypage'>Mypage</Link>
+                  <Link to='/mypage' onClick={goToTop}>
+                    Mypage
+                  </Link>
                   <div className='logout' onClick={() => openLogoutModal(true)}>
                     Logout
                   </div>
@@ -431,11 +436,11 @@ function Nav() {
         </NavBar2>
       ) : (
         <NavBar1>
-          <div className='navInner logo'>
+          <div className='navInner logo' onClick={goToTop}>
             <Link to='/'></Link>
           </div>
           <div id='menu_container' className='navInner'>
-            <div className='menu'>
+            <div className='menu' onClick={goToTop}>
               <Link to='/main'>Main</Link>
             </div>
             <div className='menu' onClick={() => openQuizModal(true)}>
@@ -460,7 +465,9 @@ function Nav() {
                   ></div>
                 </div>
                 <HoverMypageOrLogout className='HoverMypageOrLogout'>
-                  <Link to='/mypage'>Mypage</Link>
+                  <Link to='/mypage' onClick={goToTop}>
+                    Mypage
+                  </Link>
                   <div className='logout' onClick={() => openLogoutModal(true)}>
                     Logout
                   </div>

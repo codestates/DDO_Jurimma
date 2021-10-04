@@ -311,16 +311,16 @@ const Levelup = styled.div`
   }
 `;
 
-function LandingSec2({ location }) {
+function LandingSec2({ scrollToQuiz }) {
   const history = useHistory();
   const goToMain = () => {
     history.push('/main');
     window.scrollTo(0, 0);
   };
 
-  const moveQuizSec = () => {
-    window.scrollTo({ top: 5200, behavior: 'smooth' });
-  };
+  // const moveQuizSec = () => {
+  //   window.scrollTo({ top: 5200, behavior: 'smooth' });
+  // };
   return (
     <SectionWrap>
       <Section2Box>
@@ -350,7 +350,7 @@ function LandingSec2({ location }) {
             </DescripTextBox>
             <DescriptGif
               style={{
-                backgroundImage: `url(https://cdn.discordapp.com/attachments/892308009194258502/892308076118568960/landing1.gif)`,
+                backgroundImage: `url(https://cdn.discordapp.com/attachments/892308009194258502/893449285033680946/mainsearch.gif)`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 boxShadow: '0px 0px 15px 0px ',
@@ -409,7 +409,7 @@ function LandingSec2({ location }) {
                   획득할 수 있어요!
                 </p>
 
-                <button onClick={moveQuizSec}>웰컴퀴즈 풀기</button>
+                <button onClick={scrollToQuiz}>웰컴퀴즈 풀기</button>
               </DescripText>
             </DescripTextBox>
             <DescriptGif

@@ -46,6 +46,9 @@ const EditUserPicWrap = styled.div`
       height: 30px;
       font-size: 12px;
     }
+    @media only screen and (max-width: 350px) {
+      margin-top: 30px;
+    }
     :hover {
       border: 2px solid #b61919;
       background-color: #b61919;
@@ -77,7 +80,6 @@ const ProfileBtnWrap = styled.div`
   justify-content: space-evenly;
   flex-wrap: wrap;
   margin-top: -50px;
-
   > button {
     display: block;
     width: 150px;
@@ -91,6 +93,9 @@ const ProfileBtnWrap = styled.div`
     @media only screen and (max-width: 400px) {
       width: 130px;
       font-size: 12px;
+    }
+    @media only screen and (max-width: 350px) {
+      margin-top: 5px;
     }
     :hover {
       border: 2px solid #fff;

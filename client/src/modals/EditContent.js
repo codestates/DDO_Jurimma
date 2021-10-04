@@ -24,13 +24,16 @@ const EditContentBackdrop = styled.div`
   z-index: 20;
 `;
 const EditContentModal = styled.div`
-  width: max(40vw, 350px);
+  width: 500px;
   height: 600px;
   background-color: #fff;
   position: relative;
   display: flex;
   flex-direction: column;
   border-radius: 20px;
+  @media screen and (max-width: 600px) {
+    width: 94%;
+  }
   > .closeBtn {
     z-index: 10;
     font-size: 50px;
@@ -40,7 +43,7 @@ const EditContentModal = styled.div`
     color: #fff;
     cursor: pointer;
     transition: 0.5s;
-    @media screen and (max-width: 479px) {
+    @media screen and (max-width: 700px) {
       right: 10px;
       top: 5px;
       color: #000;
@@ -117,7 +120,14 @@ const EditErrorMsg = styled.div`
   font-size: max(0.8vw, 10px);
 `;
 
-function EditContent({ id, wordName, wordMean }) {
+function EditContent({
+  id,
+  wordName,
+  wordMean,
+  stateCheck,
+  setStateCheck,
+  setEditAndDelState,
+}) {
   const url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const userInfoState = useSelector((state) => state.userInfoReducer);
   const dispatch = useDispatch();
@@ -156,11 +166,14 @@ function EditContent({ id, wordName, wordMean }) {
         if (editResult.data.accessToken) {
           dispatch(setAccessToken(editResult.data.accessToken));
         }
-        closeEditContentModal(false);
         swal({
           title: '줄임말이 변경되었습니다.',
           text: '작성한 줄임말을 확인해보세요!',
           icon: 'success',
+        }).then(() => {
+          closeEditContentModal(false);
+          setEditAndDelState(true);
+          setStateCheck(!stateCheck);
         });
       }
     } catch (error) {
