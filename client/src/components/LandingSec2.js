@@ -367,7 +367,7 @@ function LandingSec2({ scrollToQuiz }) {
           <DescriptWrap className='reverse'>
             <DescriptGif
               style={{
-                backgroundImage: `url(https://cdn.discordapp.com/attachments/878131777485565993/893014196793511956/landing22.gif)`,
+                backgroundImage: `url(https://media.discordapp.net/attachments/878131722296918017/894819849128255498/MoreSearch_Changed.gif?width=1100&height=549)`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 boxShadow: '0px 0px 20px 0px',
