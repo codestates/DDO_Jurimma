@@ -244,7 +244,7 @@ function UserContents({
     const scrollTop = document.documentElement.scrollTop;
     const clientHeight = document.documentElement.clientHeight;
     if (
-      scrollTop + clientHeight >= scrollHeight &&
+      scrollTop + clientHeight >= scrollHeight - 150 &&
       fetching === false &&
       isEnd === true
     ) {
