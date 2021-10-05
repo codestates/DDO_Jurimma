@@ -273,7 +273,7 @@ function UserContents({
     ]); // 원래있던 myContentData 에다가 id=0인 요소 추가
 
     let getResult = await axios.get(
-      `${url}/meaning/me?offset=${myContentData.length}&limit=3&sort=${orderBy}`,
+      `${url}/meaning/user/${userInfoState.userInfo.id}?offset=${myContentData.length}&limit=3&sort=${orderBy}`,
       {
         headers: { authorization: `Bearer ${userInfoState.accessToken}` },
       }
@@ -333,12 +333,9 @@ function UserContents({
     }).then(async (willDelete) => {
       if (willDelete) {
         try {
-          let delContent = await axios.delete(
-            `${url}/meaning/me?content-id=${contentId}`,
-            {
-              headers: { authorization: `Bearer ${userInfoState.accessToken}` },
-            }
-          );
+          let delContent = await axios.delete(`${url}/meaning/${contentId}`, {
+            headers: { authorization: `Bearer ${userInfoState.accessToken}` },
+          });
           if (delContent.data.accessToken) {
             dispatch(setAccessToken(delContent.data.accessToken));
           }
@@ -378,7 +375,7 @@ function UserContents({
   const getMyContent = async () => {
     try {
       let contentResult = await axios.get(
-        `${url}/meaning/me?offset=0&limit=3&sort=${orderBy}`,
+        `${url}/meaning/user/${userInfoState.userInfo.id}?offset=0&limit=3&sort=${orderBy}`,
         {
           headers: { authorization: `Bearer ${userInfoState.accessToken}` },
         }

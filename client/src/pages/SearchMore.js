@@ -405,8 +405,7 @@ function SearchMore() {
   const updateThumbsup = async (contentId) => {
     try {
       let updateLike = await axios.patch(
-        `${url}/meaning/thumbsup`,
-        { contentId: contentId },
+        `${url}/meaning/${contentId}/thumbsup`,
         {
           headers: { authorization: `Bearer ${state.accessToken}` },
         }

@@ -47,7 +47,7 @@ module.exports = {
     }
   },
 
-  patch: async (req, res) => {
+  put: async (req, res) => {
     const { username, oldPassword, newPassword } = req.body;
     const accessVerify = isAuthorized(req);
 
@@ -97,9 +97,10 @@ module.exports = {
   },
 
   delete: async (req, res) => {
-    const userData = refreshAuthorized(req);
+    const userId = req.params.id;
+    // console.log(userId);
     const userFind = await user.findOne({
-      where: { id: userData.id },
+      where: { id: userId },
     });
     const userCreatedDate = userFind.createdAt.toLocaleDateString();
     const nowDate = new Date().toLocaleDateString();
@@ -107,12 +108,12 @@ module.exports = {
       res.status(403).json({ message: 'Forbidden Request' });
     } else {
       // user 테이블의 해당 유저의 id로 저장된 레코드 삭제
-      await user.destroy({ where: { id: userData.id }, force: true });
+      await user.destroy({ where: { id: userId }, force: true });
       // content 테이블의 해당 유저의 id로 저장된 레코드 삭제
-      await content.destroy({ where: { userId: userData.id }, force: true });
+      await content.destroy({ where: { userId: userId }, force: true });
       // user_contents 테이블의 해당 유저의 id로 저장된 레코드 삭제
       await thumbsups.destroy({
-        where: { userId: userData.id },
+        where: { userId: userId },
         force: true,
       });
       sendRefreshToken(res, null);

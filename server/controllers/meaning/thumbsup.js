@@ -9,7 +9,7 @@ module.exports = {
   patch: async (req, res) => {
     const accessTokenCheck = isAuthorized(req);
     const refreshTokenCheck = refreshAuthorized(req);
-    const { contentId } = req.body;
+    const contentId = Number(req.params.id);
 
     if (accessTokenCheck) {
       // accessToken이 만료되지 않았을 경우,

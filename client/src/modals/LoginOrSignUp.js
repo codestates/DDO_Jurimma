@@ -323,9 +323,7 @@ function LoginOrSignUp() {
       } else {
         setErrorMsg('');
         setIsLoading(true);
-        await axios.get(
-          `${url}/user/email-check?email=${signupInfo.signupEmail}`
-        );
+        await axios.get(`${url}/user/${signupInfo.signupEmail}/check`);
         await axios.post(`${url}/user/signup`, {
           username: signupInfo.signupUsername,
           email: signupInfo.signupEmail,

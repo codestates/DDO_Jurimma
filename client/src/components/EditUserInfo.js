@@ -282,8 +282,8 @@ function EditUserInfo() {
         });
       } else {
         const editRes = await axios({
-          url: `${url}/user`,
-          method: 'patch',
+          url: `${url}/user/${state.userInfo.id}`,
+          method: 'put',
           headers: { authorization: `Bearer ${state.accessToken}` },
           data: editUser,
         });
@@ -299,7 +299,6 @@ function EditUserInfo() {
           headers: { authorization: `Bearer ${state.accessToken}` },
         });
         dispatch(setLogout());
-        history.push('/');
       }
     } catch (error) {
       if (error.response.data.message === 'Wrong Password') {

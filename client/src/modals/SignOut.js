@@ -151,7 +151,7 @@ function Signout() {
         setSignOutError("'회원 탈퇴'를 정확히 입력해주세요.");
       } else if (deleteText === '회원 탈퇴') {
         await axios
-          .delete(`${url}/user`, {
+          .delete(`${url}/user/${state.userInfo.id}`, {
             headers: { authorization: `Bearer ${state.accessToken}}` },
           })
           .then(() => {
@@ -162,7 +162,6 @@ function Signout() {
             }).then(() => {
               closeEditContentModal(false);
               dispatch(setLogout());
-              window.location.replace('/');
             });
           });
       }

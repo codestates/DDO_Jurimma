@@ -365,7 +365,7 @@ function Quiz() {
   const updateLastQuizAndExp = async () => {
     try {
       const patchResult = await axios.patch(
-        `${url}/user/quiz-exp`,
+        `${url}/user/${state.userInfo.id}/quiz-exp`,
         {
           quizDate: nowDate,
           experience: quizScore * 5 + state.userInfo.experience,
@@ -380,7 +380,7 @@ function Quiz() {
         // reducer에서 accessToken값 업데이트
         dispatch(setAccessToken(patchResult.data.accessToken));
       }
-      const getResult = await axios.get(`${url}/user`, {
+      const getResult = await axios.get(`${url}/user/${state.userInfo.id}`, {
         headers: { authorization: `Bearer ${state.accessToken}` },
       }); //새로 유저 정보 요청하는 axios 요청
       dispatch(setUserInfo(getResult.data.data)); // axios 리턴으로 유저 정보 업데이트
