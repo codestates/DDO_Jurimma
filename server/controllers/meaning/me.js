@@ -187,7 +187,8 @@ module.exports = {
   patch: async (req, res) => {
     const accessTokenCheck = isAuthorized(req);
     const refreshTokenCheck = refreshAuthorized(req);
-    const contentId = Number(req.query['content-id']);
+    const contentId = Number(req.params.id);
+    // console.log(contentId);
     const { wordMean } = req.body;
     if (accessTokenCheck) {
       // accessToken이 만료되지 않았을 경우,
@@ -226,7 +227,8 @@ module.exports = {
   delete: async (req, res) => {
     const accessTokenCheck = isAuthorized(req);
     const refreshTokenCheck = refreshAuthorized(req);
-    const contentId = Number(req.query['content-id']);
+    const contentId = Number(req.params.id);
+    // console.log(contentId);
     if (accessTokenCheck) {
       // accessToken이 만료되지 않았을 경우,
       // => 바로 요청에 대한 응답 제공

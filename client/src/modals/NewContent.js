@@ -169,7 +169,7 @@ function NewContent() {
         setIsLoading(true);
         const newWordRes = await axios({
           method: 'post',
-          url: `${url}/meaning/me`,
+          url: `${url}/meaning`,
           data: {
             wordName: newWord.wordName,
             wordMean: newWord.wordMean,
@@ -180,7 +180,7 @@ function NewContent() {
         if (newWordRes.data.accessToken) {
           dispatch(setAccessToken(newWordRes.data.accessToken));
         }
-        const getResult = await axios.get(`${url}/user`, {
+        const getResult = await axios.get(`${url}/user/${state.userInfo.id}`, {
           headers: { authorization: `Bearer ${state.accessToken}` },
         });
         dispatch(setUserInfo(getResult.data.data));

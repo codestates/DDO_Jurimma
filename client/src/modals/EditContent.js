@@ -155,7 +155,7 @@ function EditContent({
         setEditError('변경사항이 없습니다.');
       } else {
         const editResult = await axios.patch(
-          `${url}/meaning/me?content-id=${id}`,
+          `${url}/meaning/${id}`,
           {
             wordMean: editContent,
           },

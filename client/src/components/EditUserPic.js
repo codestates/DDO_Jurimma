@@ -187,13 +187,17 @@ function EditUserPic() {
   const sendImgToServer = async () => {
     // 선택한 파일을 서버로 axios 요청을 보내 유저 db의 userPic 업데이트
     try {
-      const imageRes = await axios.post(`${url}/user/image`, userPic, {
-        headers: { authorization: `Bearer ${state.accessToken}` },
-      });
+      const imageRes = await axios.patch(
+        `${url}/user/${state.userInfo.id}/image`,
+        userPic,
+        {
+          headers: { authorization: `Bearer ${state.accessToken}` },
+        }
+      );
       if (imageRes.data.accessToken) {
         dispatch(setAccessToken(imageRes.data.accessToken));
       }
-      const getResult = await axios.get(`${url}/user`, {
+      const getResult = await axios.get(`${url}/user/${state.userInfo.id}`, {
         headers: { authorization: `Bearer ${state.accessToken}` },
       }); //새로 유저 정보 요청하는 axios 요청
       dispatch(setUserInfo(getResult.data.data));
