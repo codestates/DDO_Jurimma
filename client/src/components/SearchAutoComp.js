@@ -39,7 +39,7 @@ function SearchAutoComp({ autoCompResult, setWord, selected }) {
               key={index}
               className={selected === index ? 'selected' : ''}
               value={data}
-              onClick={() => setWord(data)}
+              onMouseDown={() => setWord(data)}
             >
               {data}
             </li>

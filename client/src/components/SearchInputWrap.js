@@ -182,6 +182,7 @@ function SearchInputWrap({
       setIsShowAutoComp(false);
     } else {
       setIsShowAutoComp(true);
+      setSelected(-1);
     }
   }, [word]);
 
