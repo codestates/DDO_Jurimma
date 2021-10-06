@@ -13,6 +13,7 @@ import Logout from './modals/Logout';
 import SignOut from './modals/SignOut';
 import MiniMenuModal from './modals/MiniMenuModal';
 import swal from 'sweetalert';
+import { useSpeechRecognition } from 'react-speech-kit';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -53,7 +54,7 @@ function App() {
       'code'
     );
     if (authorizationCode) {
-      console.log(authorizationCode);
+      // console.log(authorizationCode);
       getUserInfoAndAccessToken(authorizationCode);
     }
     window.onbeforeunload = function pushRefresh() {
@@ -111,6 +112,14 @@ function App() {
     isShowMiniMenuModal,
   } = userModalState;
 
+  const [word, setWord] = useState('');
+
+  const { listen, listening, stop } = useSpeechRecognition({
+    onResult: (result) => {
+      setWord(result);
+    },
+  });
+
   return (
     <BrowserRouter>
       <div className='App'>
@@ -120,7 +129,7 @@ function App() {
         {isShowLogoutModal ? <Logout /> : null}
         {isShowSignoutModal ? <SignOut /> : null}
         {isShowMiniMenuModal ? <MiniMenuModal /> : null}
-        <header>
+        <header onMouseDown={stop}>
           <Switch>
             <Nav />
           </Switch>
@@ -150,7 +159,13 @@ function App() {
             <LandingPage />
           </Route>
           <Route path='/main'>
-            <Main />
+            <Main
+              word={word}
+              setWord={setWord}
+              listen={listen}
+              listening={listening}
+              stop={stop}
+            />
           </Route>
           <Route path='/searchMore'>
             <SearchMore />

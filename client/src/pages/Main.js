@@ -24,10 +24,9 @@ const MainWrap = styled.div`
   }
 `;
 
-function Main() {
+function Main({ word, setWord, listen, listening, stop }) {
   const dispatch = useDispatch();
   let url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
-  const [word, setWord] = useState('');
   function useInterval(callback, delay) {
     const savedCallback = useRef();
 
@@ -80,8 +79,14 @@ function Main() {
   return (
     <>
       <MainWrap>
-        <Search word={word} setWord={setWord} />
-        <Chart setWord={setWord} />
+        <Search
+          word={word}
+          setWord={setWord}
+          listen={listen}
+          listening={listening}
+          stop={stop}
+        />
+        <Chart setWord={setWord} onMouseDown={stop} />
       </MainWrap>
     </>
   );
