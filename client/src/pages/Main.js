@@ -29,22 +29,28 @@ function Main({ word, setWord, listen, listening, stop }) {
   let url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
 
   useEffect(() => {
-    axios
-      .get(`${url}/word/chart`)
-      .then((res) => {
-        dispatch(setSearchList(res.data.data));
-      })
-      .catch((err) => {
-        console.log(err);
-        swal({
-          title: 'Internal Server Error',
-          text: '죄송합니다. 다시 로그인 후 해주세요.',
-          icon: 'warning',
-        }).then(() => {
-          dispatch(setLogout());
-          window.location.replace('/');
+    if (localStorage['persist:root']) {
+      axios
+        .get(`${url}/word/chart`)
+        .then((res) => {
+          dispatch(setSearchList(res.data.data));
+        })
+        .catch((err) => {
+          console.log(err);
+          swal({
+            title: 'Internal Server Error',
+            text: '죄송합니다. 다시 로그인 후 해주세요.',
+            icon: 'warning',
+          }).then(() => {
+            dispatch(setLogout());
+            window.location.replace('/');
+          });
         });
+    } else {
+      axios.get(`${url}/word/chart`).then((res) => {
+        dispatch(setSearchList(res.data.data));
       });
+    }
   }, [dispatch]);
 
   function useInterval(callback, delay) {
