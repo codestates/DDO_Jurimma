@@ -67,14 +67,14 @@ function Main({ word, setWord, listen, listening, stop }) {
         console.log(err);
         swal({
           title: 'Internal Server Error',
-          text: `죄송합니다. 다시 로그인 후 해주세요. ${err.response}`,
+          text: '죄송합니다. 다시 로그인 후 해주세요.',
           icon: 'warning',
         }).then(() => {
           dispatch(setLogout());
           window.location.replace('/');
         });
       });
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
