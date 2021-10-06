@@ -124,6 +124,11 @@ const SearchBox = styled.div`
   > input:focus::-webkit-input-placeholder {
     color: transparent;
   }
+  > input::placeholder {
+    @media only screen and (max-width: 320px) {
+      font-size: 11px;
+    }
+  }
   > #buttonWrap {
     flex: 1 1 auto;
     display: flex;
