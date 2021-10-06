@@ -22,7 +22,7 @@ const SearchWrap = styled.div`
   }
 `;
 
-function Search({ word, setWord }) {
+function Search({ word, setWord, listen, listening, stop }) {
   let url = process.env.REACT_APP_API_URL || `http://localhost:4000`;
   const dispatch = useDispatch();
   const initialTags = JSON.parse(localStorage.getItem('searchHistory')) || [];
@@ -133,17 +133,22 @@ function Search({ word, setWord }) {
         removeTags={removeTags}
         tags={tags}
         setWord={setWord}
+        onMouseDown={stop}
       />
       <SearchInputWrap
         word={word}
         setWord={setWord}
         autoCompResult={autoCompResult}
         searchWord={searchWord}
+        listen={listen}
+        listening={listening}
+        stop={stop}
       />
       <SearchResult
         wordResult={wordResult}
         notSearched={notSearched}
         word={word}
+        onMouseDown={stop}
       />
     </SearchWrap>
   );
