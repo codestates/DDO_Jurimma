@@ -97,29 +97,35 @@ module.exports = {
   },
 
   delete: async (req, res) => {
+    const accessVerify = isAuthorized(req);
+    const refreshVerify = refreshAuthorized(req);
     const userId = req.params.id;
     // console.log(userId);
     const userFind = await user.findOne({
       where: { id: userId },
     });
-    const userCreatedDate = userFind.createdAt.toLocaleDateString();
-    const nowDate = new Date().toLocaleDateString();
-    if (userCreatedDate === nowDate) {
-      res.status(403).json({ message: 'Forbidden Request' });
+    if (accessVerify || refreshVerify) {
+      const userCreatedDate = userFind.createdAt.toLocaleDateString();
+      const nowDate = new Date().toLocaleDateString();
+      if (userCreatedDate === nowDate) {
+        res.status(403).json({ message: 'Forbidden Request' });
+      } else {
+        // user 테이블의 해당 유저의 id로 저장된 레코드 삭제
+        await user.destroy({ where: { id: userId }, force: true });
+        // content 테이블의 해당 유저의 id로 저장된 레코드 삭제
+        await content.destroy({ where: { userId: userId }, force: true });
+        // user_contents 테이블의 해당 유저의 id로 저장된 레코드 삭제
+        await thumbsups.destroy({
+          where: { userId: userId },
+          force: true,
+        });
+        sendRefreshToken(res, null);
+        res.status(200).json({ message: 'ok' });
+      }
+      // word 테이블은 wordName과 count만 있음.
+      // content의 wordId에 해당하는 레코드를 지우면, 다른 유저가 쓴 같은 뜻도 사라지게 되므로 word 테이블은 건들지 않음.
     } else {
-      // user 테이블의 해당 유저의 id로 저장된 레코드 삭제
-      await user.destroy({ where: { id: userId }, force: true });
-      // content 테이블의 해당 유저의 id로 저장된 레코드 삭제
-      await content.destroy({ where: { userId: userId }, force: true });
-      // user_contents 테이블의 해당 유저의 id로 저장된 레코드 삭제
-      await thumbsups.destroy({
-        where: { userId: userId },
-        force: true,
-      });
-      sendRefreshToken(res, null);
-      res.status(200).json({ message: 'ok' });
+      res.status(401).json({ message: 'Send new Login Request' });
     }
-    // word 테이블은 wordName과 count만 있음.
-    // content의 wordId에 해당하는 레코드를 지우면, 다른 유저가 쓴 같은 뜻도 사라지게 되므로 word 테이블은 건들지 않음.
   },
 };

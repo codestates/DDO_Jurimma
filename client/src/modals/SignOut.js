@@ -174,6 +174,16 @@ function Signout() {
         }).then(() => {
           dispatch(setSignOutModal(false));
         });
+      } else if (error.response.data.message === 'Send new Login Request') {
+        swal({
+          title: '로그인이 필요합니다.',
+          text: '로그인이 만료되었습니다.',
+          icon: 'warning',
+        }).then(() => {
+          dispatch(setSignOutModal(false));
+          dispatch(setLogout());
+          window.location.replace('/');
+        });
       } else {
         swal({
           title: 'Internal Server Error',
