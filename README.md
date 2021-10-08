@@ -109,7 +109,7 @@ _" 아만보, 오저치고, 알잘딱깔센 ..._ <br>_이게 도대체 무슨 �
 
 ![레벨별 UI.png](https://media.discordapp.net/attachments/885202056355397686/892438871411933204/unknown.png)
 
-![레벨별 UI.gif](https://media.discordapp.net/attachments/878131406176403479/895885853455433728/levelchangeeee.gif)
+![레벨별 UI.gif](https://cdn.discordapp.com/attachments/892308009194258502/895945102210519090/uichange.gif)
 
 <br>
 
