@@ -107,7 +107,9 @@ _" 아만보, 오저치고, 알잘딱깔센 ..._ <br>_이게 도대체 무슨 �
 
 #### ✨ **프로필 사진 테두리 / 줄임말 검색 영역 테두리**
 
-![레벨별 UI](https://media.discordapp.net/attachments/885202056355397686/892438871411933204/unknown.png)
+![레벨별 UI.png](https://media.discordapp.net/attachments/885202056355397686/892438871411933204/unknown.png)
+
+![레벨별 UI.gif](https://media.discordapp.net/attachments/878131406176403479/895885853455433728/levelchangeeee.gif)
 
 <br>
 
@@ -119,11 +121,11 @@ _" 아만보, 오저치고, 알잘딱깔센 ..._ <br>_이게 도대체 무슨 �
 
 # 👫 **Team HomeLudens**
 
-|  이름  |   직책   |   역할    |                                                                                                  GitHub                                                                                                   |     담당 영역      |
-| :----: | :------: | :-------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------: |
-| 김민재 | **팀장** | Back-End  |        <a href="https://github.com/minjman2659"><img src="https://img.shields.io/badge/minjman2659-181717?style=flat-square&logo=github&logoColor=white&link=https://github.com/minjman2659"/></a>        |   **API Manage**   |
-| 강영서 |   팀원   | Front-End | <a href="https://github.com/Youngseo-kangg"><img src="https://img.shields.io/badge/Youngseo%2D%2Dkangg-F5792A?style=flat-square&logo=github&logoColor=white&link=https://github.com/Youngseo-kangg"/></a> | **Component Flow** |
-| 이나은 |   팀원   | Front-End |    <a href="https://github.com/Lee-Na-eun"><img src="https://img.shields.io/badge/Lee%2D%2DNa%2D%2Deun-EA4AAA?style=flat-square&logo=github&logoColor=white&link=https://github.com/Lee-Na-eun"/></a>     | **UI / UX Design** |
-| 배윤수 |   팀원   | Back-End  |            <a href="https://github.com/mniYUNSU"><img src="https://img.shields.io/badge/mniYUNSU-512BD4?style=flat-square&logo=github&logoColor=white&link=https://github.com/mniYUNSU"/></a>             |     **Deploy**     |
+|  이름  |   직책   |    역할    |                                                                                                  GitHub                                                                                                   |     담당 영역      |
+| :----: | :------: | :--------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------: |
+| 김민재 | **팀장** | Full-Stack |        <a href="https://github.com/minjman2659"><img src="https://img.shields.io/badge/minjman2659-181717?style=flat-square&logo=github&logoColor=white&link=https://github.com/minjman2659"/></a>        |   **API Manage**   |
+| 강영서 |   팀원   | Front-End  | <a href="https://github.com/Youngseo-kangg"><img src="https://img.shields.io/badge/Youngseo%2D%2Dkangg-F5792A?style=flat-square&logo=github&logoColor=white&link=https://github.com/Youngseo-kangg"/></a> | **Component Flow** |
+| 이나은 |   팀원   | Front-End  |    <a href="https://github.com/Lee-Na-eun"><img src="https://img.shields.io/badge/Lee%2D%2DNa%2D%2Deun-EA4AAA?style=flat-square&logo=github&logoColor=white&link=https://github.com/Lee-Na-eun"/></a>     | **UI / UX Design** |
+| 배윤수 |   팀원   | Full-Stack |            <a href="https://github.com/mniYUNSU"><img src="https://img.shields.io/badge/mniYUNSU-512BD4?style=flat-square&logo=github&logoColor=white&link=https://github.com/mniYUNSU"/></a>             |     **Deploy**     |
 
 </div>
