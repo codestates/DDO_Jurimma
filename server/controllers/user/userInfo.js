@@ -7,7 +7,7 @@ const {
   refreshAuthorized,
   sendRefreshToken,
 } = require('../tokenFunction/refreshToken');
-const { encryptPwd, decryptPwd } = require('../hashing/hashingPwd');
+const { encryptPwd, decryptPwd, comparePwd } = require('../hashing/hashingPwd');
 
 module.exports = {
   get: async (req, res) => {
@@ -61,12 +61,17 @@ module.exports = {
         const userInfo = await user.findOne({
           where: { id: refreshVerify.id },
         });
+        const oldDecryptedPw = decryptPwd(oldPassword);
+        const newDecryptedPw = decryptPwd(newPassword);
         // 유저가 입력한 oldPassword가 db에 저장된 password와 다른 경우
-        if (!userInfo || decryptPwd(userInfo.password) !== oldPassword) {
+        if (
+          !userInfo ||
+          !comparePwd(oldDecryptedPw, userInfo.dataValues.password)
+        ) {
           res.status(400).json({ message: 'Wrong Password' });
         } else {
           userInfo.username = username;
-          userInfo.password = encryptPwd(newPassword);
+          userInfo.password = encryptPwd(newDecryptedPw);
           await userInfo.save();
           res.status(201).json({
             accessToken: accessToken,
@@ -84,12 +89,17 @@ module.exports = {
       const userInfo = await user.findOne({
         where: { id: accessVerify.id },
       });
+      const oldDecryptedPw = decryptPwd(oldPassword);
+      const newDecryptedPw = decryptPwd(newPassword);
       // 유저가 입력한 oldPassword가 db에 저장된 pw 와 다른 경우
-      if (!userInfo || decryptPwd(userInfo.password) !== oldPassword) {
+      if (
+        !userInfo ||
+        !comparePwd(oldDecryptedPw, userInfo.dataValues.password)
+      ) {
         res.status(400).json({ message: 'Wrong Password' });
       } else {
         userInfo.username = username;
-        userInfo.password = encryptPwd(newPassword);
+        userInfo.password = encryptPwd(newDecryptedPw);
         await userInfo.save();
         res.status(200).json({ message: 'ok' });
       }

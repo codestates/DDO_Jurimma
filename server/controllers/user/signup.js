@@ -1,5 +1,5 @@
 const { user } = require('../../models');
-const { encryptPwd } = require('../hashing/hashingPwd');
+const { encryptPwd, decryptPwd } = require('../hashing/hashingPwd');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
@@ -10,8 +10,9 @@ module.exports = {
     // 회원가입 완료
     const newUserData = req.body;
     const { email, password, username } = newUserData;
-    const encryptedPw = encryptPwd(password);
-    console.log('encrypted :', encryptedPw);
+    const decryptedPw = decryptPwd(password);
+    console.log('해싱 전 패스워드 : ', decryptedPw);
+    const encryptedPw = encryptPwd(decryptedPw);
     // 보낼 메일의 이메일 제목
     const title = 'JURIMMA 회원 가입 인증 메일';
     // 보낼 메일의 본문 텍스트
