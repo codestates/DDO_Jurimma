@@ -10,7 +10,7 @@ module.exports = {
   },
 
   decryptPwd: (hashedPwd) => {
-    let byte = cryptoJS.AES.decrypt(hashedPwd, process.env.CRYPTO_SECRET);
+    let byte = cryptoJS.AES.decrypt(hashedPwd, process.env.CRYPTOJS_SECRET);
     const decrypted = byte.toString(cryptoJS.enc.Utf8);
     return decrypted;
   },
