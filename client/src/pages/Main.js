@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Search from '../components/Search';
 import Chart from '../components/Chart';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setSearchList, setLogout } from '../actions/index';
