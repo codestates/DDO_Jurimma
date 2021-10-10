@@ -7,6 +7,7 @@ import { setAccessToken, setLogout } from '../actions/index';
 import checkModule from '../checkModule';
 import swal from 'sweetalert';
 import axios from 'axios';
+import cryptojs from 'crypto-js';
 import nothingImg from '../images/nothing.svg';
 import '../App.css';
 axios.defaults.withCredentials = true;
@@ -281,11 +282,24 @@ function EditUserInfo() {
           newPasswordRe: '',
         });
       } else {
+        const secretKey = `${process.env.REACT_APP_CRYPTOJS_SECRET}`;
+        const oldEncryptedPwd = cryptojs.AES.encrypt(
+          editUser.oldPassword,
+          secretKey
+        ).toString();
+        const newEncryptedPwd = cryptojs.AES.encrypt(
+          editUser.newPassword,
+          secretKey
+        ).toString();
         const editRes = await axios({
           url: `${url}/user/${state.userInfo.id}`,
           method: 'put',
           headers: { authorization: `Bearer ${state.accessToken}` },
-          data: editUser,
+          data: {
+            username: editUser.username,
+            oldPassword: oldEncryptedPwd,
+            newPassword: newEncryptedPwd,
+          },
         });
         if (editRes.data.accessToken) {
           dispatch(setAccessToken(editRes.data.accessToken));

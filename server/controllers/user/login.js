@@ -4,7 +4,7 @@ const {
   generateRefreshToken,
   sendRefreshToken,
 } = require('../tokenFunction/refreshToken');
-const { decryptPwd } = require('../hashing/hashingPwd');
+const { decryptPwd, comparePwd } = require('../hashing/hashingPwd');
 
 module.exports = {
   post: async (req, res) => {
@@ -14,10 +14,10 @@ module.exports = {
     if (!userInfo) {
       res.status(400).json({ message: 'Invalid User' });
     } else {
-      const decryptedPw = decryptPwd(userInfo.dataValues.password);
+      const decryptedPw = decryptPwd(password);
       console.log('복호화 된 암호 : ', decryptedPw);
-      // 유저가 입력한 password와 db에 저장된 password를 복호화하여 일치한지 비교한다
-      if (decryptedPw !== password) {
+      // 유저가 입력한 password와 db에 저장된 password를 일치하는지 비교한다
+      if (!comparePwd(decryptedPw, userInfo.dataValues.password)) {
         res.status(400).json({ message: 'Invalid User' });
       }
       // 이메일 인증을 안 한 경우

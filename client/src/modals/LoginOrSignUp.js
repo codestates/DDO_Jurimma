@@ -15,6 +15,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 import swal from 'sweetalert';
 import axios from 'axios';
+import cryptojs from 'crypto-js';
 import '../loadingCss.css';
 library.add(fab, faComment);
 axios.defaults.withCredentials = true;
@@ -259,9 +260,14 @@ function LoginOrSignUp() {
         setErrorMsg('유효하지 않은 비밀번호 입니다.');
       } else {
         setErrorMsg(''); // 에러메세지 리셋
+        const secretKey = `${process.env.REACT_APP_CRYPTOJS_SECRET}`;
+        const encryptedPwd = cryptojs.AES.encrypt(
+          loginInfo.loginPassword,
+          secretKey
+        ).toString();
         let result = await axios.post(`${url}/user/login`, {
           email: loginInfo.loginEmail,
-          password: loginInfo.loginPassword,
+          password: encryptedPwd,
         });
 
         dispatch(setLogin(true)); // axios응답으로 redux 업데이트
@@ -323,11 +329,16 @@ function LoginOrSignUp() {
       } else {
         setErrorMsg('');
         setIsLoading(true);
+        const secretKey = `${process.env.REACT_APP_CRYPTOJS_SECRET}`;
+        const encryptedPwd = cryptojs.AES.encrypt(
+          signupInfo.signupPassword,
+          secretKey
+        ).toString();
         await axios.get(`${url}/user/${signupInfo.signupEmail}/check`);
         await axios.post(`${url}/user/signup`, {
           username: signupInfo.signupUsername,
           email: signupInfo.signupEmail,
-          password: signupInfo.signupPassword,
+          password: encryptedPwd,
         });
         setIsLoading(false);
         swal({
