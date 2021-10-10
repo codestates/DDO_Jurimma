@@ -14,6 +14,9 @@ module.exports = {
     if (!userInfo) {
       res.status(400).json({ message: 'Invalid User' });
     } else {
+      if (userInfo.dataValues.isOAuth) {
+        res.status(400).json({ message: 'You Already Signed up' });
+      }
       const decryptedPw = decryptPwd(password);
       console.log('복호화 된 암호 : ', decryptedPw);
       // 유저가 입력한 password와 db에 저장된 password를 일치하는지 비교한다

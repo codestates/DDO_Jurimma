@@ -295,6 +295,12 @@ function LoginOrSignUp() {
           text: '이메일 인증이 완료되지 않았습니다. 다시 한번 확인해주세요!',
           icon: 'warning',
         });
+      } else if (error.response.data.message === 'You Already Signed up') {
+        swal({
+          title: '이미 JURIMMA 회원이시네요!',
+          text: '카카오 또는 구글 로그인으로 다시 시도해주세요. ',
+          icon: 'warning',
+        });
       } else {
         swal({
           title: 'Internal Server Error',
