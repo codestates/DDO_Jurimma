@@ -259,8 +259,8 @@ function LoginOrSignUp() {
       ) {
         setErrorMsg('유효하지 않은 비밀번호 입니다.');
       } else {
-        setIsLoading(true);
         setErrorMsg('');
+        setIsLoading(true);
         const secretKey = `${process.env.REACT_APP_CRYPTOJS_SECRET}`;
         const encryptedPwd = cryptojs.AES.encrypt(
           loginInfo.loginPassword,
@@ -275,12 +275,12 @@ function LoginOrSignUp() {
         dispatch(setAccessToken(result.data.accessToken));
         dispatch(setUserInfo(result.data.userInfo));
 
+        setIsLoading(false);
         swal({
           title: '로그인이 완료되었습니다!',
           text: '만반잘부 😆 (만나서 반갑고 잘 부탁해)!',
           icon: 'success',
         }).then(() => {
-          setIsLoading(false);
           closeLoginOrSignupModal(false);
         });
       }
@@ -291,24 +291,32 @@ function LoginOrSignUp() {
           text: '이메일과 비밀번호를 다시 한번 확인해주세요!',
           icon: 'warning',
         });
+        setIsLoading(false);
+        setErrorMsg('유저 정보가 없습니다.');
       } else if (error.response.data.message === 'Not Authorized Email') {
         swal({
           title: '로그인에 실패하였습니다',
           text: '이메일 인증이 완료되지 않았습니다. 다시 한번 확인해주세요!',
           icon: 'warning',
         });
+        setIsLoading(false);
+        setErrorMsg('이메일 인증이 완료되지 않았습니다.');
       } else if (error.response.data.message === 'You Already Signed up') {
         swal({
           title: '이미 JURIMMA 회원이시네요!',
           text: '카카오 또는 구글 로그인으로 다시 시도해주세요. ',
           icon: 'warning',
         });
+        setIsLoading(false);
+        setErrorMsg('이미 JURIMMA 회원입니다.');
       } else {
         swal({
           title: 'Internal Server Error',
           text: '죄송합니다. 다시 로그인해주세요.',
           icon: 'warning',
         });
+        setIsLoading(false);
+        setErrorMsg('다시 로그인해주세요.');
       }
     }
   };
@@ -364,8 +372,8 @@ function LoginOrSignUp() {
           text: '이미 가입된 사용자입니다. 이메일 정보를 다시 한번 확인해주세요!',
           icon: 'error',
         });
-        setErrorMsg('이미 가입된 사용자입니다.');
         setIsLoading(false);
+        setErrorMsg('이미 가입된 사용자입니다.');
       } else {
         swal({
           title: 'Internal Server Error',
