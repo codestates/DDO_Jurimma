@@ -210,7 +210,7 @@ function LoginOrSignUp() {
   const closeLoginOrSignupModal = (isOpen) => {
     dispatch(setLoginOrSignupModal(isOpen));
   };
-  const [isLoading, setIsLoading] = useState(false); // 회원가입 진행 상태
+  const [isLoading, setIsLoading] = useState(false);
   const [loginInfo, setLoginInfo] = useState({
     loginEmail: '',
     loginPassword: '',
@@ -259,7 +259,8 @@ function LoginOrSignUp() {
       ) {
         setErrorMsg('유효하지 않은 비밀번호 입니다.');
       } else {
-        setErrorMsg(''); // 에러메세지 리셋
+        setIsLoading(true);
+        setErrorMsg('');
         const secretKey = `${process.env.REACT_APP_CRYPTOJS_SECRET}`;
         const encryptedPwd = cryptojs.AES.encrypt(
           loginInfo.loginPassword,
@@ -270,15 +271,16 @@ function LoginOrSignUp() {
           password: encryptedPwd,
         });
 
-        dispatch(setLogin(true)); // axios응답으로 redux 업데이트
-        dispatch(setAccessToken(result.data.accessToken)); // axios 응답으로 accessToken 업데이트
-        dispatch(setUserInfo(result.data.userInfo)); // axios응답으로 userInfo 업데이트
+        dispatch(setLogin(true));
+        dispatch(setAccessToken(result.data.accessToken));
+        dispatch(setUserInfo(result.data.userInfo));
 
         swal({
           title: '로그인이 완료되었습니다!',
           text: '만반잘부 😆 (만나서 반갑고 잘 부탁해)!',
           icon: 'success',
         }).then(() => {
+          setIsLoading(false);
           closeLoginOrSignupModal(false);
         });
       }
@@ -462,7 +464,13 @@ function LoginOrSignUp() {
                   />
                 </form>
                 <ErrorMsg>{errorMsg}</ErrorMsg>
-                <button onClick={handleLogin}>로그인 하기</button>
+                {isLoading ? (
+                  <div id='loadingIndicator'>
+                    <div className='lds-dual-ring'></div>
+                  </div>
+                ) : (
+                  <button onClick={handleLogin}>로그인 하기</button>
+                )}
               </div>
             ) : (
               <div className='tabContentWrap'>
